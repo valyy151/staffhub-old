@@ -33,7 +33,6 @@ export default function EmployeeProfile({
   showDropdown,
   setShowDropdown,
 }: EmployeeProfileProps) {
-  const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const vacations = employee?.vacations;

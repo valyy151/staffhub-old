@@ -16,16 +16,16 @@ export default function Modal({ text, submit, cancel, showModal }: ModalProps) {
       isOpen={showModal}
       className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
     >
-      <div className="slide-in-bottom mx-auto h-56 w-[42rem] rounded-md bg-white p-6 text-center shadow-lg dark:bg-slate-700">
+      <div className="mx-auto h-56 w-[42rem] rounded-md bg-white p-6 text-center shadow-lg dark:bg-slate-700">
         <Heading size={"xs"} className="mt-8 font-normal">
           {text}
         </Heading>
         <div className="mt-6 flex h-full justify-center space-x-2">
-          <Button size="default" onClick={submit}>
-            Yes <Check className="ml-2 h-5 w-5" />
+          <Button variant="danger" onClick={submit}>
+            Yes <Check className="ml-2" />
           </Button>
-          <Button size="default" variant="outline" onClick={cancel}>
-            No <X className="ml-2 h-5 w-5" />
+          <Button variant="outline" onClick={cancel}>
+            No <X className="ml-2" />
           </Button>
         </div>
       </div>

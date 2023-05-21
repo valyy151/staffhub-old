@@ -11,7 +11,7 @@ WorkDayPage.getInitialProps = ({ query }: WorkDayPageProps) => {
 };
 
 export default function WorkDayPage({ query }: WorkDayPageProps) {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const [workDay, setWorkDay] = useState<any>({});
 
@@ -20,6 +20,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   useEffect(() => {
     if (data) {
       setWorkDay(data);
+      setLoading(false);
     }
   }, [data]);
 

@@ -1,64 +1,49 @@
-import { Check } from "lucide-react";
-import { Calendar } from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import Paragraph from "../ui/Paragraph";
-import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
-import { formatDate, formatMonth } from "~/utils/dateFormatting";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { api } from "~/utils/api";
 import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
+import Paragraph from "../ui/Paragraph";
+import "react-calendar/dist/Calendar.css";
+import Calendar from "react-calendar";
+import { Employee, ShiftPreference } from "@prisma/client";
 import ScheduleTable from "./ScheduleTable";
 import SearchEmployees from "./SearchEmployees";
-import { Employee } from "@prisma/client";
-import { api } from "~/utils/api";
+import { formatMonth } from "~/utils/dateFormatting";
+import { Dispatch, SetStateAction, useState } from "react";
+import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
 
 interface ScheduleMakerProps {
   id: string;
   name: string;
   isOpen: boolean;
   employees: Employee[];
-  shiftPreferences: string[];
+  shiftPreferences: ShiftPreference[];
   setId: Dispatch<SetStateAction<string>>;
   setName: Dispatch<SetStateAction<string>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setShiftPreferences: Dispatch<SetStateAction<string[]>>;
-}
-
-interface WorkDay {
-  start?: number;
-  end?: number;
-  total?: number;
-  date: number;
+  setShiftPreferences: Dispatch<SetStateAction<ShiftPreference[]>>;
 }
 
 export default function ScheduleMaker({
   id,
   name,
-  employees,
-  setName,
   setId,
   isOpen,
+  setName,
+  employees,
   setIsOpen,
   shiftPreferences,
   setShiftPreferences,
 }: ScheduleMakerProps) {
   const currentDate = new Date();
+  const [schedule, setSchedule] = useState<any[]>([]);
   const [value, setValue] = useState<Date | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [schedule, setSchedule] = useState<any[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [mergedData, setMergedData] = useState<WorkDay[]>([]);
-  const [message, setMessage] = useState<string | null>(null);
   const [yearArray, setYearArray] = useState<{ date: number }[]>([]);
 
   const [month, setMonth] = useState(() => {
     const month = currentDate.getMonth() + 2;
     return `${currentDate.getFullYear()}-${month < 10 ? `0${month}` : month}`;
   });
-
-  useEffect(() => {
-    setMergedData(mergeObjectsByDate(yearArray, schedule));
-  }, [schedule]);
 
   const createShift = api.shift.create.useMutation({
     onSuccess: (createdShift) => {
@@ -97,7 +82,7 @@ export default function ScheduleMaker({
     });
   }
 
-  const handleMonthChange: any = (date: Date) => {
+  function handleMonthChange(date: any) {
     setValue(date);
     const year = date.getFullYear();
     setYearArray(generateYearArray(year));
@@ -105,29 +90,27 @@ export default function ScheduleMaker({
     const month = date.getMonth() + 1;
     setMonth(`${year}-${month < 10 ? `0${month}` : month}`);
     setSchedule(() => updateMonthData(date));
-  };
+  }
 
-  const updateMonthData = (date: Date): WorkDay[] => {
+  function updateMonthData(date: Date) {
     const year = date.getFullYear();
 
     const monthIndex = date.getMonth();
     const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
 
-    const data: WorkDay[] = new Array(daysInMonth)
-      .fill(null)
-      .map((_, index) => {
-        const day = index + 1;
-        const dateUnixTimestamp =
-          new Date(year, monthIndex, day).getTime() / 1000;
+    const data = new Array(daysInMonth).fill(null).map((_, index) => {
+      const day = index + 1;
+      const dateUnixTimestamp =
+        new Date(year, monthIndex, day).getTime() / 1000;
 
-        return {
-          date: dateUnixTimestamp,
-        };
-      });
+      return {
+        date: dateUnixTimestamp,
+      };
+    });
     return data;
-  };
+  }
 
-  const generateYearArray = (year: number) => {
+  function generateYearArray(year: number) {
     const daysInYear = 365 + (isLeapYear(year) ? 1 : 0);
     const startOfYear = new Date(year, 0, 1);
     const yearArray = [];
@@ -140,31 +123,14 @@ export default function ScheduleMaker({
     }
 
     return yearArray;
-  };
+  }
 
-  const isLeapYear = (year: number) => {
+  function isLeapYear(year: number) {
     return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-  };
-
-  const mergeObjectsByDate = (
-    yearArray: { date: number }[],
-    monthArray: WorkDay[]
-  ) => {
-    const mergedArray = yearArray.map((obj1) => {
-      const obj2 = monthArray.find(
-        (obj) => formatDate(obj.date) === formatDate(obj1.date)
-      );
-      if (obj2) {
-        return { ...obj1, ...obj2 };
-      }
-      return obj1;
-    });
-
-    return mergedArray;
-  };
+  }
 
   return (
-    <main className="flex flex-row justify-evenly space-x-6 p-0">
+    <main className="flex space-x-6">
       <div className="mt-7 flex h-[44rem] flex-col items-center">
         <SearchEmployees
           name={name}
@@ -187,7 +153,7 @@ export default function ScheduleMaker({
             size={"lg"}
             loading={loading}
             title="Create schedule"
-            className="text-md mr-auto mt-[1.6rem]"
+            className="mx-auto mt-[1.6rem] w-full text-xl font-medium tracking-wide"
             onClick={createSchedule}
           >
             Create Schedule{" "}
@@ -230,7 +196,7 @@ export default function ScheduleMaker({
                 <div className="flex flex-col items-center">
                   {shiftPreferences.map((preference) => (
                     <Paragraph className="mb-2 p-1 text-center font-normal">
-                      {preference}
+                      {preference.content}
                     </Paragraph>
                   ))}
                 </div>
@@ -244,7 +210,7 @@ export default function ScheduleMaker({
             )}
           </>
         ) : (
-          <Heading className="mt-48 text-center font-normal text-slate-500 dark:text-slate-400">
+          <Heading className="ml-48 mt-48 text-center font-normal text-slate-500 dark:text-slate-400">
             Pick a month and an employee.
           </Heading>
         )}

@@ -1,4 +1,4 @@
-import { Employee } from "@prisma/client";
+import { Employee, ShiftPreference } from "@prisma/client";
 import { UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,16 +13,18 @@ export default function NewSchedulePage() {
   const [name, setName] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [employees, setEmployees] = useState<Employee[]>([]);
-  const [shiftPreferences, setShiftPreferences] = useState<string[]>([]);
+  const [employees, setEmployees] = useState<any>([]);
+  const [shiftPreferences, setShiftPreferences] = useState<ShiftPreference[]>(
+    []
+  );
 
   const { data } = api.employee.find.useQuery();
 
   useEffect(() => {
     if (data) {
+      setLoading(false);
       setEmployees(data);
     }
-    setLoading(false);
   }, [data]);
 
   return (
