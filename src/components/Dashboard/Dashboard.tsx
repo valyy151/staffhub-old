@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Heading from "../ui/Heading";
 import {
   formatDate,
@@ -10,6 +10,7 @@ import Paragraph from "../ui/Paragraph";
 import {
   ChevronLeft,
   ChevronRight,
+  Loader2,
   Scroll,
   ScrollText,
   User,
@@ -21,10 +22,11 @@ import router from "next/router";
 
 interface DashboardProps {
   data: any;
+  loading: boolean;
   setSkip: Dispatch<SetStateAction<number>>;
 }
 
-export default function Dashboard({ data, setSkip }: DashboardProps) {
+export default function Dashboard({ data, setSkip, loading }: DashboardProps) {
   function handlePrevPage(): void {
     setSkip((skip) => skip - 1);
   }
@@ -112,7 +114,15 @@ export default function Dashboard({ data, setSkip }: DashboardProps) {
         )}
       </div>
 
-      <div className="mt-12 flex justify-center">
+      {loading ? (
+        <div className="flex flex-col items-center pt-4">
+          <Loader2 size={32} className="animate-spin" />
+        </div>
+      ) : (
+        <div className="h-12"></div>
+      )}
+
+      <div className="flex justify-center pt-2">
         <Button
           variant={"link"}
           title="Previous Week"

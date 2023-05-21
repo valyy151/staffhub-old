@@ -11,14 +11,17 @@ import Dashboard from "~/components/Dashboard/Dashboard";
 const DashboardPage = () => {
   const [skip, setSkip] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const [smallLoading, setSmallLoading] = useState<boolean>(false);
   const [workDays, setWorkDays] = useState<WorkDay[]>([]);
 
   const { data } = api.dashboard.find.useQuery({ skip: skip });
 
   useEffect(() => {
+    setSmallLoading(true);
     if (data) {
       setWorkDays(data);
       setLoading(false);
+      setSmallLoading(false);
     }
   }, [data]);
 
@@ -27,7 +30,7 @@ const DashboardPage = () => {
       {loading ? (
         <Spinner />
       ) : workDays.length > 0 ? (
-        <Dashboard data={workDays} setSkip={setSkip} />
+        <Dashboard data={workDays} setSkip={setSkip} loading={smallLoading} />
       ) : (
         <>
           <Heading className="mt-6" size={"sm"}>
