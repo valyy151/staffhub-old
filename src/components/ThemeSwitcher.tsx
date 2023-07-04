@@ -24,7 +24,7 @@ export default function ThemeSwitcher() {
           onClick={() => setTheme("light")}
           className="focus:ring-0 focus:ring-offset-0"
         >
-          <Sun />
+          <Sun className="text-slate-900 dark:text-slate-400" />
         </Button>
       ) : (
         <Button
@@ -32,7 +32,7 @@ export default function ThemeSwitcher() {
           onClick={() => setTheme("dark")}
           className="focus:ring-0 focus:ring-offset-0"
         >
-          <Moon />
+          <Moon className="text-slate-900 dark:text-slate-400" />
         </Button>
       )}
     </>
