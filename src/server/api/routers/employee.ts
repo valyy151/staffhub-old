@@ -30,7 +30,6 @@ export const employeeRouter = createTRPCRouter({
   getAllEmployees: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.employee.findMany({
       where: { userId: ctx.session.user.id },
-      select: { name: true, email: true, address: true, phoneNumber: true },
     });
   }),
 });

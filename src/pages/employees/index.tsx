@@ -5,23 +5,27 @@ import { useEffect, useState } from "react";
 import Spinner from "~/components/ui/Spinner";
 import { buttonVariants } from "~/components/ui/Button";
 import EmployeesTable from "~/components/Employees/EmployeesTable";
+import Heading from "~/components/ui/Heading";
 
 interface Employee {
+  id: string;
   name: string;
   email: string;
-  phone: string;
   address: string;
+  phoneNumber: string;
 }
 
-const EmployeesListPage = () => {
-  const [employees, setEmployees] = useState<any>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+export default function EmployeesListPage() {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+
   const { data } = api.employee.getAllEmployees.useQuery();
 
   useEffect(() => {
     if (data) {
       setEmployees(data);
     }
+    setLoading(false);
   }, [data]);
 
   return (
@@ -32,19 +36,17 @@ const EmployeesListPage = () => {
         <EmployeesTable data={employees} />
       ) : (
         <>
-          <h1 className="slide-in-bottom mb-2 mt-6 text-center">
+          <Heading className="mt-6">
             You do not currently have any employees on your account.
-          </h1>
-          <h2 className="slide-in-bottom text-center">
+          </Heading>
+          <Heading size={"sm"} className="mt-2">
             Click below if you wish to create an employee.
-          </h2>{" "}
-          <Link href="/employees/new" className={`${buttonVariants({})}`}>
+          </Heading>{" "}
+          <Link href="/employees/new" className={`${buttonVariants({})} mt-4`}>
             New Employee {<UserPlus className="ml-2" />}
           </Link>
         </>
       )}
     </main>
   );
-};
-
-export default EmployeesListPage;
+}
