@@ -42,13 +42,16 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
+    id            String     @id @default(cuid())
     name          String?
-    email         String?   @unique
+    email         String?    @unique
     emailVerified DateTime?
     image         String?
+    shifts        Shift[]
     accounts      Account[]
     sessions      Session[]
+    workDays      WorkDay[]
+    employees     Employee[]
 }
 
 model VerificationToken {
@@ -57,4 +60,43 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Employee {
+    id          String  @id @default(cuid())
+    name        String
+    email       String
+    address     String
+    userId      String
+    phoneNumber String
+    Shift       Shift[]
+    user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+model WorkDay {
+    id     String  @id @default(cuid())
+    date   Int     @unique
+    shifts Shift[]
+    userId String?
+    User   User?   @relation(fields: [userId], references: [id])
+
+    @@index([userId])
+}
+
+model Shift {
+    id         String   @id @default(cuid())
+    start      Int
+    end        Int
+    workDayId  String
+    employeeId String
+    userId     String?
+    User       User?    @relation(fields: [userId], references: [id])
+    workDay    WorkDay  @relation(fields: [workDayId], references: [id], onDelete: Cascade)
+    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([workDayId])
+    @@index([employeeId])
 }
