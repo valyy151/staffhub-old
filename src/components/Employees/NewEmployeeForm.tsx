@@ -2,6 +2,7 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import { Button } from "../ui/Button";
 import { redirect } from "next/navigation";
+import Input from "../ui/Input";
 
 export default function NewEmployeeForm() {
   const [name, setName] = useState<string>("");
@@ -16,8 +17,7 @@ export default function NewEmployeeForm() {
   };
 
   const createEmployee = api.employee.create.useMutation({
-    onSuccess: (employee) => {
-      console.log(employee);
+    onSuccess: () => {
       window.location.href = "/employees";
     },
     onError: (error) => {
@@ -33,33 +33,36 @@ export default function NewEmployeeForm() {
       >
         <label htmlFor="name">Employee Name</label>
 
-        <input
+        <Input
           id="name"
           type="text"
           name="name"
           value={name}
+          className="h-12 text-lg"
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter the name of the employee"
         />
 
         <label htmlFor="email">Employee Email</label>
 
-        <input
+        <Input
           id="email"
           type="text"
           name="email"
           value={email}
+          className="h-12 text-lg"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter the email of the employee"
         />
 
         <label htmlFor="phone">Employee Phone</label>
 
-        <input
+        <Input
           id="phone"
           type="text"
           name="phone"
           value={phoneNumber}
+          className="h-12 text-lg"
           onChange={(e) => {
             const re = /^[0-9+\s]*$/;
             if (re.test(e.target.value)) {
@@ -71,18 +74,19 @@ export default function NewEmployeeForm() {
 
         <label htmlFor="address">Employee Address</label>
 
-        <input
+        <Input
           type="text"
           id="address"
           name="address"
           value={address}
+          className="h-12 text-lg"
           onChange={(e) => setAddress(e.target.value)}
           placeholder="Enter the address of the employee"
         />
 
         <Button
           loading={loading}
-          className="slide-in-bottom mr-auto"
+          className="mt-2 w-1/3 text-lg"
           title="Save information and create employee"
         >
           Submit

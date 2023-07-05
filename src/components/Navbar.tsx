@@ -12,7 +12,7 @@ export default function Navbar() {
   return (
     <div className="sticky top-0 z-50 flex h-20 items-center justify-between border-b border-slate-300 bg-white shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900">
       <div className="container mx-auto grid w-full grid-cols-3 place-items-center items-center justify-between">
-        <div className="flex items-center">
+        <div className="flex items-center space-x-4">
           <Link
             href="/"
             className={`${buttonVariants({ variant: "ghost" })} text-xl`}
@@ -26,7 +26,7 @@ export default function Navbar() {
           <ThemeSwitcher />
         </div>
 
-        <div>
+        <div className="space-x-4">
           <Link
             href={"/employees"}
             className={`${buttonVariants({ variant: "ghost" })}`}
@@ -41,7 +41,7 @@ export default function Navbar() {
           </Link>
         </div>
 
-        <div className="hidden  gap-4 md:flex">
+        <div className="hidden space-x-4 md:flex">
           {session.status === "authenticated" ? (
             <>
               <Link href="/dashboard" className={buttonVariants()}>

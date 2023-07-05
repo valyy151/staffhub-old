@@ -1,10 +1,11 @@
 import NewEmployeeForm from "~/components/Employees/NewEmployeeForm";
+import Heading from "~/components/ui/Heading";
 
 export default function NewEmployeePage() {
   return (
-    <div>
-      <h1>Create an Employee</h1>
+    <>
+      <Heading className="mt-12 text-center">Create an Employee</Heading>
       <NewEmployeeForm />
-    </div>
+    </>
   );
 }

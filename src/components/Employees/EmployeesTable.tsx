@@ -5,6 +5,7 @@ import { FC, useState } from "react";
 import Heading from "../ui/Heading";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Input from "../ui/Input";
 
 interface EmployeesTableProps {
   data: Employee[];
@@ -32,7 +33,7 @@ const EmployeesTable: FC<EmployeesTableProps> = ({ data }) => {
 
   return (
     <>
-      <div className="mb-2 mt-8 flex w-2/5 items-end justify-between sm:w-3/5">
+      <div className="mb-2 mt-12 flex w-2/5 items-end justify-between sm:w-3/5">
         <div className="flex items-baseline space-x-4  sm:ml-8 ">
           <Heading>Your Staff</Heading>
           <Heading size={"xs"}>
@@ -40,14 +41,14 @@ const EmployeesTable: FC<EmployeesTableProps> = ({ data }) => {
           </Heading>
         </div>
         <div className="mb-1 flex items-center space-x-12 sm:mr-8 ">
-          <div className="mx-auto flex items-center rounded-lg border  border-white bg-white px-2 shadow focus-within:shadow-md  dark:border-slate-700 dark:bg-slate-700 sm:w-full">
+          <div className="mx-auto flex items-center rounded-md border border-slate-300 bg-white  px-2 shadow focus-within:shadow-md focus-within:outline-none focus-within:ring-2 focus-within:ring-slate-400 focus-within:ring-offset-2 dark:border-slate-700 dark:bg-slate-700 dark:text-slate-50 dark:focus-within:ring-slate-400 dark:focus-within:ring-offset-slate-900 sm:w-full">
             <Search />
-            <input
+            <Input
               type="text"
               value={searchText}
               placeholder="Search your employees..."
-              className="m-0 w-full py-2 shadow-none outline-none focus:ring-0 dark:bg-slate-700"
-              onChange={(event) => setSearchText(event.target.value)}
+              className="border-none focus:outline-none focus:ring-0 focus:ring-offset-0"
+              onChange={(e) => setSearchText(e.target.value)}
             />
           </div>
 
