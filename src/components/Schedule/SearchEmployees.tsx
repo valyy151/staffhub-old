@@ -5,7 +5,6 @@ import { Employee, ShiftPreference } from "@prisma/client";
 interface SearchEmployeesProps {
   name: string;
   isOpen: boolean;
-  inputSize: string;
   noMargin?: boolean;
   employees: Employee[];
   setId: Dispatch<SetStateAction<string>>;
@@ -30,9 +29,9 @@ export default function SearchEmployees({
   };
 
   return (
-    <main className={`relative mt-12 p-0 pt-0.5 text-lg`}>
+    <main className={`relative mb-2 mt-12 w-full p-0 pt-0.5 text-lg`}>
       <div
-        className="group w-full cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-700 dark:shadow-slate-950 "
+        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-700 dark:shadow-slate-950 "
         onClick={() => setIsOpen(!isOpen)}
       >
         <Input
@@ -40,12 +39,12 @@ export default function SearchEmployees({
           type="text"
           value={name}
           placeholder={"Choose an Employee..."}
-          className="group m-0 cursor-pointer px-4 caret-transparent focus:ring-0 dark:placeholder:text-slate-400"
+          className="group m-0 h-12 cursor-pointer px-4 text-xl caret-transparent ring-offset-0  focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
         />
       </div>
       {isOpen && (
         <div
-          className={`absolute left-0 top-10 z-10 w-full rounded bg-white shadow-md dark:bg-slate-600 dark:text-slate-300`}
+          className={`absolute z-10 mt-2 w-full rounded bg-white shadow-md dark:bg-slate-600 dark:text-slate-300`}
         >
           <ul>
             {employees.map((employee) => (

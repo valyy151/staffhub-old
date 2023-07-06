@@ -54,7 +54,7 @@ export default function ScheduleMaker({
     const month = currentDate.getMonth() + 2;
     return `${currentDate.getFullYear()}-${month < 10 ? `0${month}` : month}`;
   });
-
+  console.log(mergedData);
   useEffect(() => {
     setMergedData(mergeObjectsByDate(yearArray, schedule));
   }, [schedule]);
@@ -155,12 +155,11 @@ export default function ScheduleMaker({
   };
 
   return (
-    <main className="flex flex-row justify-evenly p-0">
-      <div className="mt-2 flex h-[44rem] flex-col items-center space-y-4">
+    <main className="flex flex-row justify-evenly space-x-6 p-0">
+      <div className="mt-7 flex h-[44rem] flex-col items-center">
         <SearchEmployees
           name={name}
           setId={setId}
-          inputSize="lg"
           isOpen={isOpen}
           setName={setName}
           employees={employees}
@@ -178,29 +177,32 @@ export default function ScheduleMaker({
           <Button
             size={"lg"}
             loading={loading}
-            className="w-full text-2xl"
             title="Create schedule"
+            className="text-md mr-auto mt-[1.6rem]"
             // onClick={createSchedule}
           >
             Create Schedule{" "}
           </Button>
         )}
       </div>
-      <div className="mt-4 h-[44rem] w-[82rem]">
+      <div className="mt-8 h-[44rem] w-[82rem]">
         {schedule.length > 0 ? (
           <>
             {name && schedule ? (
-              <div className="flex items-baseline justify-between">
-                <Heading size={"xs"} className="mb-2 ml-8 text-left">
+              <div className="flex items-baseline justify-end">
+                <Heading size={"sm"} className="mb-2 mr-2">
                   {name}
                 </Heading>
-                <Paragraph className="mb-2 mr-10 text-left font-normal">
+                <Heading
+                  size={"xs"}
+                  className="mb-2 mr-8 text-left font-normal"
+                >
                   will work{" "}
                   <span className="font-bold">
                     {calculateTotalMonthlyHours(schedule)}
                   </span>{" "}
                   hours in {formatMonth(schedule[0].date)}
-                </Paragraph>
+                </Heading>
               </div>
             ) : (
               <Heading size={"xs"} className="mb-2 ml-8 text-left font-normal">
