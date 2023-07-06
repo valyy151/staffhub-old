@@ -10,6 +10,7 @@ import { Button } from "../ui/Button";
 import ScheduleTable from "./ScheduleTable";
 import SearchEmployees from "./SearchEmployees";
 import { Employee } from "@prisma/client";
+import { api } from "~/utils/api";
 
 interface ScheduleMakerProps {
   id: string;
@@ -54,39 +55,18 @@ export default function ScheduleMaker({
     const month = currentDate.getMonth() + 2;
     return `${currentDate.getFullYear()}-${month < 10 ? `0${month}` : month}`;
   });
-  console.log(mergedData);
+  console.log(schedule);
   useEffect(() => {
     setMergedData(mergeObjectsByDate(yearArray, schedule));
   }, [schedule]);
 
-  //   const createSchedule = async () => {
-  //     setLoading(true);
+  async function createSchedule() {
+    const createDay = api.workDay.create.useMutation({
+      onSuccess: (createdDay) => {},
+    });
 
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       const { data } = await axios.post(
-  //         `${import.meta.env.VITE_BASE_URL}/roster`,
-  //         {
-  //           id,
-  //           data: mergedData,
-  //         },
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-
-  //       setMessage(data.message);
-  //     } catch (error: any) {
-  //       setError(error.response.data.message);
-  //       if (error.response.status === 401) {
-  //         Logout();
-  //       }
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+    mergedData.forEach((day) => {});
+  }
 
   const handleMonthChange: any = (date: Date) => {
     setValue(date);

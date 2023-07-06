@@ -6,7 +6,7 @@ import {
 } from "~/server/api/trpc";
 
 export const workDayRouter = createTRPCRouter({
-  createRoster: protectedProcedure
+  create: protectedProcedure
     .input(
       z.object({
         date: z.number(),
@@ -14,11 +14,11 @@ export const workDayRouter = createTRPCRouter({
     )
     .mutation(async ({ input: { date }, ctx }) => {
       const modifiedDate = new Date(date * 1000);
-      modifiedDate.setHours(0, 0, 0, 0);
 
+      modifiedDate.setHours(0, 0, 0, 0);
       const midnightUnixCode = Math.floor(modifiedDate.getTime() / 1000);
 
-      return await ctx.prisma.workDay.createMany({
+      return await ctx.prisma.workDay.create({
         data: {
           date: midnightUnixCode,
           userId: ctx.session.user.id,
