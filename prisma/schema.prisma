@@ -105,7 +105,6 @@ model WorkDay {
     userId String?
     notes  WorkDayNote[]
     user   User?         @relation(fields: [userId], references: [id])
-    shifts Shift[]
 
     @@index([userId])
 }
@@ -140,12 +139,11 @@ model Shift {
     end        Int
     employeeId String
     userId     String?
-    workDayId  String
+    date       Int
     user       User?    @relation(fields: [userId], references: [id])
-    workDay    WorkDay  @relation(fields: [workDayId], references: [id], onDelete: Cascade)
     employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
+    @@unique([userId, date])
     @@index([userId])
     @@index([employeeId])
-    @@index([workDayId])
 }

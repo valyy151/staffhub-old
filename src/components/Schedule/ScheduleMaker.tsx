@@ -55,17 +55,31 @@ export default function ScheduleMaker({
     const month = currentDate.getMonth() + 2;
     return `${currentDate.getFullYear()}-${month < 10 ? `0${month}` : month}`;
   });
-  console.log(schedule);
+
   useEffect(() => {
     setMergedData(mergeObjectsByDate(yearArray, schedule));
   }, [schedule]);
 
-  async function createSchedule() {
-    const createDay = api.workDay.create.useMutation({
-      onSuccess: (createdDay) => {},
-    });
+  const createShift = api.shift.create.useMutation({
+    onSuccess: (createdShift) => {
+      console.log(createdShift);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
 
-    mergedData.forEach((day) => {});
+  async function createSchedule() {
+    schedule.forEach((day) => {
+      if (day.start && day.end) {
+        createShift.mutate({
+          end: day.end,
+          date: day.date,
+          start: day.start,
+          employeeId: id,
+        });
+      }
+    });
   }
 
   const handleMonthChange: any = (date: Date) => {
@@ -159,7 +173,7 @@ export default function ScheduleMaker({
             loading={loading}
             title="Create schedule"
             className="text-md mr-auto mt-[1.6rem]"
-            // onClick={createSchedule}
+            onClick={createSchedule}
           >
             Create Schedule{" "}
           </Button>
@@ -185,7 +199,7 @@ export default function ScheduleMaker({
                 </Heading>
               </div>
             ) : (
-              <Heading size={"xs"} className="mb-2 ml-8 text-left font-normal">
+              <Heading size={"sm"} className="mb-2 ml-8 text-left font-normal">
                 Choose an employee.
               </Heading>
             )}
