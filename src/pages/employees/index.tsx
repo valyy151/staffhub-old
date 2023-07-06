@@ -36,10 +36,10 @@ export default function EmployeesListPage() {
         <EmployeesTable data={employees} />
       ) : (
         <>
-          <Heading className="mt-6">
+          <Heading size={"sm"} className="mt-6">
             You do not currently have any employees on your account.
           </Heading>
-          <Heading size={"sm"} className="mt-2">
+          <Heading size={"xs"} className="mt-2">
             Click below if you wish to create an employee.
           </Heading>{" "}
           <Link href="/employees/new" className={`${buttonVariants({})} mt-4`}>

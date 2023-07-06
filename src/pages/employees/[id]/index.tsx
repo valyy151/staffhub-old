@@ -1,5 +1,3 @@
-import { NextRouter, useRouter } from "next/router";
-import { useState } from "react";
 import { api } from "~/utils/api";
 
 interface EmployeeProfileProps {

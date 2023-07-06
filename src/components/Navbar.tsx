@@ -34,7 +34,7 @@ export default function Navbar() {
             Your Staff
           </Link>
           <Link
-            href={"/schedules"}
+            href={"/schedule"}
             className={`${buttonVariants({ variant: "ghost" })}`}
           >
             New Schedule
