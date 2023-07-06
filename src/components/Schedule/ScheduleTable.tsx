@@ -8,13 +8,13 @@ import {
 } from "~/utils/dateFormatting";
 
 interface ScheduleTableProps {
-  data: WorkDay[];
+  data: any[];
   setData: Dispatch<SetStateAction<WorkDay[]>>;
 }
 
 interface WorkDay {
   end?: number;
-  date?: number;
+  date: number;
   start?: number;
   total?: number;
 }
@@ -22,14 +22,13 @@ interface WorkDay {
 export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
   const headings = ["Date", "Start", "End", "Total"];
 
-  const handleTimeChange = (
+  function handleTimeChange(
     newTime: string,
     field: "start" | "end",
     index: number
-  ) => {
-    // convert the new time into Unix timestamp
-
+  ) {
     const [hour, minute]: string[] = newTime.split(":");
+
     const newDate: any = new Date(data[index].date * 1000);
 
     newDate.setHours(hour);
@@ -41,10 +40,10 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
       i === index ? { ...d, [field]: newUnixTime } : d
     );
     setData(newData);
-  };
+  }
 
   return (
-    <div className="slide-in-bottom h-[32rem] overflow-x-hidden rounded border-2 border-slate-300 shadow-md dark:border-slate-500">
+    <div className="h-[32rem] overflow-x-hidden rounded border-2 border-slate-300 shadow-md dark:border-slate-500">
       <table className="w-full divide-y-2 divide-slate-300 overflow-scroll rounded bg-white text-left  text-xl shadow-md dark:divide-slate-600 dark:bg-slate-800">
         <thead>
           <tr className="sticky top-0 bg-white dark:bg-slate-800 ">
@@ -72,8 +71,12 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
                 }
               >
                 <td className="flex w-96 items-baseline justify-between px-8 py-3">
-                  <span className=" text-sm">{formatDay(item.date)}</span>
-                  <span className="w-48">{formatDateLong(item.date)}</span>
+                  <span className=" text-sm">
+                    {item.date && formatDay(item.date)}
+                  </span>
+                  <span className="w-48">
+                    {item.date && formatDateLong(item.date)}
+                  </span>
                 </td>
                 <td>
                   <input

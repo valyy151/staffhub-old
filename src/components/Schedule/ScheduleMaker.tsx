@@ -9,15 +9,7 @@ import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
 import ScheduleTable from "./ScheduleTable";
 import SearchEmployees from "./SearchEmployees";
-
-interface Employee {
-  id: string;
-  name: string;
-  email: string;
-  address: string;
-  phoneNumber: string;
-  shiftPreferences?: string[];
-}
+import { Employee } from "@prisma/client";
 
 interface ScheduleMakerProps {
   id: string;
@@ -52,7 +44,7 @@ export default function ScheduleMaker({
   const currentDate = new Date();
   const [value, setValue] = useState<Date | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [schedule, setSchedule] = useState<WorkDay[]>([]);
+  const [schedule, setSchedule] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [mergedData, setMergedData] = useState<WorkDay[]>([]);
   const [message, setMessage] = useState<string | null>(null);
@@ -164,7 +156,7 @@ export default function ScheduleMaker({
 
   return (
     <main className="flex flex-row justify-evenly p-0">
-      <div className="slide-in-bottom-h1 mt-2 flex h-[44rem] flex-col items-center space-y-4">
+      <div className="mt-2 flex h-[44rem] flex-col items-center space-y-4">
         <SearchEmployees
           name={name}
           setId={setId}
@@ -211,16 +203,13 @@ export default function ScheduleMaker({
                 </Paragraph>
               </div>
             ) : (
-              <Heading
-                size={"xs"}
-                className="slide-in-bottom mb-2 ml-8 text-left font-normal"
-              >
+              <Heading size={"xs"} className="mb-2 ml-8 text-left font-normal">
                 Choose an employee.
               </Heading>
             )}
             <ScheduleTable data={schedule} setData={setSchedule} />
             {shiftPreferences.length > 0 ? (
-              <div className="slide-in-bottom mt-4">
+              <div className="mt-4">
                 <Heading
                   size={"xs"}
                   className="mx-auto mb-4 w-1/2 rounded-t-md border-b-2 border-slate-300 p-2 text-center dark:border-slate-500"
@@ -237,17 +226,14 @@ export default function ScheduleMaker({
               </div>
             ) : (
               name && (
-                <Heading
-                  size={"xs"}
-                  className="slide-in-bottom mt-4 text-center font-normal"
-                >
+                <Heading size={"xs"} className="mt-4 text-center font-normal">
                   This employee has no shift preferences.
                 </Heading>
               )
             )}
           </>
         ) : (
-          <Heading className="slide-in-bottom mt-48 text-center font-normal text-slate-500 dark:text-slate-400">
+          <Heading className="mt-48 text-center font-normal text-slate-500 dark:text-slate-400">
             Pick a month and an employee.
           </Heading>
         )}

@@ -42,9 +42,9 @@ model Session {
 }
 
 model User {
-    id            String     @id @default(cuid())
+    id            String         @id @default(cuid())
     name          String?
-    email         String?    @unique
+    email         String?        @unique
     emailVerified DateTime?
     image         String?
     shifts        Shift[]
@@ -52,6 +52,8 @@ model User {
     sessions      Session[]
     workDays      WorkDay[]
     employees     Employee[]
+    workDayNotes  WorkDayNote[]
+    employeeNotes EmployeeNote[]
 }
 
 model VerificationToken {
@@ -63,26 +65,73 @@ model VerificationToken {
 }
 
 model Employee {
-    id          String  @id @default(cuid())
-    name        String
-    email       String
-    address     String
-    userId      String
-    phoneNumber String
-    Shift       Shift[]
-    user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                    String            @id @default(cuid())
+    name                  String
+    email                 String
+    address               String
+    userId                String
+    phoneNumber           String
+    shifts                Shift[]
+    vacations             Vacation[]
+    notes                 EmployeeNote[]
+    shiftPreferences      ShiftPreference[]
+    vacationDaysRemaining Int               @default(25)
+    user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
 }
 
+model ShiftPreference {
+    id         String   @id @default(cuid())
+    employeeId String
+    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+    @@index([employeeId])
+}
+
+model Vacation {
+    id         String   @id @default(cuid())
+    start      Int
+    end        Int
+    employeeId String
+    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+    @@index([employeeId])
+}
+
 model WorkDay {
-    id     String  @id @default(cuid())
-    date   Int     @unique
-    shifts Shift[]
+    id     String        @id @default(cuid())
+    date   Int           @unique
     userId String?
-    User   User?   @relation(fields: [userId], references: [id])
+    shifts Shift[]
+    notes  WorkDayNote[]
+    User   User?         @relation(fields: [userId], references: [id])
 
     @@index([userId])
+}
+
+model WorkDayNote {
+    id        String  @id @default(cuid())
+    userId    String
+    content   String
+    workDayId String
+    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    workDay   WorkDay @relation(fields: [workDayId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([workDayId])
+}
+
+model EmployeeNote {
+    id         String   @id @default(cuid())
+    userId     String
+    content    String
+    employeeId String
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([employeeId])
 }
 
 model Shift {

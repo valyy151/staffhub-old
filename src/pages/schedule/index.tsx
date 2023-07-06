@@ -1,3 +1,4 @@
+import { Employee } from "@prisma/client";
 import { UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -6,14 +7,6 @@ import { buttonVariants } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { api } from "~/utils/api";
-
-interface Employee {
-  id: string;
-  name: string;
-  email: string;
-  address: string;
-  phoneNumber: string;
-}
 
 export default function NewSchedulePage() {
   const [id, setId] = useState<string>("");
