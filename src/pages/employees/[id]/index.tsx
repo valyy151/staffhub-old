@@ -9,7 +9,7 @@ EmployeeProfilePage.getInitialProps = ({ query }: EmployeeProfileProps) => {
 };
 
 export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
-  const { data } = api.employee.getUniqueEmployee.useQuery({ id: query.id });
+  const { data } = api.employee.findOne.useQuery({ id: query.id });
 
   return <main className="mt-12 text-center text-3xl">{data?.name}</main>;
 }
