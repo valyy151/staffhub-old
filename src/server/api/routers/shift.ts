@@ -31,4 +31,10 @@ export const shiftRouter = createTRPCRouter({
         },
       });
     }),
+
+  find: protectedProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.shift.findMany({
+      where: { userId: ctx.session.user.id },
+    });
+  }),
 });

@@ -1,11 +1,10 @@
-import { Search, UserPlus } from "lucide-react";
-import Paragraph from "../ui/Paragraph";
-import { Button, buttonVariants } from "../ui/Button";
-import { FC, useState } from "react";
-import Heading from "../ui/Heading";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import Input from "../ui/Input";
+import router from "next/router";
+import Heading from "../ui/Heading";
+import { FC, useState } from "react";
+import { buttonVariants } from "../ui/Button";
+import { Search, UserPlus } from "lucide-react";
 
 interface EmployeesTableProps {
   data: Employee[];
@@ -28,8 +27,6 @@ const EmployeesTable: FC<EmployeesTableProps> = ({ data }) => {
     const values = Object.values(employee).join("").toLowerCase();
     return values.includes(searchText.toLowerCase());
   });
-
-  const router = useRouter();
 
   return (
     <>

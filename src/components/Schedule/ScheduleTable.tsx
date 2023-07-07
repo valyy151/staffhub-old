@@ -1,22 +1,15 @@
-import { Dispatch, SetStateAction } from "react";
 import {
-  formatDate,
   formatDateLong,
   formatDay,
   formatTime,
   formatTotal,
 } from "~/utils/dateFormatting";
+import { Dispatch, SetStateAction } from "react";
+import { WorkDay } from "@prisma/client";
 
 interface ScheduleTableProps {
   data: any[];
   setData: Dispatch<SetStateAction<WorkDay[]>>;
-}
-
-interface WorkDay {
-  end?: number;
-  date: number;
-  start?: number;
-  total?: number;
 }
 
 export default function ScheduleTable({ data, setData }: ScheduleTableProps) {

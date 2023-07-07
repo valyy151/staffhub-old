@@ -8,20 +8,12 @@ import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { api } from "~/utils/api";
 
-interface Shift {
-  end: number;
-  start: number;
-  count: number;
-  employee: { name: string };
-}
-
 const DashboardPage = () => {
+  const [skip, setSkip] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [workDays, setWorkDays] = useState<WorkDay[]>([]);
 
-  const { data } = api.workDay.find.useQuery({ skip: 0 });
-
-  console.log(data);
+  const { data } = api.dashboard.find.useQuery({ skip: skip });
 
   useEffect(() => {
     if (data) {
@@ -35,7 +27,7 @@ const DashboardPage = () => {
       {loading ? (
         <Spinner />
       ) : workDays.length > 0 ? (
-        <Dashboard data={workDays} />
+        <Dashboard data={workDays} setSkip={setSkip} />
       ) : (
         <>
           <Heading className="mt-6" size={"sm"}>

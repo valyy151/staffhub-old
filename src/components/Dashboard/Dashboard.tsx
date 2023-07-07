@@ -18,23 +18,33 @@ import {
 } from "lucide-react";
 import groupShifts from "~/utils/groupShifts";
 import { Button } from "../ui/Button";
+import router from "next/router";
 
 interface DashboardProps {
   data: WorkDay[];
+  setSkip: Dispatch<SetStateAction<number>>;
 }
 
-export default function Dashboard({ data }: DashboardProps) {
+export default function Dashboard({ data, setSkip }: DashboardProps) {
+  function handlePrevPage(): void {
+    setSkip((skip) => skip - 1);
+  }
+
+  function handleNextPage(): void {
+    setSkip((skip) => skip + 1);
+  }
+
   return (
     <div className="dashboard p-0 pt-20">
-      <Heading size={"sm"} className="slide-in-bottom mb-4 mr-auto text-left">
-        {/* {formatMonth(data[0].date)} */} Month and Year
+      <Heading size={"sm"} className="mb-4 mr-auto text-left">
+        {data[0] && formatMonth(data[0].date)}
       </Heading>
-      <div className="slide-in-bottom flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-700">
+      <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-700">
         {data.map((day: WorkDay) => (
           <div
             className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
             key={day.id}
-            // onClick={() => navigate(`/days/${day._id}`)}
+            onClick={() => router.push(`/days/${day.id}`)}
           >
             <div className="w-full text-center">
               <Heading
@@ -95,23 +105,23 @@ export default function Dashboard({ data }: DashboardProps) {
         ))}
       </div>
 
-      <div className="slide-in-bottom-h1 mt-12">
+      <div className="mt-12 flex justify-center">
         <Button
           variant={"link"}
           title="Previous Week"
-          //   onClick={handlePrevPage}
+          onClick={handlePrevPage}
           className="mr-1 rounded-lg bg-slate-200 px-3 py-2 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600"
         >
-          {<ChevronLeft size={36} />}
+          {<ChevronLeft size={48} />}
         </Button>
 
         <Button
           variant={"link"}
           title="Next Week"
-          //   onClick={handleNextPage}
+          onClick={handleNextPage}
           className="mr-1 rounded-lg bg-slate-200 px-3 py-2 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600"
         >
-          {<ChevronRight size={36} />}
+          {<ChevronRight size={48} />}
         </Button>
       </div>
     </div>
