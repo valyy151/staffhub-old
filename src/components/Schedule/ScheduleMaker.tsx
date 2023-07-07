@@ -69,7 +69,22 @@ export default function ScheduleMaker({
     },
   });
 
+  const createDay = api.workDay.create.useMutation({
+    onSuccess: (createdDay) => {
+      console.log(createdDay);
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   async function createSchedule() {
+    yearArray.forEach((day) => {
+      createDay.mutate({
+        date: day.date,
+      });
+    });
+
     schedule.forEach((day) => {
       if (day.start && day.end) {
         createShift.mutate({

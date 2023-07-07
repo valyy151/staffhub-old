@@ -16,7 +16,7 @@ export default function NewSchedulePage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [shiftPreferences, setShiftPreferences] = useState<string[]>([]);
 
-  const { data } = api.employee.getAllEmployees.useQuery();
+  const { data } = api.employee.find.useQuery();
 
   useEffect(() => {
     if (data) {

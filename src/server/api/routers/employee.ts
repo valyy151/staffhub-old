@@ -27,13 +27,13 @@ export const employeeRouter = createTRPCRouter({
       });
     }),
 
-  getAllEmployees: protectedProcedure.query(async ({ ctx }) => {
+  find: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.employee.findMany({
       where: { userId: ctx.session.user.id },
     });
   }),
 
-  getUniqueEmployee: protectedProcedure
+  findOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input: { id }, ctx }) => {
       return await ctx.prisma.employee.findUnique({

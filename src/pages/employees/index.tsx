@@ -19,7 +19,7 @@ export default function EmployeesListPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [employees, setEmployees] = useState<Employee[]>([]);
 
-  const { data } = api.employee.getAllEmployees.useQuery();
+  const { data } = api.employee.find.useQuery();
 
   useEffect(() => {
     if (data) {
