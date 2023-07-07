@@ -1,12 +1,7 @@
-interface Shift {
-  start: number;
-  end: number;
-  employee: { name: string };
-  count: number;
-}
-
-const groupShifts = (shifts: Shift[]): Shift[] => {
-  const groupedShifts: Shift[] = [];
+const groupShifts = (
+  shifts: { start: number; end: number; count: number }[]
+) => {
+  const groupedShifts: { start: number; end: number; count: number }[] = [];
 
   shifts.forEach((shift) => {
     const lastGroupedShift = groupedShifts[groupedShifts.length - 1];

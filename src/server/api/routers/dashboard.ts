@@ -40,8 +40,10 @@ export const dashboardRouter = createTRPCRouter({
         },
       });
 
-      return workDays.map((day) => {
-        return { ...day, shifts: shifts, notes: notes };
+      return workDays.map((workDay) => {
+        const dayShifts = shifts.filter((shift) => shift.date === workDay.date);
+        const dayNotes = notes.filter((note) => note.workDayId === workDay.id);
+        return { ...workDay, shifts: dayShifts, notes: dayNotes };
       });
     }),
 });
