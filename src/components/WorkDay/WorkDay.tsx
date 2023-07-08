@@ -19,7 +19,7 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
 
   return (
     <>
-      <div className="my-6 flex w-10/12 items-center justify-center space-x-10 border-b-2 border-slate-300 pb-6 dark:border-slate-700">
+      <div className="my-6 flex items-center justify-center space-x-10 border-b-2 border-slate-300 pb-6 dark:border-slate-700">
         <div className="flex space-x-3">
           <Heading size={"sm"}>{formatDay(data.date)}</Heading>
           <Heading size={"sm"}>{formatDate(data.date)}</Heading>
@@ -34,8 +34,7 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
             New Shift {<Clock8 className="ml-2 h-5 w-5" />}
           </Button>
           <Button
-            size={"sm"}
-            variant={"outline"}
+            variant={"subtle"}
             onClick={() => {
               setShowAddNote(true);
               setShowAddShift(false);
@@ -47,8 +46,8 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
       </div>
 
       {data?.shifts?.length < 1 && !showAddShift && !showAddNote && (
-        <div className="w-10/12 border-b-2 border-slate-300 py-6 text-center font-normal dark:border-slate-700">
-          <Heading className="slide-in-bottom " size={"xs"}>
+        <div className="border-b-2 border-slate-300 py-6 text-center font-normal dark:border-slate-700">
+          <Heading className=" " size={"xs"}>
             {" "}
             There are currently no shifts for this day.{" "}
           </Heading>
@@ -56,10 +55,10 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
       )}
 
       {data?.shifts?.length > 0 && (
-        <div className="flex w-10/12 flex-col items-center space-y-2 border-b-2 border-slate-300 pb-6 dark:border-slate-700">
+        <div className="flex flex-col items-center border-b-2 border-slate-300 dark:border-slate-700">
           {data?.shifts
             ?.sort((a, b) => a.start - b.start)
-            .map((shift: Shift, index: number) => (
+            .map((shift: any, index: number) => (
               <ShiftComponent
                 shift={shift}
                 index={index}
@@ -82,12 +81,12 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
       )} */}
       <div className="flex flex-col items-center py-6">
         {data && !showAddShift && !showAddNote && (
-          <Heading className="slide-in-bottom mb-2 font-normal" size={"xs"}>
+          <Heading className=" mb-2 font-normal" size={"xs"}>
             Notes
           </Heading>
         )}
         {data && showAddNote && (
-          <Heading className="slide-in-bottom mb-2 font-normal" size={"xs"}>
+          <Heading className=" mb-2 font-normal" size={"xs"}>
             Add a note
           </Heading>
         )}
@@ -107,7 +106,7 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
           ))} */}
 
         {/* {!showAddNote && !showAddShift && workDay.notes.length < 1 && (
-          <Paragraph size={"xl"} className="slide-in-bottom">
+          <Paragraph size={"xl"} className="">
             There are no notes for this day.
           </Paragraph>
         )} */}

@@ -2,15 +2,15 @@ import Link from "next/link";
 import Input from "../ui/Input";
 import { useState } from "react";
 import { Button } from "../ui/Button";
-import Paragraph from "../ui/Paragraph";
 import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
-import { Check, Pencil, Trash2, X } from "lucide-react";
+import { Check, Pencil, Save, Trash2, X } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import Heading from "../ui/Heading";
 
 interface ShiftProps {
-  shift: Shift;
   index: number;
   setWorkDay: (data: WorkDay) => void;
+  shift: Shift & { employee: { name: string } };
   data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] };
 }
 
@@ -89,80 +89,84 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
 
   return (
     <div
-      className="slide-in-bottom flex items-center justify-between"
+      className="flex w-10/12 items-center justify-center pb-6"
       key={shift.id}
     >
-      <Paragraph className="w-96 py-2">
+      <Heading size={"xs"} className="w-72">
         <Link
           className="hover:text-sky-500"
           href={`/employees/${shift.employeeId}`}
         >
-          {shift?.employeeId}
+          {shift?.employee.name}
         </Link>
-      </Paragraph>
+      </Heading>
 
       {editMode[shift.id] ? (
-        <>
+        <div className="flex w-72 items-center space-x-2">
           <Input
             type="text"
             title="Shift start"
+            className="text-center text-2xl"
             value={formatTime(shift.start)}
-            className="m-0 mx-2 w-44 text-center"
             onChange={(e) => handleTimeChange(e.target.value, "start", index)}
           />
           <Input
             type="text"
             title="Shift end"
+            className="text-center text-2xl"
             value={formatTime(shift.end)}
-            className="m-0 mx-2 w-44 text-center"
             onChange={(e) => handleTimeChange(e.target.value, "end", index)}
           />
-        </>
+        </div>
       ) : (
-        <Paragraph className="w-96 ">
+        <Heading size={"xs"} className="w-72 text-center font-normal">
           {formatTime(shift.start)} - {formatTime(shift.end)}
-        </Paragraph>
+        </Heading>
       )}
 
-      <Paragraph className="w-96">
+      <Heading size={"xs"} className="w-72 text-center font-normal">
         {" "}
         {formatTotal(shift.start, shift.end)}
-      </Paragraph>
+      </Heading>
 
       {editMode[shift.id] && (
-        <form className="space-x-2" onSubmit={(e) => handleEdit(e, shift.id)}>
-          <Button
-            size={"sm"}
-            type="button"
-            title="Cancel editing"
-            onClick={() => toggleEditMode(shift.id)}
-            variant={"outline"}
-          >
-            Cancel {<X className="ml-2 h-4 w-4" />}
+        <form
+          className="flex justify-center space-x-2"
+          onSubmit={(e) => handleEdit(e, shift.id)}
+        >
+          <Button title="Save changes" className="w-28">
+            Save {<Save className="ml-2" />}
           </Button>
-          <Button size={"sm"} title="Save changes">
-            Save {<Check className="ml-2 h-4 w-4" />}
+          <Button
+            type="button"
+            className="w-28"
+            title="Cancel editing"
+            variant={"subtle"}
+            onClick={() => toggleEditMode(shift.id)}
+          >
+            Cancel {<X className="ml-2" />}
           </Button>
         </form>
       )}
 
       {!editMode[shift.id] && (
-        <div className="space-x-2">
+        <>
           <Button
-            size={"sm"}
+            className="mr-1 w-28"
             title="Edit Shift"
             onClick={() => toggleEditMode(shift.id)}
           >
-            Edit {<Pencil className="ml-2 h-4 w-4" />}
+            Edit {<Pencil className="ml-2" />}
           </Button>
           <Button
-            size={"sm"}
+            className="ml-1 w-28"
             title="Delete Shift"
+            variant={"destructive"}
             onClick={() => setShowModal(true)}
           >
-            Delete {<Trash2 className="ml-2 h-4 w-4" />}
+            Delete {<Trash2 className="ml-2" />}
           </Button>
-        </div>
+        </>
       )}
       {/* {showModal && (
         <Modal

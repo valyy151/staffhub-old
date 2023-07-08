@@ -25,9 +25,11 @@ export const workDayRouter = createTRPCRouter({
         },
       });
     }),
+
   find: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.workDay.findMany();
   }),
+
   findOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input: { id }, ctx }) => {
@@ -35,10 +37,15 @@ export const workDayRouter = createTRPCRouter({
         where: { id: id },
       });
 
+      const shifts = await ctx.prisma.shift.findMany({
+        where: { date: workDay?.date, userId: ctx.session.user.id },
+        include: { employee: { select: { name: true } } },
+      });
+
       const notes = await ctx.prisma.workDayNote.findMany({
         where: { workDayId: id, userId: ctx.session.user.id },
       });
 
-      return { ...workDay, notes };
+      return { ...workDay, notes, shifts };
     }),
 });
