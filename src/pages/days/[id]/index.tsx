@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WorkDay from "~/components/WorkDay/WorkDay";
 import { api } from "~/utils/api";
 
@@ -11,14 +11,19 @@ WorkDayPage.getInitialProps = ({ query }: WorkDayPageProps) => {
 };
 
 export default function WorkDayPage({ query }: WorkDayPageProps) {
-  const { data } = api.employee.findOne.useQuery({ id: query.id });
   const [loading, setLoading] = useState<boolean>(false);
 
-  const [workDay, setWorkDay] = useState<{
-    id: string;
-    date: number;
-    shifts: [];
-  }>({ id: "", date: 0, shifts: [] });
+  const [workDay, setWorkDay] = useState<any>({});
+
+  const { data } = api.workDay.findOne.useQuery({ id: query.id });
+
+  useEffect(() => {
+    if (data) {
+      setWorkDay(data);
+    }
+  }, [data]);
+
+  console.log(data);
 
   return (
     <WorkDay

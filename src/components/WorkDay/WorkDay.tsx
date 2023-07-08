@@ -1,22 +1,19 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { formatDate, formatDay } from "~/utils/dateFormatting";
+import { useState } from "react";
 import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
+import ShiftComponent from "./Shift";
+import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import { Clock8, ScrollText } from "lucide-react";
+import { formatDate, formatDay } from "~/utils/dateFormatting";
 
 interface WorkDayProps {
   loading: boolean;
+  setWorkDay: (data: WorkDay) => void;
+  data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] };
   setLoading: (loading: boolean) => void;
-  data: { id: string; date: number; shifts: [] };
-  setWorkDay: (data: { id: string; date: number; shifts: [] }) => void;
 }
 
-export default function WorkDay({
-  data,
-  loading,
-  setWorkDay,
-  setLoading,
-}: WorkDayProps) {
+export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
   const [showAddNote, setShowAddNote] = useState<boolean>(false);
   const [showAddShift, setShowAddShift] = useState<boolean>(false);
 
@@ -49,7 +46,7 @@ export default function WorkDay({
         </div>
       </div>
 
-      {data.shifts.length < 1 && !showAddShift && !showAddNote && (
+      {data?.shifts?.length < 1 && !showAddShift && !showAddNote && (
         <div className="w-10/12 border-b-2 border-slate-300 py-6 text-center font-normal dark:border-slate-700">
           <Heading className="slide-in-bottom " size={"xs"}>
             {" "}
@@ -58,22 +55,18 @@ export default function WorkDay({
         </div>
       )}
 
-      {data.shifts.length > 0 && (
+      {data?.shifts?.length > 0 && (
         <div className="flex w-10/12 flex-col items-center space-y-2 border-b-2 border-slate-300 pb-6 dark:border-slate-700">
-          {/* {workDay?.shifts
+          {data?.shifts
             ?.sort((a, b) => a.start - b.start)
-            .map((shift, index) => (
-              <Employee
+            .map((shift: Shift, index: number) => (
+              <ShiftComponent
                 shift={shift}
                 index={index}
-                loading={loading}
-                workDay={workDay}
-                setError={setError}
-                setMessage={setMessage}
+                data={data}
                 setWorkDay={setWorkDay}
-                setLoading={setLoading}
               />
-            ))} */}
+            ))}
         </div>
       )}
 
