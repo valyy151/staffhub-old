@@ -54,4 +54,16 @@ export const shiftRouter = createTRPCRouter({
         data: { userId: ctx.session.user.id, ...shift },
       });
     }),
+
+  delete: protectedProcedure
+    .input(
+      z.object({
+        shiftId: z.string(),
+      })
+    )
+    .mutation(async ({ input: { shiftId }, ctx }) => {
+      return await ctx.prisma.shift.delete({
+        where: { id: shiftId },
+      });
+    }),
 });

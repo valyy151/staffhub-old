@@ -7,6 +7,8 @@ import { Check, Pencil, Save, Trash2, X } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Heading from "../ui/Heading";
 import { api } from "~/utils/api";
+import toast from "react-hot-toast";
+import Modal from "../ui/Modal";
 
 interface ShiftProps {
   index: number;
@@ -63,9 +65,19 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     }
   };
 
-  const updateShift = api.shift.update.useMutation();
+  const updateShift = api.shift.update.useMutation({
+    onSuccess: () => {
+      toast.success("Shift updated successfully.");
+    },
+  });
 
-  const handleEdit = async (e: React.FormEvent, shiftId: string) => {
+  const deleteShift = api.shift.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Shift deleted successfully.");
+    },
+  });
+
+  async function handleEdit(e: React.FormEvent, shiftId: string) {
     e.preventDefault();
 
     updateShift.mutate({
@@ -74,7 +86,13 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     });
 
     toggleEditMode(shiftId);
-  };
+  }
+
+  async function handleDelete(shiftId: string) {
+    deleteShift.mutate({ shiftId: shiftId });
+
+    setShowModal(false);
+  }
 
   return (
     <div
@@ -157,15 +175,15 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
           </>
         )
       )}
-      {/* {showModal && (
+
+      {showModal && (
         <Modal
           showModal={showModal}
-          loading={loading}
           cancel={() => setShowModal(false)}
           submit={() => handleDelete(shift.id)}
           text={"Are you sure you want to delete this shift?"}
         />
-      )} */}
+      )}
     </div>
   );
 }
