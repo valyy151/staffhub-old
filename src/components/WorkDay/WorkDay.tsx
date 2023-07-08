@@ -5,6 +5,7 @@ import { Button } from "../ui/Button";
 import { Clock8, ScrollText } from "lucide-react";
 import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import { formatDate, formatDay } from "~/utils/dateFormatting";
+import AddShift from "./AddShift";
 
 interface WorkDayProps {
   loading: boolean;
@@ -21,8 +22,8 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
     <>
       <div className="my-6 flex items-center justify-center space-x-10 border-b-2 border-slate-300 pb-6 dark:border-slate-700">
         <div className="flex space-x-3">
-          <Heading size={"sm"}>{formatDay(data.date)}</Heading>
-          <Heading size={"sm"}>{formatDate(data.date)}</Heading>
+          <Heading>{formatDay(data.date)}</Heading>
+          <Heading>{formatDate(data.date)}</Heading>
         </div>
         <div className="space-x-2">
           <Button
@@ -45,9 +46,12 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
         </div>
       </div>
 
+      {!showAddNote && !showAddShift && (
+        <Heading className=" mb-2 text-center">Shifts</Heading>
+      )}
       {data?.shifts?.length < 1 && !showAddShift && !showAddNote && (
-        <div className="border-b-2 border-slate-300 py-6 text-center font-normal dark:border-slate-700">
-          <Heading className=" " size={"xs"}>
+        <div className="border-b-2 border-slate-300 pb-6 text-center font-normal dark:border-slate-700">
+          <Heading size={"sm"} className="font-normal">
             {" "}
             There are currently no shifts for this day.{" "}
           </Heading>
@@ -60,36 +64,26 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
             ?.sort((a, b) => a.start - b.start)
             .map((shift: any, index: number) => (
               <ShiftComponent
+                data={data}
                 shift={shift}
                 index={index}
-                data={data}
                 setWorkDay={setWorkDay}
               />
             ))}
         </div>
       )}
 
-      {/* {showAddShift && (
-        <AddShift
-          loading={loading}
-          setLoading={setLoading}
-          workDay={workDay}
-          setError={setError}
-          setMessage={setMessage}
-          setShowAddShift={setShowAddShift}
-        />
-      )} */}
+      {showAddShift && (
+        <AddShift data={data} setShowAddShift={setShowAddShift} />
+      )}
+
       <div className="flex flex-col items-center py-6">
         {data && !showAddShift && !showAddNote && (
-          <Heading className=" mb-2 font-normal" size={"xs"}>
-            Notes
-          </Heading>
+          <Heading className=" mb-2">Notes</Heading>
         )}
-        {data && showAddNote && (
-          <Heading className=" mb-2 font-normal" size={"xs"}>
-            Add a note
-          </Heading>
-        )}
+
+        {data && showAddNote && <Heading className=" mb-2">Add a note</Heading>}
+
         {/* {workDay.notes.length > 0 &&
           !showAddNote &&
           !showAddShift &&
@@ -105,11 +99,11 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
             />
           ))} */}
 
-        {/* {!showAddNote && !showAddShift && workDay.notes.length < 1 && (
-          <Paragraph size={"xl"} className="">
-            There are no notes for this day.
-          </Paragraph>
-        )} */}
+        {!showAddNote && !showAddShift && data.notes?.length < 1 && (
+          <Heading size={"sm"} className="font-normal">
+            There are currently no notes for this day.
+          </Heading>
+        )}
 
         {/* {showAddNote && !showAddShift && (
           <AddNote
