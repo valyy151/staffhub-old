@@ -6,6 +6,7 @@ import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import { Check, Pencil, Save, Trash2, X } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Heading from "../ui/Heading";
+import { api } from "~/utils/api";
 
 interface ShiftProps {
   index: number;
@@ -23,12 +24,10 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     setEditMode((prevState) => {
       const updatedEditMode: any = {};
 
-      // Set edit mode to false for all shifts
       Object.keys(prevState).forEach((key) => {
         updatedEditMode[key] = false;
       });
 
-      // Toggle edit mode for the clicked shift
       updatedEditMode[shiftId] = !prevState[shiftId];
 
       return updatedEditMode;
@@ -41,7 +40,6 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     index: number
   ) => {
     if (data) {
-      // convert the new time into Unix timestamp
       const [hour, minute]: string[] = newTime.split(":");
       const newDate: any = new Date(data.date * 1000);
 
@@ -55,36 +53,27 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
       );
 
       const newWorkDay = {
+        userId: "",
         id: data.id,
         date: data.date,
         notes: data.notes,
         shifts: newShifts,
-        userId: "",
       };
       setWorkDay(newWorkDay);
     }
   };
 
+  const updateShift = api.shift.update.useMutation();
+
   const handleEdit = async (e: React.FormEvent, shiftId: string) => {
     e.preventDefault();
 
-    const updatedWorkDay: any = { ...data };
+    updateShift.mutate({
+      shiftId: shiftId,
+      shift: { start: shift.start, end: shift.end },
+    });
 
-    // Find the shift with the matching shiftId
-    const shiftIndex = updatedWorkDay.shifts.findIndex(
-      (shift: Shift) => shift.id === shiftId
-    );
-
-    if (shiftIndex !== -1) {
-      updatedWorkDay.shifts[shiftIndex].loading = true;
-      setWorkDay(updatedWorkDay);
-    }
-
-    // Reset the loading property after the request is completed
-    if (shiftIndex !== -1) {
-      updatedWorkDay.shifts[shiftIndex].loading = false;
-      setWorkDay(updatedWorkDay);
-    }
+    toggleEditMode(shiftId);
   };
 
   return (
@@ -106,15 +95,15 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
           <Input
             type="text"
             title="Shift start"
-            className="text-center text-2xl"
             value={formatTime(shift.start)}
+            className="text-center text-2xl"
             onChange={(e) => handleTimeChange(e.target.value, "start", index)}
           />
           <Input
             type="text"
             title="Shift end"
-            className="text-center text-2xl"
             value={formatTime(shift.end)}
+            className="text-center text-2xl"
             onChange={(e) => handleTimeChange(e.target.value, "end", index)}
           />
         </div>
@@ -129,7 +118,7 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
         {formatTotal(shift.start, shift.end)}
       </Heading>
 
-      {editMode[shift.id] && (
+      {editMode[shift.id] ? (
         <form
           className="flex justify-center space-x-2"
           onSubmit={(e) => handleEdit(e, shift.id)}
@@ -147,26 +136,26 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
             Cancel {<X className="ml-2" />}
           </Button>
         </form>
-      )}
-
-      {!editMode[shift.id] && (
-        <>
-          <Button
-            className="mr-1 w-28"
-            title="Edit Shift"
-            onClick={() => toggleEditMode(shift.id)}
-          >
-            Edit {<Pencil className="ml-2" />}
-          </Button>
-          <Button
-            className="ml-1 w-28"
-            title="Delete Shift"
-            variant={"destructive"}
-            onClick={() => setShowModal(true)}
-          >
-            Delete {<Trash2 className="ml-2" />}
-          </Button>
-        </>
+      ) : (
+        !editMode[shift.id] && (
+          <>
+            <Button
+              className="mr-1 w-28"
+              title="Edit Shift"
+              onClick={() => toggleEditMode(shift.id)}
+            >
+              Edit {<Pencil className="ml-2" />}
+            </Button>
+            <Button
+              className="ml-1 w-28"
+              title="Delete Shift"
+              variant={"destructive"}
+              onClick={() => setShowModal(true)}
+            >
+              Delete {<Trash2 className="ml-2" />}
+            </Button>
+          </>
+        )
       )}
       {/* {showModal && (
         <Modal

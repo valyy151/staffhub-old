@@ -1,16 +1,16 @@
 import { useState } from "react";
 import Heading from "../ui/Heading";
-import { Button } from "../ui/Button";
 import ShiftComponent from "./Shift";
-import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
+import { Button } from "../ui/Button";
 import { Clock8, ScrollText } from "lucide-react";
+import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import { formatDate, formatDay } from "~/utils/dateFormatting";
 
 interface WorkDayProps {
   loading: boolean;
   setWorkDay: (data: WorkDay) => void;
-  data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] };
   setLoading: (loading: boolean) => void;
+  data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] };
 }
 
 export default function WorkDay({ data, setWorkDay }: WorkDayProps) {

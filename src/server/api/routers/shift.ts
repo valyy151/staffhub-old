@@ -37,4 +37,21 @@ export const shiftRouter = createTRPCRouter({
       where: { userId: ctx.session.user.id },
     });
   }),
+
+  update: protectedProcedure
+    .input(
+      z.object({
+        shiftId: z.string(),
+        shift: z.object({
+          end: z.number(),
+          start: z.number(),
+        }),
+      })
+    )
+    .mutation(async ({ input: { shift, shiftId }, ctx }) => {
+      return await ctx.prisma.shift.update({
+        where: { id: shiftId },
+        data: { userId: ctx.session.user.id, ...shift },
+      });
+    }),
 });

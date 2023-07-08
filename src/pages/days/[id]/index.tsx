@@ -23,8 +23,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     }
   }, [data]);
 
-  console.log(data);
-
   return (
     <WorkDay
       data={workDay}
