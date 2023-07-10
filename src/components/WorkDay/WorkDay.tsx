@@ -84,7 +84,7 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
 
         {data && showAddNote && <Heading className=" mb-2">Add a note</Heading>}
 
-        {data.notes.length > 0 &&
+        {data?.notes?.length > 0 &&
           !showAddNote &&
           !showAddShift &&
           data.notes.map((note) => <Note note={note} data={data} />)}

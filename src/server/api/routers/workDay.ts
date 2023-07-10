@@ -68,4 +68,13 @@ export const workDayRouter = createTRPCRouter({
         where: { id: noteId },
       });
     }),
+
+  updateNote: protectedProcedure
+    .input(z.object({ noteId: z.string(), content: z.string() }))
+    .mutation(async ({ input: { noteId, content }, ctx }) => {
+      return await ctx.prisma.workDayNote.update({
+        where: { id: noteId },
+        data: { content },
+      });
+    }),
 });

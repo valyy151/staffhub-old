@@ -29,6 +29,14 @@ export default function Note({ note, data }: NoteProps) {
     },
   });
 
+  const updateNote = api.workDay.updateNote.useMutation({
+    onSuccess: () => {
+      setEditNote(false);
+      queryClient.invalidateQueries();
+      toast.success("Note updated successfully.");
+    },
+  });
+
   return (
     <div className="my-1 flex w-full items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700">
       {editNote ? (
@@ -43,7 +51,9 @@ export default function Note({ note, data }: NoteProps) {
             size={"sm"}
             variant={"link"}
             className="w-16 min-w-0"
-            onClick={() => {}}
+            onClick={() => {
+              updateNote.mutate({ noteId: note.id, content });
+            }}
             title="Save changes"
           >
             {<Check />}
