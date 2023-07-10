@@ -8,9 +8,7 @@ import { formatDate, formatDay } from "~/utils/dateFormatting";
 import AddShift from "./AddShift";
 
 interface WorkDayProps {
-  loading: boolean;
   setWorkDay: (data: WorkDay) => void;
-  setLoading: (loading: boolean) => void;
   data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] };
 }
 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Input from "../ui/Input";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Button } from "../ui/Button";
 import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import { Check, Pencil, Save, Trash2, X } from "lucide-react";
@@ -9,6 +9,7 @@ import Heading from "../ui/Heading";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Modal from "../ui/Modal";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ShiftProps {
   index: number;
@@ -65,14 +66,18 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     }
   };
 
+  const queryClient = useQueryClient();
+
   const updateShift = api.shift.update.useMutation({
     onSuccess: () => {
+      queryClient.invalidateQueries();
       toast.success("Shift updated successfully.");
     },
   });
 
   const deleteShift = api.shift.delete.useMutation({
     onSuccess: () => {
+      queryClient.invalidateQueries();
       toast.success("Shift deleted successfully.");
     },
   });

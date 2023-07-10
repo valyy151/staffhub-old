@@ -10,6 +10,7 @@ import { Employee, Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import SearchEmployees from "./SearchEmployees";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface AddShiftProps {
   setShowAddShift: (showAddShift: boolean) => void;
@@ -36,6 +37,20 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
     }
   };
 
+  const { data: employees } = api.employee.find.useQuery();
+
+  const queryClient = useQueryClient();
+
+  const createShift = api.shift.create.useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Shift created successfully");
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -50,17 +65,6 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
 
     setShowAddShift(false);
   };
-
-  const createShift = api.shift.create.useMutation({
-    onSuccess: () => {
-      toast.success("Shift created successfully");
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-
-  const { data: employees } = api.employee.find.useQuery();
 
   return (
     <>

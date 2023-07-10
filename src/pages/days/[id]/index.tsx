@@ -23,12 +23,5 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     }
   }, [data]);
 
-  return (
-    <WorkDay
-      data={workDay}
-      loading={loading}
-      setWorkDay={setWorkDay}
-      setLoading={setLoading}
-    />
-  );
+  return <WorkDay data={workDay} setWorkDay={setWorkDay} />;
 }
