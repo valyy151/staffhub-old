@@ -48,4 +48,24 @@ export const workDayRouter = createTRPCRouter({
 
       return { ...workDay, notes, shifts };
     }),
+
+  createNote: protectedProcedure
+    .input(z.object({ workDayId: z.string(), content: z.string() }))
+    .mutation(async ({ input: { workDayId, content }, ctx }) => {
+      return await ctx.prisma.workDayNote.create({
+        data: {
+          content,
+          workDayId,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
+
+  deleteNote: protectedProcedure
+    .input(z.object({ noteId: z.string() }))
+    .mutation(async ({ input: { noteId }, ctx }) => {
+      return await ctx.prisma.workDayNote.delete({
+        where: { id: noteId },
+      });
+    }),
 });

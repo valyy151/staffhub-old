@@ -6,6 +6,8 @@ import { Clock8, ScrollText } from "lucide-react";
 import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import { formatDate, formatDay } from "~/utils/dateFormatting";
 import AddShift from "./AddShift";
+import AddNote from "./AddNote";
+import Note from "./Note";
 
 interface WorkDayProps {
   setWorkDay: (data: WorkDay) => void;
@@ -82,20 +84,10 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
 
         {data && showAddNote && <Heading className=" mb-2">Add a note</Heading>}
 
-        {/* {workDay.notes.length > 0 &&
+        {data.notes.length > 0 &&
           !showAddNote &&
           !showAddShift &&
-          workDay.notes.map((note, index) => (
-            <Note
-              note={note}
-              index={index}
-              workDay={workDay}
-              loading={loading}
-              setError={setError}
-              setMessage={setMessage}
-              setLoading={setLoading}
-            />
-          ))} */}
+          data.notes.map((note) => <Note note={note} data={data} />)}
 
         {!showAddNote && !showAddShift && data.notes?.length < 1 && (
           <Heading size={"sm"} className="font-normal">
@@ -103,17 +95,14 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
           </Heading>
         )}
 
-        {/* {showAddNote && !showAddShift && (
+        {showAddNote && !showAddShift && (
           <AddNote
-            workDay={workDay}
-            setError={setError}
-            setMessage={setMessage}
-            setLoading={setLoading}
+            data={data}
             showAddNote={showAddNote}
             setShowAddNote={setShowAddNote}
             setShowAddShift={setShowAddShift}
           />
-        )} */}
+        )}
       </div>
     </>
   );

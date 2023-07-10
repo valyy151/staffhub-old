@@ -44,7 +44,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const createShift = api.shift.create.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.success("Shift created successfully");
+      toast.success("Shift created successfully.");
     },
     onError: (error) => {
       console.log(error);
