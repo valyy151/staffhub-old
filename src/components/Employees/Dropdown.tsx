@@ -9,6 +9,7 @@ import {
   User2,
 } from "lucide-react";
 import { Employee } from "@prisma/client";
+import router from "next/router";
 
 interface DropdownProps {
   employee: Employee;
@@ -24,14 +25,14 @@ const Dropdown: FC<DropdownProps> = ({
   showDelete,
 }) => {
   return (
-    <div className="absolute right-2 top-10 z-50 mt-2 w-72 rounded-md  bg-white shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-slate-600">
+    <div className="absolute right-2 top-10 z-50 mt-2 w-72 rounded-md bg-white  text-lg shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-slate-600">
       <ul>
         <li
           onClick={() => {
             setShowDropdown(false);
-            // navigate(`/employees/${employee._id}/notes`);
+            router.push(`/employees/${employee.id}/notes`);
           }}
-          className="flex cursor-pointer items-center justify-between px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
           Notes
           <ScrollText className="ml-2" />
@@ -40,9 +41,9 @@ const Dropdown: FC<DropdownProps> = ({
         <li
           onClick={() => {
             setShowDropdown(false);
-            // navigate(`/employees/${employee._id}/vacation`);
+            router.push(`/employees/${employee.id}/vacation`);
           }}
-          className="flex cursor-pointer items-center justify-between px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
           Vacation
           <Palmtree className="ml-2" />
@@ -51,9 +52,9 @@ const Dropdown: FC<DropdownProps> = ({
         <li
           onClick={() => {
             setShowDropdown(false);
-            // navigate(`/employees/${employee._id}/schedule`);
+            router.push(`/employees/${employee.id}/schedule`);
           }}
-          className="flex cursor-pointer items-center justify-between px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
           Schedule
           <Calendar className="ml-2" />
@@ -62,16 +63,16 @@ const Dropdown: FC<DropdownProps> = ({
         <li
           onClick={() => {
             setShowDropdown(false);
-            // navigate(`/employees/${employee._id}/preferences`);
+            router.push(`/employees/${employee.id}/preferences`);
           }}
-          className="flex cursor-pointer items-center justify-between px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
           Shift Preferences
           <Sticker className="ml-2" />
         </li>
         <li
-          //   onClick={() => navigate(`/employees/${employee._id}/about`)}
-          className="flex cursor-pointer items-center justify-between px-4 py-3 hover:bg-slate-50  dark:hover:bg-slate-500"
+          onClick={() => router.push(`/employees/${employee.id}/about`)}
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50  dark:hover:bg-slate-500"
         >
           Personal Information
           <User2 className="ml-2" />
@@ -83,7 +84,7 @@ const Dropdown: FC<DropdownProps> = ({
               setShowModal(true);
               setShowDropdown(false);
             }}
-            className="flex cursor-pointer items-center justify-between px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
+            className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
           >
             Delete Employee
             <Trash2 className="ml-2 text-red-500" />

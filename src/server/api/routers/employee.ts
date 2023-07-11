@@ -36,8 +36,18 @@ export const employeeRouter = createTRPCRouter({
   findOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input: { id }, ctx }) => {
-      return await ctx.prisma.employee.findUnique({
+      const employee = await ctx.prisma.employee.findUnique({
         where: { id },
       });
+
+      const vacations = await ctx.prisma.vacation.findMany({
+        where: { employeeId: id, userId: ctx.session.user.id },
+      });
+
+      const notes = await ctx.prisma.employeeNote.findMany({
+        where: { employeeId: id, userId: ctx.session.user.id },
+      });
+
+      return { ...employee, vacations, notes };
     }),
 });

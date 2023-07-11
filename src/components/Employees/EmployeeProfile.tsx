@@ -12,26 +12,27 @@ import {
   Sticker,
 } from "lucide-react";
 
-import { Employee, WorkDay } from "@prisma/client";
+import { Employee, EmployeeNote, Vacation, WorkDay } from "@prisma/client";
 import Heading from "../ui/Heading";
 import Paragraph from "../ui/Paragraph";
 import { Button } from "../ui/Button";
 import Dropdown from "./Dropdown";
 import Modal from "../ui/Modal";
+import router from "next/router";
 
 interface EmployeeProfileProps {
   workDays: WorkDay[];
-  employee: Employee;
+  employee: Employee | any;
   showDropdown: boolean;
   setShowDropdown: Dispatch<SetStateAction<boolean>>;
 }
 
-const EmployeeProfile: FC<EmployeeProfileProps> = ({
+export default function EmployeeProfile({
   workDays,
   employee,
   showDropdown,
   setShowDropdown,
-}) => {
+}: EmployeeProfileProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
@@ -66,10 +67,10 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
   const deleteEmployee = async () => {};
 
   return (
-    <div className="slide-in-bottom mt-40 flex min-h-[28rem] w-11/12 rounded-md bg-white shadow-lg dark:bg-slate-700">
-      <div className=" min-w-[32rem] border-r border-slate-300 pb-8 dark:border-slate-500">
+    <div className="flex min-h-[28rem] rounded-md bg-white shadow-lg dark:bg-slate-700">
+      <div className="min-w-[32rem] border-r border-slate-300 dark:border-slate-500">
         <Heading
-          className=" border-b border-slate-300 py-7 pl-4 text-left 
+          className=" border-b border-slate-300 pb-7 pl-4 pt-8 text-left 
 					dark:border-slate-500"
           size={"sm"}
         >
@@ -86,7 +87,7 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
           <div className="flex border-slate-400 py-1">
             <Paragraph className="flex items-center">
               <Phone className="mr-4" />
-              {/* {employee.phone} */}
+              {employee.phoneNumber}
             </Paragraph>
           </div>
 
@@ -103,13 +104,13 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
           <Button
             className="my-4 ml-auto mr-2 min-w-0 rounded-full  p-8 text-2xl"
             variant={"default"}
-            // onClick={() => navigate(`/employees/${employee.id}/schedule`)}
+            onClick={() => router.push(`/employees/${employee.id}/schedule`)}
           >
             Schedules <Calendar className="ml-4" />
           </Button>
           <Button
-            className="my-4 mr-2 min-w-0 rounded-full bg-slate-200 p-8 text-2xl hover:bg-slate-300 dark:bg-slate-600 dark:hover:bg-slate-500"
-            variant={"link"}
+            className="my-4 mr-2 min-w-0 rounded-full bg-slate-200 p-8 text-2xl hover:bg-slate-300 focus:ring-0 focus:ring-offset-0 dark:bg-slate-600 dark:hover:bg-slate-500"
+            variant={"subtle"}
             onClick={() => setShowDropdown(!showDropdown)}
           >
             Manage <Pencil className="ml-4" />
@@ -117,7 +118,7 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
         </div>
         <div className="flex h-full  w-full border-t border-slate-300 dark:border-slate-500">
           <div
-            // onClick={() => navigate(`/employees/${employee.id}/notes`)}
+            onClick={() => router.push(`/employees/${employee.id}/notes`)}
             className="flex w-1/3 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="flex items-center">
@@ -126,8 +127,8 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
             </Heading>
 
             <div className="flex flex-col py-2">
-              {/* {employee.notes.length > 0 ? (
-                employee.notes.map((note, index) => (
+              {employee.notes?.length > 0 ? (
+                employee.notes?.map((note: string, index: number) => (
                   <Paragraph key={index} className="text-left">
                     {note}
                   </Paragraph>
@@ -136,12 +137,12 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
                 <Paragraph className="text-left">
                   There are no notes for this employee.
                 </Paragraph>
-              )} */}
+              )}
             </div>
           </div>
 
           <div
-            // onClick={() => navigate(`/employees/${employee.id}/vacation`)}
+            onClick={() => router.push(`/employees/${employee.id}/vacation`)}
             className="flex w-1/3 cursor-pointer flex-col border-r border-slate-300
 						py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
@@ -156,7 +157,7 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
           </div>
 
           <div
-            // onClick={() => navigate(`/employees/${employee.id}/preferences`)}
+            onClick={() => router.push(`/employees/${employee.id}/preferences`)}
             className="flex w-1/3 cursor-pointer flex-col py-4
 						pl-2 transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-600"
           >
@@ -165,17 +166,19 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
             </Heading>
 
             <div className="flex flex-col py-2">
-              {/* {employee.shiftPreferences.length > 0 ? (
-                employee.shiftPreferences.map((shiftPreference, index) => (
-                  <Paragraph key={index} className="text-left">
-                    {shiftPreference}
-                  </Paragraph>
-                ))
+              {employee.shiftPreferences?.length > 0 ? (
+                employee.shiftPreferences?.map(
+                  (shiftPreference: string, index: number) => (
+                    <Paragraph key={index} className="text-left">
+                      {shiftPreference}
+                    </Paragraph>
+                  )
+                )
               ) : (
                 <Paragraph className="text-left">
                   There are no shift preferences for this employee.
                 </Paragraph>
-              )} */}
+              )}
             </div>
           </div>
         </div>
@@ -201,6 +204,4 @@ const EmployeeProfile: FC<EmployeeProfileProps> = ({
       )}
     </div>
   );
-};
-
-export default EmployeeProfile;
+}

@@ -52,6 +52,7 @@ model User {
     sessions      Session[]
     workDays      WorkDay[]
     employees     Employee[]
+    vacations     Vacation[]
     workDayNotes  WorkDayNote[]
     employeeNotes EmployeeNote[]
 }
@@ -93,9 +94,12 @@ model Vacation {
     id         String   @id @default(cuid())
     start      Int
     end        Int
+    userId     String
     employeeId String
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
+    @@index([userId])
     @@index([employeeId])
 }
 

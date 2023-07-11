@@ -1,4 +1,4 @@
-import { Employee, WorkDay } from "@prisma/client";
+import { Employee, EmployeeNote, Vacation, WorkDay } from "@prisma/client";
 import { useState } from "react";
 import EmployeeProfile from "~/components/Employees/EmployeeProfile";
 
@@ -15,27 +15,15 @@ EmployeeProfilePage.getInitialProps = ({ query }: EmployeeProfileProps) => {
 export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
   const { data } = api.employee.findOne.useQuery({ id: query.id });
 
-  const [employee, setEmployee] = useState<Employee | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [workDays, setWorkDays] = useState<WorkDay[]>([]);
-  const [message, setMessage] = useState<string | null>(null);
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
-  const [month, setMonth] = useState<string | null>(null);
-
   const [value, setValue] = useState<Date | null>(null);
+  const [month, setMonth] = useState<string | null>(null);
+  const [workDays, setWorkDays] = useState<WorkDay[]>([]);
 
-  // const location = useLocation();
-
-  const isNotes: boolean = location.pathname.includes("/notes");
-  const isAbout: boolean = location.pathname.includes("/about");
-  const isVacation: boolean = location.pathname.includes("/vacation");
-  const isSchedule: boolean = location.pathname.includes("/schedule");
-  const isPreferences: boolean = location.pathname.includes("/preferences");
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   return (
-    <div
-      className="h-screen overflow-y-hidden p-4"
+    <main
+      className="px-12 pb-80 pt-24"
       onClick={() => showDropdown && setShowDropdown(false)}
     >
       {/* {employee && isAbout && (
@@ -97,19 +85,14 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           setShowDropdown={setShowDropdown}
         />
       )} */}
-      {employee &&
-        !isNotes &&
-        !isAbout &&
-        !isPreferences &&
-        !isVacation &&
-        !isSchedule && (
-          <EmployeeProfile
-            workDays={workDays}
-            employee={employee}
-            showDropdown={showDropdown}
-            setShowDropdown={setShowDropdown}
-          />
-        )}
-    </div>
+      {data && (
+        <EmployeeProfile
+          employee={data}
+          workDays={workDays}
+          showDropdown={showDropdown}
+          setShowDropdown={setShowDropdown}
+        />
+      )}
+    </main>
   );
 }
