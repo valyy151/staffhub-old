@@ -46,9 +46,7 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
         </div>
       </div>
 
-      {!showAddNote && !showAddShift && (
-        <Heading className=" mb-2 text-center">Shifts</Heading>
-      )}
+      {!showAddShift && <Heading className=" mb-2 text-center">Shifts</Heading>}
       {data?.shifts?.length < 1 && !showAddShift && !showAddNote && (
         <div className="border-b-2 border-slate-300 pb-6 text-center font-normal dark:border-slate-700">
           <Heading size={"sm"} className="font-normal">
@@ -87,7 +85,7 @@ export default function WorkDay({ data, setWorkDay }: WorkDayProps) {
         {data?.notes?.length > 0 &&
           !showAddNote &&
           !showAddShift &&
-          data.notes.map((note) => <Note note={note} data={data} />)}
+          data.notes.map((note) => <Note note={note} />)}
 
         {!showAddNote && !showAddShift && data.notes?.length < 1 && (
           <Heading size={"sm"} className="font-normal">
