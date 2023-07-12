@@ -6,14 +6,7 @@ import Spinner from "~/components/ui/Spinner";
 import { buttonVariants } from "~/components/ui/Button";
 import EmployeesTable from "~/components/Employees/EmployeesTable";
 import Heading from "~/components/ui/Heading";
-
-interface Employee {
-  id: string;
-  name: string;
-  email: string;
-  address: string;
-  phoneNumber: string;
-}
+import { Employee } from "@prisma/client";
 
 export default function EmployeesListPage() {
   const [loading, setLoading] = useState<boolean>(true);
