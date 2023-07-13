@@ -83,4 +83,33 @@ export const employeeRouter = createTRPCRouter({
         data: { content },
       });
     }),
+
+  createShiftPreference: protectedProcedure
+    .input(z.object({ employeeId: z.string(), content: z.string() }))
+    .mutation(async ({ input: { employeeId, content }, ctx }) => {
+      return await ctx.prisma.shiftPreference.create({
+        data: {
+          content,
+          employeeId,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
+
+  deleteShiftPreference: protectedProcedure
+    .input(z.object({ shiftPreferenceId: z.string() }))
+    .mutation(async ({ input: { shiftPreferenceId }, ctx }) => {
+      return await ctx.prisma.shiftPreference.delete({
+        where: { id: shiftPreferenceId },
+      });
+    }),
+
+  updateShiftPreference: protectedProcedure
+    .input(z.object({ shiftPreferenceId: z.string(), content: z.string() }))
+    .mutation(async ({ input: { shiftPreferenceId, content }, ctx }) => {
+      return await ctx.prisma.shiftPreference.update({
+        where: { id: shiftPreferenceId },
+        data: { content },
+      });
+    }),
 });

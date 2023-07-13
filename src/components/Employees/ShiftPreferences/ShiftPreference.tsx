@@ -1,10 +1,13 @@
 import { Employee, ShiftPreference } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { Check, XCircle, Trash2, Pencil } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Button } from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
 import Modal from "~/components/ui/Modal";
 import Paragraph from "~/components/ui/Paragraph";
+import { api } from "~/utils/api";
 
 interface ShiftPreferenceProps {
   employee: Employee;
@@ -12,16 +15,30 @@ interface ShiftPreferenceProps {
 }
 
 export default function ShiftPreference({
-  shiftPreference,
   employee,
+  shiftPreference,
 }: ShiftPreferenceProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [editPreference, setEditPreference] = useState<boolean>(false);
   const [content, setContent] = useState<string>(shiftPreference.content);
 
-  const deleteShiftPreference = async () => {};
+  const queryClient = useQueryClient();
 
-  const updateShiftPreference = async () => {};
+  const deleteShiftPreference = api.employee.deleteShiftPreference.useMutation({
+    onSuccess: () => {
+      setShowModal(false);
+      queryClient.invalidateQueries();
+      toast.success("Shift preference deleted successfully.");
+    },
+  });
+
+  const updateShiftPreference = api.employee.updateShiftPreference.useMutation({
+    onSuccess: () => {
+      setEditPreference(false);
+      queryClient.invalidateQueries();
+      toast.success("Shift preference updated successfully.");
+    },
+  });
 
   return (
     <div className="mx-auto my-2 flex w-full items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700">
@@ -38,7 +55,12 @@ export default function ShiftPreference({
             variant={"link"}
             title="Save changes"
             className="w-16 min-w-0"
-            onClick={() => updateShiftPreference()}
+            onClick={() =>
+              updateShiftPreference.mutate({
+                content,
+                shiftPreferenceId: shiftPreference.id,
+              })
+            }
           >
             {<Check />}
           </Button>
@@ -85,7 +107,11 @@ export default function ShiftPreference({
               text={"Delete shift preference?"}
               showModal={showModal}
               cancel={() => setShowModal(false)}
-              submit={() => deleteShiftPreference()}
+              submit={() =>
+                deleteShiftPreference.mutate({
+                  shiftPreferenceId: shiftPreference.id,
+                })
+              }
             />
           )}
         </div>

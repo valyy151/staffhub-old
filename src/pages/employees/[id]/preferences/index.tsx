@@ -7,6 +7,8 @@ import type { ShiftPreference } from "@prisma/client";
 import ShiftPreferenceComponent from "~/components/Employees/ShiftPreferences/ShiftPreference";
 import Input from "~/components/ui/Input";
 import { api } from "~/utils/api";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 interface ShiftPreferencesPageProps {
   query: { id: string };
@@ -26,14 +28,25 @@ export default function ShiftPreferencesPage({
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showAddPreference, setShowAddPreference] = useState<boolean>(false);
 
-  const addShiftPreference = async (e: React.FormEvent) => {};
+  const queryClient = useQueryClient();
+
+  const createShiftPreference = api.employee.createShiftPreference.useMutation({
+    onSuccess: () => {
+      setShowAddPreference(false);
+      queryClient.invalidateQueries();
+      toast.success("Shift preference created successfully.");
+    },
+  });
 
   const { data: employee }: any = api.employee?.findOne.useQuery({
     id: query.id,
   });
 
   return (
-    <main className="pt-20">
+    <main
+      className="pt-20"
+      onClick={() => showDropdown && setShowDropdown(false)}
+    >
       <div className="relative ml-auto flex">
         <Button
           className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"
@@ -99,7 +112,7 @@ export default function ShiftPreferencesPage({
           ) : (
             <>
               {!showAddPreference && (
-                <Heading className="font-normal" size={"xs"}>
+                <Heading className="text-center font-normal" size={"xs"}>
                   There are no shift preferences for this employee.
                 </Heading>
               )}
@@ -109,8 +122,13 @@ export default function ShiftPreferencesPage({
       )}
       {showAddPreference && (
         <form
-          onSubmit={addShiftPreference}
-          className="mt-32 flex flex-col space-x-4"
+          onSubmit={() =>
+            createShiftPreference.mutate({
+              content,
+              employeeId: query.id,
+            })
+          }
+          className="mt-32 flex flex-col items-center space-x-4"
         >
           <Heading size={"xs"} className="mb-3 text-center">
             New shift preference
@@ -119,6 +137,7 @@ export default function ShiftPreferencesPage({
             <Input
               type="text"
               placeholder=" Add a shift preference..."
+              value={content}
               onChange={(e) => setContent(e.target.value)}
             />
             <Button
