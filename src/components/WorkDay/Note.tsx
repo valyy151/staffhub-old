@@ -51,9 +51,7 @@ export default function Note({ note }: NoteProps) {
             size={"sm"}
             variant={"link"}
             className="w-16 min-w-0"
-            onClick={() => {
-              updateNote.mutate({ noteId: note.id, content });
-            }}
+            onClick={() => updateNote.mutate({ noteId: note.id, content })}
             title="Save changes"
           >
             {<Check />}
@@ -104,10 +102,8 @@ export default function Note({ note }: NoteProps) {
             <Modal
               text={"Delete note?"}
               showModal={showModal}
-              submit={() => {
-                deleteNote.mutate({ noteId: note.id });
-              }}
               cancel={() => setShowModal(false)}
+              submit={() => deleteNote.mutate({ noteId: note.id })}
             />
           )}
         </div>

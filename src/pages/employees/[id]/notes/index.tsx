@@ -1,6 +1,8 @@
-import { Employee } from "@prisma/client";
+import { Employee, EmployeeNote } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { Check, MoreVertical, Scroll, X } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
+import toast from "react-hot-toast";
 import Dropdown from "~/components/Employees/Dropdown";
 import Note from "~/components/Employees/Note";
 import { Button } from "~/components/ui/Button";
@@ -22,13 +24,19 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [content, setContent] = useState<string>("");
 
-  const addNote = async (e: React.FormEvent) => {};
+  const queryClient = useQueryClient();
 
-  const { data: employee } = api.employee.findOne.useQuery({
-    id: query.id,
+  const createNote = api.employee.createNote.useMutation({
+    onSuccess: () => {
+      setShowAddNote(false);
+      queryClient.invalidateQueries();
+      toast.success("Note created successfully.");
+    },
   });
 
-  console.log(employee);
+  const { data: employee }: any = api.employee.findOne.useQuery({
+    id: query.id,
+  });
 
   return (
     <main className="pt-20">
@@ -72,17 +80,17 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
         )}
       </div>
 
-      {!showAddNote && (
+      {!showAddNote && employee?.notes && (
         <div className="mt-32">
-          {employee?.notes.length > 0 && (
+          {employee.notes.length > 0 && (
             <Heading size={"xs"} className="mb-3 text-center">
-              {employee?.notes.length}{" "}
-              {employee?.notes.length === 1 ? "note" : "notes"}
+              {employee.notes.length}{" "}
+              {employee.notes.length === 1 ? "note" : "notes"}
             </Heading>
           )}
           {employee?.notes.length > 0 ? (
-            employee?.notes.map((note, index) => (
-              <Note note={note} key={index} index={index} employee={employee} />
+            employee?.notes.map((note: EmployeeNote) => (
+              <Note note={note} key={note.id} />
             ))
           ) : (
             <>
@@ -97,7 +105,12 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
       )}
       {showAddNote && (
         <form
-          onSubmit={addNote}
+          onSubmit={() =>
+            createNote.mutate({
+              content,
+              employeeId: query.id,
+            })
+          }
           className="mx-auto mt-32 flex w-full flex-col items-center space-x-4"
         >
           <Heading size={"xs"} className="mb-3">

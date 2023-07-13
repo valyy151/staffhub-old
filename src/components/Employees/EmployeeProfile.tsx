@@ -98,7 +98,7 @@ export default function EmployeeProfile({
             </Paragraph>
           </div>
         </div>
-      </div>
+      </div>  
       <div className="flex w-full flex-col">
         <div className="flex items-center">
           <Button

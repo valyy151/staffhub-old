@@ -50,4 +50,33 @@ export const employeeRouter = createTRPCRouter({
 
       return { ...employee, vacations, notes };
     }),
+
+  createNote: protectedProcedure
+    .input(z.object({ employeeId: z.string(), content: z.string() }))
+    .mutation(async ({ input: { employeeId, content }, ctx }) => {
+      return await ctx.prisma.employeeNote.create({
+        data: {
+          content,
+          employeeId,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
+
+  deleteNote: protectedProcedure
+    .input(z.object({ noteId: z.string() }))
+    .mutation(async ({ input: { noteId }, ctx }) => {
+      return await ctx.prisma.employeeNote.delete({
+        where: { id: noteId },
+      });
+    }),
+
+  updateNote: protectedProcedure
+    .input(z.object({ noteId: z.string(), content: z.string() }))
+    .mutation(async ({ input: { noteId, content }, ctx }) => {
+      return await ctx.prisma.employeeNote.update({
+        where: { id: noteId },
+        data: { content },
+      });
+    }),
 });
