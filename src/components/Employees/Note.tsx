@@ -8,6 +8,7 @@ import { EmployeeNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import Heading from "../ui/Heading";
 
 interface NoteProps {
   note: EmployeeNote;
@@ -37,14 +38,14 @@ export default function Note({ note }: NoteProps) {
   });
 
   return (
-    <div className="my-2 flex w-full items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700">
+    <div className="mx-auto my-2 flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700">
       {editNote ? (
         <>
           <Input
             type="text"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="m-0 w-[36rem] text-xl shadow-none focus:ring-0"
+            className="m-0 h-12 w-[36rem] border-none text-lg shadow-none focus:ring-0 focus:ring-offset-0"
           />
           <Button
             size={"sm"}
@@ -67,10 +68,7 @@ export default function Note({ note }: NoteProps) {
         </>
       ) : (
         <div className="flex items-center">
-          <Paragraph
-            size={"lg"}
-            className="w-[36rem] min-w-[16rem] rounded-md bg-white px-2 py-2 text-left dark:bg-slate-700"
-          >
+          <Paragraph className="m-0 flex h-12 w-[36rem] min-w-[16rem] items-center rounded-md bg-white px-3 text-left dark:bg-slate-700">
             {note.content}
           </Paragraph>
           <Button

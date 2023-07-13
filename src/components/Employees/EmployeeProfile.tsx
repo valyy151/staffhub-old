@@ -12,7 +12,13 @@ import {
   Sticker,
 } from "lucide-react";
 
-import { Employee, EmployeeNote, Vacation, WorkDay } from "@prisma/client";
+import {
+  Employee,
+  EmployeeNote,
+  ShiftPreference,
+  Vacation,
+  WorkDay,
+} from "@prisma/client";
 import Heading from "../ui/Heading";
 import Paragraph from "../ui/Paragraph";
 import { Button } from "../ui/Button";
@@ -22,7 +28,11 @@ import router from "next/router";
 
 interface EmployeeProfileProps {
   workDays: WorkDay[];
-  employee: Employee | any;
+  employee: Employee & {
+    notes: EmployeeNote[];
+    vacations: Vacation[];
+    shiftPreferences: ShiftPreference[];
+  };
   showDropdown: boolean;
   setShowDropdown: Dispatch<SetStateAction<boolean>>;
 }
@@ -36,32 +46,35 @@ export default function EmployeeProfile({
   const [loading, setLoading] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  function checkEmployeeVacation(employee: Employee) {
-    // const currentDate: any = Date.now();
-    // const vacations = employee.vacations;
-    // if (!vacations || vacations.length === 0) {
-    //   return "No upcoming vacations.";
-    // }
-    // for (const vacation of vacations) {
-    //   const startDate: any = new Date(vacation.start);
-    //   const endDate: any = new Date(vacation.end);
-    //   if (currentDate >= startDate && currentDate <= endDate) {
-    //     const remainingDays = Math.ceil(
-    //       (endDate - currentDate) / (1000 * 60 * 60 * 24)
-    //     );
-    //     return `On vacation till ${endDate.toLocaleDateString(
-    //       "en-GB"
-    //     )} ( Ends in ${remainingDays} days )`;
-    //   } else if (currentDate < startDate) {
-    //     const remainingDays = Math.ceil(
-    //       (startDate - currentDate) / (1000 * 60 * 60 * 24)
-    //     );
-    //     return `Next vacation in ${remainingDays} days  ( ${startDate.toLocaleDateString(
-    //       "en-GB"
-    //     )} )`;
-    //   }
-    // }
-    // return "No upcoming vacations.";
+  const vacations = employee?.vacations;
+
+  function checkEmployeeVacation() {
+    const currentDate: any = Date.now();
+
+    if (!vacations || vacations.length === 0) {
+      return "No upcoming vacations.";
+    }
+
+    for (const vacation of vacations) {
+      const startDate: any = new Date(vacation.start);
+      const endDate: any = new Date(vacation.end);
+      if (currentDate >= startDate && currentDate <= endDate) {
+        const remainingDays = Math.ceil(
+          (endDate - currentDate) / (1000 * 60 * 60 * 24)
+        );
+        return `On vacation till ${endDate.toLocaleDateString(
+          "en-GB"
+        )} ( Ends in ${remainingDays} days )`;
+      } else if (currentDate < startDate) {
+        const remainingDays = Math.ceil(
+          (startDate - currentDate) / (1000 * 60 * 60 * 24)
+        );
+        return `Next vacation in ${remainingDays} days  ( ${startDate.toLocaleDateString(
+          "en-GB"
+        )} )`;
+      }
+    }
+    return "No upcoming vacations.";
   }
 
   const deleteEmployee = async () => {};
@@ -98,7 +111,7 @@ export default function EmployeeProfile({
             </Paragraph>
           </div>
         </div>
-      </div>  
+      </div>
       <div className="flex w-full flex-col">
         <div className="flex items-center">
           <Button
@@ -128,9 +141,9 @@ export default function EmployeeProfile({
 
             <div className="flex flex-col py-2">
               {employee.notes?.length > 0 ? (
-                employee.notes?.map((note: string, index: number) => (
+                employee.notes?.map((note: EmployeeNote, index: number) => (
                   <Paragraph key={index} className="text-left">
-                    {note}
+                    {note.content}
                   </Paragraph>
                 ))
               ) : (
@@ -151,7 +164,7 @@ export default function EmployeeProfile({
             </Heading>
             <div className="flex flex-col space-y-2 py-2">
               <Paragraph className="text-left">
-                {/* {checkEmployeeVacation(employee)} */}
+                {checkEmployeeVacation()}
               </Paragraph>
             </div>
           </div>
@@ -166,11 +179,12 @@ export default function EmployeeProfile({
             </Heading>
 
             <div className="flex flex-col py-2">
-              {employee.shiftPreferences?.length > 0 ? (
+              {employee.shiftPreferences &&
+              employee.shiftPreferences?.length > 0 ? (
                 employee.shiftPreferences?.map(
-                  (shiftPreference: string, index: number) => (
-                    <Paragraph key={index} className="text-left">
-                      {shiftPreference}
+                  (shiftPreference: ShiftPreference) => (
+                    <Paragraph key={shiftPreference.id} className="text-left">
+                      {shiftPreference.content}
                     </Paragraph>
                   )
                 )

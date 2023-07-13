@@ -39,7 +39,10 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
   });
 
   return (
-    <main className="pt-20">
+    <main
+      className="mx-auto w-4/5 pt-20"
+      onClick={() => showDropdown && setShowDropdown(false)}
+    >
       <div className="relative ml-auto flex">
         <Button
           className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"
@@ -83,7 +86,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
       {!showAddNote && employee?.notes && (
         <div className="mt-32">
           {employee.notes.length > 0 && (
-            <Heading size={"xs"} className="mb-3 text-center">
+            <Heading size={"sm"} className="text-center">
               {employee.notes.length}{" "}
               {employee.notes.length === 1 ? "note" : "notes"}
             </Heading>

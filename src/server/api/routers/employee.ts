@@ -48,7 +48,11 @@ export const employeeRouter = createTRPCRouter({
         where: { employeeId: id, userId: ctx.session.user.id },
       });
 
-      return { ...employee, vacations, notes };
+      const shiftPreferences = await ctx.prisma.shiftPreference.findMany({
+        where: { employeeId: id, userId: ctx.session.user.id },
+      });
+
+      return { ...employee, vacations, notes, shiftPreferences };
     }),
 
   createNote: protectedProcedure
