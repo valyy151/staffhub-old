@@ -11,8 +11,8 @@ import Dashboard from "~/components/Dashboard/Dashboard";
 const DashboardPage = () => {
   const [skip, setSkip] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
+  const [workDays, setWorkDays] = useState<WorkDay[] | any>([]);
   const [smallLoading, setSmallLoading] = useState<boolean>(false);
-  const [workDays, setWorkDays] = useState<WorkDay[]>([]);
 
   const { data } = api.dashboard.find.useQuery({ skip: skip });
 
@@ -30,7 +30,12 @@ const DashboardPage = () => {
       {loading ? (
         <Spinner />
       ) : workDays.length > 0 ? (
-        <Dashboard data={workDays} setSkip={setSkip} loading={smallLoading} />
+        <Dashboard
+          data={workDays}
+          skip={skip}
+          setSkip={setSkip}
+          loading={smallLoading}
+        />
       ) : (
         <>
           <Heading className="mt-6" size={"sm"}>

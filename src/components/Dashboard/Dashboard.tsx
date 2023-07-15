@@ -19,14 +19,21 @@ import {
 import groupShifts from "~/utils/groupShifts";
 import { Button } from "../ui/Button";
 import router from "next/router";
+import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
 
 interface DashboardProps {
-  data: any;
+  skip: number;
   loading: boolean;
+  data: WorkDay[] | any;
   setSkip: Dispatch<SetStateAction<number>>;
 }
 
-export default function Dashboard({ data, setSkip, loading }: DashboardProps) {
+export default function Dashboard({
+  data,
+  skip,
+  setSkip,
+  loading,
+}: DashboardProps) {
   function handlePrevPage(): void {
     setSkip((skip) => skip - 1);
   }
@@ -37,16 +44,26 @@ export default function Dashboard({ data, setSkip, loading }: DashboardProps) {
 
   return (
     <div className="dashboard p-0 pt-20">
-      <Heading size={"sm"} className="mb-4 mr-auto text-left">
-        {data[0] && formatMonth(data[3].date)}
-      </Heading>
+      <div className="flex">
+        <Heading size={"sm"} className="mb-4 mr-auto text-left">
+          {data[3] && formatMonth(data[3].date)}
+        </Heading>
+        <Heading size={"sm"} className="font-normal">
+          {formatDate(data[0].date)} - {formatDate(data[6].date)}
+        </Heading>
+      </div>
       <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-700">
         {data.map(
           (day: {
             id: string;
             date: number;
-            shifts: { start: number; end: number; count: number }[];
-            notes: string[];
+            shifts: {
+              end: number;
+              date: number;
+              start: number;
+              count: number;
+            }[];
+            notes: WorkDayNote[];
           }) => (
             <div
               className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
