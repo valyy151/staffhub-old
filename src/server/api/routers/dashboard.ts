@@ -13,6 +13,14 @@ export const dashboardRouter = createTRPCRouter({
       })
     )
     .query(async ({ input: { skip }, ctx }) => {
+      const hasEmployees = await ctx.prisma.employee.findMany({
+        where: { userId: ctx.session.user.id },
+      });
+
+      if (hasEmployees.length === 0) {
+        return [];
+      }
+
       const currentDate = Math.floor(Date.now() / 1000);
 
       const today = new Date();
