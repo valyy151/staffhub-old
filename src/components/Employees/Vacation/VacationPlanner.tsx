@@ -25,6 +25,7 @@ export default function VacationPlanner({
   daysRemaining,
   daysPlanned,
   setDaysRemaining,
+  setShowPlanner,
 }: VacationPlannerProps) {
   const [end, setEnd] = useState(new Date());
   const [start, setStart] = useState(new Date());
@@ -90,6 +91,7 @@ export default function VacationPlanner({
 
   const createVacation = api.employee.createVacation.useMutation({
     onSuccess: () => {
+      setShowPlanner(false);
       queryClient.invalidateQueries();
       toast.success("Vacation created successfully.");
     },

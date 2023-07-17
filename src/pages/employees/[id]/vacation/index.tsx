@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, FileDigit, MoreVertical, Palmtree, X } from "lucide-react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
@@ -8,6 +8,8 @@ import Dropdown from "~/components/Employees/Dropdown";
 import VacationPlanner from "~/components/Employees/Vacation/VacationPlanner";
 import { Vacation } from "@prisma/client";
 import VacationComponent from "~/components/Employees/Vacation/Vacation";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface VacationPageProps {
   query: { id: string };
@@ -25,17 +27,26 @@ export default function VacationPage({ query }: VacationPageProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [daysPlanned, setDaysPlanned] = useState<number>(0);
   const [showPlanner, setShowPlanner] = useState<boolean>(false);
-  const [amount, setAmount] = useState<number>(employee?.vacationDays);
+  const [amount, setAmount] = useState<number>(0);
   const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
   const [daysRemaining, setDaysRemaining] = useState(employee?.vacationDays);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const updateAmount = async (e: React.FormEvent) => {
-    e.preventDefault();
-  };
+  const queryClient = useQueryClient();
+
+  const updateAmount = api.employee.updateVacationAmount.useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Vacation days updated successfully.");
+    },
+  });
+
+  useEffect(() => {
+    setAmount(employee?.vacationDays);
+  }, []);
 
   return (
-    <main className="pt-20">
+    <main className="mx-auto w-4/5 pt-20">
       <div className="relative ml-auto flex">
         <Button
           className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"
@@ -111,26 +122,31 @@ export default function VacationPage({ query }: VacationPageProps) {
         </div>
       </div>
 
-      {showChangeAmount && (
-        <>
+      {showChangeAmount && employee && (
+        <div className="flex flex-col items-center">
           <Heading size={"xs"} className=" mb-3 mt-32">
             Change the amount of vacation days
           </Heading>
           <form
-            onSubmit={updateAmount}
+            onSubmit={() =>
+              updateAmount.mutate({
+                vacationDays: amount,
+                employeeId: employee.id,
+              })
+            }
             className=" flex w-full items-center justify-center pb-3 dark:border-slate-700"
           >
             <Input
               type="text"
               value={amount}
-              className=" m-0 w-[36rem] text-center text-2xl font-bold shadow-md "
               onChange={(e) => setAmount(Number(e.target.value))}
+              className=" m-0 w-[36rem] text-center text-2xl font-bold shadow-md "
             />
             <Button size={"sm"} variant={"link"} className=" w-20 min-w-0 ">
               <Check size={36} />
             </Button>
           </form>
-        </>
+        </div>
       )}
       {showPlanner && (
         <>
