@@ -1,4 +1,5 @@
 import { Employee } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { Check } from "lucide-react";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import Calendar from "react-calendar";
@@ -6,6 +7,7 @@ import "react-calendar/dist/Calendar.css";
 import toast from "react-hot-toast";
 import { Button } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
+import { api } from "~/utils/api";
 
 interface VacationPlannerProps {
   employee: Employee & any;
@@ -41,7 +43,7 @@ export default function VacationPlanner({
       setDaysRemaining(employee?.vacationDays);
     }
   };
-  console.log(employee.vacationDays);
+
   useEffect(() => {
     calculateTotalDays();
   }, [start, end]);
@@ -86,7 +88,24 @@ export default function VacationPlanner({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {};
+  const queryClient = useQueryClient();
+
+  const createVacation = api.employee.createVacation.useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Vacation created successfully.");
+    },
+  });
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    createVacation.mutate({
+      end: end.getTime(),
+      start: start.getTime(),
+      employeeId: employee.id,
+    });
+  };
 
   return (
     <main className="flex flex-col items-center">

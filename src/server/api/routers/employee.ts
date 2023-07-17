@@ -138,9 +138,19 @@ export const employeeRouter = createTRPCRouter({
   createVacation: protectedProcedure
     .input(
       z.object({
-        data: z.object({}),
+        end: z.number(),
+        start: z.number(),
         employeeId: z.string(),
       })
     )
-    .mutation(async ({ input: { employeeId, data }, ctx }) => {}),
+    .mutation(async ({ input: { employeeId, end, start }, ctx }) => {
+      return await ctx.prisma.vacation.create({
+        data: {
+          employeeId,
+          end,
+          start,
+          userId: ctx.session.user.id,
+        },
+      });
+    }),
 });

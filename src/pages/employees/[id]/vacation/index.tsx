@@ -20,8 +20,6 @@ export default function VacationPage({ query }: VacationPageProps) {
     id: query.id,
   });
 
-  console.log(employee);
-
   const [showModal, setShowModal] = useState<boolean>(false);
   const [daysPlanned, setDaysPlanned] = useState<number>(0);
   const [showPlanner, setShowPlanner] = useState<boolean>(false);
