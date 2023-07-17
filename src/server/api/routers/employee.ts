@@ -134,4 +134,13 @@ export const employeeRouter = createTRPCRouter({
         });
       }
     ),
+
+  createVacation: protectedProcedure
+    .input(
+      z.object({
+        data: z.object({}),
+        employeeId: z.string(),
+      })
+    )
+    .mutation(async ({ input: { employeeId, data }, ctx }) => {}),
 });
