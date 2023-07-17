@@ -112,4 +112,26 @@ export const employeeRouter = createTRPCRouter({
         data: { content },
       });
     }),
+
+  updatePersonalInfo: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        email: z.string(),
+        address: z.string(),
+        employeeId: z.string(),
+        phoneNumber: z.string(),
+      })
+    )
+    .mutation(
+      async ({
+        input: { employeeId, name, email, address, phoneNumber },
+        ctx,
+      }) => {
+        return await ctx.prisma.employee.update({
+          where: { id: employeeId },
+          data: { name, email, address, phoneNumber },
+        });
+      }
+    ),
 });

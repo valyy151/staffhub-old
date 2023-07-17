@@ -1,7 +1,9 @@
 import { Employee } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { Check, MoreVertical, X } from "lucide-react";
 import router from "next/router";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import Dropdown from "~/components/Employees/Dropdown";
 import { Button } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
@@ -27,14 +29,31 @@ export default function EmployeePersonalInfoPage({
   const [modal, setShowModal] = useState<boolean>(false);
   const [name, setName] = useState<string>(employee?.name);
   const [email, setEmail] = useState<string>(employee?.email);
-  const [phone, setPhone] = useState<string>(employee?.phone);
+  const [phone, setPhone] = useState<string>(employee?.phoneNumber);
   const [address, setAddress] = useState<string>(employee?.address);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const handleSubmit = async () => {};
+  const queryClient = useQueryClient();
+
+  const updatePersonalInfo = api.employee.updatePersonalInfo.useMutation({
+    onSuccess: () => {
+      queryClient.invalidateQueries();
+      toast.success("Personal info updated successfully.");
+    },
+  });
+
+  const handleSubmit = async () => {
+    updatePersonalInfo.mutate({
+      employeeId: query.id,
+      name,
+      email,
+      address,
+      phoneNumber: phone,
+    });
+  };
 
   return (
-    <main className="pt-20">
+    <main className="mx-auto flex w-4/5 flex-col items-center pt-20">
       <div className="relative ml-auto flex">
         <Button
           className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"
@@ -89,7 +108,7 @@ export default function EmployeePersonalInfoPage({
           value={address}
           onChange={(e) => setAddress(e.target.value)}
         />
-        <div className="space-x-2">
+        <div className="mt-4 space-x-2">
           <Button title="Update information" className="w-40">
             Save changes {<Check className="ml-2" />}
           </Button>
@@ -99,7 +118,7 @@ export default function EmployeePersonalInfoPage({
             title="Go back"
             className="w-40"
             variant={"outline"}
-            onClick={() => router.push(`/employees/${employee?._id}`)}
+            onClick={() => router.push(`/employees/${employee?.id}`)}
           >
             Cancel {<X className="ml-2" />}
           </Button>
