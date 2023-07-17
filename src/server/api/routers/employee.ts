@@ -153,4 +153,16 @@ export const employeeRouter = createTRPCRouter({
         },
       });
     }),
+
+  deleteVacation: protectedProcedure
+    .input(
+      z.object({
+        vacationId: z.string(),
+      })
+    )
+    .mutation(async ({ input: { vacationId }, ctx }) => {
+      return await ctx.prisma.vacation.delete({
+        where: { id: vacationId },
+      });
+    }),
 });

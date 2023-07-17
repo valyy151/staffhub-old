@@ -6,6 +6,8 @@ import Input from "~/components/ui/Input";
 import { api } from "~/utils/api";
 import Dropdown from "~/components/Employees/Dropdown";
 import VacationPlanner from "~/components/Employees/Vacation/VacationPlanner";
+import { Vacation } from "@prisma/client";
+import VacationComponent from "~/components/Employees/Vacation/Vacation";
 
 interface VacationPageProps {
   query: { id: string };
@@ -154,14 +156,14 @@ export default function VacationPage({ query }: VacationPageProps) {
           <Heading size={"xs"} className="mb-3 mt-32 text-center">
             Vacations
           </Heading>
-          {/* {employee?.vacations.map((vacation) => (
-            <Vacation
+          {employee?.vacations.map((vacation: Vacation) => (
+            <VacationComponent
               key={vacation.id}
               vacation={vacation}
               employee={employee}
               setAmount={setAmount}
             />
-          ))} */}
+          ))}
         </div>
       ) : (
         !showChangeAmount &&

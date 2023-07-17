@@ -56,8 +56,8 @@ export default function EmployeeProfile({
     }
 
     for (const vacation of vacations) {
-      const startDate: any = new Date(vacation.start);
-      const endDate: any = new Date(vacation.end);
+      const startDate: any = new Date(Number(vacation.start));
+      const endDate: any = new Date(Number(vacation.end));
       if (currentDate >= startDate && currentDate <= endDate) {
         const remainingDays = Math.ceil(
           (endDate - currentDate) / (1000 * 60 * 60 * 24)
