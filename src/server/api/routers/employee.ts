@@ -140,19 +140,32 @@ export const employeeRouter = createTRPCRouter({
       z.object({
         end: z.number(),
         start: z.number(),
+        daysPlanned: z.number(),
         employeeId: z.string(),
+        vacationDays: z.number(),
       })
     )
-    .mutation(async ({ input: { employeeId, end, start }, ctx }) => {
-      return await ctx.prisma.vacation.create({
-        data: {
-          employeeId,
-          end,
-          start,
-          userId: ctx.session.user.id,
-        },
-      });
-    }),
+    .mutation(
+      async ({
+        input: { employeeId, end, start, daysPlanned, vacationDays },
+        ctx,
+      }) => {
+        await ctx.prisma.employee.update({
+          where: { id: employeeId },
+          data: {
+            vacationDays: vacationDays - daysPlanned,
+          },
+        });
+        return await ctx.prisma.vacation.create({
+          data: {
+            employeeId,
+            end,
+            start,
+            userId: ctx.session.user.id,
+          },
+        });
+      }
+    ),
 
   deleteVacation: protectedProcedure
     .input(

@@ -54,8 +54,7 @@ export default function VacationPage({ query }: VacationPageProps) {
       </div>
       <div className="flex w-full items-center justify-center space-x-8 border-b-2 border-slate-300 pb-4 dark:border-slate-600">
         <Heading size={"sm"}>
-          {employee?.name} - Vacation days remaining:{" "}
-          {daysRemaining <= employee?.vacationDays ? daysRemaining : 0}
+          {employee?.name} - Vacation days remaining: {employee?.vacationDays}
         </Heading>
 
         <div className="space-x-2">

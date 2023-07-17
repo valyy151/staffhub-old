@@ -1,13 +1,13 @@
-import { Employee } from "@prisma/client";
-import { useQueryClient } from "@tanstack/react-query";
-import { Check } from "lucide-react";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import toast from "react-hot-toast";
-import { Button } from "~/components/ui/Button";
-import Heading from "~/components/ui/Heading";
 import { api } from "~/utils/api";
+import toast from "react-hot-toast";
+import { Check } from "lucide-react";
+import Calendar from "react-calendar";
+import { Employee } from "@prisma/client";
+import "react-calendar/dist/Calendar.css";
+import Heading from "~/components/ui/Heading";
+import { Button } from "~/components/ui/Button";
+import { useQueryClient } from "@tanstack/react-query";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
 interface VacationPlannerProps {
   employee: Employee & any;
@@ -21,11 +21,9 @@ interface VacationPlannerProps {
 
 export default function VacationPlanner({
   employee,
-  setShowPlanner,
-  setAmount,
-  daysPlanned,
   setDaysPlanned,
   daysRemaining,
+  daysPlanned,
   setDaysRemaining,
 }: VacationPlannerProps) {
   const [end, setEnd] = useState(new Date());
@@ -101,9 +99,11 @@ export default function VacationPlanner({
     e.preventDefault();
 
     createVacation.mutate({
+      daysPlanned,
       end: end.getTime(),
       start: start.getTime(),
       employeeId: employee.id,
+      vacationDays: employee.vacationDays,
     });
   };
 
