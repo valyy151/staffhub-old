@@ -11,8 +11,8 @@ interface WorkDay {
   shifts: Shift[];
 }
 
-export const calculateTotalHours = (days: WorkDay[] | any) => {
-  const totalHours = days.reduce((acc: number, day: WorkDay) => {
+export const calculateTotalHours = (days: any) => {
+  const totalHours = days?.reduce((acc: number, day: WorkDay) => {
     const dayHours = day.shifts.reduce((dayAcc: number, shift: Shift) => {
       if (shift.start && shift.end) {
         const start = shift.start;

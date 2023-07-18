@@ -56,18 +56,27 @@ export const employeeRouter = createTRPCRouter({
     }),
 
   findOneAndMonthly: protectedProcedure
-    .input(z.object({ id: z.string() }))
-    .query(async ({ input: { id }, ctx }) => {
+    .input(
+      z.object({
+        id: z.string(),
+        endOfMonth: z.number(),
+        startOfMonth: z.number(),
+      })
+    )
+    .query(async ({ input: { id, endOfMonth, startOfMonth }, ctx }) => {
       const employee = await ctx.prisma.employee.findUnique({
         where: { id },
       });
 
       const workDays = await ctx.prisma.workDay.findMany({
-        where: { userId: ctx.session.user.id },
+        where: {
+          userId: ctx.session.user.id,
+          date: { lte: endOfMonth, gte: startOfMonth },
+        },
       });
 
       const shifts = await ctx.prisma.shift.findMany({
-        where: { employeeId: id },
+        where: { employeeId: id, date: { lte: endOfMonth, gte: startOfMonth } },
       });
 
       const newWorkDays = workDays.map((workDay) => {

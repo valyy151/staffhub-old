@@ -18,6 +18,7 @@ import {
   formatMonth,
   formatTime,
   formatTotal,
+  getMonthBoundaryTimestamps,
 } from "~/utils/dateFormatting";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
@@ -25,44 +26,11 @@ import { calculateTotalHours } from "~/utils/calculateHours";
 import Dropdown from "~/components/Employees/Dropdown";
 import { MoreVertical } from "lucide-react";
 import { api } from "~/utils/api";
-import { Employee } from "@prisma/client";
+import { WorkDay } from "@prisma/client";
+import dynamic from "next/dynamic";
 
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "column",
-    backgroundColor: "#1e293b",
-    color: "#e2e8f0",
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 24,
-    padding: 16,
-    borderBottom: "1px solid #64748b",
-    backgroundColor: "#334155",
-  },
-  section: {
-    padding: 3.32,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    borderBottom: "1px solid #64748b",
-  },
-  sectionShift: {
-    padding: 3.32,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    borderBottom: "1px solid #64748b",
-    backgroundColor: "#334155",
-  },
-
-  shift: {
-    width: 200,
-    fontSize: 16,
-    textAlign: "center",
-  },
+const PDFButton = dynamic(() => import("~/components/PDFButton"), {
+  ssr: false,
 });
 
 interface SchedulePageProps {
@@ -79,58 +47,17 @@ export default function SchedulePage({ query }: SchedulePageProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const { data: employee }: any = api.employee.findOneAndMonthly.useQuery({
+  const [startOfMonth, endOfMonth]: any = getMonthBoundaryTimestamps(value);
+
+  const { data: employee }: any = api.employee?.findOneAndMonthly.useQuery({
     id: query.id,
+    endOfMonth,
+    startOfMonth,
   });
 
   const handleMonthChange: any = (date: Date) => {
     setValue(date);
   };
-
-  const MonthlyRoster = () => (
-    <Document pageLayout="singlePage">
-      <Page size="A4" orientation="portrait" style={styles.page}>
-        <View style={styles.title}>
-          <Text>
-            {employee.name} - {month} ({calculateTotalHours(employee.workDays)}
-            h)
-          </Text>
-        </View>
-        {employee.workDays.map((workDay) => (
-          <View
-            key={workDay.id}
-            style={
-              workDay.shifts[0]?.start && workDay.shifts[0]?.end
-                ? styles.section
-                : styles.sectionShift
-            }
-          >
-            <Text style={styles.shift}>{formatDate(workDay.date)}</Text>
-
-            {workDay.shifts[0]?.start && workDay.shifts[0]?.end ? (
-              <>
-                <Text style={styles.shift}>
-                  {formatTime(workDay.shifts[0]?.start)} -{" "}
-                  {formatTime(workDay.shifts[0]?.end)}
-                </Text>
-                <Text style={styles.shift}>
-                  {formatTotal(
-                    workDay.shifts[0]?.start,
-                    workDay.shifts[0]?.end
-                  )}
-                </Text>
-              </>
-            ) : (
-              <>
-                <Text style={styles.shift}></Text>
-                <Text style={styles.shift}></Text>
-              </>
-            )}
-          </View>
-        ))}
-      </Page>
-    </Document>
-  );
 
   return (
     <main className="pt-20">
@@ -152,7 +79,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
       </div>
       <div className="flex w-full items-center justify-center space-x-8 border-b-2 border-slate-300 pb-4 dark:border-slate-600">
         {" "}
-        <Heading size={"sm"}>Schedules for {employee.name}</Heading>
+        <Heading size={"sm"}>Schedules for {employee?.name}</Heading>
       </div>
 
       {value ? (
@@ -169,24 +96,12 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                 size={"xs"}
                 className="text-md ml-8 text-center font-normal"
               >
-                {month} ({calculateTotalHours(employee.workDays)} hours)
+                {month} ({calculateTotalHours(employee?.workDays)} hours)
               </Heading>
-              <Button
-                size={"lg"}
-                className="mr-8 text-xl hover:text-sky-500 dark:hover:text-sky-400"
-              >
-                <PDFDownloadLink
-                  document={<MonthlyRoster />}
-                  fileName={`${employee.name} - ${formatMonth(
-                    value.getTime() / 1000
-                  )}`}
-                >
-                  Save as PDF
-                </PDFDownloadLink>
-              </Button>
+              <PDFButton employee={employee} month={month} value={value} />
             </div>
 
-            {employee.workDays.map((day, index) => (
+            {employee?.workDays.map((day: any, index: number) => (
               <div
                 key={day._id}
                 onClick={() => router.push(`/days/${day._id}`)}
