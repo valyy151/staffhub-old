@@ -45,31 +45,31 @@ export default function ScheduleMaker({
     return `${currentDate.getFullYear()}-${month < 10 ? `0${month}` : month}`;
   });
 
-  const createShift = api.shift.create.useMutation({
-    onSuccess: (createdShift) => {
-      console.log(createdShift);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
+  const createShift = api.shift.create.useMutation();
+
+  const createDay = api.workDay.create.useMutation();
+
+  const { data: yearExists } = api.workDay.yearExists.useQuery({
+    date: schedule[0]?.date,
   });
 
-  const createDay = api.workDay.create.useMutation({
-    onSuccess: (createdDay) => {
-      console.log(createdDay);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+  function createSchedule() {
+    if (!yearExists) {
+      createYearlyWorkDays();
+    }
 
-  async function createSchedule() {
+    createMonthlySchedule();
+  }
+
+  function createYearlyWorkDays() {
     yearArray.forEach((day) => {
       createDay.mutate({
         date: day.date,
       });
     });
+  }
 
+  function createMonthlySchedule() {
     schedule.forEach((day) => {
       if (day.start && day.end) {
         createShift.mutate({

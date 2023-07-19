@@ -30,6 +30,18 @@ export const workDayRouter = createTRPCRouter({
     return await ctx.prisma.workDay.findMany();
   }),
 
+  yearExists: protectedProcedure
+    .input(z.object({ date: z.number() }))
+    .query(async ({ input: { date }, ctx }) => {
+      const exists = await ctx.prisma.workDay.findUnique({
+        where: { date },
+      });
+
+      if (exists) {
+        return true;
+      } else return false;
+    }),
+
   findOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input: { id }, ctx }) => {
