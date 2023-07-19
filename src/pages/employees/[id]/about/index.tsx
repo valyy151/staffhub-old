@@ -53,7 +53,10 @@ export default function EmployeePersonalInfoPage({
   };
 
   return (
-    <main className="mx-auto flex w-4/5 flex-col items-center pt-20">
+    <main
+      onClick={() => showDropdown && setShowDropdown(false)}
+      className="mx-auto flex w-4/5 flex-col items-center pt-20"
+    >
       <div className="relative ml-auto flex">
         <Button
           className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"

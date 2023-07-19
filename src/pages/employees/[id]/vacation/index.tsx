@@ -46,7 +46,10 @@ export default function VacationPage({ query }: VacationPageProps) {
   }, []);
 
   return (
-    <main className="mx-auto w-4/5 pt-20">
+    <main
+      onClick={() => showDropdown && setShowDropdown(false)}
+      className="mx-auto w-4/5 pt-20"
+    >
       <div className="relative ml-auto flex">
         <Button
           className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"

@@ -17,8 +17,8 @@ export default function EmployeesListPage() {
   useEffect(() => {
     if (data) {
       setEmployees(data);
+      setLoading(false);
     }
-    setLoading(false);
   }, [data]);
 
   return (
@@ -35,7 +35,7 @@ export default function EmployeesListPage() {
           <Heading size={"xs"} className="mt-2">
             Click below if you wish to create an employee.
           </Heading>{" "}
-          <Link href="/employees/new" className={`${buttonVariants({})} mt-4`}>
+          <Link href="/employees/new" className={`${buttonVariants()} mt-4`}>
             New Employee {<UserPlus className="ml-2" />}
           </Link>
         </>

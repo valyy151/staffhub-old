@@ -12,33 +12,23 @@ import {
   Sticker,
 } from "lucide-react";
 
-import {
-  Employee,
-  EmployeeNote,
-  ShiftPreference,
-  Vacation,
-  WorkDay,
-} from "@prisma/client";
+import { Employee, EmployeeNote, ShiftPreference } from "@prisma/client";
 import Heading from "../ui/Heading";
 import Paragraph from "../ui/Paragraph";
 import { Button } from "../ui/Button";
 import Dropdown from "./Dropdown";
 import Modal from "../ui/Modal";
 import router from "next/router";
+import { api } from "~/utils/api";
+import { toast } from "react-hot-toast";
 
 interface EmployeeProfileProps {
-  workDays: WorkDay[];
-  employee: Employee & {
-    notes: EmployeeNote[];
-    vacations: Vacation[];
-    shiftPreferences: ShiftPreference[];
-  };
+  employee: any;
   showDropdown: boolean;
   setShowDropdown: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function EmployeeProfile({
-  workDays,
   employee,
   showDropdown,
   setShowDropdown,
@@ -47,6 +37,13 @@ export default function EmployeeProfile({
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const vacations = employee?.vacations;
+
+  const deleteEmployee = api.employee.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Employee deleted successfully.");
+      router.push("/employees");
+    },
+  });
 
   function checkEmployeeVacation() {
     const currentDate: any = Date.now();
@@ -76,8 +73,6 @@ export default function EmployeeProfile({
     }
     return "No upcoming vacations.";
   }
-
-  const deleteEmployee = async () => {};
 
   return (
     <div className="flex min-h-[28rem] rounded-md bg-white shadow-lg dark:bg-slate-700">
@@ -211,9 +206,9 @@ export default function EmployeeProfile({
       {showModal && (
         <Modal
           showModal={showModal}
-          submit={deleteEmployee}
           cancel={() => setShowModal(false)}
           text={"Are you sure you want to delete this employee?"}
+          submit={() => deleteEmployee.mutate({ employeeId: employee.id })}
         />
       )}
     </div>
