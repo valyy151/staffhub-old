@@ -10,7 +10,7 @@ import { api } from "~/utils/api";
 
 const DashboardPage = () => {
   const [skip, setSkip] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [workDays, setWorkDays] = useState<WorkDay[]>([]);
 
   const { data } = api.dashboard.find.useQuery({ skip: skip });
@@ -18,8 +18,8 @@ const DashboardPage = () => {
   useEffect(() => {
     if (data) {
       setWorkDays(data);
+      setLoading(false);
     }
-    setLoading(false);
   }, [data]);
 
   return (

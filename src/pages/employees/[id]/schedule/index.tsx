@@ -1,33 +1,21 @@
-import { Calendar } from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFDownloadLink,
-} from "@react-pdf/renderer";
 import { useState } from "react";
 import router from "next/router";
-import Paragraph from "~/components/ui/Paragraph";
 import {
-  formatDate,
   formatDateLong,
   formatDay,
-  formatMonth,
   formatTime,
-  formatTotal,
   getMonthBoundaryTimestamps,
 } from "~/utils/dateFormatting";
+import { api } from "~/utils/api";
+import dynamic from "next/dynamic";
+import "react-calendar/dist/Calendar.css";
+import { Calendar } from "react-calendar";
+import { MoreVertical } from "lucide-react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
-import { calculateTotalHours } from "~/utils/calculateHours";
+import Paragraph from "~/components/ui/Paragraph";
 import Dropdown from "~/components/Employees/Dropdown";
-import { MoreVertical } from "lucide-react";
-import { api } from "~/utils/api";
-import { WorkDay } from "@prisma/client";
-import dynamic from "next/dynamic";
+import { calculateTotalHours } from "~/utils/calculateHours";
 
 const PDFButton = dynamic(() => import("~/components/PDFButton"), {
   ssr: false,
@@ -103,8 +91,8 @@ export default function SchedulePage({ query }: SchedulePageProps) {
 
             {employee?.workDays.map((day: any, index: number) => (
               <div
-                key={day._id}
-                onClick={() => router.push(`/days/${day._id}`)}
+                key={day.id}
+                onClick={() => router.push(`/days/${day.id}`)}
                 className={`group flex w-[48rem] cursor-pointer items-center space-y-4 border-b-2 border-slate-300 dark:border-slate-500 ${
                   index % 2 === 0
                     ? "bg-slate-50 dark:bg-slate-700"
