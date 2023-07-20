@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { Check, FileDigit, MoreVertical, Palmtree, X } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  FileDigit,
+  MoreVertical,
+  Palmtree,
+  Save,
+  X,
+} from "lucide-react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
@@ -10,6 +18,8 @@ import { Vacation } from "@prisma/client";
 import VacationComponent from "~/components/Employees/Vacation";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import Sidebar from "~/components/Employees/Sidebar";
+import Paragraph from "~/components/ui/Paragraph";
 
 interface VacationPageProps {
   query: { id: string };
@@ -24,120 +34,107 @@ export default function VacationPage({ query }: VacationPageProps) {
     id: query.id,
   });
 
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [amount, setAmount] = useState<number>(0);
   const [daysPlanned, setDaysPlanned] = useState<number>(0);
   const [showPlanner, setShowPlanner] = useState<boolean>(false);
-  const [amount, setAmount] = useState<number>(0);
   const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
   const [daysRemaining, setDaysRemaining] = useState(employee?.vacationDays);
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
-  const updateAmount = api.vacation.updateAmountOfDays.useMutation({
+  const updateAmountMutation = api.vacation.updateAmountOfDays.useMutation({
     onSuccess: () => {
+      setShowChangeAmount(false);
       queryClient.invalidateQueries();
       toast.success("Vacation days updated successfully.");
     },
   });
+
+  function updateAmount(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    updateAmountMutation.mutate({
+      vacationDays: amount,
+      employeeId: employee.id,
+    });
+  }
 
   useEffect(() => {
     setAmount(employee?.vacationDays);
   }, []);
 
   return (
-    <main className="mx-auto w-4/5 pt-20">
-      <div className="flex w-full items-center justify-center space-x-8 border-b-2 border-slate-300 pb-4 dark:border-slate-600">
-        <Heading size={"sm"}>
-          {employee?.name} - Vacation days remaining: {employee?.vacationDays}
-        </Heading>
+    <main className="flex flex-col items-center">
+      <Sidebar employee={employee} />
 
-        <div className="space-x-2">
-          {showPlanner ? (
-            <Button
-              size={"sm"}
-              variant={"outline"}
-              className="w-36"
-              onClick={() => {
-                setShowPlanner(false);
-                setDaysRemaining(employee?.vacationDays);
-              }}
-            >
-              Cancel <X className="ml-2" />
-            </Button>
-          ) : (
-            <Button
-              className="w-36"
-              size={"sm"}
-              title="Create a new vacation"
-              onClick={() => {
-                setShowPlanner(true);
-                setShowChangeAmount(false);
-              }}
-            >
-              New Vacation <Palmtree className="ml-2" />
-            </Button>
-          )}
-          {showChangeAmount ? (
-            <Button
-              className="w-56"
-              size={"sm"}
-              variant={"outline"}
-              onClick={() => setShowChangeAmount(false)}
-            >
-              Cancel
-              <X className="ml-2" />
-            </Button>
-          ) : (
-            <Button
-              className="w-56"
-              size={"sm"}
-              variant={"outline"}
-              title="Change the amount of vacation days"
-              onClick={() => {
-                setShowChangeAmount(true);
-                setShowPlanner(false);
-              }}
-            >
-              Change number of days
-              <FileDigit className="ml-2" />
-            </Button>
-          )}
-        </div>
+      <Heading className="mt-4">
+        {employee?.name} - Vacation days remaining: {employee?.vacationDays}
+      </Heading>
+
+      <div className="mt-2 flex space-x-2">
+        {" "}
+        <Button
+          size={"lg"}
+          title="Create a new vacation"
+          className="h-14 text-2xl"
+          onClick={() => {
+            setShowPlanner(true);
+            setShowChangeAmount(false);
+          }}
+        >
+          <Palmtree size={32} className="mr-2" />
+          New Vacation
+        </Button>
+        <Button
+          size={"lg"}
+          variant={"subtle"}
+          className="h-14 text-2xl"
+          title="Change the amount of vacation days"
+          onClick={() => {
+            setShowPlanner(false);
+            setShowChangeAmount(true);
+          }}
+        >
+          <FileDigit size={32} className="mr-2" />
+          Change remaining days
+        </Button>
       </div>
 
-      {showChangeAmount && employee && (
-        <div className="flex flex-col items-center">
-          <Heading size={"xs"} className=" mb-3 mt-32">
-            Change the amount of vacation days
-          </Heading>
-          <form
-            onSubmit={() =>
-              updateAmount.mutate({
-                vacationDays: amount,
-                employeeId: employee.id,
-              })
-            }
-            className=" flex w-full items-center justify-center pb-3 dark:border-slate-700"
-          >
-            <Input
-              type="text"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              className=" m-0 w-[36rem] text-center text-2xl font-bold shadow-md "
-            />
-            <Button size={"sm"} variant={"link"} className=" w-20 min-w-0 ">
-              <Check size={36} />
+      {showChangeAmount && (
+        <form
+          onSubmit={updateAmount}
+          className="mt-16 flex flex-col items-center dark:border-slate-700"
+        >
+          <Heading size={"xs"}>Change the amount of vacation days</Heading>
+
+          <Input
+            type="text"
+            value={amount}
+            onChange={(e) => setAmount(Number(e.target.value))}
+            className="m-0 h-14 text-center text-2xl shadow-md"
+          />
+          <div className="flex w-full space-x-1">
+            <Button size={"lg"} className="mt-2 h-12 w-full text-xl">
+              <Save className="mr-2" />
+              Save
             </Button>
-          </form>
-        </div>
+            <Button
+              size={"lg"}
+              type="button"
+              variant={"subtle"}
+              onClick={() => setShowChangeAmount(false)}
+              className="mt-2 h-12 w-full text-xl"
+            >
+              {" "}
+              <ArrowLeft className="mr-2" />
+              Cancel
+            </Button>
+          </div>
+        </form>
       )}
       {showPlanner && (
         <>
           {" "}
-          <Heading size={"xs"} className=" mt-12 text-center font-normal">
-            Days planned: {daysPlanned > 0 ? daysPlanned : 0}
-          </Heading>
           <VacationPlanner
             employee={employee}
             setAmount={setAmount}
@@ -152,8 +149,8 @@ export default function VacationPage({ query }: VacationPageProps) {
 
       {!showChangeAmount && !showPlanner && employee?.vacations.length > 0 ? (
         <div className="">
-          <Heading size={"xs"} className="mb-3 mt-32 text-center">
-            Vacations
+          <Heading size={"xs"} className="mb-3 mt-16">
+            Upcoming Vacations for {employee?.name}
           </Heading>
           {employee?.vacations.map((vacation: Vacation) => (
             <VacationComponent
@@ -167,9 +164,9 @@ export default function VacationPage({ query }: VacationPageProps) {
       ) : (
         !showChangeAmount &&
         !showPlanner && (
-          <Heading className=" mt-16 text-center" size={"xs"}>
-            This employee has no planned vacations.
-          </Heading>
+          <Paragraph className=" mt-8 text-center" size={"lg"}>
+            {employee?.name} has no planned vacations.
+          </Paragraph>
         )
       )}
     </main>

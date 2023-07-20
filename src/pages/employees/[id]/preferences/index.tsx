@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, MoreVertical, Sticker, X } from "lucide-react";
+import { ArrowLeft, Check, MoreVertical, Save, Sticker, X } from "lucide-react";
 import { Button } from "~/components/ui/Button";
 import Dropdown from "~/components/Employees/Dropdown";
 import Heading from "~/components/ui/Heading";
@@ -9,28 +9,24 @@ import Input from "~/components/ui/Input";
 import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import Sidebar from "~/components/Employees/Sidebar";
+import Paragraph from "~/components/ui/Paragraph";
 
-interface ShiftPreferencesPageProps {
+interface ShiftPreferencesProps {
   query: { id: string };
 }
 
-ShiftPreferencesPage.getInitialProps = ({
-  query,
-}: ShiftPreferencesPageProps) => {
+ShiftPreferencesPage.getInitialProps = ({ query }: ShiftPreferencesProps) => {
   return { query };
 };
 
-export default function ShiftPreferencesPage({
-  query,
-}: ShiftPreferencesPageProps) {
+export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
   const [content, setContent] = useState<string>("");
-  const [showModal, setShowModal] = useState<boolean>(false);
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showAddPreference, setShowAddPreference] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
-  const createShiftPreference = api.employee.createShiftPreference.useMutation({
+  const createPreferenceMutation = api.shiftPreference.create.useMutation({
     onSuccess: () => {
       setShowAddPreference(false);
       queryClient.invalidateQueries();
@@ -38,95 +34,90 @@ export default function ShiftPreferencesPage({
     },
   });
 
-  const { data: employee }: any = api.employee?.findOne.useQuery({
+  function createPreference(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    createPreferenceMutation.mutate({
+      content,
+      employeeId: query.id,
+    });
+  }
+
+  const response = api.employee?.findOne.useQuery({
     id: query.id,
   });
 
+  const employee: any = response.data;
+
   return (
-    <main className="pt-20">
-      <div className="flex w-full items-center justify-center space-x-8 border-b-2 border-slate-300 pb-4 dark:border-slate-600">
-        <Heading size={"sm"}>Shift preferences for {employee?.name}</Heading>
-        {showAddPreference ? (
-          <Button
-            size={"sm"}
-            className="w-48 min-w-0"
-            onClick={() => setShowAddPreference(false)}
-            variant={"outline"}
-          >
-            Cancel
-            <X className="ml-2 h-5 w-5" />
-          </Button>
-        ) : (
-          <Button
-            size={"sm"}
-            className="w-48"
-            onClick={() => setShowAddPreference(true)}
-          >
-            New Shift Preference
-            <Sticker className="ml-2 h-5 w-5" />
-          </Button>
+    <main className="flex flex-col items-center">
+      <Sidebar employee={employee} />
+      <div className="mx-auto mt-4 flex w-fit flex-col items-center">
+        <Heading>Shift preferences for {employee?.name}</Heading>
+        <Button
+          size={"lg"}
+          className="mt-2 h-14 text-2xl"
+          onClick={() => setShowAddPreference(true)}
+        >
+          <Sticker size={32} className="mr-2" />
+          New Shift Preference
+        </Button>
+        {employee?.shiftPreferences.length > 0 && !showAddPreference && (
+          <Paragraph size={"lg"} className="mr-auto mt-8">
+            {employee?.name} has {employee?.shiftPreferences.length}{" "}
+            {employee?.shiftPreferences.length === 1
+              ? "shift preference"
+              : "shift preferences"}
+          </Paragraph>
+        )}
+
+        {employee?.shiftPreferences.length > 0 &&
+          !showAddPreference &&
+          employee?.shiftPreferences.map((preference: ShiftPreference) => (
+            <ShiftPreferenceComponent
+              key={preference.id}
+              shiftPreference={preference}
+            />
+          ))}
+
+        {employee?.shiftPreferences.length === 0 && !showAddPreference && (
+          <Paragraph size={"lg"} className="mt-8">
+            There are no shift preferences for {employee.name}.
+          </Paragraph>
         )}
       </div>
 
-      {!showAddPreference && (
-        <div className="mt-32">
-          {employee?.shiftPreferences &&
-            employee?.shiftPreferences.length > 0 && (
-              <Heading size={"xs"} className="mb-3 text-center">
-                {employee?.shiftPreferences.length}{" "}
-                {employee?.shiftPreferences.length === 1
-                  ? "shift preference"
-                  : "shift preferences"}
-              </Heading>
-            )}
-          {employee?.shiftPreferences &&
-          employee?.shiftPreferences.length > 0 ? (
-            employee?.shiftPreferences.map(
-              (shiftPreference: ShiftPreference) => (
-                <ShiftPreferenceComponent
-                  employee={employee}
-                  key={shiftPreference.id}
-                  shiftPreference={shiftPreference}
-                />
-              )
-            )
-          ) : (
-            <>
-              {!showAddPreference && (
-                <Heading className="text-center font-normal" size={"xs"}>
-                  There are no shift preferences for this employee.
-                </Heading>
-              )}
-            </>
-          )}
-        </div>
-      )}
       {showAddPreference && (
         <form
-          onSubmit={() =>
-            createShiftPreference.mutate({
-              content,
-              employeeId: query.id,
-            })
-          }
-          className="mt-32 flex flex-col items-center space-x-4"
+          onSubmit={createPreference}
+          className="mx-auto mt-8 flex w-5/12 flex-col"
         >
-          <Heading size={"xs"} className="mb-3 text-center">
-            New shift preference
+          <Heading size={"xs"} className="mb-3">
+            Add a new shift preference
           </Heading>
-          <div className=" flex w-[48rem]">
-            <Input
-              type="text"
-              placeholder=" Add a shift preference..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
+
+          <Input
+            type="text"
+            placeholder=" Add a shift preference..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="h-14 text-lg"
+          />
+          <div className="mt-2 flex w-full space-x-1">
             <Button
+              className="h-14 w-full text-2xl"
               title="Add shift preference"
-              variant={"link"}
-              className="w-20 min-w-0"
             >
-              <Check size={36} className="mt-2" />
+              <Save size={36} className="mr-2" /> Save
+            </Button>
+            <Button
+              onClick={() => setShowAddPreference(false)}
+              className="h-14 w-full text-2xl"
+              title="Cancel shift preference creation"
+              variant={"subtle"}
+              type="button"
+            >
+              <ArrowLeft size={36} className="mr-2" /> Cancel
             </Button>
           </div>
         </form>

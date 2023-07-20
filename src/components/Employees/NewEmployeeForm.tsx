@@ -30,7 +30,7 @@ export default function NewEmployeeForm() {
     <div className="w-full">
       <form
         onSubmit={handleSubmit}
-        className="slide-in-bottom-h1 mx-auto mb-16 mt-12 flex flex-col gap-2 sm:w-1/3"
+        className="mx-auto mb-16 mt-12 flex flex-col gap-2 sm:w-1/3"
       >
         <label htmlFor="name">Employee Name</label>
 

@@ -1,6 +1,6 @@
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import { Check } from "lucide-react";
+import { Check, Palmtree, X, ArrowLeft } from "lucide-react";
 import Calendar from "react-calendar";
 import { Employee } from "@prisma/client";
 import "react-calendar/dist/Calendar.css";
@@ -111,24 +111,56 @@ export default function VacationPlanner({
 
   return (
     <main className="flex flex-col items-center">
+      <Heading className=" mt-12 text-center font-normal">
+        Days planned:{" "}
+        <span className="font-bold">{daysPlanned > 0 ? daysPlanned : 0}</span>
+      </Heading>
       <div className="mt-6 flex h-96 space-x-24">
         <div>
-          <Heading className="mb-2 text-center font-normal" size={"sm"}>
-            Start: {start.toLocaleDateString("en-GB")}
+          <Heading className="mb-2 text-center" size={"sm"}>
+            Start:{" "}
+            {start.toLocaleString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
           </Heading>
           <Calendar value={start} onChange={handleStartChange} />
         </div>
         <div>
-          <Heading className="mb-2 text-center font-normal" size={"sm"}>
-            End: {end.toLocaleDateString("en-GB")}
+          <Heading className="mb-2 text-center" size={"sm"}>
+            End:{" "}
+            {end.toLocaleString("en-GB", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
           </Heading>
           <Calendar value={end} onChange={handleEndChange} />
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex space-x-2">
-        <Button size={"sm"} title="Create vacation" className="w-36">
-          Submit <Check className="ml-2" />
+      <form
+        onSubmit={handleSubmit}
+        className="mt-12 flex w-1/2 flex-col space-y-3"
+      >
+        <Button
+          size={"lg"}
+          title="Create vacation"
+          className="h-16 w-full text-3xl"
+        >
+          <Palmtree size={32} className="mr-2" /> Create Vacation
+        </Button>
+        <Button
+          size={"lg"}
+          type="button"
+          variant={"link"}
+          title="Cancel vacation creation"
+          onClick={() => setShowPlanner(false)}
+          className="h-16 w-full text-3xl"
+        >
+          <ArrowLeft size={32} className="mr-2" />
+          Cancel
         </Button>
       </form>
     </main>

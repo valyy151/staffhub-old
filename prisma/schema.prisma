@@ -88,6 +88,7 @@ model ShiftPreference {
     employeeId String
     content    String
     userId     String
+    createdAt  DateTime @default(now())
     user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
@@ -119,12 +120,13 @@ model WorkDay {
 }
 
 model WorkDayNote {
-    id        String  @id @default(cuid())
+    id        String   @id @default(cuid())
     userId    String
     content   String
     workDayId String
-    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-    workDay   WorkDay @relation(fields: [workDayId], references: [id], onDelete: Cascade)
+    createdAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    workDay   WorkDay  @relation(fields: [workDayId], references: [id], onDelete: Cascade)
 
     @@index([userId])
     @@index([workDayId])
@@ -135,6 +137,7 @@ model EmployeeNote {
     userId     String
     content    String
     employeeId String
+    createdAt  DateTime @default(now())
     user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 

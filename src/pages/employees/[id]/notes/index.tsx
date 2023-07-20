@@ -1,6 +1,6 @@
 import { EmployeeNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Check, Save, ScrollText, X } from "lucide-react";
+import { ArrowLeft, Check, Save, ScrollText, X } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Note from "~/components/Employees/Note";
@@ -31,7 +31,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
 
   const queryClient = useQueryClient();
 
-  const createNote = api.employee.createNote.useMutation({
+  const createNote = api.employeeNote.create.useMutation({
     onSuccess: () => {
       setContent("");
       setShowAddNote(false);
@@ -55,23 +55,21 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
 
       <div className="mx-auto mt-4 flex w-fit flex-col items-center">
         <Heading>Notes for {employee?.name}</Heading>
+        <Button
+          size={"lg"}
+          className="mt-2 h-14 text-2xl"
+          onClick={() => setShowAddNote(true)}
+        >
+          <ScrollText size={32} className="mr-2" />
+          New Note
+        </Button>
         {employee?.notes.length > 0 && !showAddNote && (
-          <>
-            <Button
-              size={"lg"}
-              className="mt-4 text-xl"
-              onClick={() => setShowAddNote(true)}
-            >
-              New Note
-              <ScrollText className="ml-2" />
-            </Button>
-            <Paragraph size={"lg"} className="mr-auto mt-8">
-              There {employee?.notes.length === 1 ? "is" : "are"}{" "}
-              {employee?.notes.length}{" "}
-              {employee?.notes.length === 1 ? "note" : "notes"} for{" "}
-              {employee?.name}.
-            </Paragraph>
-          </>
+          <Paragraph size={"lg"} className="mr-auto mt-8">
+            There {employee?.notes.length === 1 ? "is" : "are"}{" "}
+            {employee?.notes.length}{" "}
+            {employee?.notes.length === 1 ? "note" : "notes"} for{" "}
+            {employee?.name}.
+          </Paragraph>
         )}
 
         {employee?.notes.length > 0 &&
@@ -80,20 +78,10 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
             <Note note={note} key={note.id} />
           ))}
 
-        {employee?.notes.length === 0 && (
-          <>
-            <Paragraph size={"lg"} className="mt-4">
-              There are no notes for this employee.
-            </Paragraph>
-            <Button
-              size={"lg"}
-              className="mt-2 text-xl"
-              onClick={() => setShowAddNote(true)}
-            >
-              New Note
-              <ScrollText className="ml-2" />
-            </Button>
-          </>
+        {employee?.notes.length === 0 && !showAddNote && (
+          <Paragraph size={"lg"} className="mt-8">
+            There are no notes for {employee.name}.
+          </Paragraph>
         )}
       </div>
 
@@ -118,19 +106,21 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
             <Button
               size={"lg"}
               title="Add note"
-              className="h-12 w-full text-2xl"
+              className="h-14 w-full text-2xl"
             >
-              Save <Save className="ml-2" />
+              <Save size={28} className="mr-2" />
+              Save
             </Button>
             <Button
               size={"lg"}
               type="button"
               title="Cancel note creation"
               variant={"subtle"}
-              className="h-12 w-full text-2xl"
+              className="h-14 w-full text-2xl"
               onClick={() => setShowAddNote(false)}
             >
-              Cancel <X className="ml-2" />
+              <ArrowLeft size={28} className="mr-2" />
+              Cancel
             </Button>
           </div>
         </form>

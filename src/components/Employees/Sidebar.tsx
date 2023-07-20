@@ -30,7 +30,7 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() => router.push(`/employees/${employee?.id}/personal`)}
           className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
             path === "personal"
-              ? "bg-slate-200 text-sky-500 dark:bg-slate-700 dark:text-sky-400"
+              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
               : ""
           }`}
         >
@@ -40,7 +40,7 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() => router.push(`/employees/${employee?.id}/notes`)}
           className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
             path === "notes"
-              ? "bg-slate-200 text-sky-500 dark:bg-slate-700 dark:text-sky-400"
+              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
               : ""
           }`}
         >
@@ -50,7 +50,7 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() => router.push(`/employees/${employee?.id}/vacation`)}
           className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
             path === "vacation"
-              ? "bg-slate-200 text-sky-500 dark:bg-slate-700 dark:text-sky-400"
+              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
               : ""
           }`}
         >
@@ -60,7 +60,7 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() => router.push(`/employees/${employee?.id}/preferences`)}
           className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
             path === "preferences"
-              ? "bg-slate-200 text-sky-500 dark:bg-slate-700 dark:text-sky-400"
+              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
               : ""
           }`}
         >
@@ -70,7 +70,7 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() => router.push(`/employees/${employee?.id}/schedule`)}
           className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
             path === "schedule"
-              ? "bg-slate-200 text-sky-500 dark:bg-slate-700 dark:text-sky-400"
+              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
               : ""
           }`}
         >
