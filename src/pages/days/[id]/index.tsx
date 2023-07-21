@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import WorkDay from "~/components/WorkDay/WorkDay";
+import Spinner from "~/components/ui/Spinner";
 import { api } from "~/utils/api";
 
 interface WorkDayPageProps {
@@ -24,5 +25,13 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     }
   }, [data]);
 
-  return <WorkDay data={workDay} setWorkDay={setWorkDay} />;
+  return (
+    <main className="flex flex-col items-center">
+      {loading ? (
+        <Spinner />
+      ) : (
+        <WorkDay data={workDay} setWorkDay={setWorkDay} />
+      )}
+    </main>
+  );
 }

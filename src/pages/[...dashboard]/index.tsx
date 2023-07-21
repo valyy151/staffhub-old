@@ -7,12 +7,17 @@ import Spinner from "~/components/ui/Spinner";
 import Heading from "~/components/ui/Heading";
 import { buttonVariants } from "~/components/ui/Button";
 import Dashboard from "~/components/Dashboard/Dashboard";
+import { useSearchParams } from "next/navigation";
 
 const DashboardPage = () => {
   const [skip, setSkip] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [workDays, setWorkDays] = useState<WorkDay[] | any>([]);
   const [smallLoading, setSmallLoading] = useState<boolean>(false);
+
+  const params = useSearchParams();
+
+  const page = params.get("page");
 
   const { data } = api.dashboard.find.useQuery({ skip: skip });
 

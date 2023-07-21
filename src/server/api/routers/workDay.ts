@@ -46,7 +46,7 @@ export const workDayRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .query(async ({ input: { id }, ctx }) => {
       const workDay = await ctx.prisma.workDay.findUnique({
-        where: { id: id },
+        where: { id },
       });
 
       const shifts = await ctx.prisma.shift.findMany({

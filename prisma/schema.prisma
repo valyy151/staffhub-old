@@ -73,7 +73,6 @@ model Employee {
     address          String
     userId           String
     phoneNumber      String
-    shifts           Shift[]
     vacations        Vacation[]
     notes            EmployeeNote[]
     shiftPreferences ShiftPreference[]
@@ -143,14 +142,13 @@ model EmployeeNote {
 }
 
 model Shift {
-    id         String   @id @default(cuid())
+    id         String  @id @default(cuid())
     start      Int
     end        Int
-    employeeId String
+    employeeId String?
     userId     String?
     date       Int
-    user       User?    @relation(fields: [userId], references: [id])
-    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+    user       User?   @relation(fields: [userId], references: [id])
 
     @@unique([userId, date])
     @@index([userId])

@@ -99,6 +99,8 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     setShowModal(false);
   }
 
+  console.log(shift);
+
   return (
     <div
       className="flex w-10/12 items-center justify-center pb-6"
@@ -109,7 +111,7 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
           className="hover:text-sky-500"
           href={`/employees/${shift.employeeId}`}
         >
-          {shift?.employee.name}
+          {shift?.employee?.name}
         </Link>
       </Heading>
 

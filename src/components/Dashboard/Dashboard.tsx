@@ -35,11 +35,11 @@ export default function Dashboard({
   loading,
 }: DashboardProps) {
   function handlePrevPage(): void {
-    setSkip((skip) => skip - 1);
+    setSkip(skip - 1);
   }
 
   function handleNextPage(): void {
-    setSkip((skip) => skip + 1);
+    setSkip(skip + 1);
   }
 
   return (
