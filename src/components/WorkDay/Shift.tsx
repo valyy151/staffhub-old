@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Input from "../ui/Input";
-import { useContext, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "../ui/Button";
 import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
-import { Check, Pencil, Save, Trash2, X } from "lucide-react";
+import { Pencil, Save, Trash2, X } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Heading from "../ui/Heading";
 import { api } from "~/utils/api";
@@ -13,9 +13,11 @@ import { useQueryClient } from "@tanstack/react-query";
 
 interface ShiftProps {
   index: number;
-  setWorkDay: (data: WorkDay) => void;
   shift: Shift & { employee: { name: string } };
   data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] };
+  setWorkDay: (
+    data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] }
+  ) => void;
 }
 
 export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
@@ -23,7 +25,7 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
 
   const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
 
-  const toggleEditMode = (shiftId: string) => {
+  function toggleEditMode(shiftId: string) {
     setEditMode((prevState) => {
       const updatedEditMode: any = {};
 
@@ -35,13 +37,13 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
 
       return updatedEditMode;
     });
-  };
+  }
 
-  const handleTimeChange = (
+  function handleTimeChange(
     newTime: string,
     field: "start" | "end",
     index: number
-  ) => {
+  ) {
     if (data) {
       const [hour, minute]: string[] = newTime.split(":");
       const newDate: any = new Date(data.date * 1000);
@@ -64,7 +66,7 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
       };
       setWorkDay(newWorkDay);
     }
-  };
+  }
 
   const queryClient = useQueryClient();
 
@@ -95,7 +97,6 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
 
   async function handleDelete(shiftId: string) {
     deleteShift.mutate({ shiftId: shiftId });
-
     setShowModal(false);
   }
 
@@ -111,7 +112,7 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
           className="hover:text-sky-500"
           href={`/employees/${shift.employeeId}`}
         >
-          {shift?.employee?.name}
+          {shift?.employee.name}
         </Link>
       </Heading>
 

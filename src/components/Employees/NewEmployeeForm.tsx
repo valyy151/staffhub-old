@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { Button } from "../ui/Button";
-import { redirect } from "next/navigation";
 import Input from "../ui/Input";
+import toast from "react-hot-toast";
 
 export default function NewEmployeeForm() {
   const [name, setName] = useState<string>("");
@@ -18,6 +18,7 @@ export default function NewEmployeeForm() {
 
   const createEmployee = api.employee.create.useMutation({
     onSuccess: () => {
+      toast.success("Employee created successfully.");
       window.location.href = "/employees";
     },
     onError: (error) => {

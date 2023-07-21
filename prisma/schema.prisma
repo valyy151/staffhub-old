@@ -73,6 +73,7 @@ model Employee {
     address          String
     userId           String
     phoneNumber      String
+    shifts           Shift[]
     vacations        Vacation[]
     notes            EmployeeNote[]
     shiftPreferences ShiftPreference[]
@@ -110,9 +111,9 @@ model Vacation {
 model WorkDay {
     id     String        @id @default(cuid())
     date   Int           @unique
-    userId String?
+    userId String
     notes  WorkDayNote[]
-    user   User?         @relation(fields: [userId], references: [id])
+    user   User          @relation(fields: [userId], references: [id])
 
     @@index([userId])
 }
@@ -142,13 +143,14 @@ model EmployeeNote {
 }
 
 model Shift {
-    id         String  @id @default(cuid())
+    id         String   @id @default(cuid())
     start      Int
     end        Int
-    employeeId String?
-    userId     String?
+    employeeId String
+    userId     String
     date       Int
-    user       User?   @relation(fields: [userId], references: [id])
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
     @@unique([userId, date])
     @@index([userId])

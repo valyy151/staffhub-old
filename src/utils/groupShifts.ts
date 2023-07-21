@@ -1,6 +1,6 @@
-const groupShifts = (
+export default function groupShifts(
   shifts: { start: number; end: number; count: number }[]
-) => {
+) {
   const groupedShifts: { start: number; end: number; count: number }[] = [];
 
   shifts.forEach((shift) => {
@@ -22,6 +22,4 @@ const groupShifts = (
   });
 
   return groupedShifts.sort((a, b) => a.start - b.start);
-};
-
-export default groupShifts;
+}

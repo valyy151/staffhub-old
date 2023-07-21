@@ -11,7 +11,7 @@ interface WorkDay {
   shifts: Shift[];
 }
 
-export const calculateTotalHours = (days: any) => {
+export function calculateTotalHours(days: any) {
   const totalHours = days?.reduce((acc: number, day: WorkDay) => {
     const dayHours = day.shifts.reduce((dayAcc: number, shift: Shift) => {
       if (shift.start && shift.end) {
@@ -26,9 +26,9 @@ export const calculateTotalHours = (days: any) => {
     return acc + dayHours;
   }, 0);
   return totalHours;
-};
+}
 
-export const calculateTotalMonthlyHours = (days: any) => {
+export function calculateTotalMonthlyHours(days: any) {
   const totalMinutes = days.reduce((acc: number, day: any) => {
     if (day.start && day.end) {
       const start = day.start;
@@ -45,4 +45,4 @@ export const calculateTotalMonthlyHours = (days: any) => {
 
   const formattedTime = `${hours}h ${minutes}min`;
   return formattedTime;
-};
+}
