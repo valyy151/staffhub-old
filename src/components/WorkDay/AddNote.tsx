@@ -1,4 +1,4 @@
-import { Check, X } from "lucide-react";
+import { Check, ScrollText, X } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import { WorkDay } from "@prisma/client";
 import Input from "../ui/Input";
@@ -9,17 +9,14 @@ import toast from "react-hot-toast";
 import Heading from "../ui/Heading";
 
 interface AddNoteProps {
-  showAddNote: boolean;
   data: WorkDay;
   setShowAddNote: Dispatch<SetStateAction<boolean>>;
-  setShowAddShift: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function AddNote({
   data,
-  showAddNote,
+
   setShowAddNote,
-  setShowAddShift,
 }: AddNoteProps) {
   const [note, setNote] = useState<string>("");
 
@@ -42,33 +39,32 @@ export default function AddNote({
   }
 
   return (
-    <>
-      <Heading size={"sm"} className="mb-2">
-        Add a note
-      </Heading>
+    <div className="flex flex-col">
+      <Heading className="mb-3">Add a note</Heading>
       <form onSubmit={handleSubmit} className="flex space-x-2">
         <Input
           type="text"
           name="note"
           value={note}
-          className="w-[40rem]"
+          className="h-fit w-[40rem] text-xl"
           placeholder="Anything to note?"
           onChange={(e) => setNote(e.target.value)}
         />
 
-        <Button title="Add note" variant={"link"}>
-          {<Check />}
+        <Button size={"lg"} title="Create note">
+          Create {<ScrollText className="ml-2" />}
         </Button>
 
         <Button
+          size={"lg"}
           type="button"
-          title="Cancel"
-          variant={"link"}
+          title="Cancel note creation"
+          variant={"subtle"}
           onClick={() => setShowAddNote(false)}
         >
-          {<X />}
+          Cancel {<X className="ml-2" />}
         </Button>
       </form>
-    </>
+    </div>
   );
 }

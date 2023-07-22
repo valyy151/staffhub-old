@@ -106,6 +106,9 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               {showAddShift && (
                 <AddShift data={workDay} setShowAddShift={setShowAddShift} />
               )}
+              {showAddNote && !showAddShift && (
+                <AddNote data={workDay} setShowAddNote={setShowAddNote} />
+              )}
               <div className="flex flex-col">
                 <div className="mb-2 flex flex-col">
                   {!showAddShift && !showAddNote && (
@@ -125,14 +128,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
                       </Paragraph>
                     )}
                 </div>
-                {showAddNote && !showAddShift && (
-                  <AddNote
-                    data={workDay}
-                    showAddNote={showAddNote}
-                    setShowAddNote={setShowAddNote}
-                    setShowAddShift={setShowAddShift}
-                  />
-                )}
               </div>
             </div>
           </div>
