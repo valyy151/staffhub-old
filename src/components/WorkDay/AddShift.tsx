@@ -4,7 +4,7 @@ import Input from "../ui/Input";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Paragraph from "../ui/Paragraph";
 import { Button } from "../ui/Button";
-import { Check, X } from "lucide-react";
+import { Check, Clock, Clock10, Clock8, X } from "lucide-react";
 
 import { Employee, Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import SearchEmployees from "./SearchEmployees";
@@ -69,16 +69,11 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   return (
     <>
       {employees && (
-        <div className="mx-auto w-10/12">
-          <Heading size={"sm"} className="mb-2 mt-6 text-center">
-            Add a New Shift
-          </Heading>
-          <form
-            onSubmit={handleSubmit}
-            className="mt-2 flex justify-center space-x-12"
-          >
+        <div>
+          <Heading className="mb-2">Add a New Shift</Heading>
+          <form onSubmit={handleSubmit} className="flex space-x-12">
             <div className="mt-auto flex flex-col">
-              <label className="text-center">Employee</label>
+              <label className="ml-2">Employee</label>
 
               <SearchEmployees
                 name={name}
@@ -91,7 +86,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             </div>
             <div className="flex space-x-3">
               <div className="mt-auto flex flex-col">
-                <label htmlFor="start" className="text-center">
+                <label htmlFor="start" className="ml-2">
                   Start
                 </label>
                 <Input
@@ -99,13 +94,13 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                   name="start"
                   placeholder="Start time"
                   value={formatTime(start)}
-                  className="m-0 text-center text-lg"
+                  className="m-0 text-lg"
                   onChange={(e) => handleTimeChange(e.target.value, "start")}
                 />
               </div>
 
               <div className="mt-auto flex flex-col">
-                <label htmlFor="end" className="text-center">
+                <label htmlFor="end" className="ml-2">
                   End
                 </label>
                 <Input
@@ -113,28 +108,29 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                   type="text"
                   placeholder="End time"
                   value={formatTime(end)}
-                  className="m-0 text-center text-lg"
+                  className="m-0 text-lg"
                   onChange={(e) => handleTimeChange(e.target.value, "end")}
                 />
               </div>
             </div>
-            <div className="mt-auto flex w-48 flex-col">
-              <label className="text-center">Total</label>
-              <Paragraph className="mb-2 mt-auto font-semibold">
+            <div className="mt-auto flex flex-col">
+              <label>Total</label>
+              <Paragraph className="mb-2 mt-auto text-left font-semibold">
                 {formatTotal(start, end)}
               </Paragraph>
             </div>
             <div className="mb-1 mt-auto flex space-x-2">
+              <Button size={"sm"} title="Create shift">
+                Create {<Clock8 className="ml-1 h-4 w-4" />}
+              </Button>
               <Button
+                title="Cancel shift creation"
                 size={"sm"}
                 type="button"
                 variant={"subtle"}
                 onClick={() => setShowAddShift(false)}
               >
                 Cancel {<X className="ml-1 h-4 w-4" />}
-              </Button>
-              <Button size={"sm"} title="Create shift">
-                Create {<Check className="ml-1 h-4 w-4" />}
               </Button>
             </div>
           </form>

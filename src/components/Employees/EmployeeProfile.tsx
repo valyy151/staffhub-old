@@ -214,6 +214,7 @@ export default function EmployeeProfile({
       </div>
       {showModal && (
         <Modal
+          icon="employee"
           showModal={showModal}
           cancel={() => setShowModal(false)}
           text={"Are you sure you want to delete this employee?"}
