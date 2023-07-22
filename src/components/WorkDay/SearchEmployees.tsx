@@ -5,7 +5,7 @@ import { Employee, ShiftPreference } from "@prisma/client";
 interface SearchEmployeesProps {
   name: string;
   isOpen: boolean;
-  employees: Employee[];
+  employees: any;
   setId: Dispatch<SetStateAction<string>>;
   setName: Dispatch<SetStateAction<string>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
@@ -46,7 +46,7 @@ export default function SearchEmployees({
           className={`absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-600 dark:text-slate-300`}
         >
           <ul>
-            {employees?.map((employee) => (
+            {employees?.map((employee:Employee) => (
               <li
                 className="cursor-pointer rounded-md px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-500"
                 key={employee.id}

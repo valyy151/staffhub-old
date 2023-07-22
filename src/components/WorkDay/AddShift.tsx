@@ -70,7 +70,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
     <>
       {employees && (
         <div className="mx-auto w-10/12">
-          <Heading size={"sm"} className="text-center">
+          <Heading size={"sm"} className="mb-2 mt-6 text-center">
             Add a New Shift
           </Heading>
           <form

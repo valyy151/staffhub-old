@@ -72,7 +72,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               </div>
             </div>
 
-            {!showAddShift && (
+            {!showAddShift && !showAddNote && (
               <Heading className=" mb-2 text-center">Shifts</Heading>
             )}
             {workDay?.shifts?.length < 1 && !showAddShift && !showAddNote && (
@@ -106,10 +106,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
             <div className="flex flex-col items-center py-6">
               {data && !showAddShift && !showAddNote && (
                 <Heading className=" mb-2">Notes</Heading>
-              )}
-
-              {data && showAddNote && (
-                <Heading className=" mb-2">Add a note</Heading>
               )}
 
               {workDay?.notes?.length > 0 &&

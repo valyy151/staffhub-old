@@ -25,7 +25,7 @@ const Dropdown: FC<DropdownProps> = ({
   showDelete,
 }) => {
   return (
-    <div className="absolute right-2 top-10 z-50 mt-2 w-72 rounded-md bg-white  text-lg shadow-lg ring-1 ring-black ring-opacity-5 dark:bg-slate-600">
+    <div className="absolute right-0 z-50 w-[30rem] rounded-md border border-slate-300 bg-white text-xl  shadow-lg ring-1 ring-black ring-opacity-5 dark:border-slate-500 dark:bg-slate-600 dark:shadow-slate-900">
       <ul>
         <li
           onClick={() => {

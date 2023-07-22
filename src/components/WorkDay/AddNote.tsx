@@ -6,6 +6,7 @@ import { Button } from "../ui/Button";
 import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import Heading from "../ui/Heading";
 
 interface AddNoteProps {
   showAddNote: boolean;
@@ -41,29 +42,33 @@ export default function AddNote({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex space-x-2">
-      <Input
-        type="text"
-        name="note"
-        value={note}
-        className="w-[40rem]"
-        placeholder="Anything to note?"
-        onChange={(e) => setNote(e.target.value)}
-      />
+    <>
+      <Heading size={"sm"} className="mb-2">
+        Add a note
+      </Heading>
+      <form onSubmit={handleSubmit} className="flex space-x-2">
+        <Input
+          type="text"
+          name="note"
+          value={note}
+          className="w-[40rem]"
+          placeholder="Anything to note?"
+          onChange={(e) => setNote(e.target.value)}
+        />
 
-      <Button title="Add note" variant={"link"} className=" min-w-0">
-        {<Check size={40} className="mt-2" />}
-      </Button>
+        <Button title="Add note" variant={"link"}>
+          {<Check />}
+        </Button>
 
-      <Button
-        type="button"
-        title="Cancel"
-        variant={"link"}
-        className=" min-w-0"
-        onClick={() => setShowAddNote(false)}
-      >
-        {<X size={40} className="mt-2" />}
-      </Button>
-    </form>
+        <Button
+          type="button"
+          title="Cancel"
+          variant={"link"}
+          onClick={() => setShowAddNote(false)}
+        >
+          {<X />}
+        </Button>
+      </form>
+    </>
   );
 }
