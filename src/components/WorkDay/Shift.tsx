@@ -100,14 +100,9 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     setShowModal(false);
   }
 
-  console.log(shift);
-
   return (
-    <div
-      className="flex w-10/12 items-center justify-center pb-6"
-      key={shift.id}
-    >
-      <Heading size={"xs"} className="w-72">
+    <div className="flex items-center pb-6">
+      <Heading size={"xs"} className="mr-8">
         <Link
           className="hover:text-sky-500"
           href={`/employees/${shift.employeeId}`}
@@ -117,29 +112,29 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
       </Heading>
 
       {editMode[shift.id] ? (
-        <div className="flex w-72 items-center space-x-2">
+        <div className="mr-6 flex items-center space-x-2">
           <Input
             type="text"
             title="Shift start"
             value={formatTime(shift.start)}
-            className="text-center text-2xl"
+            className="w-[5rem] px-0 py-0 pl-2 text-2xl"
             onChange={(e) => handleTimeChange(e.target.value, "start", index)}
           />
           <Input
             type="text"
             title="Shift end"
             value={formatTime(shift.end)}
-            className="text-center text-2xl"
+            className="w-[5rem] px-0 py-0 pl-2 text-2xl"
             onChange={(e) => handleTimeChange(e.target.value, "end", index)}
           />
         </div>
       ) : (
-        <Heading size={"xs"} className="w-72 text-center font-normal">
+        <Heading size={"xs"} className="ml-2 w-48 font-normal">
           {formatTime(shift.start)} - {formatTime(shift.end)}
         </Heading>
       )}
 
-      <Heading size={"xs"} className="w-72 text-center font-normal">
+      <Heading size={"xs"} className="mr-8 w-24">
         {" "}
         {formatTotal(shift.start, shift.end)}
       </Heading>
@@ -149,12 +144,12 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
           className="flex justify-center space-x-2"
           onSubmit={(e) => handleEdit(e, shift.id)}
         >
-          <Button title="Save changes" className="w-28">
+          <Button title="Save changes" className="">
             Save {<Save className="ml-2" />}
           </Button>
           <Button
             type="button"
-            className="w-28"
+            className=""
             title="Cancel editing"
             variant={"subtle"}
             onClick={() => toggleEditMode(shift.id)}
@@ -166,14 +161,14 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
         !editMode[shift.id] && (
           <>
             <Button
-              className="mr-1 w-28"
+              className="mr-1 "
               title="Edit Shift"
               onClick={() => toggleEditMode(shift.id)}
             >
               Edit {<Pencil className="ml-2" />}
             </Button>
             <Button
-              className="ml-1 w-28"
+              className="ml-1"
               title="Delete Shift"
               variant={"destructive"}
               onClick={() => setShowModal(true)}

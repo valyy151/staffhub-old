@@ -44,7 +44,7 @@ export default function Note({ note }: NoteProps) {
           <Input
             type="text"
             value={content}
-            className="m-0 h-12 w-[40rem] border-none text-2xl shadow-none focus:ring-0 focus:ring-offset-0"
+            className="m-0 h-12 w-[36rem] border-none px-2 text-2xl shadow-none focus:ring-0 focus:ring-offset-0"
             onChange={(e) => setContent(e.target.value)}
           />
           <Button
@@ -70,7 +70,7 @@ export default function Note({ note }: NoteProps) {
         <div className="flex items-center">
           <Heading
             size={"xs"}
-            className="w-[40rem] min-w-[16rem] rounded-md bg-white px-2 py-2 text-left font-normal dark:bg-slate-700"
+            className="w-[36rem] min-w-[16rem] rounded-md bg-white px-2 py-2 text-left font-normal dark:bg-slate-700"
             key={note.id}
           >
             {content}

@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { RouterOutputs, api } from "~/utils/api";
-import { formatDate, formatDay } from "~/utils/dateFormatting";
+import { formatDate, formatDateLong, formatDay } from "~/utils/dateFormatting";
 import ShiftComponent from "~/components/WorkDay/Shift";
 import Paragraph from "~/components/ui/Paragraph";
 
@@ -50,7 +50,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
             <div className="my-6 flex items-center justify-center space-x-10 border-b-2 border-slate-300 pb-6 dark:border-slate-700">
               <div className="flex space-x-3">
                 <Heading>{formatDay(workDay?.date)}</Heading>
-                <Heading>{formatDate(workDay?.date)}</Heading>
+                <Heading>{formatDateLong(workDay?.date)}</Heading>
               </div>
               <div className="space-x-2">
                 <Button
@@ -73,36 +73,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               </div>
             </div>
             <div className="flex w-full justify-evenly">
-              <div className="flex flex-col">
-                {!showAddShift && !showAddNote && (
-                  <Heading className="mb-2">Shifts</Heading>
-                )}
-                {workDay?.shifts?.length < 1 &&
-                  !showAddShift &&
-                  !showAddNote && (
-                    <div className="pb-6 font-normal">
-                      <Paragraph>
-                        {" "}
-                        There are currently no shifts for this day.{" "}
-                      </Paragraph>
-                    </div>
-                  )}
-
-                {workDay?.shifts?.length > 0 && (
-                  <div className="flex flex-col items-center">
-                    {workDay?.shifts
-                      ?.sort((a, b) => a.start - b.start)
-                      .map((shift: any, index: number) => (
-                        <ShiftComponent
-                          data={workDay}
-                          shift={shift}
-                          index={index}
-                          setWorkDay={setWorkDay}
-                        />
-                      ))}
-                  </div>
-                )}
-              </div>
               {showAddShift && (
                 <AddShift data={workDay} setShowAddShift={setShowAddShift} />
               )}
@@ -128,6 +98,37 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
                       </Paragraph>
                     )}
                 </div>
+              </div>
+              <div className="flex flex-col">
+                {!showAddShift && !showAddNote && (
+                  <Heading className="mb-2">Shifts</Heading>
+                )}
+                {workDay?.shifts?.length < 1 &&
+                  !showAddShift &&
+                  !showAddNote && (
+                    <div className="pb-6 font-normal">
+                      <Paragraph>
+                        {" "}
+                        There are currently no shifts for this day.{" "}
+                      </Paragraph>
+                    </div>
+                  )}
+
+                {workDay?.shifts?.length > 0 &&
+                  !showAddShift &&
+                  !showAddNote && (
+                    <div className="mt-3">
+                      {workDay?.shifts.map((shift: any, index: number) => (
+                        <ShiftComponent
+                          key={shift.id}
+                          data={workDay}
+                          shift={shift}
+                          index={index}
+                          setWorkDay={setWorkDay}
+                        />
+                      ))}
+                    </div>
+                  )}
               </div>
             </div>
           </div>

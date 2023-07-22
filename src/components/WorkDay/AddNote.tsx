@@ -39,7 +39,7 @@ export default function AddNote({
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="mx-auto flex flex-col">
       <Heading className="mb-3">Add a note</Heading>
       <form onSubmit={handleSubmit} className="flex space-x-2">
         <Input
