@@ -4,7 +4,7 @@ import { Button } from "~/components/ui/Button";
 import Dropdown from "~/components/Employees/Dropdown";
 import Heading from "~/components/ui/Heading";
 import type { ShiftPreference } from "@prisma/client";
-import ShiftPreferenceComponent from "~/components/Employees/ShiftPreferences/ShiftPreference";
+import ShiftPreferenceComponent from "~/components/Employees/ShiftPreference";
 import Input from "~/components/ui/Input";
 import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
@@ -43,26 +43,7 @@ export default function ShiftPreferencesPage({
   });
 
   return (
-    <main
-      className="pt-20"
-      onClick={() => showDropdown && setShowDropdown(false)}
-    >
-      <div className="relative ml-auto flex">
-        <Button
-          className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"
-          variant={"link"}
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          <MoreVertical size={24} />
-        </Button>
-        {showDropdown && (
-          <Dropdown
-            employee={employee}
-            setShowModal={setShowModal}
-            setShowDropdown={setShowDropdown}
-          />
-        )}
-      </div>
+    <main className="pt-20">
       <div className="flex w-full items-center justify-center space-x-8 border-b-2 border-slate-300 pb-4 dark:border-slate-600">
         <Heading size={"sm"}>Shift preferences for {employee?.name}</Heading>
         {showAddPreference ? (

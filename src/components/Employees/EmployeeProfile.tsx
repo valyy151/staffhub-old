@@ -111,7 +111,7 @@ export default function EmployeeProfile({
       <div className="flex">
         {/* personal info begin */}
         <div
-          onClick={() => router.push(`/employees/${employee.id}/about`)}
+          onClick={() => router.push(`/employees/${employee.id}/personal`)}
           className="w-1/4 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
         >
           <Heading size={"xs"} className="mb-2 flex items-center">

@@ -56,31 +56,11 @@ export default function SchedulePage({ query }: SchedulePageProps) {
   }, [employee]);
 
   return (
-    <main
-      onClick={() => showDropdown && setShowDropdown(false)}
-      className="flex flex-col items-center pt-20"
-    >
+    <main className="flex flex-col items-center pt-20">
       {loading ? (
         <Spinner />
       ) : (
         <>
-          {" "}
-          <div className="relative ml-auto mr-2 flex">
-            <Button
-              className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"
-              variant={"link"}
-              onClick={() => setShowDropdown(!showDropdown)}
-            >
-              <MoreVertical size={24} />
-            </Button>
-            {showDropdown && (
-              <Dropdown
-                employee={employee}
-                setShowModal={setShowModal}
-                setShowDropdown={setShowDropdown}
-              />
-            )}
-          </div>
           <div className="flex w-full items-center justify-center space-x-8 border-b-2 border-slate-300 pb-4 dark:border-slate-600">
             {" "}
             <Heading size={"sm"}>Schedules for {employee?.name}</Heading>

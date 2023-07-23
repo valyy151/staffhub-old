@@ -71,7 +71,7 @@ const Dropdown: FC<DropdownProps> = ({
           <Sticker className="ml-2" />
         </li>
         <li
-          onClick={() => router.push(`/employees/${employee.id}/about`)}
+          onClick={() => router.push(`/employees/${employee.id}/personal`)}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50  dark:hover:bg-slate-500"
         >
           Personal Information

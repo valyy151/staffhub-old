@@ -5,9 +5,9 @@ import { Button } from "~/components/ui/Button";
 import Input from "~/components/ui/Input";
 import { api } from "~/utils/api";
 import Dropdown from "~/components/Employees/Dropdown";
-import VacationPlanner from "~/components/Employees/Vacation/VacationPlanner";
+import VacationPlanner from "~/components/Employees/VacationPlanner";
 import { Vacation } from "@prisma/client";
-import VacationComponent from "~/components/Employees/Vacation/Vacation";
+import VacationComponent from "~/components/Employees/Vacation";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -46,26 +46,7 @@ export default function VacationPage({ query }: VacationPageProps) {
   }, []);
 
   return (
-    <main
-      onClick={() => showDropdown && setShowDropdown(false)}
-      className="mx-auto w-4/5 pt-20"
-    >
-      <div className="relative ml-auto flex">
-        <Button
-          className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"
-          variant={"link"}
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          <MoreVertical size={24} />
-        </Button>
-        {showDropdown && (
-          <Dropdown
-            employee={employee}
-            setShowModal={setShowModal}
-            setShowDropdown={setShowDropdown}
-          />
-        )}
-      </div>
+    <main className="mx-auto w-4/5 pt-20">
       <div className="flex w-full items-center justify-center space-x-8 border-b-2 border-slate-300 pb-4 dark:border-slate-600">
         <Heading size={"sm"}>
           {employee?.name} - Vacation days remaining: {employee?.vacationDays}

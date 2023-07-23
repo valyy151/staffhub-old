@@ -1,7 +1,7 @@
-import { Employee, EmployeeNote } from "@prisma/client";
+import { EmployeeNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Check, MoreVertical, Scroll, X } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Check, MoreVertical, ScrollText, X } from "lucide-react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import Dropdown from "~/components/Employees/Dropdown";
 import Note from "~/components/Employees/Note";
@@ -39,26 +39,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
   });
 
   return (
-    <main
-      className="mx-auto w-4/5 pt-20"
-      onClick={() => showDropdown && setShowDropdown(false)}
-    >
-      <div className="relative ml-auto flex">
-        <Button
-          className="ml-auto min-w-0 rounded-full hover:bg-slate-50 dark:hover:bg-slate-600"
-          variant={"link"}
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
-          <MoreVertical size={24} />
-        </Button>
-        {showDropdown && (
-          <Dropdown
-            employee={employee}
-            setShowModal={setShowModal}
-            setShowDropdown={setShowDropdown}
-          />
-        )}
-      </div>
+    <main className="mx-auto w-4/5 pt-20">
       <div className="flex w-full items-center justify-center space-x-8 border-b-2 border-slate-300 pb-4 dark:border-slate-600">
         <Heading className="">Notes for {employee?.name}</Heading>
         {showAddNote ? (
@@ -78,7 +59,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
             onClick={() => setShowAddNote(true)}
           >
             New Note
-            <Scroll className="ml-2 h-5 w-5" />
+            <ScrollText className="ml-2 h-5 w-5" />
           </Button>
         )}
       </div>
