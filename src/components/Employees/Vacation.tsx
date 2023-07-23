@@ -32,7 +32,7 @@ export default function Vacation({ vacation, employee }: VacationProps) {
 
   const queryClient = useQueryClient();
 
-  const deleteVacation = api.employee.deleteVacation.useMutation({
+  const deleteVacation = api.vacation.delete.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success("Vacation deleted successfully.");

@@ -30,7 +30,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
 
   const queryClient = useQueryClient();
 
-  const updatePersonalInfo = api.employee?.updatePersonalInfo.useMutation({
+  const updatePersonalInfo = api.employee?.update.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success("Personal info updated successfully.");

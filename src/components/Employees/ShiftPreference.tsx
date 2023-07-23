@@ -24,7 +24,7 @@ export default function ShiftPreference({
 
   const queryClient = useQueryClient();
 
-  const deleteShiftPreference = api.employee.deleteShiftPreference.useMutation({
+  const deleteShiftPreference = api.shiftPreference.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
       queryClient.invalidateQueries();
@@ -32,7 +32,7 @@ export default function ShiftPreference({
     },
   });
 
-  const updateShiftPreference = api.employee.updateShiftPreference.useMutation({
+  const updateShiftPreference = api.shiftPreference.update.useMutation({
     onSuccess: () => {
       setEditPreference(false);
       queryClient.invalidateQueries();

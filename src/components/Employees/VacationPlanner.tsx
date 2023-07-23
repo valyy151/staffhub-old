@@ -89,7 +89,7 @@ export default function VacationPlanner({
 
   const queryClient = useQueryClient();
 
-  const createVacation = api.employee.createVacation.useMutation({
+  const createVacation = api.vacation.create.useMutation({
     onSuccess: () => {
       setShowPlanner(false);
       queryClient.invalidateQueries();

@@ -34,7 +34,7 @@ export default function VacationPage({ query }: VacationPageProps) {
 
   const queryClient = useQueryClient();
 
-  const updateAmount = api.employee.updateVacationAmount.useMutation({
+  const updateAmount = api.vacation.updateAmountOfDays.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success("Vacation days updated successfully.");

@@ -21,7 +21,7 @@ export default function Note({ note }: NoteProps) {
 
   const queryClient = useQueryClient();
 
-  const deleteNote = api.workDay.deleteNote.useMutation({
+  const deleteNote = api.workDayNote.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
       queryClient.invalidateQueries();
@@ -29,7 +29,7 @@ export default function Note({ note }: NoteProps) {
     },
   });
 
-  const updateNote = api.workDay.updateNote.useMutation({
+  const updateNote = api.workDayNote.update.useMutation({
     onSuccess: () => {
       setEditNote(false);
       queryClient.invalidateQueries();
