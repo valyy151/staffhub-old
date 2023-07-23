@@ -8,19 +8,15 @@ import { Button } from "~/components/ui/Button";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 
-interface EmployeePersonalInfoPageProps {
+interface EmployeePersonalProps {
   query: { id: string };
 }
 
-EmployeePersonalInfoPage.getInitialProps = ({
-  query,
-}: EmployeePersonalInfoPageProps) => {
+EmployeePersonalPage.getInitialProps = ({ query }: EmployeePersonalProps) => {
   return { query };
 };
 
-export default function EmployeePersonalInfoPage({
-  query,
-}: EmployeePersonalInfoPageProps) {
+export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
   const response = api.employee?.findOne.useQuery({
     id: query.id,
   });
@@ -41,7 +37,9 @@ export default function EmployeePersonalInfoPage({
     },
   });
 
-  const handleSubmit = async () => {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
     updatePersonalInfo.mutate({
       name,
       email,
@@ -49,12 +47,12 @@ export default function EmployeePersonalInfoPage({
       phoneNumber: phone,
       employeeId: query.id,
     });
-  };
+  }
 
   return (
     <main className="flex">
       <Sidebar employee={employee} />
-      <div className="mx-auto mt-4 flex w-full flex-col items-center">
+      <div className="mt-4 flex w-full flex-col items-center">
         <Heading>{employee?.name}</Heading>
 
         <form onSubmit={handleSubmit} className="mt-12 w-1/4">

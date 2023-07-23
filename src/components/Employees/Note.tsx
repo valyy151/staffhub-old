@@ -38,7 +38,11 @@ export default function Note({ note }: NoteProps) {
   });
 
   return (
-    <div className="mx-auto my-2 flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700">
+    <div
+      className={`mx-auto my-1 flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
+        editNote && "border border-slate-400"
+      }`}
+    >
       {editNote ? (
         <>
           <Input
@@ -51,7 +55,7 @@ export default function Note({ note }: NoteProps) {
             size={"sm"}
             variant={"link"}
             title="Save changes"
-            className="w-16 min-w-0"
+            className="w-16 min-w-0 p-5"
             onClick={() => updateNote.mutate({ noteId: note.id, content })}
           >
             {<Check />}
@@ -60,7 +64,7 @@ export default function Note({ note }: NoteProps) {
             size={"sm"}
             title="Cancel"
             variant={"link"}
-            className="w-16 min-w-0"
+            className="w-16 min-w-0 p-5"
             onClick={() => setEditNote(false)}
           >
             {<XCircle />}
@@ -74,7 +78,7 @@ export default function Note({ note }: NoteProps) {
           <Button
             size={"sm"}
             variant={"link"}
-            className="w-16 min-w-0 rounded-full p-5 hover:bg-slate-100"
+            className="w-16 min-w-0 p-5"
             onClick={() => setEditNote(true)}
             title="Edit note"
           >
@@ -83,7 +87,7 @@ export default function Note({ note }: NoteProps) {
           <Button
             size={"sm"}
             variant={"link"}
-            className="w-16 min-w-0 rounded-full p-5 hover:bg-slate-100"
+            className="w-16 min-w-0 p-5"
             onClick={() => setShowModal(true)}
             title="Delete note"
           >
