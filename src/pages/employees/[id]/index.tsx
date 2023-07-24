@@ -32,7 +32,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
       className="flex flex-col px-12 pb-80 pt-24"
     >
       {loading ? (
-        <Spinner className="mx-auto" />
+        <Spinner />
       ) : (
         <>
           {data && (

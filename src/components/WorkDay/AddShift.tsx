@@ -1,15 +1,14 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import Heading from "../ui/Heading";
 import Input from "../ui/Input";
-import { formatTime, formatTotal } from "~/utils/dateFormatting";
-import Paragraph from "../ui/Paragraph";
-import { Button } from "../ui/Button";
-import { ArrowLeft, Check, Clock, Clock10, Clock8, X } from "lucide-react";
-
-import SearchEmployees from "./SearchEmployees";
-import { WorkDay, api } from "~/utils/api";
+import { useState } from "react";
 import toast from "react-hot-toast";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Heading from "../ui/Heading";
+import { Button } from "../ui/Button";
+import Paragraph from "../ui/Paragraph";
+import { WorkDay, api } from "~/utils/api";
+import SearchEmployees from "./SearchEmployees";
+import { ArrowLeft, Clock8 } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
 interface AddShiftProps {
   data: WorkDay;
@@ -18,8 +17,11 @@ interface AddShiftProps {
 
 export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const [name, setName] = useState<string>("");
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const [employeeId, setEmployeeId] = useState<string>("");
+
   const [end, setEnd] = useState<number | undefined>(undefined);
   const [start, setStart] = useState<number | undefined>(undefined);
 
@@ -42,11 +44,9 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
 
   const createShift = api.shift.create.useMutation({
     onSuccess: () => {
+      setShowAddShift(false);
       queryClient.invalidateQueries();
       toast.success("Shift created successfully.");
-    },
-    onError: (error) => {
-      console.log(error);
     },
   });
 
@@ -61,89 +61,89 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
         employeeId: employeeId,
       });
     }
-
-    setShowAddShift(false);
   };
 
   return (
-    <>
-      <div className="mx-auto">
-        <Heading size={"sm"}>
-          Add a new shift {name && "for"} {name}
-        </Heading>
-        <form
-          onSubmit={handleSubmit}
-          className="mt-2 flex flex-col items-center"
-        >
-          <div className="flex space-x-8">
-            <div className="mt-auto flex flex-col">
-              <label className="ml-2 text-lg">Employee</label>
+    <div className="mx-auto">
+      <Heading size={"sm"}>
+        Add a new shift {name && "for"} {name}
+      </Heading>
 
-              <SearchEmployees
-                name={name}
-                isOpen={isOpen}
-                setName={setName}
-                employees={employees}
-                setIsOpen={setIsOpen}
-                setId={setEmployeeId}
-              />
+      <form onSubmit={handleSubmit} className="mt-2 flex flex-col items-center">
+        <div className="flex space-x-8">
+          <div className="mt-auto flex w-96 flex-col">
+            <label className="ml-2 text-xl">Employee</label>
+
+            <SearchEmployees
+              name={name}
+              isOpen={isOpen}
+              setName={setName}
+              employees={employees}
+              setIsOpen={setIsOpen}
+              setId={setEmployeeId}
+            />
+
+            <div className="mr-auto mt-2 flex w-full space-x-1">
+              <Button
+                size={"lg"}
+                title="Create shift"
+                className="h-14 w-full text-xl"
+              >
+                {<Clock8 className="mr-2" />} Create
+              </Button>
+
+              <Button
+                title="Cancel shift creation"
+                size={"lg"}
+                type="button"
+                variant={"subtle"}
+                className="h-14 w-full text-xl"
+                onClick={() => setShowAddShift(false)}
+              >
+                {<ArrowLeft className="mr-2" />} Cancel
+              </Button>
             </div>
-            <div className="flex space-x-3">
+          </div>
+          <div className="flex flex-col">
+            <div className="mb-auto flex space-x-3">
               <div className="mt-auto flex flex-col">
-                <label htmlFor="start" className="ml-2 text-lg">
+                <label htmlFor="start" className="ml-2 text-xl">
                   Start
                 </label>
+
                 <Input
                   type="text"
                   name="start"
                   placeholder="Start time"
                   value={formatTime(start)}
-                  className="m-0 h-14 text-xl"
+                  className="m-0 h-14 w-32 text-xl"
                   onChange={(e) => handleTimeChange(e.target.value, "start")}
                 />
               </div>
 
-              <div className="mt-auto flex flex-col">
-                <label htmlFor="end" className="ml-2 text-lg">
+              <div className="mb-auto flex flex-col">
+                <label htmlFor="end" className="ml-2 text-xl">
                   End
                 </label>
+
                 <Input
                   name="end"
                   type="text"
                   placeholder="End time"
                   value={formatTime(end)}
-                  className="m-0 h-14 text-xl"
+                  className="m-0 h-14 w-32 text-xl"
                   onChange={(e) => handleTimeChange(e.target.value, "end")}
                 />
               </div>
             </div>
-            <div className="mt-auto flex flex-col">
-              <label className="text-lg">Total Hours</label>
-              <Paragraph
-                size={"lg"}
-                className="m-0 flex h-14 items-center text-3xl font-bold"
-              >
-                {formatTotal(start, end)}
-              </Paragraph>
-            </div>
+
+            <Heading size={"sm"} className="font-normal">
+              Total hours:{" "}
+              <span className="font-semibold">{formatTotal(start, end)}</span>
+            </Heading>
           </div>
-          <div className="mb-1 mt-6 flex space-x-1">
-            <Button size={"lg"} title="Create shift" className="h-14 text-xl">
-              {<Clock8 className="mr-2" />} Create
-            </Button>
-            <Button
-              title="Cancel shift creation"
-              size={"lg"}
-              type="button"
-              variant={"subtle"}
-              className="h-14 text-xl"
-              onClick={() => setShowAddShift(false)}
-            >
-              {<ArrowLeft className="mr-2" />} Cancel
-            </Button>
-          </div>
-        </form>
-      </div>
-    </>
+        </div>
+      </form>
+    </div>
   );
 }

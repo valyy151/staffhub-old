@@ -7,8 +7,7 @@ import { Button } from "../ui/Button";
 import Paragraph from "../ui/Paragraph";
 import { WorkDayNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Check, XCircle, Trash2, Pencil, Save } from "lucide-react";
-import Heading from "../ui/Heading";
+import { XCircle, Trash2, Pencil, Save } from "lucide-react";
 
 interface NoteProps {
   note: WorkDayNote;
@@ -51,7 +50,6 @@ export default function Note({ note }: NoteProps) {
   return (
     <div className="my-2 flex flex-col items-start">
       <Paragraph className="m-0 font-medium">
-        {" "}
         {note.createdAt.toLocaleString("en-GB", {
           day: "numeric",
           month: "short",
@@ -61,7 +59,7 @@ export default function Note({ note }: NoteProps) {
         })}
       </Paragraph>
       <div
-        className={`mx-auto flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
+        className={`flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
           editNote && "ring-05 ring-slate-400"
         }`}
       >

@@ -1,22 +1,22 @@
 import Link from "next/link";
 import Input from "../ui/Input";
-import { Dispatch, SetStateAction, useState } from "react";
+import Modal from "../ui/Modal";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import Heading from "../ui/Heading";
+import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
-import { Shift, WorkDayNote } from "@prisma/client";
+import { Shift } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
 import { Pencil, Save, Trash2, X } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
-import Heading from "../ui/Heading";
-import { WorkDay, api } from "~/utils/api";
-import toast from "react-hot-toast";
-import Modal from "../ui/Modal";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface ShiftProps {
-  data: WorkDay;
+  date: number | undefined;
   shift: Shift & { employee: { name: string } };
 }
 
-export default function Shift({ shift, data }: ShiftProps) {
+export default function Shift({ shift, date }: ShiftProps) {
   const [showModal, setShowModal] = useState(false);
 
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -24,18 +24,17 @@ export default function Shift({ shift, data }: ShiftProps) {
   const [end, setEnd] = useState<number>(shift.end);
   const [start, setStart] = useState<number>(shift.start);
 
-  const handleTimeChange = (newTime: string, field: "start" | "end") => {
-    // convert the new time into Unix timestamp
-    if (data.date) {
+  function handleTimeChange(newTime: string, field: "start" | "end"): void {
+    if (date) {
       const [hour, minute]: string[] = newTime.split(":");
-      const newDate: any = new Date(data.date * 1000);
+      const newDate: any = new Date(date * 1000);
       newDate.setHours(hour);
       newDate.setMinutes(minute);
       const newUnixTime = Math.floor(newDate.getTime() / 1000);
 
       field === "start" ? setStart(newUnixTime) : setEnd(newUnixTime);
     }
-  };
+  }
 
   const queryClient = useQueryClient();
 
@@ -70,7 +69,7 @@ export default function Shift({ shift, data }: ShiftProps) {
   }
 
   return (
-    <div className="flex items-center pb-6">
+    <div className="flex items-center">
       <Heading size={"xs"} className="mr-8">
         <Link
           className="hover:text-sky-500"
@@ -120,7 +119,11 @@ export default function Shift({ shift, data }: ShiftProps) {
             className=""
             title="Cancel editing"
             variant={"subtle"}
-            onClick={() => setEditMode(false)}
+            onClick={() => {
+              setEnd(shift.end);
+              setStart(shift.start);
+              setEditMode(false);
+            }}
           >
             Cancel {<X className="ml-2" />}
           </Button>
