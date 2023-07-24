@@ -1,23 +1,19 @@
-import { Check, ScrollText, X } from "lucide-react";
+import { ArrowLeft, Check, Save, ScrollText, X } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 import Input from "../ui/Input";
+import toast from "react-hot-toast";
+import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
 import { WorkDay, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import Heading from "../ui/Heading";
 
 interface AddNoteProps {
   data: WorkDay;
-  setShowAddNote: Dispatch<SetStateAction<boolean>>;
+  setShowAddNote: (showAddnote: boolean) => void;
 }
 
-export default function AddNote({
-  data,
-
-  setShowAddNote,
-}: AddNoteProps) {
-  const [note, setNote] = useState<string>("");
+export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
+  const [content, setContent] = useState<string>("");
 
   const queryClient = useQueryClient();
 
@@ -33,38 +29,47 @@ export default function AddNote({
     e.preventDefault();
     if (data.id) {
       createNote.mutate({
-        content: note,
+        content,
         workDayId: data.id,
       });
     }
   }
 
   return (
-    <div className="mx-auto flex flex-col">
-      <Heading className="mb-3">Add a note</Heading>
-      <form onSubmit={handleSubmit} className="flex space-x-2">
+    <div className="flex w-full flex-col">
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto mt-8 flex w-5/12 flex-col"
+      >
+        <Heading size={"sm"} className="mb-3">
+          Add a New Note
+        </Heading>
+
         <Input
           type="text"
-          name="note"
-          value={note}
-          className="h-fit w-[40rem] text-xl"
-          placeholder="Anything to note?"
-          onChange={(e) => setNote(e.target.value)}
+          value={content}
+          placeholder=" Add a note..."
+          className="h-14 text-lg"
+          onChange={(e) => setContent(e.target.value)}
         />
-
-        <Button size={"lg"} title="Create note">
-          Create {<ScrollText className="ml-2" />}
-        </Button>
-
-        <Button
-          size={"lg"}
-          type="button"
-          title="Cancel note creation"
-          variant={"subtle"}
-          onClick={() => setShowAddNote(false)}
-        >
-          Cancel {<X className="ml-2" />}
-        </Button>
+        <div className="mt-2 flex w-full space-x-1">
+          {" "}
+          <Button size={"lg"} title="Add note" className="h-14 w-full text-2xl">
+            <Save size={28} className="mr-2" />
+            Save
+          </Button>
+          <Button
+            size={"lg"}
+            type="button"
+            title="Cancel note creation"
+            variant={"subtle"}
+            className="h-14 w-full text-2xl"
+            onClick={() => setShowAddNote(false)}
+          >
+            <ArrowLeft size={28} className="mr-2" />
+            Cancel
+          </Button>
+        </div>
       </form>
     </div>
   );

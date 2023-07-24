@@ -73,7 +73,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
         </Heading>
         <form
           onSubmit={handleSubmit}
-          className="mt-4 flex flex-col items-center"
+          className="mt-2 flex flex-col items-center"
         >
           <div className="flex space-x-8">
             <div className="mt-auto flex flex-col">

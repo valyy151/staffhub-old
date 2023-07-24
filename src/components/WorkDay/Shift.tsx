@@ -12,88 +12,60 @@ import Modal from "../ui/Modal";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface ShiftProps {
-  index: number;
   data: WorkDay;
-  setWorkDay: (data: WorkDay) => void;
   shift: Shift & { employee: { name: string } };
 }
 
-export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
+export default function Shift({ shift, data }: ShiftProps) {
   const [showModal, setShowModal] = useState(false);
 
-  const [editMode, setEditMode] = useState<{ [key: string]: boolean }>({});
+  const [editMode, setEditMode] = useState<boolean>(false);
 
-  function toggleEditMode(shiftId: string) {
-    setEditMode((prevState) => {
-      const updatedEditMode: any = {};
+  const [end, setEnd] = useState<number>(shift.end);
+  const [start, setStart] = useState<number>(shift.start);
 
-      Object.keys(prevState).forEach((key) => {
-        updatedEditMode[key] = false;
-      });
-
-      updatedEditMode[shiftId] = !prevState[shiftId];
-
-      return updatedEditMode;
-    });
-  }
-
-  function handleTimeChange(
-    newTime: string,
-    field: "start" | "end",
-    index: number
-  ) {
+  const handleTimeChange = (newTime: string, field: "start" | "end") => {
+    // convert the new time into Unix timestamp
     if (data.date) {
       const [hour, minute]: string[] = newTime.split(":");
       const newDate: any = new Date(data.date * 1000);
-
       newDate.setHours(hour);
       newDate.setMinutes(minute);
-
       const newUnixTime = Math.floor(newDate.getTime() / 1000);
 
-      const newShifts = data?.shifts.map((d, i) =>
-        i === index ? { ...d, [field]: newUnixTime } : d
-      );
-
-      const newWorkDay = {
-        id: data.id,
-        date: data.date,
-        notes: data.notes,
-        shifts: newShifts,
-      };
-      setWorkDay(newWorkDay);
+      field === "start" ? setStart(newUnixTime) : setEnd(newUnixTime);
     }
-  }
+  };
 
   const queryClient = useQueryClient();
 
-  const updateShift = api.shift.update.useMutation({
+  const updateShiftMutation = api.shift.update.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success("Shift updated successfully.");
     },
   });
 
-  const deleteShift = api.shift.delete.useMutation({
+  const deleteShiftMutation = api.shift.delete.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
       toast.success("Shift deleted successfully.");
     },
   });
 
-  function handleEdit(e: React.FormEvent, shiftId: string) {
+  function updateShift(e: React.FormEvent) {
     e.preventDefault();
 
-    updateShift.mutate({
-      shiftId: shiftId,
-      shift: { start: shift.start, end: shift.end },
+    updateShiftMutation.mutate({
+      shiftId: shift.id,
+      shift: { start, end },
     });
 
-    toggleEditMode(shiftId);
+    setEditMode(false);
   }
 
-  function handleDelete(shiftId: string) {
-    deleteShift.mutate({ shiftId: shiftId });
+  function deleteShift() {
+    deleteShiftMutation.mutate({ shiftId: shift.id });
     setShowModal(false);
   }
 
@@ -108,21 +80,23 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
         </Link>
       </Heading>
 
-      {editMode[shift.id] ? (
+      {editMode ? (
         <div className="mr-6 flex items-center space-x-2">
           <Input
             type="text"
-            title="Shift start"
-            value={formatTime(shift.start)}
-            className="w-[5rem] px-0 py-0 pl-2 text-2xl"
-            onChange={(e) => handleTimeChange(e.target.value, "start", index)}
+            name="start"
+            placeholder="Start time"
+            value={formatTime(start)}
+            className="m-0 h-14 text-xl"
+            onChange={(e) => handleTimeChange(e.target.value, "start")}
           />
           <Input
+            name="end"
             type="text"
-            title="Shift end"
-            value={formatTime(shift.end)}
-            className="w-[5rem] px-0 py-0 pl-2 text-2xl"
-            onChange={(e) => handleTimeChange(e.target.value, "end", index)}
+            placeholder="End time"
+            value={formatTime(end)}
+            className="m-0 h-14 text-xl"
+            onChange={(e) => handleTimeChange(e.target.value, "end")}
           />
         </div>
       ) : (
@@ -131,16 +105,13 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
         </Heading>
       )}
 
-      <Heading size={"xs"} className="mr-8 w-24">
+      <Heading size={"xs"} className="mr-8">
         {" "}
-        {formatTotal(shift.start, shift.end)}
+        {formatTotal(start, end)}
       </Heading>
 
-      {editMode[shift.id] ? (
-        <form
-          className="flex justify-center space-x-2"
-          onSubmit={(e) => handleEdit(e, shift.id)}
-        >
+      {editMode ? (
+        <form className="flex justify-center space-x-2" onSubmit={updateShift}>
           <Button title="Save changes" className="">
             Save {<Save className="ml-2" />}
           </Button>
@@ -149,18 +120,18 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
             className=""
             title="Cancel editing"
             variant={"subtle"}
-            onClick={() => toggleEditMode(shift.id)}
+            onClick={() => setEditMode(false)}
           >
             Cancel {<X className="ml-2" />}
           </Button>
         </form>
       ) : (
-        !editMode[shift.id] && (
+        !editMode && (
           <>
             <Button
               className="mr-1 "
               title="Edit Shift"
-              onClick={() => toggleEditMode(shift.id)}
+              onClick={() => setEditMode(true)}
             >
               Edit {<Pencil className="ml-2" />}
             </Button>
@@ -178,9 +149,9 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
 
       {showModal && (
         <Modal
+          submit={deleteShift}
           showModal={showModal}
           cancel={() => setShowModal(false)}
-          submit={() => handleDelete(shift.id)}
           text={"Are you sure you want to delete this shift?"}
         />
       )}
