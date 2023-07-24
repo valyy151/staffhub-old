@@ -44,12 +44,19 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     if (showAddNote || showAddShift) return null;
 
     if (workDay.notes.length === 0) {
-      return <Paragraph>There are currently no notes for this day.</Paragraph>;
+      return (
+        <div className="flex flex-col items-start">
+          <Heading className="mb-2 mt-8">Notes</Heading>
+          <Paragraph size={"lg"}>
+            There are currently no notes for this day.
+          </Paragraph>
+        </div>
+      );
     }
 
     return (
-      <div className="mb-2 flex w-1/2 flex-col">
-        <Heading className="mb-2">Notes</Heading>
+      <div className="flex flex-col">
+        <Heading className="mb-2 mt-8">Notes</Heading>
 
         {workDay.notes.map((note) => (
           <Note key={note.id} note={note} />
@@ -62,12 +69,19 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     if (showAddShift || showAddNote) return null;
 
     if (workDay.shifts.length === 0) {
-      return <Paragraph>There are currently no shifts for this day.</Paragraph>;
+      return (
+        <div className="flex flex-col items-start pb-4">
+          <Heading className="mb-2">Shifts</Heading>
+          <Paragraph size={"lg"} className="m-0">
+            There are currently no shifts for this day.
+          </Paragraph>
+        </div>
+      );
     }
 
     return (
-      <div className="mb-2 flex w-1/2 flex-col">
-        <Heading className="mb-2">Notes</Heading>
+      <div className="flex flex-col">
+        <Heading className="mb-2">Shifts</Heading>
 
         {workDay.shifts.map((shift) => (
           <Shift key={shift.id} shift={shift} date={workDay.date} />
@@ -77,7 +91,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   };
 
   return (
-    <main className="flex w-full flex-col items-center">
+    <main className="flex flex-col items-center">
       <div className="my-6 flex w-full flex-col items-center border-b-2 border-slate-300 pb-6 dark:border-slate-700">
         <div className="flex space-x-3">
           <Heading>{formatDay(workDay.date)}</Heading>
@@ -110,17 +124,16 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         </div>
       </div>
 
-      <div className="flex w-full">
-        {showAddShift && (
-          <AddShift data={workDay} setShowAddShift={setShowAddShift} />
-        )}
-        {showAddNote && (
-          <AddNote data={workDay} setShowAddNote={setShowAddNote} />
-        )}
+      {showAddShift && (
+        <AddShift data={workDay} setShowAddShift={setShowAddShift} />
+      )}
+      {showAddNote && (
+        <AddNote data={workDay} setShowAddNote={setShowAddNote} />
+      )}
+      <div>
+        {renderShifts()}
 
         {renderNotes()}
-
-        {renderShifts()}
       </div>
     </main>
   );

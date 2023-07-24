@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
 import { Shift } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Pencil, Save, Trash2, X } from "lucide-react";
+import { ArrowLeft, Pencil, Save, Trash2, X } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
 interface ShiftProps {
@@ -69,10 +69,10 @@ export default function Shift({ shift, date }: ShiftProps) {
   }
 
   return (
-    <div className="flex items-center">
-      <Heading size={"xs"} className="mr-8">
+    <div className="my-2 flex items-center justify-between space-x-8">
+      <Heading size={"xs"}>
         <Link
-          className="hover:text-sky-500"
+          className="underline-offset-8 hover:text-sky-500 hover:underline"
           href={`/employees/${shift.employeeId}`}
         >
           {shift?.employee.name}
@@ -80,13 +80,13 @@ export default function Shift({ shift, date }: ShiftProps) {
       </Heading>
 
       {editMode ? (
-        <div className="mr-6 flex items-center space-x-2">
+        <div className="flex items-center space-x-2">
           <Input
             type="text"
             name="start"
             placeholder="Start time"
             value={formatTime(start)}
-            className="m-0 h-14 text-xl"
+            className="m-0 w-20 text-xl"
             onChange={(e) => handleTimeChange(e.target.value, "start")}
           />
           <Input
@@ -94,25 +94,22 @@ export default function Shift({ shift, date }: ShiftProps) {
             type="text"
             placeholder="End time"
             value={formatTime(end)}
-            className="m-0 h-14 text-xl"
+            className="m-0 w-20 text-xl"
             onChange={(e) => handleTimeChange(e.target.value, "end")}
           />
         </div>
       ) : (
-        <Heading size={"xs"} className="ml-2 w-48 font-normal">
+        <Heading size={"xs"} className="font-normal">
           {formatTime(shift.start)} - {formatTime(shift.end)}
         </Heading>
       )}
 
-      <Heading size={"xs"} className="mr-8">
-        {" "}
-        {formatTotal(start, end)}
-      </Heading>
+      <Heading size={"xs"}> {formatTotal(start, end)}</Heading>
 
       {editMode ? (
         <form className="flex justify-center space-x-2" onSubmit={updateShift}>
           <Button title="Save changes" className="">
-            Save {<Save className="ml-2" />}
+            {<Save className="mr-2" />} Save
           </Button>
           <Button
             type="button"
@@ -125,29 +122,22 @@ export default function Shift({ shift, date }: ShiftProps) {
               setEditMode(false);
             }}
           >
-            Cancel {<X className="ml-2" />}
+            {<ArrowLeft className="mr-2" />} Cancel
           </Button>
         </form>
       ) : (
-        !editMode && (
-          <>
-            <Button
-              className="mr-1 "
-              title="Edit Shift"
-              onClick={() => setEditMode(true)}
-            >
-              Edit {<Pencil className="ml-2" />}
-            </Button>
-            <Button
-              className="ml-1"
-              title="Delete Shift"
-              variant={"destructive"}
-              onClick={() => setShowModal(true)}
-            >
-              Delete {<Trash2 className="ml-2" />}
-            </Button>
-          </>
-        )
+        <div className="space-x-1">
+          <Button title="Edit Shift" onClick={() => setEditMode(true)}>
+            {<Pencil className="mr-2" />} Edit
+          </Button>
+          <Button
+            title="Delete Shift"
+            variant={"destructive"}
+            onClick={() => setShowModal(true)}
+          >
+            {<Trash2 className="mr-2" />} Delete
+          </Button>
+        </div>
       )}
 
       {showModal && (
