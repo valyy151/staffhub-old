@@ -6,29 +6,29 @@ interface SearchEmployeesProps {
   name: string;
   isOpen: boolean;
   employees: Employee[];
-  setId: (id: string) => void;
   setName: (name: string) => void;
+  setEmployeeId: (id: string) => void;
   setIsOpen: (isOpen: boolean) => void;
   setShiftPreferences: (preferences: ShiftPreference[]) => void;
 }
 
 export default function SearchEmployees({
   name,
-  setId,
   isOpen,
   setName,
   setIsOpen,
   employees,
+  setEmployeeId,
   setShiftPreferences,
 }: SearchEmployeesProps) {
   function handleSelect(
-    option: string,
     id: string,
+    name: string,
     shiftPreferences: ShiftPreference[]
   ) {
-    setId(id);
-    setName(option);
+    setName(name);
     setIsOpen(false);
+    setEmployeeId(id);
     setShiftPreferences(shiftPreferences);
   }
 
@@ -53,14 +53,14 @@ export default function SearchEmployees({
           className={`absolute z-10 mt-2 w-full rounded bg-white shadow-md dark:bg-slate-600 dark:text-slate-300`}
         >
           <ul>
-            {employees.map((employee: any) => (
+            {employees.map((employee) => (
               <li
                 className="cursor-pointer px-4 py-3 hover:bg-gray-100 dark:hover:bg-slate-500"
                 key={employee.id}
                 onClick={() =>
                   handleSelect(
-                    employee.name,
                     employee.id,
+                    employee.name,
                     employee.shiftPreferences
                   )
                 }

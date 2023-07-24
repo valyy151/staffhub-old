@@ -13,32 +13,32 @@ import { formatMonth } from "~/utils/dateFormatting";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
 
 interface ScheduleMakerProps {
-  id: string;
   name: string;
   isOpen: boolean;
+  employeeId: string;
   employees: Employee[];
   shiftPreferences: ShiftPreference[];
 
-  setId: (id: string) => void;
   setName: (name: string) => void;
+  setEmployeeId: (id: string) => void;
   setIsOpen: (isOpen: boolean) => void;
   setShiftPreferences: (preferences: ShiftPreference[]) => void;
 }
 
 export default function ScheduleMaker({
-  id,
   name,
-  setId,
   isOpen,
   setName,
   employees,
   setIsOpen,
+  employeeId,
+  setEmployeeId,
   shiftPreferences,
   setShiftPreferences,
 }: ScheduleMakerProps) {
   const currentDate = new Date();
   const [schedule, setSchedule] = useState<any[]>([]);
-  const [value, setValue] = useState<Date | null>(null);
+  const [value, setValue] = useState<Date>(new Date());
   const [yearArray, setYearArray] = useState<{ date: number }[]>([]);
 
   const [, setMonth] = useState(() => {
@@ -50,14 +50,19 @@ export default function ScheduleMaker({
 
   const createDay = api.workDay.create.useMutation();
 
-  const { data: yearExists } = api.workDay.yearExists.useQuery({
-    date: schedule[0]?.date,
-  });
+  const { refetch } = api.workDay.yearExists.useQuery(
+    {
+      date: schedule[0]?.date,
+    },
+    { enabled: false }
+  );
 
   function createSchedule() {
-    if (!yearExists) {
-      createYearlyWorkDays();
-    }
+    refetch().then(({ data }) => {
+      if (!data) {
+        createYearlyWorkDays();
+      }
+    });
 
     createMonthlySchedule();
   }
@@ -82,7 +87,7 @@ export default function ScheduleMaker({
             end: day.end,
             date: day.date,
             start: day.start,
-            employeeId: id,
+            employeeId: employeeId,
           });
         }
       })
@@ -143,11 +148,11 @@ export default function ScheduleMaker({
       <div className="mt-7 flex h-[44rem] flex-col items-center">
         <SearchEmployees
           name={name}
-          setId={setId}
           isOpen={isOpen}
           setName={setName}
           employees={employees}
           setIsOpen={setIsOpen}
+          setEmployeeId={setEmployeeId}
           setShiftPreferences={setShiftPreferences}
         />
         <Calendar
