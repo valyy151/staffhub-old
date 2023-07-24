@@ -1,21 +1,20 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 import {
   Calendar,
   Palmtree,
-  Scroll,
   ScrollText,
   Sticker,
   Trash2,
   User2,
 } from "lucide-react";
-import { Employee } from "@prisma/client";
 import router from "next/router";
+import { EmployeeProfile } from "~/utils/api";
 
 interface DropdownProps {
-  employee: Employee;
   showDelete?: boolean;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
-  setShowDropdown: Dispatch<SetStateAction<boolean>>;
+  employee: EmployeeProfile;
+  setShowModal: (showModal: boolean) => void;
+  setShowDropdown: (showDropdown: boolean) => void;
 }
 
 const Dropdown: FC<DropdownProps> = ({

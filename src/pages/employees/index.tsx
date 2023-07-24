@@ -1,29 +1,26 @@
 import Link from "next/link";
-import { api } from "~/utils/api";
+import { Employee, api } from "~/utils/api";
 import { UserPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import Spinner from "~/components/ui/Spinner";
 import { buttonVariants } from "~/components/ui/Button";
 import EmployeesTable from "~/components/Employees/EmployeesTable";
 import Heading from "~/components/ui/Heading";
-import { Employee } from "@prisma/client";
 
 export default function EmployeesListPage() {
-  const [loading, setLoading] = useState<boolean>(true);
   const [employees, setEmployees] = useState<Employee[]>([]);
 
-  const { data } = api.employee.find.useQuery();
+  const { data, isLoading } = api.employee.find.useQuery();
 
   useEffect(() => {
     if (data) {
       setEmployees(data);
-      setLoading(false);
     }
   }, [data]);
 
   return (
     <main className="flex flex-col items-center">
-      {loading ? (
+      {isLoading ? (
         <Spinner />
       ) : employees?.length > 0 ? (
         <EmployeesTable data={employees} />

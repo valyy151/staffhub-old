@@ -1,33 +1,29 @@
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { useState } from "react";
 import {
   Calendar,
   Mail,
   MapPin,
-  MoreVertical,
   Palmtree,
   Pencil,
   Phone,
-  Scroll,
   ScrollText,
   Sticker,
   User,
-  User2,
 } from "lucide-react";
-
-import { Employee, EmployeeNote, ShiftPreference } from "@prisma/client";
+import { EmployeeNote, ShiftPreference } from "@prisma/client";
 import Heading from "../ui/Heading";
 import Paragraph from "../ui/Paragraph";
 import { Button } from "../ui/Button";
 import Dropdown from "./Dropdown";
 import Modal from "../ui/Modal";
 import router from "next/router";
-import { api } from "~/utils/api";
+import { EmployeeProfile, api } from "~/utils/api";
 import { toast } from "react-hot-toast";
 
 interface EmployeeProfileProps {
-  employee: any;
   showDropdown: boolean;
-  setShowDropdown: Dispatch<SetStateAction<boolean>>;
+  employee: EmployeeProfile;
+  setShowDropdown: (showDropdown: boolean) => void;
 }
 
 export default function EmployeeProfile({
@@ -45,6 +41,12 @@ export default function EmployeeProfile({
       router.push("/employees");
     },
   });
+
+  function handleDelete() {
+    if (employee.id) {
+      deleteEmployee.mutate({ employeeId: employee.id });
+    }
+  }
 
   function checkEmployeeVacation() {
     const currentDate: any = Date.now();
@@ -218,7 +220,7 @@ export default function EmployeeProfile({
           showModal={showModal}
           cancel={() => setShowModal(false)}
           text={"Are you sure you want to delete this employee?"}
-          submit={() => deleteEmployee.mutate({ employeeId: employee.id })}
+          submit={handleDelete}
         />
       )}
     </main>

@@ -69,7 +69,7 @@ export default function Shift({ shift, date }: ShiftProps) {
   }
 
   return (
-    <div className="my-2 flex items-center justify-between space-x-8">
+    <div className="my-2 flex min-w-[46rem] items-center justify-between space-x-8">
       <Heading size={"xs"}>
         <Link
           className="underline-offset-8 hover:text-sky-500 hover:underline"

@@ -7,10 +7,10 @@ import {
   CalendarSearch,
 } from "lucide-react";
 import { useRouter } from "next/router";
-import { Employee } from "@prisma/client";
+import { EmployeeProfile, EmployeeSchedule } from "~/utils/api";
 
 interface SidebarProps {
-  employee: Employee;
+  employee: EmployeeProfile | EmployeeSchedule;
 }
 
 export default function Sidebar({ employee }: SidebarProps) {

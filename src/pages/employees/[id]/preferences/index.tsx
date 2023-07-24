@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { ArrowLeft, Check, MoreVertical, Save, Sticker, X } from "lucide-react";
-import { Button } from "~/components/ui/Button";
-import Dropdown from "~/components/Employees/Dropdown";
-import Heading from "~/components/ui/Heading";
-import type { ShiftPreference } from "@prisma/client";
-import ShiftPreferenceComponent from "~/components/Employees/ShiftPreference";
-import Input from "~/components/ui/Input";
 import { api } from "~/utils/api";
-import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import Sidebar from "~/components/Employees/Sidebar";
+import Input from "~/components/ui/Input";
+import Heading from "~/components/ui/Heading";
+import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
+import Sidebar from "~/components/Employees/Sidebar";
+import type { ShiftPreference } from "@prisma/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, Save, Sticker } from "lucide-react";
+import ShiftPreferenceComponent from "~/components/Employees/ShiftPreference";
 
 interface ShiftPreferencesProps {
   query: { id: string };
@@ -23,6 +22,10 @@ ShiftPreferencesPage.getInitialProps = ({ query }: ShiftPreferencesProps) => {
 export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
   const [content, setContent] = useState<string>("");
   const [showAddPreference, setShowAddPreference] = useState<boolean>(false);
+
+  const { data: employee } = api.employee?.findOne.useQuery({
+    id: query.id,
+  });
 
   const queryClient = useQueryClient();
 
@@ -43,11 +46,9 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
     });
   }
 
-  const response = api.employee?.findOne.useQuery({
-    id: query.id,
-  });
-
-  const employee: any = response.data;
+  if (!employee) {
+    return null;
+  }
 
   return (
     <main className="flex flex-col items-center">

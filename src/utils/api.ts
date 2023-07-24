@@ -9,6 +9,7 @@ import { createTRPCNext } from "@trpc/next";
 import { type inferRouterInputs, type inferRouterOutputs } from "@trpc/server";
 import superjson from "superjson";
 import { type AppRouter } from "~/server/api/root";
+import Dashboard from "../components/Dashboard/Dashboard";
 
 const getBaseUrl = () => {
   if (typeof window !== "undefined") return ""; // browser should use relative url
@@ -59,11 +60,19 @@ export const api = createTRPCNext<AppRouter>({
  */
 export type RouterInputs = inferRouterInputs<AppRouter>;
 
-export type WorkDay = RouterOutputs["workDay"]["findOne"];
-
 /**
  * Inference helper for outputs.
  *
  * @example type HelloOutput = RouterOutputs['example']['hello']
  */
 export type RouterOutputs = inferRouterOutputs<AppRouter>;
+
+export type WorkDay = RouterOutputs["workDay"]["findOne"];
+
+export type Employee = RouterOutputs["employee"]["find"][number];
+
+export type EmployeeProfile = RouterOutputs["employee"]["findOne"];
+
+export type DashboardWorkDay = RouterOutputs["dashboard"]["find"][number];
+
+export type EmployeeSchedule = RouterOutputs["employee"]["findOneAndMonthly"];

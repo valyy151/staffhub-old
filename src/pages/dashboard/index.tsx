@@ -1,25 +1,21 @@
 import Link from "next/link";
-import { api } from "~/utils/api";
-import { WorkDay } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { CalendarPlus } from "lucide-react";
 import Spinner from "~/components/ui/Spinner";
 import Heading from "~/components/ui/Heading";
+import { DashboardWorkDay, api } from "~/utils/api";
 import { buttonVariants } from "~/components/ui/Button";
 import Dashboard from "~/components/Dashboard/Dashboard";
-import { useSearchParams } from "next/navigation";
 
 const DashboardPage = () => {
   const [skip, setSkip] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [workDays, setWorkDays] = useState<WorkDay[] | any>([]);
+  const [workDays, setWorkDays] = useState<DashboardWorkDay[]>([]);
   const [smallLoading, setSmallLoading] = useState<boolean>(false);
 
-  const params = useSearchParams();
-
-  const page = params.get("page");
-
-  const { data } = api.dashboard.find.useQuery({ skip: skip });
+  const { data } = api.dashboard.find.useQuery({
+    skip: skip,
+  });
 
   useEffect(() => {
     setSmallLoading(true);
@@ -36,8 +32,8 @@ const DashboardPage = () => {
         <Spinner />
       ) : workDays.length > 0 ? (
         <Dashboard
-          data={workDays}
           skip={skip}
+          data={workDays}
           setSkip={setSkip}
           loading={smallLoading}
         />

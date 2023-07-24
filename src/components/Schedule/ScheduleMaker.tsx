@@ -1,16 +1,16 @@
-import { api } from "~/utils/api";
+import { Employee, api } from "~/utils/api";
 import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
 import Paragraph from "../ui/Paragraph";
 import "react-calendar/dist/Calendar.css";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import Calendar from "react-calendar";
-import { Employee, ShiftPreference } from "@prisma/client";
 import ScheduleTable from "./ScheduleTable";
 import SearchEmployees from "./SearchEmployees";
+import { ShiftPreference } from "@prisma/client";
 import { formatMonth } from "~/utils/dateFormatting";
-import { Dispatch, SetStateAction, useState } from "react";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
-import toast from "react-hot-toast";
 
 interface ScheduleMakerProps {
   id: string;
@@ -18,10 +18,11 @@ interface ScheduleMakerProps {
   isOpen: boolean;
   employees: Employee[];
   shiftPreferences: ShiftPreference[];
-  setId: Dispatch<SetStateAction<string>>;
-  setName: Dispatch<SetStateAction<string>>;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setShiftPreferences: Dispatch<SetStateAction<ShiftPreference[]>>;
+
+  setId: (id: string) => void;
+  setName: (name: string) => void;
+  setIsOpen: (isOpen: boolean) => void;
+  setShiftPreferences: (preferences: ShiftPreference[]) => void;
 }
 
 export default function ScheduleMaker({
@@ -38,10 +39,9 @@ export default function ScheduleMaker({
   const currentDate = new Date();
   const [schedule, setSchedule] = useState<any[]>([]);
   const [value, setValue] = useState<Date | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [yearArray, setYearArray] = useState<{ date: number }[]>([]);
 
-  const [month, setMonth] = useState(() => {
+  const [, setMonth] = useState(() => {
     const month = currentDate.getMonth() + 2;
     return `${currentDate.getFullYear()}-${month < 10 ? `0${month}` : month}`;
   });
@@ -65,7 +65,7 @@ export default function ScheduleMaker({
   function createYearlyWorkDays() {
     Promise.all(
       yearArray.map((day) => {
-        return createDay.mutateAsync({
+        return createDay.mutate({
           date: day.date,
         });
       })
@@ -160,7 +160,6 @@ export default function ScheduleMaker({
         {schedule.length > 0 && (
           <Button
             size={"lg"}
-            loading={loading}
             title="Create schedule"
             className="mx-auto mt-[1.6rem] w-full text-xl font-medium tracking-wide"
             onClick={createSchedule}

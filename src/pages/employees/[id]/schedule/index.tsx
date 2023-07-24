@@ -32,28 +32,23 @@ SchedulePage.getInitialProps = ({ query }: SchedulePageProps) => {
 export default function SchedulePage({ query }: SchedulePageProps) {
   const [value, setValue] = useState<Date>(new Date());
   const [month, setMonth] = useState(formatMonth(value.getTime() / 1000));
-  const [loading, setLoading] = useState<boolean>(true);
 
   const [startOfMonth, endOfMonth]: any = getMonthBoundaryTimestamps(value);
 
-  const response = api.employee?.findOneAndMonthly.useQuery({
+  const { data: employee } = api.employee?.findOneAndMonthly.useQuery({
     id: query.id,
     endOfMonth,
     startOfMonth,
   });
 
-  const employee: any = response.data;
-
-  const handleMonthChange: any = (date: Date) => {
+  function handleMonthChange(date: any) {
     setValue(date);
     setMonth(formatMonth(value.getTime() / 1000));
-  };
+  }
 
-  useEffect(() => {
-    if (employee) {
-      setLoading(false);
-    }
-  }, [employee]);
+  if (!employee) {
+    return null;
+  }
 
   return (
     <main className="flex flex-col">
@@ -81,7 +76,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
               <PDFButton employee={employee} month={month} value={value} />
             </div>
 
-            {employee?.workDays.map((day: any, index: number) => (
+            {employee?.workDays.map((day, index) => (
               <div
                 key={day.id}
                 onClick={() => router.push(`/days/${day.id}`)}

@@ -16,16 +16,16 @@ import {
   User,
   X,
 } from "lucide-react";
-import groupShifts from "~/utils/groupShifts";
-import { Button } from "../ui/Button";
 import router from "next/router";
-import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
+import { Button } from "../ui/Button";
+import groupShifts from "~/utils/groupShifts";
+import { DashboardWorkDays } from "~/utils/api";
 
 interface DashboardProps {
   skip: number;
   loading: boolean;
-  data: WorkDay[] | any;
-  setSkip: Dispatch<SetStateAction<number>>;
+  data: DashboardWorkDays;
+  setSkip: (skip: number) => void;
 }
 
 export default function Dashboard({
@@ -42,6 +42,12 @@ export default function Dashboard({
     setSkip(skip + 1);
   }
 
+  if (!data || !data[0] || !data[6]) {
+    return null;
+  }
+
+  console.log(data);
+
   return (
     <div className="dashboard p-0 pt-20">
       <div className="flex">
@@ -53,82 +59,63 @@ export default function Dashboard({
         </Heading>
       </div>
       <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-700">
-        {data.map(
-          (day: {
-            id: string;
-            date: number;
-            shifts: {
-              end: number;
-              date: number;
-              start: number;
-              count: number;
-            }[];
-            notes: WorkDayNote[];
-          }) => (
-            <div
-              className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
-              key={day.id}
-              onClick={() => router.push(`/days/${day.id}`)}
-            >
-              <div className="w-full text-center">
-                <Heading
-                  className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-400"
-                  size={"xs"}
-                >
-                  {formatDay(day.date)}
-                </Heading>
-                <Paragraph className=" w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-400 dark:border-slate-500">
-                  {day && formatDate(day.date)}
-                </Paragraph>
-              </div>
-              <div className="mt-4 flex w-full flex-col items-center">
-                {groupShifts(day.shifts).length > 0 ? (
-                  groupShifts(day.shifts).map((groupedShift) => (
-                    <Paragraph
-                      className="flex items-center"
-                      title={`${day.shifts.length} ${
-                        day.shifts.length === 1 ? "shift" : "shifts"
-                      } `}
-                      key={`${groupedShift.start}-${groupedShift.end}`}
-                    >
-                      <div className="mr-3 flex">
-                        {`${groupedShift.count}`}{" "}
-                        <User className="font-normal" />
-                      </div>
-                      {`${formatTime(groupedShift.start)} - ${formatTime(
-                        groupedShift.end
-                      )}`}
-                    </Paragraph>
-                  ))
-                ) : (
-                  <Paragraph className="flex items-center">
-                    <X className="mr-2" />
-                    No Shifts
+        {data.map((day) => (
+          <div
+            className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+            key={day.id}
+            onClick={() => router.push(`/days/${day.id}`)}
+          >
+            <div className="w-full text-center">
+              <Heading
+                className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-400"
+                size={"xs"}
+              >
+                {formatDay(day.date)}
+              </Heading>
+              <Paragraph className=" w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-400 dark:border-slate-500">
+                {day && formatDate(day.date)}
+              </Paragraph>
+            </div>
+            <div className="mt-4 flex w-full flex-col items-center">
+              {groupShifts(day.shifts).length > 0 ? (
+                groupShifts(day.shifts).map((groupedShift) => (
+                  <Paragraph
+                    className="flex items-center"
+                    title={`${day.shifts.length} ${
+                      day.shifts.length === 1 ? "shift" : "shifts"
+                    } `}
+                    key={`${groupedShift.start}-${groupedShift.end}`}
+                  >
+                    <div className="mr-3 flex">
+                      {`${groupedShift.count}`} <User className="font-normal" />
+                    </div>
+                    {`${formatTime(groupedShift.start)} - ${formatTime(
+                      groupedShift.end
+                    )}`}
                   </Paragraph>
-                )}
-              </div>
-              {day.notes.length > 0 ? (
-                <Paragraph
-                  title={`${day.notes.length} ${
-                    day.notes.length === 1 ? "note" : "notes"
-                  } `}
-                  className="mt-auto flex items-center pb-2 text-2xl"
-                >
-                  {day.notes.length} <ScrollText className="ml-2 h-6 w-6" />
-                </Paragraph>
+                ))
               ) : (
-                <Paragraph
-                  title={`${day.notes.length} ${
-                    day.notes.length === 1 ? "note" : "notes"
-                  } `}
-                  className="mt-auto flex items-center pb-2 text-2xl"
-                >
-                  {day.notes.length} <Scroll className="ml-2 h-6 w-6" />
+                <Paragraph className="flex items-center">
+                  <X className="mr-2" />
+                  No Shifts
                 </Paragraph>
               )}
             </div>
-          )
-        )}
+            <Paragraph
+              title={`${day.notes.length} ${
+                day.notes.length === 1 ? "note" : "notes"
+              }`}
+              className="mt-auto flex items-center pb-2 text-2xl"
+            >
+              {day.notes.length}{" "}
+              {day.notes.length > 0 ? (
+                <ScrollText className="ml-2 h-6 w-6" />
+              ) : (
+                <Scroll className="ml-2 h-6 w-6" />
+              )}
+            </Paragraph>
+          </div>
+        ))}
       </div>
 
       {loading ? (

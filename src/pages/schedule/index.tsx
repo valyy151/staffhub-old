@@ -1,4 +1,4 @@
-import { Employee, ShiftPreference } from "@prisma/client";
+import { ShiftPreference } from "@prisma/client";
 import { UserPlus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -6,23 +6,21 @@ import ScheduleMaker from "~/components/Schedule/ScheduleMaker";
 import { buttonVariants } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
-import { api } from "~/utils/api";
+import { Employee, api } from "~/utils/api";
 
 export default function NewSchedulePage() {
   const [id, setId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [employees, setEmployees] = useState<any>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
   const [shiftPreferences, setShiftPreferences] = useState<ShiftPreference[]>(
     []
   );
 
-  const { data } = api.employee.find.useQuery();
+  const { data, isLoading } = api.employee.find.useQuery();
 
   useEffect(() => {
     if (data) {
-      setLoading(false);
       setEmployees(data);
     }
   }, [data]);
@@ -32,7 +30,7 @@ export default function NewSchedulePage() {
       className="flex flex-col items-center"
       onClick={() => (isOpen ? setIsOpen(false) : null)}
     >
-      {loading ? (
+      {isLoading ? (
         <Spinner />
       ) : employees.length > 0 ? (
         <>

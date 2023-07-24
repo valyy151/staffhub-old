@@ -17,16 +17,18 @@ EmployeePersonalPage.getInitialProps = ({ query }: EmployeePersonalProps) => {
 };
 
 export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
-  const response = api.employee?.findOne.useQuery({
+  const { data: employee } = api.employee?.findOne.useQuery({
     id: query.id,
   });
 
-  const employee: any = response.data;
+  if (!employee || !employee.name) {
+    return null;
+  }
 
-  const [name, setName] = useState<string>(employee?.name);
-  const [email, setEmail] = useState<string>(employee?.email);
-  const [phone, setPhone] = useState<string>(employee?.phoneNumber);
-  const [address, setAddress] = useState<string>(employee?.address);
+  const [name, setName] = useState(employee.name);
+  const [email, setEmail] = useState(employee.email);
+  const [phone, setPhone] = useState(employee.phoneNumber);
+  const [address, setAddress] = useState(employee.address);
 
   const queryClient = useQueryClient();
 
@@ -39,6 +41,10 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!name || !email || !phone || !address) {
+      return toast.error("Please fill out all the fields.");
+    }
 
     updatePersonalInfo.mutate({
       name,
@@ -54,9 +60,9 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
       <Sidebar employee={employee} />
       <div className="mt-4 flex w-full flex-col items-center">
         <Heading>
-          {employee?.name.endsWith("s")
-            ? `${employee?.name}'`
-            : `${employee?.name}'s`}{" "}
+          {employee.name.endsWith("s")
+            ? `${employee.name}'`
+            : `${employee.name}'s`}{" "}
           Personal Information
         </Heading>
 

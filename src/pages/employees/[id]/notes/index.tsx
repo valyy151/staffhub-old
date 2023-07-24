@@ -23,11 +23,9 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
   const [content, setContent] = useState<string>("");
   const [showAddNote, setShowAddNote] = useState<boolean>(false);
 
-  const response = api.employee?.findOne.useQuery({
+  const { data: employee } = api.employee?.findOne.useQuery({
     id: query.id,
   });
-
-  const employee: any = response.data;
 
   const queryClient = useQueryClient();
 
@@ -47,6 +45,10 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
       content,
       employeeId: query.id,
     });
+  }
+
+  if (!employee?.notes) {
+    return null;
   }
 
   return (

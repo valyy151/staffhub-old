@@ -30,7 +30,7 @@ VacationPage.getInitialProps = ({ query }: VacationPageProps) => {
 };
 
 export default function VacationPage({ query }: VacationPageProps) {
-  const { data: employee }: any = api.employee?.findOne.useQuery({
+  const { data: employee } = api.employee?.findOne.useQuery({
     id: query.id,
   });
 
@@ -38,9 +38,14 @@ export default function VacationPage({ query }: VacationPageProps) {
   const [daysPlanned, setDaysPlanned] = useState<number>(0);
   const [showPlanner, setShowPlanner] = useState<boolean>(false);
   const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
-  const [daysRemaining, setDaysRemaining] = useState(employee?.vacationDays);
 
   const queryClient = useQueryClient();
+
+  if (!employee || !employee.vacationDays) {
+    return null;
+  }
+
+  const [daysRemaining, setDaysRemaining] = useState(employee.vacationDays);
 
   const updateAmountMutation = api.vacation.updateAmountOfDays.useMutation({
     onSuccess: () => {
@@ -53,6 +58,10 @@ export default function VacationPage({ query }: VacationPageProps) {
   function updateAmount(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    if (!employee || !employee.id) {
+      return null;
+    }
+
     updateAmountMutation.mutate({
       vacationDays: amount,
       employeeId: employee.id,
@@ -60,7 +69,9 @@ export default function VacationPage({ query }: VacationPageProps) {
   }
 
   useEffect(() => {
-    setAmount(employee?.vacationDays);
+    if (employee.vacationDays) {
+      setAmount(employee.vacationDays);
+    }
   }, []);
 
   return (

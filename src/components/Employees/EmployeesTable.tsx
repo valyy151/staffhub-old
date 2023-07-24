@@ -5,17 +5,10 @@ import Heading from "../ui/Heading";
 import { FC, useState } from "react";
 import { buttonVariants } from "../ui/Button";
 import { Search, UserPlus } from "lucide-react";
+import { Employee } from "~/utils/api";
 
 interface EmployeesTableProps {
   data: Employee[];
-}
-
-interface Employee {
-  id: string;
-  name: string;
-  email: string;
-  address: string;
-  phoneNumber: string;
 }
 
 const EmployeesTable: FC<EmployeesTableProps> = ({ data }) => {

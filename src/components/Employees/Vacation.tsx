@@ -1,24 +1,24 @@
-import { FC, useState } from "react";
-import { Employee, Vacation } from "@prisma/client";
+import { useState } from "react";
+import { Vacation } from "@prisma/client";
 import Paragraph from "~/components/ui/Paragraph";
 import { formatDateLong } from "~/utils/dateFormatting";
 import { Button } from "~/components/ui/Button";
 import { Trash2 } from "lucide-react";
 import Modal from "~/components/ui/Modal";
-import { api } from "~/utils/api";
+import { EmployeeProfile, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 interface VacationProps {
-  employee: Employee;
   vacation: Vacation;
+  employee: EmployeeProfile;
   setAmount: (amount: number) => void;
 }
 
 export default function Vacation({ vacation, employee }: VacationProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const calculateTotalDays = () => {
+  function calculateTotalDays(): number {
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     let totalDays =
       Math.ceil(
@@ -26,9 +26,9 @@ export default function Vacation({ vacation, employee }: VacationProps) {
       ) + 1;
 
     return totalDays;
-  };
+  }
 
-  const [totalDays, setTotalDays] = useState<number>(calculateTotalDays());
+  const [totalDays] = useState<number>(calculateTotalDays());
 
   const queryClient = useQueryClient();
 
@@ -38,6 +38,19 @@ export default function Vacation({ vacation, employee }: VacationProps) {
       toast.success("Vacation deleted successfully.");
     },
   });
+
+  function handleDelete() {
+    if (!employee.id || !employee.vacationDays) {
+      return null;
+    }
+
+    deleteVacation.mutate({
+      totalDays,
+      employeeId: employee.id,
+      vacationId: vacation.id,
+      vacationDays: employee.vacationDays,
+    });
+  }
 
   return (
     <div className="mx-auto my-2 flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700">
@@ -70,14 +83,7 @@ export default function Vacation({ vacation, employee }: VacationProps) {
             showModal={showModal}
             text={"Delete vacation?"}
             cancel={() => setShowModal(false)}
-            submit={() =>
-              deleteVacation.mutate({
-                totalDays,
-                employeeId: employee.id,
-                vacationId: vacation.id,
-                vacationDays: employee.vacationDays,
-              })
-            }
+            submit={handleDelete}
           />
         )}
       </div>

@@ -1,22 +1,21 @@
-import { api } from "~/utils/api";
+import { EmployeeProfile, api } from "~/utils/api";
 import toast from "react-hot-toast";
-import { Check, Palmtree, X, ArrowLeft } from "lucide-react";
+import { Palmtree, ArrowLeft } from "lucide-react";
 import Calendar from "react-calendar";
-import { Employee } from "@prisma/client";
 import "react-calendar/dist/Calendar.css";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect } from "react";
 
 interface VacationPlannerProps {
-  employee: Employee & any;
   daysPlanned: number;
   daysRemaining: number;
-  setAmount: Dispatch<SetStateAction<number>>;
-  setDaysPlanned: Dispatch<SetStateAction<number>>;
-  setShowPlanner: Dispatch<SetStateAction<boolean>>;
-  setDaysRemaining: Dispatch<SetStateAction<number>>;
+  employee: EmployeeProfile;
+  setAmount: (amount: number) => void;
+  setDaysPlanned: (daysPlanned: number) => void;
+  setShowPlanner: (showPlanner: boolean) => void;
+  setDaysRemaining: (daysRemaining: number) => void;
 }
 
 export default function VacationPlanner({
@@ -30,24 +29,37 @@ export default function VacationPlanner({
   const [end, setEnd] = useState(new Date());
   const [start, setStart] = useState(new Date());
 
-  const calculateTotalDays = () => {
+  if (!employee) {
+    return null;
+  }
+
+  function calculateTotalDays() {
+    if (!employee.vacationDays) {
+      return null;
+    }
+
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     let totalDays =
       Math.ceil((end.getTime() - start.getTime()) / millisecondsPerDay) + 1;
-    if (totalDays > 0 && daysRemaining <= employee?.vacationDays) {
+
+    if (totalDays > 0 && daysRemaining <= employee.vacationDays) {
       setDaysPlanned(totalDays);
       setDaysRemaining(employee?.vacationDays - totalDays);
     } else {
       setDaysPlanned(0);
       setDaysRemaining(employee?.vacationDays);
     }
-  };
+  }
 
   useEffect(() => {
     calculateTotalDays();
   }, [start, end]);
 
-  const handleStartChange: any = (date: Date) => {
+  function handleStartChange(date: any) {
+    if (!employee.vacationDays) {
+      return null;
+    }
+
     const newStart = date;
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     const newTotalDays =
@@ -63,9 +75,13 @@ export default function VacationPlanner({
       setDaysPlanned(newTotalDays);
       setDaysRemaining(employee?.vacationDays - newTotalDays);
     }
-  };
+  }
 
-  const handleEndChange: any = (date: Date) => {
+  function handleEndChange(date: any) {
+    if (!employee.vacationDays) {
+      return null;
+    }
+
     const newEnd = date;
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     const newTotalDays =
@@ -85,7 +101,7 @@ export default function VacationPlanner({
       setDaysPlanned(newTotalDays);
       setDaysRemaining(employee?.vacationDays - newTotalDays);
     }
-  };
+  }
 
   const queryClient = useQueryClient();
 
@@ -99,6 +115,10 @@ export default function VacationPlanner({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!employee.id || !employee.vacationDays) {
+      return null;
+    }
 
     createVacation.mutate({
       daysPlanned,
