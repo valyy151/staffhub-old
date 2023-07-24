@@ -4,17 +4,16 @@ import Input from "../ui/Input";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Paragraph from "../ui/Paragraph";
 import { Button } from "../ui/Button";
-import { Check, Clock, Clock10, Clock8, X } from "lucide-react";
+import { ArrowLeft, Check, Clock, Clock10, Clock8, X } from "lucide-react";
 
-import { Employee, Shift, WorkDay, WorkDayNote } from "@prisma/client";
 import SearchEmployees from "./SearchEmployees";
-import { api } from "~/utils/api";
+import { WorkDay, api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface AddShiftProps {
+  data: WorkDay;
   setShowAddShift: (showAddShift: boolean) => void;
-  data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] };
 }
 
 export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
@@ -26,7 +25,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
 
   const handleTimeChange = (newTime: string, field: "start" | "end") => {
     // convert the new time into Unix timestamp
-    if (data) {
+    if (data.date) {
       const [hour, minute]: string[] = newTime.split(":");
       const newDate: any = new Date(data.date * 1000);
       newDate.setHours(hour);
@@ -54,7 +53,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (end && start && employeeId) {
+    if (data.date && end && start && employeeId) {
       createShift.mutate({
         end: end,
         start: start,
@@ -69,67 +68,78 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   return (
     <>
       <div className="mx-auto">
-        <Heading className="mb-2">Add a New Shift</Heading>
-        <form onSubmit={handleSubmit} className="flex space-x-12">
-          <div className="mt-auto flex flex-col">
-            <label className="ml-2">Employee</label>
-
-            <SearchEmployees
-              name={name}
-              isOpen={isOpen}
-              setName={setName}
-              employees={employees}
-              setIsOpen={setIsOpen}
-              setId={setEmployeeId}
-            />
-          </div>
-          <div className="flex space-x-3">
+        <Heading size={"sm"}>
+          Add a new shift {name && "for"} {name}
+        </Heading>
+        <form
+          onSubmit={handleSubmit}
+          className="mt-4 flex flex-col items-center"
+        >
+          <div className="flex space-x-8">
             <div className="mt-auto flex flex-col">
-              <label htmlFor="start" className="ml-2">
-                Start
-              </label>
-              <Input
-                type="text"
-                name="start"
-                placeholder="Start time"
-                value={formatTime(start)}
-                className="m-0 text-lg"
-                onChange={(e) => handleTimeChange(e.target.value, "start")}
+              <label className="ml-2 text-lg">Employee</label>
+
+              <SearchEmployees
+                name={name}
+                isOpen={isOpen}
+                setName={setName}
+                employees={employees}
+                setIsOpen={setIsOpen}
+                setId={setEmployeeId}
               />
             </div>
+            <div className="flex space-x-3">
+              <div className="mt-auto flex flex-col">
+                <label htmlFor="start" className="ml-2 text-lg">
+                  Start
+                </label>
+                <Input
+                  type="text"
+                  name="start"
+                  placeholder="Start time"
+                  value={formatTime(start)}
+                  className="m-0 h-14 text-xl"
+                  onChange={(e) => handleTimeChange(e.target.value, "start")}
+                />
+              </div>
 
+              <div className="mt-auto flex flex-col">
+                <label htmlFor="end" className="ml-2 text-lg">
+                  End
+                </label>
+                <Input
+                  name="end"
+                  type="text"
+                  placeholder="End time"
+                  value={formatTime(end)}
+                  className="m-0 h-14 text-xl"
+                  onChange={(e) => handleTimeChange(e.target.value, "end")}
+                />
+              </div>
+            </div>
             <div className="mt-auto flex flex-col">
-              <label htmlFor="end" className="ml-2">
-                End
-              </label>
-              <Input
-                name="end"
-                type="text"
-                placeholder="End time"
-                value={formatTime(end)}
-                className="m-0 text-lg"
-                onChange={(e) => handleTimeChange(e.target.value, "end")}
-              />
+              <label className="text-lg">Total Hours</label>
+              <Paragraph
+                size={"lg"}
+                className="m-0 flex h-14 items-center text-3xl font-bold"
+              >
+                {formatTotal(start, end)}
+              </Paragraph>
             </div>
           </div>
-          <div className="mt-auto flex flex-col">
-            <label>Total</label>
-            <Paragraph className="mb-2 mt-auto text-left font-semibold">
-              {formatTotal(start, end)}
-            </Paragraph>
-          </div>
-          <div className="mb-1 mt-auto flex space-x-2">
-            <Button size={"sm"} title="Create shift">
-              Create {<Clock8 className="ml-1 h-4 w-4" />}
+          <div className="mb-1 mt-6 flex space-x-1">
+            <Button size={"lg"} title="Create shift" className="h-14 text-xl">
+              {<Clock8 className="mr-2" />} Create
             </Button>
             <Button
               title="Cancel shift creation"
-              size={"sm"}
+              size={"lg"}
               type="button"
               variant={"subtle"}
+              className="h-14 text-xl"
               onClick={() => setShowAddShift(false)}
             >
-              Cancel {<X className="ml-1 h-4 w-4" />}
+              {<ArrowLeft className="mr-2" />} Cancel
             </Button>
           </div>
         </form>

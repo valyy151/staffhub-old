@@ -59,6 +59,8 @@ export const api = createTRPCNext<AppRouter>({
  */
 export type RouterInputs = inferRouterInputs<AppRouter>;
 
+export type WorkDay = RouterOutputs["workDay"]["findOne"];
+
 /**
  * Inference helper for outputs.
  *

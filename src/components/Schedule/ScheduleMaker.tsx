@@ -10,6 +10,7 @@ import SearchEmployees from "./SearchEmployees";
 import { formatMonth } from "~/utils/dateFormatting";
 import { Dispatch, SetStateAction, useState } from "react";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
+import toast from "react-hot-toast";
 
 interface ScheduleMakerProps {
   id: string;
@@ -62,23 +63,31 @@ export default function ScheduleMaker({
   }
 
   function createYearlyWorkDays() {
-    yearArray.forEach((day) => {
-      createDay.mutate({
-        date: day.date,
-      });
+    Promise.all(
+      yearArray.map((day) => {
+        return createDay.mutateAsync({
+          date: day.date,
+        });
+      })
+    ).then(() => {
+      toast.success("Yearly work days created.");
     });
   }
 
   function createMonthlySchedule() {
-    schedule.forEach((day) => {
-      if (day.start && day.end) {
-        createShift.mutate({
-          end: day.end,
-          date: day.date,
-          start: day.start,
-          employeeId: id,
-        });
-      }
+    Promise.all(
+      schedule.map((day) => {
+        if (day.start && day.end) {
+          createShift.mutate({
+            end: day.end,
+            date: day.date,
+            start: day.start,
+            employeeId: id,
+          });
+        }
+      })
+    ).then(() => {
+      toast.success("Schedule created.");
     });
   }
 

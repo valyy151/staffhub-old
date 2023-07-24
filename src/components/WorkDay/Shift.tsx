@@ -2,22 +2,20 @@ import Link from "next/link";
 import Input from "../ui/Input";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Button } from "../ui/Button";
-import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
+import { Shift, WorkDayNote } from "@prisma/client";
 import { Pencil, Save, Trash2, X } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Heading from "../ui/Heading";
-import { api } from "~/utils/api";
+import { WorkDay, api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Modal from "../ui/Modal";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface ShiftProps {
   index: number;
+  data: WorkDay;
+  setWorkDay: (data: WorkDay) => void;
   shift: Shift & { employee: { name: string } };
-  data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] };
-  setWorkDay: (
-    data: WorkDay & { shifts: Shift[]; notes: WorkDayNote[] }
-  ) => void;
 }
 
 export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
@@ -44,7 +42,7 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     field: "start" | "end",
     index: number
   ) {
-    if (data) {
+    if (data.date) {
       const [hour, minute]: string[] = newTime.split(":");
       const newDate: any = new Date(data.date * 1000);
 
@@ -58,7 +56,6 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
       );
 
       const newWorkDay = {
-        userId: "",
         id: data.id,
         date: data.date,
         notes: data.notes,
@@ -84,7 +81,7 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     },
   });
 
-  async function handleEdit(e: React.FormEvent, shiftId: string) {
+  function handleEdit(e: React.FormEvent, shiftId: string) {
     e.preventDefault();
 
     updateShift.mutate({
@@ -95,7 +92,7 @@ export default function Shift({ shift, index, data, setWorkDay }: ShiftProps) {
     toggleEditMode(shiftId);
   }
 
-  async function handleDelete(shiftId: string) {
+  function handleDelete(shiftId: string) {
     deleteShift.mutate({ shiftId: shiftId });
     setShowModal(false);
   }

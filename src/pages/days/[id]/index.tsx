@@ -1,4 +1,4 @@
-import { Shift, WorkDay, WorkDayNote } from "@prisma/client";
+import { WorkDayNote } from "@prisma/client";
 import { Clock8, ScrollText } from "lucide-react";
 import { useEffect, useState } from "react";
 import AddNote from "~/components/WorkDay/AddNote";
@@ -7,8 +7,8 @@ import Note from "~/components/WorkDay/Note";
 import { Button } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
-import { RouterOutputs, api } from "~/utils/api";
-import { formatDate, formatDateLong, formatDay } from "~/utils/dateFormatting";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 import ShiftComponent from "~/components/WorkDay/Shift";
 import Paragraph from "~/components/ui/Paragraph";
 
@@ -21,54 +21,53 @@ WorkDayPage.getInitialProps = ({ query }: WorkDayPageProps) => {
 };
 
 export default function WorkDayPage({ query }: WorkDayPageProps) {
-  const [loading, setLoading] = useState<boolean>(true);
   const [showAddNote, setShowAddNote] = useState<boolean>(false);
   const [showAddShift, setShowAddShift] = useState<boolean>(false);
 
-  const [workDay, setWorkDay] = useState<
-    WorkDay & { shifts: Shift[]; notes: WorkDayNote[] }
-  >();
-
-  const { data }: any = api.workDay.findOne.useQuery({
+  const { data, isLoading } = api.workDay.findOne.useQuery({
     id: query.id,
   });
+
+  const [workDay, setWorkDay] = useState(data);
 
   useEffect(() => {
     if (data) {
       setWorkDay(data);
-      setLoading(false);
     }
   }, [data]);
 
   return (
     <main className="flex flex-col items-center">
-      {loading ? (
+      {isLoading ? (
         <Spinner />
       ) : (
-        workDay && (
+        workDay &&
+        workDay.date && (
           <div className="flex w-full flex-col">
-            <div className="my-6 flex items-center justify-center space-x-10 border-b-2 border-slate-300 pb-6 dark:border-slate-700">
+            <div className="my-6 flex flex-col items-center border-b-2 border-slate-300 pb-6 dark:border-slate-700">
               <div className="flex space-x-3">
                 <Heading>{formatDay(workDay?.date)}</Heading>
                 <Heading>{formatDateLong(workDay?.date)}</Heading>
               </div>
-              <div className="space-x-2">
+              <div className="mt-2 space-x-1">
                 <Button
+                  size={"lg"}
                   onClick={() => {
                     setShowAddShift(true);
                     setShowAddNote(false);
                   }}
                 >
-                  New Shift {<Clock8 className="ml-2 h-5 w-5" />}
+                  {<Clock8 className="mr-2" />} New Shift
                 </Button>
                 <Button
+                  size={"lg"}
                   variant={"subtle"}
                   onClick={() => {
                     setShowAddNote(true);
                     setShowAddShift(false);
                   }}
                 >
-                  Add Note {<ScrollText className="ml-2 h-5 w-5" />}
+                  {<ScrollText className="mr-2" />} Add Note
                 </Button>
               </div>
             </div>
@@ -88,7 +87,9 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
                   {workDay?.notes?.length > 0 &&
                     !showAddNote &&
                     !showAddShift &&
-                    workDay.notes.map((note) => <Note note={note} />)}
+                    workDay.notes.map((note: WorkDayNote) => (
+                      <Note note={note} />
+                    ))}
 
                   {!showAddNote &&
                     !showAddShift &&

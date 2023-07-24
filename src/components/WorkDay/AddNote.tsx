@@ -1,9 +1,8 @@
 import { Check, ScrollText, X } from "lucide-react";
 import { Dispatch, FC, SetStateAction, useState } from "react";
-import { WorkDay } from "@prisma/client";
 import Input from "../ui/Input";
 import { Button } from "../ui/Button";
-import { api } from "~/utils/api";
+import { WorkDay, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import Heading from "../ui/Heading";
@@ -22,7 +21,7 @@ export default function AddNote({
 
   const queryClient = useQueryClient();
 
-  const createNote = api.workDay.createNote.useMutation({
+  const createNote = api.workDayNote.create.useMutation({
     onSuccess: () => {
       setShowAddNote(false);
       queryClient.invalidateQueries();
@@ -32,10 +31,12 @@ export default function AddNote({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    createNote.mutate({
-      content: note,
-      workDayId: data.id,
-    });
+    if (data.id) {
+      createNote.mutate({
+        content: note,
+        workDayId: data.id,
+      });
+    }
   }
 
   return (
