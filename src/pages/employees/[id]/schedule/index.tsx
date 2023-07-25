@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import router from "next/router";
+import router, { useRouter } from "next/router";
 import {
   formatDateLong,
   formatDay,
@@ -12,10 +12,10 @@ import dynamic from "next/dynamic";
 import "react-calendar/dist/Calendar.css";
 import { Calendar } from "react-calendar";
 import Heading from "~/components/ui/Heading";
-import Paragraph from "~/components/ui/Paragraph";
-import { calculateTotalHours } from "~/utils/calculateHours";
 import Spinner from "~/components/ui/Spinner";
+import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Employees/Sidebar";
+import { calculateTotalHours } from "~/utils/calculateHours";
 
 const PDFButton = dynamic(() => import("~/components/PDFButton"), {
   ssr: false,

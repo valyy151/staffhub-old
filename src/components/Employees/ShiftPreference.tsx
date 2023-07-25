@@ -10,7 +10,7 @@ import Paragraph from "~/components/ui/Paragraph";
 import { api } from "~/utils/api";
 
 interface ShiftPreferenceProps {
-  shiftPreference: ShiftPreference;
+  shiftPreference: { id: string; content: string; createdAt: Date };
 }
 
 export default function ShiftPreference({

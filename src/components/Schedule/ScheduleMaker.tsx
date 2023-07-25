@@ -39,6 +39,7 @@ export default function ScheduleMaker({
   const currentDate = new Date();
   const [schedule, setSchedule] = useState<any[]>([]);
   const [value, setValue] = useState<Date>(new Date());
+
   const [yearArray, setYearArray] = useState<{ date: number }[]>([]);
 
   const [, setMonth] = useState(() => {
@@ -58,6 +59,10 @@ export default function ScheduleMaker({
   );
 
   function createSchedule() {
+    if (!employeeId) {
+      toast.error("Please select an employee.");
+    }
+
     refetch().then(({ data }) => {
       if (!data) {
         createYearlyWorkDays();
@@ -74,9 +79,13 @@ export default function ScheduleMaker({
           date: day.date,
         });
       })
-    ).then(() => {
-      toast.success("Yearly work days created.");
-    });
+    )
+      .then(() => {
+        toast.success("Yearly work days created.");
+      })
+      .catch(() => {
+        toast.error("Something went wrong.");
+      });
   }
 
   function createMonthlySchedule() {
@@ -91,9 +100,13 @@ export default function ScheduleMaker({
           });
         }
       })
-    ).then(() => {
-      toast.success("Schedule created.");
-    });
+    )
+      .then(() => {
+        toast.success("Schedule created.");
+      })
+      .catch(() => {
+        toast.error("Something went wrong.");
+      });
   }
 
   function handleMonthChange(date: any) {

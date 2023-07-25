@@ -14,9 +14,9 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
   const headings = ["Date", "Start", "End", "Total"];
 
   function handleTimeChange(
+    index: number,
     newTime: string,
-    field: "start" | "end",
-    index: number
+    field: "start" | "end"
   ) {
     const [hour, minute]: string[] = newTime.split(":");
 
@@ -65,30 +65,34 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
                   <span className=" text-sm">
                     {item.date && formatDay(item.date)}
                   </span>
+
                   <span className="w-48">
                     {item.date && formatDateLong(item.date)}
                   </span>
                 </td>
+
                 <td>
                   <input
                     type="text"
                     value={formatTime(item.start)}
                     onChange={(e) =>
-                      handleTimeChange(e.target.value, "start", index)
+                      handleTimeChange(index, e.target.value, "start")
                     }
                     className="rounded bg-transparent py-3 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1"
                   />
                 </td>
+
                 <td>
                   <input
                     value={formatTime(item.end)}
                     onChange={(e) =>
-                      handleTimeChange(e.target.value, "end", index)
+                      handleTimeChange(index, e.target.value, "end")
                     }
                     className="rounded bg-transparent py-3 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1"
                     type="text"
                   />
                 </td>
+
                 {item.start && item.end ? (
                   <td
                     title="Total hours in shift"

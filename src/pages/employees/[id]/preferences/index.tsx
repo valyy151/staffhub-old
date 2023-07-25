@@ -74,7 +74,7 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
 
         {employee?.shiftPreferences.length > 0 &&
           !showAddPreference &&
-          employee?.shiftPreferences.map((preference: ShiftPreference) => (
+          employee?.shiftPreferences.map((preference) => (
             <ShiftPreferenceComponent
               key={preference.id}
               shiftPreference={preference}

@@ -10,7 +10,7 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 
 interface NoteProps {
-  note: EmployeeNote;
+  note: { id: string; content: string; createdAt: Date };
 }
 
 export default function Note({ note }: NoteProps) {

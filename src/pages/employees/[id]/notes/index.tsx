@@ -1,6 +1,6 @@
-import { EmployeeNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Check, Save, ScrollText, X } from "lucide-react";
+import { ArrowLeft, Save, ScrollText } from "lucide-react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Note from "~/components/Employees/Note";
@@ -76,9 +76,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
 
         {employee?.notes.length > 0 &&
           !showAddNote &&
-          employee?.notes.map((note: EmployeeNote) => (
-            <Note note={note} key={note.id} />
-          ))}
+          employee?.notes.map((note) => <Note note={note} key={note.id} />)}
 
         {employee?.notes.length === 0 && !showAddNote && (
           <Paragraph size={"lg"} className="mt-8">

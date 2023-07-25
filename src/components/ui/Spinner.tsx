@@ -8,7 +8,7 @@ interface SpinnerProps
     VariantProps<typeof spinnerVariants> {}
 
 const spinnerVariants = cva(
-  "text-slate-800 animate-spin dark:text-slate-200 mt-24 flex flex-col items-center",
+  "text-slate-800 animate-spin dark:text-slate-200 mt-24 flex flex-col items-center overflow-y-hidden",
   {
     variants: {},
     defaultVariants: { size: "default" },
