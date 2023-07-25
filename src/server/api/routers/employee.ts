@@ -72,18 +72,32 @@ export const employeeRouter = createTRPCRouter({
     .query(async ({ input: { id }, ctx }) => {
       const employee = await ctx.prisma.employee.findUnique({
         where: { id },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          notes: true,
+          address: true,
+          vacations: true,
+          phoneNumber: true,
+          vacationDays: true,
+          shiftPreferences: true,
+        },
       });
 
       const vacations = await ctx.prisma.vacation.findMany({
         where: { employeeId: id, userId: ctx.session.user.id },
+        select: { id: true, start: true, end: true },
       });
 
       const notes = await ctx.prisma.employeeNote.findMany({
         where: { employeeId: id, userId: ctx.session.user.id },
+        select: { id: true, content: true, createdAt: true },
       });
 
       const shiftPreferences = await ctx.prisma.shiftPreference.findMany({
         where: { employeeId: id, userId: ctx.session.user.id },
+        select: { id: true, content: true, createdAt: true },
       });
 
       return { ...employee, vacations, notes, shiftPreferences };

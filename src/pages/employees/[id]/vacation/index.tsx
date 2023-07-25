@@ -1,25 +1,15 @@
 import { useEffect, useState } from "react";
-import {
-  ArrowLeft,
-  Check,
-  FileDigit,
-  MoreVertical,
-  Palmtree,
-  Save,
-  X,
-} from "lucide-react";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
+import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
-import Input from "~/components/ui/Input";
-import { api } from "~/utils/api";
-import Dropdown from "~/components/Employees/Dropdown";
-import VacationPlanner from "~/components/Employees/VacationPlanner";
-import { Vacation } from "@prisma/client";
-import VacationComponent from "~/components/Employees/Vacation";
-import toast from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
-import Sidebar from "~/components/Employees/Sidebar";
 import Paragraph from "~/components/ui/Paragraph";
+import Sidebar from "~/components/Employees/Sidebar";
+import { useQueryClient } from "@tanstack/react-query";
+import VacationComponent from "~/components/Employees/Vacation";
+import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
+import VacationPlanner from "~/components/Employees/VacationPlanner";
 
 interface VacationPageProps {
   query: { id: string };
@@ -30,22 +20,23 @@ VacationPage.getInitialProps = ({ query }: VacationPageProps) => {
 };
 
 export default function VacationPage({ query }: VacationPageProps) {
-  const { data: employee } = api.employee?.findOne.useQuery({
+  const { data: employee } = api.employee.findOne.useQuery({
     id: query.id,
   });
 
+  useEffect(() => {
+    if (employee?.vacationDays) {
+      setDaysRemaining(employee.vacationDays);
+    }
+  }, []);
+
   const [amount, setAmount] = useState<number>(0);
   const [daysPlanned, setDaysPlanned] = useState<number>(0);
+  const [daysRemaining, setDaysRemaining] = useState<number>(0);
   const [showPlanner, setShowPlanner] = useState<boolean>(false);
   const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
-
-  if (!employee || !employee.vacationDays) {
-    return null;
-  }
-
-  const [daysRemaining, setDaysRemaining] = useState(employee.vacationDays);
 
   const updateAmountMutation = api.vacation.updateAmountOfDays.useMutation({
     onSuccess: () => {
@@ -68,11 +59,9 @@ export default function VacationPage({ query }: VacationPageProps) {
     });
   }
 
-  useEffect(() => {
-    if (employee.vacationDays) {
-      setAmount(employee.vacationDays);
-    }
-  }, []);
+  if (!employee) {
+    return null;
+  }
 
   return (
     <main className="flex flex-col items-center">
@@ -163,7 +152,7 @@ export default function VacationPage({ query }: VacationPageProps) {
           <Heading size={"xs"} className="mb-3 mt-16">
             Upcoming Vacations for {employee?.name}
           </Heading>
-          {employee?.vacations.map((vacation: Vacation) => (
+          {employee?.vacations.map((vacation) => (
             <VacationComponent
               key={vacation.id}
               vacation={vacation}

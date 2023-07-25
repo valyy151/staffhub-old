@@ -10,9 +10,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 interface VacationProps {
-  vacation: Vacation;
   employee: EmployeeProfile;
   setAmount: (amount: number) => void;
+  vacation: { id: string; start: bigint; end: bigint };
 }
 
 export default function Vacation({ vacation, employee }: VacationProps) {
