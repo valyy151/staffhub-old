@@ -42,9 +42,11 @@ const DashboardPage = () => {
           <Heading className="mt-6" size={"sm"}>
             You do not currently have any created schedules.
           </Heading>
+
           <Heading size={"xs"} className="mt-2">
             Click below if you wish to create a schedule.
           </Heading>
+
           <Link className={`${buttonVariants()} mt-4`} href="/schedule">
             New Schedule {<CalendarPlus className="ml-2" />}
           </Link>

@@ -1,15 +1,14 @@
+import { useState } from "react";
+import { api } from "~/utils/api";
+import toast from "react-hot-toast";
+import Input from "~/components/ui/Input";
+import Heading from "~/components/ui/Heading";
+import Note from "~/components/Employees/Note";
+import { Button } from "~/components/ui/Button";
+import Paragraph from "~/components/ui/Paragraph";
+import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, ScrollText } from "lucide-react";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import Note from "~/components/Employees/Note";
-import Sidebar from "~/components/Employees/Sidebar";
-import { Button } from "~/components/ui/Button";
-import Heading from "~/components/ui/Heading";
-import Input from "~/components/ui/Input";
-import Paragraph from "~/components/ui/Paragraph";
-import { api } from "~/utils/api";
 
 interface EmployeeNotesPageProps {
   query: { id: string };
@@ -36,10 +35,17 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
       queryClient.invalidateQueries();
       toast.success("Note created successfully.");
     },
+    onError: () => {
+      toast.error("There was an error creating the note.");
+    },
   });
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!content) {
+      return toast.error("Please fill the note content.");
+    }
 
     createNote.mutate({
       content,

@@ -1,6 +1,5 @@
 import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
-import { WorkDayNote } from "@prisma/client";
 import Note from "~/components/WorkDay/Note";
 import Spinner from "~/components/ui/Spinner";
 import Heading from "~/components/ui/Heading";
@@ -24,7 +23,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   const [showAddNote, setShowAddNote] = useState(false);
   const [showAddShift, setShowAddShift] = useState(false);
 
-  const { data, isLoading } = api.workDay.findOne.useQuery({ id: query.id });
+  const { data } = api.workDay.findOne.useQuery({ id: query.id });
 
   const [workDay, setWorkDay] = useState(data);
 
@@ -32,7 +31,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     setWorkDay(data);
   }, [data]);
 
-  if (isLoading) {
+  if (!data) {
     return <Spinner />;
   }
 
@@ -40,38 +39,16 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     return null;
   }
 
-  const renderNotes = () => {
-    if (showAddNote || showAddShift) return null;
-
-    if (workDay.notes.length === 0) {
-      return (
-        <div className="flex flex-col items-start">
-          <Heading className="mb-2 mt-8">Notes</Heading>
-          <Paragraph size={"lg"}>
-            There are currently no notes for this day.
-          </Paragraph>
-        </div>
-      );
+  function renderShifts() {
+    if (showAddShift || showAddNote) {
+      return null;
     }
 
-    return (
-      <div className="flex flex-col">
-        <Heading className="mb-2 mt-8">Notes</Heading>
-
-        {workDay.notes.map((note) => (
-          <Note key={note.id} note={note} />
-        ))}
-      </div>
-    );
-  };
-
-  const renderShifts = () => {
-    if (showAddShift || showAddNote) return null;
-
-    if (workDay.shifts.length === 0) {
+    if (workDay?.shifts.length === 0) {
       return (
         <div className="flex flex-col items-start pb-4">
           <Heading className="mb-2">Shifts</Heading>
+
           <Paragraph size={"lg"} className="m-0">
             There are currently no shifts for this day.
           </Paragraph>
@@ -83,12 +60,40 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       <div className="flex flex-col">
         <Heading className="mb-2">Shifts</Heading>
 
-        {workDay.shifts.map((shift) => (
+        {workDay?.shifts.map((shift) => (
           <Shift key={shift.id} shift={shift} date={workDay.date} />
         ))}
       </div>
     );
-  };
+  }
+
+  function renderNotes() {
+    if (showAddNote || showAddShift) {
+      return null;
+    }
+
+    if (workDay?.notes.length === 0) {
+      return (
+        <div className="flex flex-col items-start">
+          <Heading className="mb-2 mt-8">Notes</Heading>
+
+          <Paragraph size={"lg"}>
+            There are currently no notes for this day.
+          </Paragraph>
+        </div>
+      );
+    }
+
+    return (
+      <div className="flex flex-col">
+        <Heading className="mb-2 mt-8">Notes</Heading>
+
+        {workDay?.notes.map((note) => (
+          <Note key={note.id} note={note} />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <main className="flex flex-col items-center">

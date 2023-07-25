@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Input from "~/components/ui/Input";
+import { useEffect, useState } from "react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
@@ -10,6 +10,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import VacationComponent from "~/components/Employees/Vacation";
 import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
 import VacationPlanner from "~/components/Employees/VacationPlanner";
+import Spinner from "~/components/ui/Spinner";
 
 interface VacationPageProps {
   query: { id: string };
@@ -20,6 +21,12 @@ VacationPage.getInitialProps = ({ query }: VacationPageProps) => {
 };
 
 export default function VacationPage({ query }: VacationPageProps) {
+  const [amount, setAmount] = useState<number>(0);
+  const [daysPlanned, setDaysPlanned] = useState<number>(0);
+  const [daysRemaining, setDaysRemaining] = useState<number>(0);
+  const [showPlanner, setShowPlanner] = useState<boolean>(false);
+  const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
+
   const { data: employee } = api.employee.findOne.useQuery({
     id: query.id,
   });
@@ -30,12 +37,6 @@ export default function VacationPage({ query }: VacationPageProps) {
     }
   }, []);
 
-  const [amount, setAmount] = useState<number>(0);
-  const [daysPlanned, setDaysPlanned] = useState<number>(0);
-  const [daysRemaining, setDaysRemaining] = useState<number>(0);
-  const [showPlanner, setShowPlanner] = useState<boolean>(false);
-  const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
-
   const queryClient = useQueryClient();
 
   const updateAmountMutation = api.vacation.updateAmountOfDays.useMutation({
@@ -44,12 +45,19 @@ export default function VacationPage({ query }: VacationPageProps) {
       queryClient.invalidateQueries();
       toast.success("Vacation days updated successfully.");
     },
+    onError: () => {
+      toast.error("There was an error updating the vacation days.");
+    },
   });
 
   function updateAmount(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!employee || !employee.id) {
+    if (!amount) {
+      return toast.error("Please fill the amount of vacation days.");
+    }
+
+    if (!employee?.id) {
       return null;
     }
 

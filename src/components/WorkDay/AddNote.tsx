@@ -19,14 +19,23 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
 
   const createNote = api.workDayNote.create.useMutation({
     onSuccess: () => {
+      setContent("");
       setShowAddNote(false);
       queryClient.invalidateQueries();
       toast.success("Note created successfully.");
+    },
+    onError: () => {
+      toast.error("There was an error creating the note.");
     },
   });
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!content) {
+      return toast.error("Please fill the note content.");
+    }
+
     if (data.id) {
       createNote.mutate({
         content,

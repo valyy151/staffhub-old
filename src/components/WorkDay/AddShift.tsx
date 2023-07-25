@@ -22,8 +22,8 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
 
   const [employeeId, setEmployeeId] = useState<string>("");
 
-  const [end, setEnd] = useState<number | undefined>(undefined);
-  const [start, setStart] = useState<number | undefined>(undefined);
+  const [end, setEnd] = useState<number>(0);
+  const [start, setStart] = useState<number>(0);
 
   const handleTimeChange = (newTime: string, field: "start" | "end") => {
     // convert the new time into Unix timestamp
@@ -48,12 +48,19 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
       queryClient.invalidateQueries();
       toast.success("Shift created successfully.");
     },
+    onError: () => {
+      toast.error("There was an error creating the shift.");
+    },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (data.date && end && start && employeeId) {
+    if (!end || !start) {
+      return toast.error("Please fill the start and end time.");
+    }
+
+    if (data.date) {
       createShift.mutate({
         end: end,
         start: start,

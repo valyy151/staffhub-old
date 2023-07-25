@@ -111,10 +111,21 @@ export default function VacationPlanner({
       queryClient.invalidateQueries();
       toast.success("Vacation created successfully.");
     },
+    onError: () => {
+      toast.error("There was an error creating the vacation.");
+    },
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!start || !end) {
+      return toast.error("Please select a start and end date.");
+    }
+
+    if (daysPlanned <= 0) {
+      return toast.error("Please select a valid date range.");
+    }
 
     if (!employee.id || !employee.vacationDays) {
       return null;

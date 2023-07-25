@@ -35,10 +35,17 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
       queryClient.invalidateQueries();
       toast.success("Shift preference created successfully.");
     },
+    onError: () => {
+      toast.error("There was an error creating the shift preference.");
+    },
   });
 
   function createPreference(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!content) {
+      return toast.error("Please fill the shift preference content.");
+    }
 
     createPreferenceMutation.mutate({
       content,
