@@ -1,6 +1,6 @@
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import Input from "../ui/Input";
-import { Employee, ShiftPreference } from "@prisma/client";
+import { Employee } from "@prisma/client";
 
 interface SearchEmployeesProps {
   name: string;
@@ -9,7 +9,6 @@ interface SearchEmployeesProps {
   setId: Dispatch<SetStateAction<string>>;
   setName: Dispatch<SetStateAction<string>>;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
-  setShiftPreferences?: Dispatch<SetStateAction<string[]>>;
 }
 
 export default function SearchEmployees({
@@ -19,7 +18,6 @@ export default function SearchEmployees({
   setName,
   setIsOpen,
   employees,
-  setShiftPreferences,
 }: SearchEmployeesProps) {
   const handleSelect = (option: string, id: string) => {
     setId(id);
@@ -28,7 +26,7 @@ export default function SearchEmployees({
   };
 
   return (
-    <main className="relative w-full text-lg">
+    <main className="relative w-full">
       <div
         className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-700 dark:shadow-slate-950 "
         onClick={() => setIsOpen(!isOpen)}

@@ -11,6 +11,8 @@ import SearchEmployees from "./SearchEmployees";
 import { ShiftPreference } from "@prisma/client";
 import { formatMonth } from "~/utils/dateFormatting";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
+import { generateYearArray, updateMonthData } from "~/utils/yearArray";
+import { CalendarPlus } from "lucide-react";
 
 interface ScheduleMakerProps {
   name: string;
@@ -37,15 +39,17 @@ export default function ScheduleMaker({
   setShiftPreferences,
 }: ScheduleMakerProps) {
   const currentDate = new Date();
-  const [schedule, setSchedule] = useState<any[]>([]);
-  const [value, setValue] = useState<Date>(new Date());
+  const [value, setValue] = useState<Date>(currentDate);
+  const [schedule, setSchedule] = useState<any[]>(updateMonthData(currentDate));
 
   const [yearArray, setYearArray] = useState<{ date: number }[]>([]);
 
-  const [, setMonth] = useState(() => {
-    const month = currentDate.getMonth() + 2;
-    return `${currentDate.getFullYear()}-${month < 10 ? `0${month}` : month}`;
-  });
+  function handleMonthChange(date: any) {
+    setValue(date);
+    const year = date.getFullYear();
+    setYearArray(generateYearArray(year));
+    setSchedule(() => updateMonthData(date));
+  }
 
   const createShift = api.shift.create.useMutation();
 
@@ -109,56 +113,34 @@ export default function ScheduleMaker({
       });
   }
 
-  function handleMonthChange(date: any) {
-    setValue(date);
-    const year = date.getFullYear();
-    setYearArray(generateYearArray(year));
-
-    const month = date.getMonth() + 1;
-    setMonth(`${year}-${month < 10 ? `0${month}` : month}`);
-    setSchedule(() => updateMonthData(date));
-  }
-
-  function updateMonthData(date: Date) {
-    const year = date.getFullYear();
-
-    const monthIndex = date.getMonth();
-    const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
-
-    const data = new Array(daysInMonth).fill(null).map((_, index) => {
-      const day = index + 1;
-      const dateUnixTimestamp =
-        new Date(year, monthIndex, day).getTime() / 1000;
-
-      return {
-        date: dateUnixTimestamp,
-      };
-    });
-    return data;
-  }
-
-  function generateYearArray(year: number) {
-    const daysInYear = 365 + (isLeapYear(year) ? 1 : 0);
-    const startOfYear = new Date(year, 0, 1);
-    const yearArray = [];
-
-    for (let i = 0; i < daysInYear; i++) {
-      const currentDate = new Date(
-        startOfYear.getTime() + i * 24 * 60 * 60 * 1000
+  function checkPreferences() {
+    if (shiftPreferences.length === 0) {
+      return (
+        name && (
+          <Heading size={"sm"} className="mt-4">
+            {name}{" "}
+            <span className="font-normal">has no shift preferences.</span>
+          </Heading>
+        )
       );
-      yearArray.push({ date: currentDate.getTime() / 1000 });
     }
 
-    return yearArray;
-  }
+    return (
+      <div className="mt-4 flex items-baseline">
+        <Heading size={"sm"}>Shift preferences:</Heading>
 
-  function isLeapYear(year: number) {
-    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+        {shiftPreferences.map((preference) => (
+          <Paragraph size={"lg"} className="m-0 ml-2">
+            {preference.content}
+          </Paragraph>
+        ))}
+      </div>
+    );
   }
 
   return (
-    <main className="flex space-x-6">
-      <div className="mt-7 flex h-[44rem] flex-col items-center">
+    <main className="mt-8 flex space-x-8">
+      <section className="mt-11 flex flex-col items-center">
         <SearchEmployees
           name={name}
           isOpen={isOpen}
@@ -175,75 +157,55 @@ export default function ScheduleMaker({
           className="h-fit"
           onChange={handleMonthChange}
         />
-        {schedule.length > 0 && (
+        {schedule.length > 0 && name && (
           <Button
             size={"lg"}
             title="Create schedule"
-            className="mx-auto mt-[1.6rem] w-full text-xl font-medium tracking-wide"
+            className="mt-2 h-14 w-full text-2xl"
             onClick={createSchedule}
           >
-            Create Schedule{" "}
+            <CalendarPlus size={28} className="mr-2" /> Create Schedule{" "}
           </Button>
         )}
-      </div>
-      <div className="mt-8 h-[44rem] w-[82rem]">
-        {schedule.length > 0 ? (
-          <>
-            {name && schedule ? (
-              <div className="flex items-baseline justify-end">
-                <Heading size={"sm"} className="mb-2 mr-2">
-                  {name}
-                </Heading>
-                <Heading
-                  size={"xs"}
-                  className="mb-2 mr-8 text-left font-normal"
-                >
-                  will work{" "}
-                  <span className="font-bold">
-                    {calculateTotalMonthlyHours(schedule)}
-                  </span>{" "}
-                  hours in {formatMonth(schedule[0].date)}
-                </Heading>
-              </div>
-            ) : (
-              <Heading size={"sm"} className="mb-2 ml-8 text-left font-normal">
-                Choose an employee.
+      </section>
+      <section>
+        {name && schedule ? (
+          <div className="flex justify-between">
+            <Heading size={"sm"} className="mb-2 ml-4">
+              {value.toLocaleDateString("en-GB", {
+                month: "long",
+                year: "numeric",
+              })}
+            </Heading>
+
+            <div className="flex items-baseline justify-end">
+              <Heading size={"sm"} className="mb-2 mr-2">
+                {name}
               </Heading>
-            )}
-            <ScheduleTable data={schedule} setData={setSchedule} />
-            {shiftPreferences.length > 0 ? (
-              <div className="mt-4">
-                <Heading
-                  size={"xs"}
-                  className="mx-auto mb-4 w-1/2 rounded-t-md border-b-2 border-slate-300 p-2 text-center dark:border-slate-500"
-                >
-                  Shift preferences:
-                </Heading>
-                <div className="flex flex-col items-center">
-                  {shiftPreferences.map((preference) => (
-                    <Paragraph className="mb-2 p-1 text-center font-normal">
-                      {preference.content}
-                    </Paragraph>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              name && (
-                <Heading size={"xs"} className="mt-4 text-center font-normal">
-                  This employee has no shift preferences.
-                </Heading>
-              )
-            )}
-          </>
+
+              <Heading size={"xs"} className="mb-2 mr-8 text-left font-normal">
+                will work{" "}
+                <span className="font-bold">
+                  {calculateTotalMonthlyHours(schedule)}
+                </span>{" "}
+                hours in{" "}
+                <span className="font-bold">
+                  {formatMonth(schedule[0].date)}
+                </span>
+              </Heading>
+            </div>
+          </div>
         ) : (
-          <Heading
-            size={"lg"}
-            className="ml-48 mt-48 text-center font-normal text-slate-500 dark:text-slate-400"
-          >
-            Pick a month and an employee.
+          <Heading size={"sm"} className="mb-2 ml-4">
+            {value.toLocaleDateString("en-GB", {
+              month: "long",
+              year: "numeric",
+            })}
           </Heading>
         )}
-      </div>
+        <ScheduleTable data={schedule} setData={setSchedule} />
+        {checkPreferences()}
+      </section>
     </main>
   );
 }
