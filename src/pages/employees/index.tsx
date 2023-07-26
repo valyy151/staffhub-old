@@ -43,12 +43,12 @@ export default function EmployeesListPage() {
   });
 
   return (
-    <main className="flex flex-col items-center">
-      <div className="mb-2 mt-12 flex w-3/5 items-end justify-between">
-        <div className="flex items-baseline space-x-4 ">
-          <Heading>Your Staff</Heading>
+    <main className="mx-auto flex w-2/3 flex-col items-center">
+      <div className="mb-2 mt-12 flex w-full items-end justify-between">
+        <div className="flex items-baseline space-x-4">
+          <Heading size={"lg"}>Your Staff</Heading>
 
-          <Heading size={"xs"}>
+          <Heading>
             has {data.length} {data.length > 1 ? "members" : "member"}
           </Heading>
         </div>
@@ -60,7 +60,7 @@ export default function EmployeesListPage() {
             <Input
               type="text"
               value={searchText}
-              placeholder="Search your employees..."
+              placeholder="Search for a  staff member"
               className="h-12 w-96 border-none text-lg focus:outline-none focus:ring-0 focus:ring-offset-0"
               onChange={(e) => setSearchText(e.target.value)}
             />
@@ -72,12 +72,12 @@ export default function EmployeesListPage() {
             onClick={() => router.push("/employees/new")}
             title="Add a new employee"
           >
-            <UserPlus size={28} className="mr-2" /> Add Employee
+            <UserPlus size={24} className="mr-2" /> Add Employee
           </Button>
         </div>
       </div>
 
-      <table className="w-full divide-y-2 divide-slate-300 border-2 border-slate-300 bg-white text-left dark:divide-slate-600  dark:border-slate-600 dark:bg-slate-700 sm:w-3/5">
+      <table className="w-full divide-y-2 divide-slate-300 border-2 border-slate-300 bg-white text-left dark:divide-slate-600  dark:border-slate-600 dark:bg-slate-700">
         <thead>
           <tr>
             {headings.map((heading, index) => (

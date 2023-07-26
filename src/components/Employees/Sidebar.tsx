@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { EmployeeProfile, EmployeeSchedule } from "~/utils/api";
 
 interface SidebarProps {
-  employee: EmployeeProfile | EmployeeSchedule;
+  employee?: EmployeeProfile | EmployeeSchedule;
 }
 
 export default function Sidebar({ employee }: SidebarProps) {

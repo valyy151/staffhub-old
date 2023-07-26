@@ -68,7 +68,7 @@ export default function VacationPage({ query }: VacationPageProps) {
   }
 
   if (!employee) {
-    return null;
+    return <Sidebar />;
   }
 
   return (

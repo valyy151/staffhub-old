@@ -22,7 +22,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
   });
 
   if (!employee || !employee.name) {
-    return null;
+    return <Sidebar />;
   }
 
   const [name, setName] = useState(employee.name);

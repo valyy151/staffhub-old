@@ -53,8 +53,8 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
     });
   }
 
-  if (!employee?.notes) {
-    return null;
+  if (!employee || !employee.notes) {
+    return <Sidebar />;
   }
 
   return (

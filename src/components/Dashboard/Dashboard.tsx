@@ -19,12 +19,12 @@ import {
 import router from "next/router";
 import { Button } from "../ui/Button";
 import groupShifts from "~/utils/groupShifts";
-import { DashboardWorkDays } from "~/utils/api";
+import { DashboardWorkDay } from "~/utils/api";
 
 interface DashboardProps {
   skip: number;
   loading: boolean;
-  data: DashboardWorkDays;
+  data: DashboardWorkDay[];
   setSkip: (skip: number) => void;
 }
 
@@ -45,8 +45,6 @@ export default function Dashboard({
   if (!data || !data[0] || !data[6]) {
     return null;
   }
-
-  console.log(data);
 
   return (
     <div className="dashboard p-0 pt-20">

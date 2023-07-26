@@ -22,8 +22,8 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
     id: query.id,
   });
 
-  if (!employee || !employee?.sickLeaves) {
-    return null;
+  if (!employee || !employee.sickLeaves) {
+    return <Sidebar />;
   }
 
   function checkSickLeave() {
