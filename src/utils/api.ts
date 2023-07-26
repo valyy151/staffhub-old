@@ -74,5 +74,3 @@ export type Employee = RouterOutputs["employee"]["find"][number];
 export type EmployeeProfile = RouterOutputs["employee"]["findOne"];
 
 export type DashboardWorkDay = RouterOutputs["dashboard"]["find"][number];
-
-export type EmployeeSchedule = RouterOutputs["employee"]["findOneAndMonthly"];

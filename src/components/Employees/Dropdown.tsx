@@ -1,35 +1,32 @@
-import { FC } from "react";
 import {
+  User2,
+  Trash2,
+  Sticker,
   Calendar,
   Palmtree,
   ScrollText,
-  Sticker,
-  Trash2,
-  User2,
 } from "lucide-react";
-import router from "next/router";
-import { EmployeeProfile } from "~/utils/api";
 
 interface DropdownProps {
   showDelete?: boolean;
-  employee: EmployeeProfile;
+  navigate: (path: string) => void;
   setShowModal: (showModal: boolean) => void;
   setShowDropdown: (showDropdown: boolean) => void;
 }
 
-const Dropdown: FC<DropdownProps> = ({
-  employee,
+export default function Dropdown({
+  navigate,
   setShowModal,
   setShowDropdown,
   showDelete,
-}) => {
+}: DropdownProps) {
   return (
     <div className="absolute right-0 z-50 w-[30rem] rounded-md border border-slate-300 bg-white text-xl  shadow-lg ring-1 ring-black ring-opacity-5 dark:border-slate-500 dark:bg-slate-600 dark:shadow-slate-900">
       <ul>
         <li
           onClick={() => {
             setShowDropdown(false);
-            router.push(`/employees/${employee.id}/notes`);
+            navigate("notes");
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -40,7 +37,7 @@ const Dropdown: FC<DropdownProps> = ({
         <li
           onClick={() => {
             setShowDropdown(false);
-            router.push(`/employees/${employee.id}/vacation`);
+            navigate("vacation");
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -51,7 +48,7 @@ const Dropdown: FC<DropdownProps> = ({
         <li
           onClick={() => {
             setShowDropdown(false);
-            router.push(`/employees/${employee.id}/schedule`);
+            navigate("schedule");
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -62,7 +59,7 @@ const Dropdown: FC<DropdownProps> = ({
         <li
           onClick={() => {
             setShowDropdown(false);
-            router.push(`/employees/${employee.id}/preferences`);
+            navigate("preferences");
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -70,7 +67,7 @@ const Dropdown: FC<DropdownProps> = ({
           <Sticker className="ml-2" />
         </li>
         <li
-          onClick={() => router.push(`/employees/${employee.id}/personal`)}
+          onClick={() => navigate("personal")}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50  dark:hover:bg-slate-500"
         >
           Personal Information
@@ -92,6 +89,4 @@ const Dropdown: FC<DropdownProps> = ({
       </ul>
     </div>
   );
-};
-
-export default Dropdown;
+}

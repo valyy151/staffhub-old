@@ -116,6 +116,23 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
     return "Not on sick leave";
   }
 
+  function navigate(urlParams: string) {
+    router.push(
+      {
+        pathname: `/employees/[id]/${urlParams}`,
+        href: `/employees/${employee?.id}/${urlParams}`,
+        query: {
+          id: employee?.id,
+          name: employee?.name,
+          email: employee?.email,
+          address: employee?.address,
+          phoneNumber: employee?.phoneNumber,
+        },
+      },
+      `/employees/${employee?.id}/${urlParams}`
+    );
+  }
+
   if (!employee) {
     return <Spinner />;
   }
@@ -150,7 +167,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           <div className="relative">
             <Dropdown
               showDelete={true}
-              employee={employee}
+              navigate={navigate}
               setShowModal={setShowModal}
               setShowDropdown={setShowDropdown}
             />
@@ -159,7 +176,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
         <div className="flex">
           {/* personal info begin */}
           <div
-            onClick={() => router.push(`/employees/${employee.id}/personal`)}
+            onClick={() => navigate("personal")}
             className="w-1/5 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
@@ -191,7 +208,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
           {/* notes begin */}
           <div
-            onClick={() => router.push(`/employees/${employee.id}/notes`)}
+            onClick={() => navigate("notes")}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
@@ -214,7 +231,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
           {/* sick leave begin */}
           <div
-            onClick={() => router.push(`/employees/${employee.id}/sick-leave`)}
+            onClick={() => navigate("sick-leave")}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
@@ -229,7 +246,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
           {/* vacation begin */}
           <div
-            onClick={() => router.push(`/employees/${employee.id}/vacation`)}
+            onClick={() => navigate("vacation")}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300
                  py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
@@ -246,7 +263,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
           {/* preferences begin */}
           <div
-            onClick={() => router.push(`/employees/${employee.id}/preferences`)}
+            onClick={() => navigate("preferences")}
             className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">

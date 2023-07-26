@@ -12,7 +12,6 @@ import dynamic from "next/dynamic";
 import "react-calendar/dist/Calendar.css";
 import { Calendar } from "react-calendar";
 import Heading from "~/components/ui/Heading";
-import Spinner from "~/components/ui/Spinner";
 import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Employees/Sidebar";
 import { calculateTotalHours } from "~/utils/calculateHours";
@@ -72,11 +71,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
       </div>
       <div className="mt-16 flex justify-end">
         <div
-          className={`${
-            value
-              ? "overflow-y-scroll border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-800"
-              : "border-none"
-          }  ml-auto h-[39rem] overflow-x-hidden rounded border border-slate-300`}
+          className={`ml-auto h-[39rem] overflow-x-hidden overflow-y-scroll rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-800`}
         >
           <div className="flex w-full items-center justify-between border-b-2 border-t border-slate-300 bg-white py-4 dark:border-slate-500 dark:bg-slate-800">
             <Heading

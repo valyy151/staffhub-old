@@ -7,6 +7,7 @@ import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 
 interface EmployeePersonalProps {
   query: { id: string };
@@ -17,9 +18,9 @@ EmployeePersonalPage.getInitialProps = ({ query }: EmployeePersonalProps) => {
 };
 
 export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
-  const { data: employee } = api.employee?.findOne.useQuery({
-    id: query.id,
-  });
+  const router = useRouter();
+
+  const employee = router.query;
 
   if (!employee || !employee.name) {
     return <Sidebar />;
