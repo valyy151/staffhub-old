@@ -8,10 +8,10 @@ import {
   HeartPulse,
 } from "lucide-react";
 import { useRouter } from "next/router";
-import { EmployeeProfile, EmployeeSchedule } from "~/utils/api";
+import { EmployeeProfile } from "~/utils/api";
 
 interface SidebarProps {
-  employee?: EmployeeProfile | EmployeeSchedule;
+  employee?: EmployeeProfile;
 }
 
 export default function Sidebar({ employee }: SidebarProps) {

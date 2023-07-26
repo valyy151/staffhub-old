@@ -34,7 +34,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
 
   const [startOfMonth, endOfMonth]: any = getMonthBoundaryTimestamps(value);
 
-  const { data: employee } = api.employee?.findOneAndMonthly.useQuery({
+  const { data: employee } = api.employee?.findOne.useQuery({
     id: query.id,
     endOfMonth,
     startOfMonth,

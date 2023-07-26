@@ -7,15 +7,18 @@ import {
   ScrollText,
 } from "lucide-react";
 
+import router from "next/router";
+import { EmployeeProfile } from "~/utils/api";
+
 interface DropdownProps {
   showDelete?: boolean;
-  navigate: (path: string) => void;
+  employee: EmployeeProfile;
   setShowModal: (showModal: boolean) => void;
   setShowDropdown: (showDropdown: boolean) => void;
 }
 
 export default function Dropdown({
-  navigate,
+  employee,
   setShowModal,
   setShowDropdown,
   showDelete,
@@ -26,7 +29,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            navigate("notes");
+            router.push(`/employees/${employee.id}/notes`);
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -37,7 +40,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            navigate("vacation");
+            router.push(`/employees/${employee.id}/vacation`);
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -48,7 +51,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            navigate("schedule");
+            router.push(`/employees/${employee.id}/schedule`);
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -59,7 +62,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            navigate("preferences");
+            router.push(`/employees/${employee.id}/preferences`);
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -67,7 +70,7 @@ export default function Dropdown({
           <Sticker className="ml-2" />
         </li>
         <li
-          onClick={() => navigate("personal")}
+          onClick={() => router.push(`/employees/${employee.id}/personal`)}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50  dark:hover:bg-slate-500"
         >
           Personal Information

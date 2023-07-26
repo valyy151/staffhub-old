@@ -149,7 +149,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
           <Button
             className="ml-auto mr-2 min-w-0 rounded-full  p-8 text-2xl"
-            onClick={() => router.push(`/employees/${employee.id}/schedule`)}
+            onClick={() => navigate("schedule")}
           >
             Schedules <Calendar className="ml-4" />
           </Button>
@@ -167,7 +167,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           <div className="relative">
             <Dropdown
               showDelete={true}
-              navigate={navigate}
+              employee={employee}
               setShowModal={setShowModal}
               setShowDropdown={setShowDropdown}
             />
