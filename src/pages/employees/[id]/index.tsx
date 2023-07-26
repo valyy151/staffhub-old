@@ -1,5 +1,6 @@
 import {
   Calendar,
+  HeartPulse,
   Mail,
   MapPin,
   Palmtree,
@@ -38,8 +39,6 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const vacations = employee?.vacations;
-
   const deleteEmployee = api.employee.delete.useMutation({
     onSuccess: () => {
       toast.success("Employee deleted successfully.");
@@ -56,30 +55,65 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
   function checkEmployeeVacation() {
     const currentDate: any = Date.now();
 
-    if (!vacations || vacations.length === 0) {
+    if (!employee?.vacations || employee.vacations.length === 0) {
       return "No upcoming vacations.";
     }
 
-    for (const vacation of vacations) {
+    for (const vacation of employee.vacations) {
       const startDate: any = new Date(Number(vacation.start));
       const endDate: any = new Date(Number(vacation.end));
+
       if (currentDate >= startDate && currentDate <= endDate) {
         const remainingDays = Math.ceil(
           (endDate - currentDate) / (1000 * 60 * 60 * 24)
         );
-        return `On vacation till ${endDate.toLocaleDateString(
-          "en-GB"
-        )} ( Ends in ${remainingDays} days )`;
+
+        return (
+          <>
+            {`On vacation till ${endDate.toLocaleDateString("en-GB")}`}
+            {<br />}
+            {`Ends in ${remainingDays} days`}
+          </>
+        );
       } else if (currentDate < startDate) {
         const remainingDays = Math.ceil(
           (startDate - currentDate) / (1000 * 60 * 60 * 24)
         );
-        return `Next vacation in ${remainingDays} days  ( ${startDate.toLocaleDateString(
-          "en-GB"
-        )} )`;
+
+        return `Leaving on vacation in ${remainingDays} ${
+          remainingDays === 1 ? "day" : "days"
+        }`;
       }
     }
     return "No upcoming vacations.";
+  }
+
+  function checkSickLeave() {
+    const currentDate: any = Date.now();
+
+    if (!employee?.sickLeaves || employee.sickLeaves.length === 0) {
+      return "Not on sick leave.";
+    }
+
+    for (const sickLeave of employee.sickLeaves) {
+      const startDate: any = new Date(Number(sickLeave.start));
+      const endDate: any = new Date(Number(sickLeave.end));
+
+      if (currentDate >= startDate && currentDate <= endDate) {
+        const remainingDays = Math.ceil(
+          (endDate - currentDate) / (1000 * 60 * 60 * 24)
+        );
+
+        return (
+          <>
+            {`On sick leave till ${endDate.toLocaleDateString("en-GB")}`}
+            {<br />}
+            {`Ends in ${remainingDays} days`}
+          </>
+        );
+      }
+    }
+    return "Not on sick leave";
   }
 
   if (!employee) {
@@ -103,7 +137,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             Schedules <Calendar className="ml-4" />
           </Button>
           <Button
-            className="mr-2 min-w-0 rounded-full bg-slate-200 p-8 text-2xl hover:bg-slate-300 focus:ring-0 focus:ring-offset-0 dark:bg-slate-600 dark:hover:bg-slate-500"
+            className="mr-2 min-w-0 rounded-full p-8 text-2xl focus:ring-0 focus:ring-offset-0"
             variant={"subtle"}
             onClick={() => setShowDropdown(!showDropdown)}
           >
@@ -126,7 +160,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* personal info begin */}
           <div
             onClick={() => router.push(`/employees/${employee.id}/personal`)}
-            className="w-1/4 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+            className="w-1/5 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Personal Info
@@ -158,7 +192,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* notes begin */}
           <div
             onClick={() => router.push(`/employees/${employee.id}/notes`)}
-            className="flex w-1/4 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Notes
@@ -167,24 +201,36 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
             <div className="flex flex-col py-2">
               {employee.notes?.length > 0 ? (
-                employee.notes?.map((note, index) => (
-                  <Paragraph key={index} className="text-left">
-                    {note.content}
-                  </Paragraph>
-                ))
-              ) : (
                 <Paragraph className="text-left">
-                  There are no notes for this employee.
+                  {employee.notes.length}{" "}
+                  {employee.notes.length === 1 ? "Note" : "Notes"}
                 </Paragraph>
+              ) : (
+                <Paragraph className="text-left">No notes</Paragraph>
               )}
             </div>
           </div>
           {/* notes end */}
 
+          {/* sick leave begin */}
+          <div
+            onClick={() => router.push(`/employees/${employee.id}/sick-leave`)}
+            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+          >
+            <Heading size={"xs"} className="mb-2 flex items-center">
+              Sick Leave
+              <HeartPulse size={26} className="ml-2" />
+            </Heading>
+            <div className="flex flex-col space-y-2 py-2">
+              <Paragraph className="text-left">{checkSickLeave()}</Paragraph>
+            </div>
+          </div>
+          {/* sick leave end */}
+
           {/* vacation begin */}
           <div
             onClick={() => router.push(`/employees/${employee.id}/vacation`)}
-            className="flex w-1/4 cursor-pointer flex-col border-r border-slate-300
+            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300
                  py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
@@ -201,23 +247,23 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* preferences begin */}
           <div
             onClick={() => router.push(`/employees/${employee.id}/preferences`)}
-            className="flex w-1/4 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-600"
+            className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-600"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Shift Preferences <Sticker size={26} className="ml-2" />
             </Heading>
 
             <div className="flex flex-col py-2">
-              {employee.shiftPreferences &&
-              employee.shiftPreferences?.length > 0 ? (
-                employee.shiftPreferences?.map((shiftPreference) => (
-                  <Paragraph key={shiftPreference.id} className="text-left">
-                    {shiftPreference.content}
-                  </Paragraph>
-                ))
+              {employee.shiftPreferences?.length > 0 ? (
+                <Paragraph className="text-left">
+                  {employee.shiftPreferences.length} Shift{" "}
+                  {employee.shiftPreferences.length === 1
+                    ? "preference"
+                    : "preferences"}
+                </Paragraph>
               ) : (
                 <Paragraph className="text-left">
-                  There are no shift preferences for this employee.
+                  No shift preferences.
                 </Paragraph>
               )}
             </div>

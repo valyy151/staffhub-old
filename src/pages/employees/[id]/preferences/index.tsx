@@ -6,7 +6,6 @@ import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Employees/Sidebar";
-import type { ShiftPreference } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
 import ShiftPreferenceComponent from "~/components/Employees/ShiftPreference";

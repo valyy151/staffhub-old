@@ -1,12 +1,13 @@
-import { PDFDownloadLink } from "@react-pdf/renderer";
 import { Button } from "./ui/Button";
 import { MonthlyRoster } from "./SchedulePDF";
+import { EmployeeSchedule } from "~/utils/api";
 import { formatMonth } from "~/utils/dateFormatting";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 interface PDFButtonProps {
-  employee: any;
-  month: string;
   value: Date;
+  month: string;
+  employee: EmployeeSchedule;
 }
 
 export default function PDFButton({ employee, month, value }: PDFButtonProps) {

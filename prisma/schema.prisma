@@ -53,6 +53,7 @@ model User {
     workDays        WorkDay[]
     employees       Employee[]
     vacations       Vacation[]
+    sickLeaves      SickLeave[]
     workDayNotes    WorkDayNote[]
     employeeNotes   EmployeeNote[]
     ShiftPreference ShiftPreference[]
@@ -75,6 +76,7 @@ model Employee {
     phoneNumber      String
     shifts           Shift[]
     vacations        Vacation[]
+    sickLeaves       SickLeave[]
     notes            EmployeeNote[]
     shiftPreferences ShiftPreference[]
     vacationDays     Int               @default(25)
@@ -83,12 +85,38 @@ model Employee {
     @@index([userId])
 }
 
+model EmployeeNote {
+    id         String   @id @default(cuid())
+    userId     String
+    content    String
+    employeeId String
+    createdAt  DateTime @default(now())
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([employeeId])
+}
+
 model ShiftPreference {
     id         String   @id @default(cuid())
     employeeId String
     content    String
     userId     String
     createdAt  DateTime @default(now())
+    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([employeeId])
+}
+
+model SickLeave {
+    id         String   @id @default(cuid())
+    start      BigInt
+    end        BigInt
+    userId     String
+    employeeId String
     user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
@@ -130,19 +158,6 @@ model WorkDayNote {
 
     @@index([userId])
     @@index([workDayId])
-}
-
-model EmployeeNote {
-    id         String   @id @default(cuid())
-    userId     String
-    content    String
-    employeeId String
-    createdAt  DateTime @default(now())
-    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-
-    @@index([userId])
-    @@index([employeeId])
 }
 
 model Shift {

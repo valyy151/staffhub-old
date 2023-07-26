@@ -5,6 +5,7 @@ import {
   ArrowLeft,
   ScrollText,
   CalendarSearch,
+  HeartPulse,
 } from "lucide-react";
 import { useRouter } from "next/router";
 import { EmployeeProfile, EmployeeSchedule } from "~/utils/api";
@@ -45,6 +46,16 @@ export default function Sidebar({ employee }: SidebarProps) {
           }`}
         >
           <ScrollText className="mr-2" /> Notes
+        </li>
+        <li
+          onClick={() => router.push(`/employees/${employee?.id}/sick-leave`)}
+          className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
+            path === "sick-leave"
+              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
+              : ""
+          }`}
+        >
+          <HeartPulse className="mr-2" /> SickLeave
         </li>
         <li
           onClick={() => router.push(`/employees/${employee?.id}/vacation`)}

@@ -1,12 +1,13 @@
-import { createTRPCRouter } from "~/server/api/trpc";
-import { employeeRouter } from "./routers/employee";
-import { workDayRouter } from "./routers/workDay";
 import { shiftRouter } from "./routers/shift";
+import { workDayRouter } from "./routers/workDay";
+import { employeeRouter } from "./routers/employee";
+import { createTRPCRouter } from "~/server/api/trpc";
+import { vacationRouter } from "./routers/vacation";
 import { dashboardRouter } from "./routers/dashboard";
+import { sickLeaveRouter } from "./routers/sickLeave";
+import { workDayNoteRouter } from "./routers/workDayNote";
 import { employeeNoteRouter } from "./routers/employeeNote";
 import { shiftPreferenceRouter } from "./routers/shiftPreference";
-import { vacationRouter } from "./routers/vacation";
-import { workDayNoteRouter } from "./routers/workDayNote";
 
 /**
  * This is the primary router for your server.
@@ -19,6 +20,7 @@ export const appRouter = createTRPCRouter({
   vacation: vacationRouter,
   employee: employeeRouter,
   dashboard: dashboardRouter,
+  sickLeave: sickLeaveRouter,
   workDayNote: workDayNoteRouter,
   employeeNote: employeeNoteRouter,
   shiftPreference: shiftPreferenceRouter,
