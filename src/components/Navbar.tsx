@@ -49,7 +49,7 @@ export default function Navbar() {
 
               <Link
                 href="/documentation"
-                className={buttonVariants({ variant: "subtle" })}
+                className={buttonVariants({ variant: "subtler" })}
               >
                 Documentation
               </Link>
@@ -62,7 +62,7 @@ export default function Navbar() {
             <>
               <Link
                 href="/documentation"
-                className={buttonVariants({ variant: "subtle" })}
+                className={buttonVariants({ variant: "subtler" })}
               >
                 Documentation
               </Link>

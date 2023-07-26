@@ -3,7 +3,7 @@ import { cn } from "~/utils/tailwindMerge";
 import { VariantProps, cva } from "class-variance-authority";
 
 export const paragraphVariants = cva(
-  "max-w-prose text-slate-700 dark:text-slate-300 mb-2 text-center",
+  "max-w-prose text-slate-700 dark:text-slate-300 mb-2",
   {
     variants: {
       size: {

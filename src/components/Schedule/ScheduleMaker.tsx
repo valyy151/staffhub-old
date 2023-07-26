@@ -236,7 +236,10 @@ export default function ScheduleMaker({
             )}
           </>
         ) : (
-          <Heading className="ml-48 mt-48 text-center font-normal text-slate-500 dark:text-slate-400">
+          <Heading
+            size={"lg"}
+            className="ml-48 mt-48 text-center font-normal text-slate-500 dark:text-slate-400"
+          >
             Pick a month and an employee.
           </Heading>
         )}
