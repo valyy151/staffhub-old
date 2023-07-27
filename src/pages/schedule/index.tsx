@@ -1,9 +1,9 @@
 import { type ShiftPreference } from "@prisma/client";
 import { UserPlus } from "lucide-react";
-import Link from "next/link";
+import router from "next/router";
 import { useState } from "react";
 import ScheduleMaker from "~/components/Schedule/ScheduleMaker";
-import { buttonVariants } from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { api } from "~/utils/api";
@@ -32,13 +32,13 @@ export default function NewSchedulePage() {
         <Heading size={"xs"} className="mt-2">
           Click below if you wish to create an employee.
         </Heading>
-        <Link
-          href="/employees/new"
-          title="Create a new employee"
-          className={`${buttonVariants()} mt-4`}
+        <Button
+          size={"lg"}
+          className="mt-4 h-14 text-2xl"
+          onClick={() => void router.push("/employees/new")}
         >
-          New Employee {<UserPlus className="ml-2" />}
-        </Link>
+          <UserPlus size={30} className="mr-2" /> New Employee
+        </Button>
       </main>
     );
   }

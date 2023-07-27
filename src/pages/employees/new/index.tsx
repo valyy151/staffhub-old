@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
+import { Save } from "lucide-react";
 
 export default function NewEmployeePage() {
   const [name, setName] = useState<string>("");
@@ -13,6 +14,11 @@ export default function NewEmployeePage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    if (!name || !email || !address || !phoneNumber) {
+      return toast.error("Please fill out all the fields.");
+    }
+
     createEmployee.mutate({ name, email, address, phoneNumber });
   }
 
@@ -21,73 +27,73 @@ export default function NewEmployeePage() {
       toast.success("Employee created successfully.");
       window.location.href = "/employees";
     },
+
+    onError: () => {
+      toast.error("There was an error creating the employee.");
+    },
   });
 
   return (
-    <div className="w-full">
-      <Heading className="mt-12 text-center">Create an Employee</Heading>
-      <form
-        onSubmit={handleSubmit}
-        className="mx-auto mb-16 mt-12 flex flex-col gap-2 sm:w-1/3"
-      >
-        <label htmlFor="name">Employee Name</label>
-
+    <div className="mx-auto">
+      <form onSubmit={handleSubmit} className="mx-auto mt-12 w-1/4">
+        <Heading className="mb-4">Create an Employee</Heading>
+        <label className="text-xl" htmlFor="name">
+          Name
+        </label>
         <Input
           id="name"
           type="text"
           name="name"
           value={name}
-          className="h-12 text-lg"
+          className="mb-2 h-16 text-xl"
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter the name of the employee"
+          placeholder="Enter the name of your employee"
         />
-
-        <label htmlFor="email">Employee Email</label>
-
+        <label className="text-xl" htmlFor="email">
+          Email
+        </label>
         <Input
           id="email"
           type="text"
           name="email"
           value={email}
-          className="h-12 text-lg"
+          className="mb-2 h-16 text-xl"
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter the email of the employee"
+          placeholder="Enter the email of your employee"
         />
 
-        <label htmlFor="phone">Employee Phone</label>
-
-        <Input
-          id="phone"
-          type="text"
-          name="phone"
-          value={phoneNumber}
-          className="h-12 text-lg"
-          onChange={(e) => {
-            const re = /^[0-9+\s]*$/;
-            if (re.test(e.target.value)) {
-              setPhoneNumber(e.target.value);
-            }
-          }}
-          placeholder="Enter the phone number of the employee"
-        />
-
-        <label htmlFor="address">Employee Address</label>
-
+        <label className="text-xl" htmlFor="address">
+          Address
+        </label>
         <Input
           type="text"
           id="address"
           name="address"
           value={address}
-          className="h-12 text-lg"
+          className="mb-2 h-16 text-xl"
+          placeholder="Enter the address of your employee"
           onChange={(e) => setAddress(e.target.value)}
-          placeholder="Enter the address of the employee"
+        />
+
+        <label className="text-xl" htmlFor="phone">
+          Phone
+        </label>
+        <Input
+          type="text"
+          id="phone"
+          name="phone"
+          value={phoneNumber}
+          className="mb-2 h-16 text-xl"
+          placeholder="Enter the phone number of your employee"
+          onChange={(e) => setPhoneNumber(e.target.value)}
         />
 
         <Button
-          className="mt-2 w-1/3 text-lg"
-          title="Save information and create employee"
+          size={"lg"}
+          title="Update information"
+          className="mt-4 h-16 w-full text-3xl"
         >
-          Submit
+          Save changes {<Save size={36} className="ml-2" />}
         </Button>
       </form>
     </div>

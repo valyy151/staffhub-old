@@ -30,9 +30,13 @@ export default function EmployeesListPage() {
           Click below if you wish to create an employee.
         </Heading>
 
-        <Link href="/employees/new" className={`${buttonVariants()} mt-4`}>
-          New Employee {<UserPlus className="ml-2" />}
-        </Link>
+        <Button
+          size={"lg"}
+          className="mt-4 h-14 text-2xl"
+          onClick={() => void router.push("/employees/new")}
+        >
+          <UserPlus size={30} className="mr-2" /> New Employee
+        </Button>
       </main>
     );
   }
