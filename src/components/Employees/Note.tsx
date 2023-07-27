@@ -1,10 +1,9 @@
-import { Check, XCircle, Trash2, Pencil, X, Save } from "lucide-react";
+import { XCircle, Trash2, Pencil, Save } from "lucide-react";
 import { useState } from "react";
 import Input from "../ui/Input";
 import { Button } from "../ui/Button";
 import Modal from "../ui/Modal";
 import Paragraph from "../ui/Paragraph";
-import { EmployeeNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
@@ -23,7 +22,7 @@ export default function Note({ note }: NoteProps) {
   const deleteNoteMutation = api.employeeNote.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Note deleted successfully.");
     },
   });
@@ -31,7 +30,7 @@ export default function Note({ note }: NoteProps) {
   const updateNoteMutation = api.employeeNote.update.useMutation({
     onSuccess: () => {
       setEditNote(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Note updated successfully.");
     },
   });
@@ -63,7 +62,7 @@ export default function Note({ note }: NoteProps) {
       </Paragraph>
       <div
         className={`mx-auto flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
-          editNote && "ring-05 ring-slate-400"
+          editNote ? "ring-05 ring-slate-400" : ""
         }`}
       >
         {editNote ? (

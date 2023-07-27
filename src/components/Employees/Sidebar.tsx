@@ -8,7 +8,7 @@ import {
   HeartPulse,
 } from "lucide-react";
 import { useRouter } from "next/router";
-import { EmployeeProfile } from "~/utils/api";
+import { type EmployeeProfile } from "~/utils/api";
 
 interface SidebarProps {
   employee?: EmployeeProfile;

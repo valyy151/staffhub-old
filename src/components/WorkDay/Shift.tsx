@@ -6,9 +6,9 @@ import { api } from "~/utils/api";
 import Heading from "../ui/Heading";
 import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
-import { Shift } from "@prisma/client";
+import { type Shift } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Pencil, Save, Trash2, X } from "lucide-react";
+import { ArrowLeft, Pencil, Save, Trash2 } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
 interface ShiftProps {
@@ -27,9 +27,9 @@ export default function Shift({ shift, date }: ShiftProps) {
   function handleTimeChange(newTime: string, field: "start" | "end"): void {
     if (date) {
       const [hour, minute]: string[] = newTime.split(":");
-      const newDate: any = new Date(date * 1000);
-      newDate.setHours(hour);
-      newDate.setMinutes(minute);
+      const newDate: Date = new Date(date * 1000);
+      newDate.setHours(Number(hour));
+      newDate.setMinutes(Number(minute));
       const newUnixTime = Math.floor(newDate.getTime() / 1000);
 
       field === "start" ? setStart(newUnixTime) : setEnd(newUnixTime);
@@ -40,14 +40,14 @@ export default function Shift({ shift, date }: ShiftProps) {
 
   const updateShiftMutation = api.shift.update.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Shift updated successfully.");
     },
   });
 
   const deleteShiftMutation = api.shift.delete.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Shift deleted successfully.");
     },
   });

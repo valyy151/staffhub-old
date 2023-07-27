@@ -1,16 +1,16 @@
 import Heading from "./Heading";
 import { Button } from "./Button";
 import ReactModal from "react-modal";
-import { Check, LucideScroll, Trash, Trash2, X } from "lucide-react";
 import { UserX2 } from "lucide-react";
 import { UserCheck2 } from "lucide-react";
+import { type MouseEventHandler } from "react";
 
 interface ModalProps {
   text: string;
-  cancel: any;
-  submit: any;
   icon?: string;
   showModal: boolean;
+  cancel: MouseEventHandler<HTMLButtonElement>;
+  submit: MouseEventHandler<HTMLButtonElement>;
 }
 
 export default function Modal({

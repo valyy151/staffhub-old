@@ -4,7 +4,7 @@ import { formatDateLong } from "~/utils/dateFormatting";
 import { Button } from "~/components/ui/Button";
 import { Trash2 } from "lucide-react";
 import Modal from "~/components/ui/Modal";
-import { EmployeeProfile, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -19,7 +19,7 @@ export default function SickLeave({ sickLeave }: SickLeaveProps) {
 
   const deleteSickLeave = api.sickLeave.delete.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Sick leave deleted successfully.");
     },
     onError: () => {

@@ -1,15 +1,18 @@
 export function checkEmployeeVacation(
   vacations: { id: string; start: bigint; end: bigint }[]
 ) {
-  const currentDate: any = Date.now();
+  const currentDate = Date.now();
 
   for (const vacation of vacations) {
-    const startDate: any = new Date(Number(vacation.start));
-    const endDate: any = new Date(Number(vacation.end));
+    const startDate: Date = new Date(Number(vacation.start));
+    const endDate: Date = new Date(Number(vacation.end));
 
-    if (currentDate >= startDate && currentDate <= endDate) {
+    if (
+      Number(currentDate) >= Number(startDate) &&
+      Number(currentDate) <= Number(endDate)
+    ) {
       const remainingDays = Math.ceil(
-        (endDate - currentDate) / (1000 * 60 * 60 * 24)
+        (Number(endDate) - currentDate) / (1000 * 60 * 60 * 24)
       );
 
       return (
@@ -19,9 +22,9 @@ export function checkEmployeeVacation(
           {`Ends in ${remainingDays} days`}
         </>
       );
-    } else if (currentDate < startDate) {
+    } else if (Number(currentDate) < Number(startDate)) {
       const remainingDays = Math.ceil(
-        (startDate - currentDate) / (1000 * 60 * 60 * 24)
+        (Number(startDate) - currentDate) / (1000 * 60 * 60 * 24)
       );
 
       return `Leaving on vacation in ${remainingDays} ${
@@ -35,15 +38,18 @@ export function checkEmployeeVacation(
 export function checkSickLeave(
   sickLeaves: { id: string; start: bigint; end: bigint }[]
 ) {
-  const currentDate: any = Date.now();
+  const currentDate = Date.now();
 
   for (const sickLeave of sickLeaves) {
-    const startDate: any = new Date(Number(sickLeave.start));
-    const endDate: any = new Date(Number(sickLeave.end));
+    const startDate: Date = new Date(Number(sickLeave.start));
+    const endDate: Date = new Date(Number(sickLeave.end));
 
-    if (currentDate >= startDate && currentDate <= endDate) {
+    if (
+      Number(currentDate) >= Number(startDate) &&
+      Number(currentDate) <= Number(endDate)
+    ) {
       const remainingDays = Math.ceil(
-        (endDate - currentDate) / (1000 * 60 * 60 * 24)
+        (Number(endDate) - currentDate) / (1000 * 60 * 60 * 24)
       );
 
       return (

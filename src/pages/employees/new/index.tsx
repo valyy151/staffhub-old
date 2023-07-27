@@ -11,10 +11,10 @@ export default function NewEmployeePage() {
   const [address, setAddress] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     createEmployee.mutate({ name, email, address, phoneNumber });
-  };
+  }
 
   const createEmployee = api.employee.create.useMutation({
     onSuccess: () => {

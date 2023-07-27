@@ -20,10 +20,10 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
   ) {
     const [hour, minute]: string[] = newTime.split(":");
 
-    const newDate: any = new Date(data[index].date * 1000);
+    const newDate = new Date(data[index].date * 1000);
 
-    newDate.setHours(hour);
-    newDate.setMinutes(minute);
+    newDate.setHours(Number(hour));
+    newDate.setMinutes(Number(minute));
 
     const newUnixTime = Math.floor(newDate.getTime() / 1000);
 

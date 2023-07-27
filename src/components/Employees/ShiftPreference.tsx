@@ -1,6 +1,6 @@
-import { Employee, ShiftPreference } from "@prisma/client";
+import { type ShiftPreference } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { Check, XCircle, Trash2, Pencil, Save } from "lucide-react";
+import { XCircle, Trash2, Pencil, Save } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "~/components/ui/Button";
@@ -25,7 +25,7 @@ export default function ShiftPreference({
   const deletePreferenceMutation = api.shiftPreference.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Shift preference deleted successfully.");
     },
   });
@@ -33,7 +33,7 @@ export default function ShiftPreference({
   const updatePreferenceMutation = api.shiftPreference.update.useMutation({
     onSuccess: () => {
       setEditPreference(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Shift preference updated successfully.");
     },
   });
@@ -65,7 +65,7 @@ export default function ShiftPreference({
       </Paragraph>
       <div
         className={`mx-auto flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
-          editPreference && "ring-05 ring-slate-400"
+          editPreference ? "ring-05 ring-slate-400" : ""
         }`}
       >
         {editPreference ? (

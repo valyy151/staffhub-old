@@ -32,7 +32,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
     onSuccess: () => {
       setContent("");
       setShowAddNote(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Note created successfully.");
     },
     onError: () => {

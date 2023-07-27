@@ -1,6 +1,6 @@
 import Input from "../ui/Input";
-import { Employee } from "~/utils/api";
-import { ShiftPreference } from "@prisma/client";
+import { type Employee } from "~/utils/api";
+import { type ShiftPreference } from "@prisma/client";
 
 interface SearchEmployeesProps {
   name: string;

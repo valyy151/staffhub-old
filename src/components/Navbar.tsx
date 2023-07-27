@@ -54,7 +54,7 @@ export default function Navbar() {
                 Documentation
               </Link>
 
-              <Button variant={"destructive"} onClick={() => signOut()}>
+              <Button variant={"destructive"} onClick={() => void signOut()}>
                 Sign Out
               </Button>
             </>
@@ -67,7 +67,7 @@ export default function Navbar() {
                 Documentation
               </Link>
 
-              <Button onClick={() => signIn("google")}>Sign In</Button>
+              <Button onClick={() => void signIn("google")}>Sign In</Button>
             </>
           )}
         </div>

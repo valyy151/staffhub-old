@@ -5,7 +5,7 @@ import { formatDateLong } from "~/utils/dateFormatting";
 import { Button } from "~/components/ui/Button";
 import { Trash2 } from "lucide-react";
 import Modal from "~/components/ui/Modal";
-import { EmployeeProfile, api } from "~/utils/api";
+import { type EmployeeProfile, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -19,7 +19,7 @@ export default function Vacation({ vacation, employee }: VacationProps) {
 
   function calculateTotalDays(): number {
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    let totalDays =
+    const totalDays =
       Math.ceil(
         (Number(vacation.end) - Number(vacation.start)) / millisecondsPerDay
       ) + 1;
@@ -33,7 +33,7 @@ export default function Vacation({ vacation, employee }: VacationProps) {
 
   const deleteVacation = api.vacation.delete.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Vacation deleted successfully.");
     },
     onError: () => {

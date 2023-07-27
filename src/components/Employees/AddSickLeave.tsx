@@ -1,13 +1,12 @@
-import { EmployeeProfile, api } from "~/utils/api";
+import { type EmployeeProfile, api } from "~/utils/api";
 import toast from "react-hot-toast";
-import { Palmtree, ArrowLeft, HeartPulse } from "lucide-react";
+import { ArrowLeft, HeartPulse } from "lucide-react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
-import { set } from "zod";
 
 interface AddSickLeaveProps {
   employee: EmployeeProfile;
@@ -21,10 +20,6 @@ export default function AddSickLeave({
   const [end, setEnd] = useState(new Date());
   const [start, setStart] = useState(new Date());
   const [daysPlanned, setDaysPlanned] = useState<number>(0);
-
-  if (!employee) {
-    return null;
-  }
 
   function handleStartChange(date: any) {
     const newStart = date;
@@ -44,19 +39,19 @@ export default function AddSickLeave({
     setDaysPlanned(newTotalDays);
   }
 
-  function calculateTotalDays() {
-    const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    let totalDays =
-      Math.ceil((end.getTime() - start.getTime()) / millisecondsPerDay) + 1;
-
-    if (totalDays > 0) {
-      setDaysPlanned(totalDays);
-    } else {
-      setDaysPlanned(0);
-    }
-  }
-
   useEffect(() => {
+    function calculateTotalDays() {
+      const millisecondsPerDay = 24 * 60 * 60 * 1000;
+      const totalDays =
+        Math.ceil((end.getTime() - start.getTime()) / millisecondsPerDay) + 1;
+
+      if (totalDays > 0) {
+        setDaysPlanned(totalDays);
+      } else {
+        setDaysPlanned(0);
+      }
+    }
+
     calculateTotalDays();
   }, [start, end]);
 
@@ -65,7 +60,7 @@ export default function AddSickLeave({
   const createSickLeave = api.sickLeave.create.useMutation({
     onSuccess: () => {
       setShowPlanner(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Sick leave created successfully.");
     },
     onError: () => {
@@ -73,7 +68,7 @@ export default function AddSickLeave({
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!start || !end) {
@@ -89,7 +84,11 @@ export default function AddSickLeave({
       start: start.getTime(),
       employeeId: employee.id,
     });
-  };
+  }
+
+  if (!employee) {
+    return null;
+  }
 
   return (
     <main className="flex flex-col items-center">
@@ -123,7 +122,7 @@ export default function AddSickLeave({
       </div>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={void handleSubmit}
         className="mt-12 flex w-1/2 flex-col space-y-3"
       >
         <Button

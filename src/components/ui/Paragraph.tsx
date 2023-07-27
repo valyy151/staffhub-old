@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "~/utils/tailwindMerge";
-import { VariantProps, cva } from "class-variance-authority";
+import { type VariantProps, cva } from "class-variance-authority";
 
 export const paragraphVariants = cva(
   "max-w-prose text-slate-700 dark:text-slate-300 mb-2",

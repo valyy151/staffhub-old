@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction, useState } from "react";
 import Heading from "../ui/Heading";
 import {
   formatDate,
@@ -19,7 +18,7 @@ import {
 import router from "next/router";
 import { Button } from "../ui/Button";
 import groupShifts from "~/utils/groupShifts";
-import { DashboardWorkDay } from "~/utils/api";
+import { type DashboardWorkDay } from "~/utils/api";
 
 interface DashboardProps {
   skip: number;
@@ -61,7 +60,7 @@ export default function Dashboard({
           <div
             className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
             key={day.id}
-            onClick={() => router.push(`/days/${day.id}`)}
+            onClick={() => void router.push(`/days/${day.id}`)}
           >
             <div className="w-full text-center">
               <Heading

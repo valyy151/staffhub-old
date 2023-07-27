@@ -31,7 +31,7 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
   const createPreferenceMutation = api.shiftPreference.create.useMutation({
     onSuccess: () => {
       setShowAddPreference(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Shift preference created successfully.");
     },
     onError: () => {

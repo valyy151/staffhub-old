@@ -32,7 +32,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
   const [value, setValue] = useState<Date>(new Date());
   const [month, setMonth] = useState(formatMonth(value.getTime() / 1000));
 
-  const [startOfMonth, endOfMonth]: any = getMonthBoundaryTimestamps(value);
+  const [startOfMonth, endOfMonth] = getMonthBoundaryTimestamps(value);
 
   const { data: employee } = api.employee?.findOne.useQuery({
     id: query.id,
@@ -86,7 +86,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
           {employee.workDays.map((day, index) => (
             <div
               key={day.id}
-              onClick={() => router.push(`/days/${day.id}`)}
+              onClick={() => void router.push(`/days/${day.id}`)}
               className={`group flex w-[48rem] cursor-pointer items-center space-y-4 border-b-2 border-slate-300 dark:border-slate-500 ${
                 index % 2 === 0
                   ? "bg-slate-50 dark:bg-slate-700"

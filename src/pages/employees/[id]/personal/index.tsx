@@ -21,20 +21,16 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
     id: query.id,
   });
 
-  if (!employee || !employee.name) {
-    return <Sidebar />;
-  }
-
-  const [name, setName] = useState(employee.name);
-  const [email, setEmail] = useState(employee.email);
-  const [phone, setPhone] = useState(employee.phoneNumber);
-  const [address, setAddress] = useState(employee.address);
+  const [name, setName] = useState(employee?.name);
+  const [email, setEmail] = useState(employee?.email);
+  const [phone, setPhone] = useState(employee?.phoneNumber);
+  const [address, setAddress] = useState(employee?.address);
 
   const queryClient = useQueryClient();
 
   const updatePersonalInfo = api.employee?.update.useMutation({
     onSuccess: () => {
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Personal info updated successfully.");
     },
   });
@@ -53,6 +49,10 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
       phoneNumber: phone,
       employeeId: query.id,
     });
+  }
+
+  if (!employee || !employee.name) {
+    return <Sidebar />;
   }
 
   return (

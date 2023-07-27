@@ -1,6 +1,6 @@
 import { cn } from "~/utils/tailwindMerge";
-import React, { forwardRef, HTMLAttributes } from "react";
-import { cva, VariantProps } from "class-variance-authority";
+import React, { forwardRef, type HTMLAttributes } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 interface HeadingProps
   extends HTMLAttributes<HTMLHeadingElement>,

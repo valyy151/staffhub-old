@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { CalendarPlus } from "lucide-react";
 import Spinner from "~/components/ui/Spinner";
 import Heading from "~/components/ui/Heading";
-import { DashboardWorkDay, api } from "~/utils/api";
+import { type DashboardWorkDay, api } from "~/utils/api";
 import { buttonVariants } from "~/components/ui/Button";
 import Dashboard from "~/components/Dashboard/Dashboard";
 

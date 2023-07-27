@@ -5,7 +5,7 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
 import Paragraph from "../ui/Paragraph";
-import { WorkDayNote } from "@prisma/client";
+import { type WorkDayNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { XCircle, Trash2, Pencil, Save } from "lucide-react";
 
@@ -23,7 +23,7 @@ export default function Note({ note }: NoteProps) {
   const deleteNoteMutation = api.workDayNote.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Note deleted successfully.");
     },
   });
@@ -31,7 +31,7 @@ export default function Note({ note }: NoteProps) {
   const updateNoteMutation = api.workDayNote.update.useMutation({
     onSuccess: () => {
       setEditNote(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Note updated successfully.");
     },
   });
@@ -60,7 +60,7 @@ export default function Note({ note }: NoteProps) {
       </Paragraph>
       <div
         className={`flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
-          editNote && "ring-05 ring-slate-400"
+          editNote ? "ring-05 ring-slate-400" : ""
         }`}
       >
         {editNote ? (

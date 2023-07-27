@@ -1,14 +1,13 @@
-import { Dispatch, SetStateAction } from "react";
 import Input from "../ui/Input";
-import { Employee } from "@prisma/client";
+import { type Employee } from "@prisma/client";
 
 interface SearchEmployeesProps {
   name: string;
   isOpen: boolean;
   employees: any;
-  setId: Dispatch<SetStateAction<string>>;
-  setName: Dispatch<SetStateAction<string>>;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setId: (id: string) => void;
+  setName: (name: string) => void;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export default function SearchEmployees({

@@ -1,10 +1,10 @@
-import { ArrowLeft, Check, Save, ScrollText, X } from "lucide-react";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { ArrowLeft, Save } from "lucide-react";
+import { useState } from "react";
 import Input from "../ui/Input";
 import toast from "react-hot-toast";
 import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
-import { WorkDay, api } from "~/utils/api";
+import { type WorkDay, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface AddNoteProps {
@@ -21,7 +21,7 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
     onSuccess: () => {
       setContent("");
       setShowAddNote(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Note created successfully.");
     },
     onError: () => {

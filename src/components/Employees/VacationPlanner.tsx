@@ -1,4 +1,4 @@
-import { EmployeeProfile, api } from "~/utils/api";
+import { type EmployeeProfile, api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { Palmtree, ArrowLeft } from "lucide-react";
 import Calendar from "react-calendar";
@@ -10,12 +10,12 @@ import { useState, useEffect } from "react";
 
 interface VacationPlannerProps {
   daysPlanned: number;
-  daysRemaining: number;
   employee: EmployeeProfile;
+  daysRemaining: number | undefined;
   setAmount: (amount: number) => void;
   setDaysPlanned: (daysPlanned: number) => void;
   setShowPlanner: (showPlanner: boolean) => void;
-  setDaysRemaining: (daysRemaining: number) => void;
+  setDaysRemaining: (daysRemaining: number | undefined) => void;
 }
 
 export default function VacationPlanner({
@@ -39,10 +39,14 @@ export default function VacationPlanner({
     }
 
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    let totalDays =
+    const totalDays =
       Math.ceil((end.getTime() - start.getTime()) / millisecondsPerDay) + 1;
 
-    if (totalDays > 0 && daysRemaining <= employee.vacationDays) {
+    if (
+      daysRemaining &&
+      totalDays > 0 &&
+      daysRemaining <= employee.vacationDays
+    ) {
       setDaysPlanned(totalDays);
       setDaysRemaining(employee?.vacationDays - totalDays);
     } else {
@@ -71,7 +75,11 @@ export default function VacationPlanner({
 
     setStart(newStart);
 
-    if (newTotalDays > 0 && daysRemaining < employee?.vacationDays) {
+    if (
+      daysRemaining &&
+      newTotalDays > 0 &&
+      daysRemaining < employee?.vacationDays
+    ) {
       setDaysPlanned(newTotalDays);
       setDaysRemaining(employee?.vacationDays - newTotalDays);
     }
@@ -97,7 +105,11 @@ export default function VacationPlanner({
 
     setEnd(newEnd);
 
-    if (newTotalDays > 0 && daysRemaining < employee?.vacationDays) {
+    if (
+      daysRemaining &&
+      newTotalDays > 0 &&
+      daysRemaining < employee?.vacationDays
+    ) {
       setDaysPlanned(newTotalDays);
       setDaysRemaining(employee?.vacationDays - newTotalDays);
     }
@@ -108,7 +120,7 @@ export default function VacationPlanner({
   const createVacation = api.vacation.create.useMutation({
     onSuccess: () => {
       setShowPlanner(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Vacation created successfully.");
     },
     onError: () => {
@@ -116,7 +128,7 @@ export default function VacationPlanner({
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!start || !end) {
@@ -138,7 +150,7 @@ export default function VacationPlanner({
       employeeId: employee.id,
       vacationDays: employee.vacationDays,
     });
-  };
+  }
 
   return (
     <main className="flex flex-col items-center">
@@ -172,7 +184,7 @@ export default function VacationPlanner({
       </div>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={void handleSubmit}
         className="mt-12 flex w-1/2 flex-col space-y-3"
       >
         <Button

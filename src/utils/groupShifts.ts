@@ -1,7 +1,7 @@
-export default function groupShifts(shifts: any) {
+export default function groupShifts(shifts: { start: number; end: number }[]) {
   const groupedShifts: { start: number; end: number; count: number }[] = [];
 
-  shifts.forEach((shift: any) => {
+  shifts.forEach((shift) => {
     const lastGroupedShift = groupedShifts[groupedShifts.length - 1];
     if (
       lastGroupedShift &&

@@ -1,4 +1,4 @@
-import { Employee, api } from "~/utils/api";
+import { type Employee, api } from "~/utils/api";
 import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
 import Paragraph from "../ui/Paragraph";
@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import Calendar from "react-calendar";
 import ScheduleTable from "./ScheduleTable";
 import SearchEmployees from "./SearchEmployees";
-import { ShiftPreference } from "@prisma/client";
+import { type ShiftPreference } from "@prisma/client";
 import { formatMonth } from "~/utils/dateFormatting";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";

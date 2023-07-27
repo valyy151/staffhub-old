@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useState } from "react";
 import router from "next/router";
 import Input from "~/components/ui/Input";
-import { Employee, api } from "~/utils/api";
+import { type Employee, api } from "~/utils/api";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { Search, UserPlus } from "lucide-react";
@@ -69,7 +69,7 @@ export default function EmployeesListPage() {
           <Button
             size={"lg"}
             className="flex h-12 w-4/5 text-xl"
-            onClick={() => router.push("/employees/new")}
+            onClick={() => void router.push("/employees/new")}
             title="Add a new employee"
           >
             <UserPlus size={24} className="mr-2" /> Add Employee
@@ -94,9 +94,7 @@ export default function EmployeesListPage() {
         <tbody className="divide-y-2 divide-slate-300 dark:divide-slate-600">
           {filteredData.map((employee: Employee, index: number) => (
             <tr
-              onClick={() => {
-                router.push(`/employees/${employee.id}`);
-              }}
+              onClick={() => void router.push(`/employees/${employee.id}`)}
               key={`employee-${index}`}
               className={`cursor-pointer duration-75 hover:bg-slate-200 dark:hover:bg-slate-600
 							${

@@ -3,8 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
-import Paragraph from "../ui/Paragraph";
-import { WorkDay, api } from "~/utils/api";
+import { type WorkDay, api } from "~/utils/api";
 import SearchEmployees from "./SearchEmployees";
 import { ArrowLeft, Clock8 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -45,7 +44,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const createShift = api.shift.create.useMutation({
     onSuccess: () => {
       setShowAddShift(false);
-      queryClient.invalidateQueries();
+      void queryClient.invalidateQueries();
       toast.success("Shift created successfully.");
     },
     onError: () => {
@@ -53,7 +52,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
     },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!end || !start) {
@@ -68,7 +67,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
         employeeId: employeeId,
       });
     }
-  };
+  }
 
   return (
     <div className="mx-auto">

@@ -1,12 +1,12 @@
-import { ShiftPreference } from "@prisma/client";
+import { type ShiftPreference } from "@prisma/client";
 import { UserPlus } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ScheduleMaker from "~/components/Schedule/ScheduleMaker";
 import { buttonVariants } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
-import { Employee, api } from "~/utils/api";
+import { api } from "~/utils/api";
 
 export default function NewSchedulePage() {
   const [name, setName] = useState<string>("");
