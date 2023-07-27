@@ -46,3 +46,8 @@ export function calculateTotalMonthlyHours(days: any) {
   const formattedTime = `${hours}h ${minutes}min`;
   return formattedTime;
 }
+
+export function howManyDays({ start, end }: { start: bigint; end: bigint }) {
+  const days = (end - start) / BigInt(86400000);
+  return Number(days);
+}

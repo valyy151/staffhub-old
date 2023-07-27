@@ -21,10 +21,5 @@ export function checkVacations(
     return vacation.end < BigInt(today);
   });
 
-  return [futureVacations, pastVacations, currentVacation];
-}
-
-export function howManyDays({ start, end }: { start: bigint; end: bigint }) {
-  const days = (end - start) / BigInt(86400000);
-  return Number(days);
+  return [pastVacations, futureVacations, currentVacation];
 }

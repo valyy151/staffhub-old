@@ -8,10 +8,10 @@ import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import Vacation from "~/components/Employees/Vacation";
-import { checkVacations, howManyDays } from "~/utils/checkVacations";
+import { checkVacations } from "~/utils/checkVacations";
 import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
 import VacationPlanner from "~/components/Employees/VacationPlanner";
-import { render } from "react-dom";
+import { howManyDays } from "~/utils/calculateHours";
 
 interface VacationPageProps {
   query: { id: string };
@@ -73,7 +73,7 @@ export default function VacationPage({ query }: VacationPageProps) {
       return null;
     }
 
-    const [futureVacations, pastVacations, currentVacation] = checkVacations(
+    const [pastVacations, futureVacations, currentVacation] = checkVacations(
       employee.vacations
     );
 
@@ -82,10 +82,10 @@ export default function VacationPage({ query }: VacationPageProps) {
         {currentVacation && (
           <>
             {" "}
-            <Heading size={"sm"} className="mb-3 mt-16 flex items-baseline">
-              <Palmtree size={32} className="ml-1 mr-2 text-green-400" />
+            <Heading size={"sm"} className="mb-3 mt-16 flex items-center">
+              <Palmtree size={42} className="ml-1 mr-2 text-green-400" />
               Currently on vacation -
-              <span className="ml-2 text-2xl">
+              <span className="ml-2">
                 Ends in: {howManyDays(currentVacation)}{" "}
                 {howManyDays(currentVacation) === 1 ? "day" : "days"}
               </span>
@@ -96,7 +96,8 @@ export default function VacationPage({ query }: VacationPageProps) {
 
         {futureVacations && futureVacations.length > 0 ? (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12">
+            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+              <Palmtree size={42} className="ml-1 mr-2 text-rose-400" />{" "}
               Upcoming Vacations for {employee?.name}
             </Heading>
             {futureVacations?.map((vacation) => (
@@ -109,7 +110,8 @@ export default function VacationPage({ query }: VacationPageProps) {
           </>
         ) : (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12">
+            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+              <Palmtree size={42} className="ml-1 mr-2 text-rose-400" />{" "}
               Upcoming Vacations for {employee?.name}
             </Heading>
             <Paragraph className="mt-4">No upcoming vacations</Paragraph>
@@ -118,8 +120,9 @@ export default function VacationPage({ query }: VacationPageProps) {
 
         {pastVacations && pastVacations.length > 0 ? (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12">
-              Past Vacations
+            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+              <Palmtree size={42} className="ml-1 mr-2 text-gray-400" /> Past
+              Vacations
             </Heading>
 
             {pastVacations?.map((vacation) => (
@@ -132,8 +135,9 @@ export default function VacationPage({ query }: VacationPageProps) {
           </>
         ) : (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12">
-              Past Vacations
+            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+              <Palmtree size={42} className="ml-1 mr-2 text-gray-400" /> Past
+              Vacations
             </Heading>
             <Paragraph className="mt-4">No past vacations</Paragraph>
           </>
