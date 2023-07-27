@@ -11,7 +11,6 @@ import toast from "react-hot-toast";
 
 interface VacationProps {
   employee: EmployeeProfile;
-  setAmount: (amount: number) => void;
   vacation: { id: string; start: bigint; end: bigint };
 }
 

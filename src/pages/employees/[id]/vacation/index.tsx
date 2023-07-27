@@ -7,10 +7,11 @@ import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
-import VacationComponent from "~/components/Employees/Vacation";
+import Vacation from "~/components/Employees/Vacation";
+import { checkVacations, howManyDays } from "~/utils/checkVacations";
 import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
 import VacationPlanner from "~/components/Employees/VacationPlanner";
-import Spinner from "~/components/ui/Spinner";
+import { render } from "react-dom";
 
 interface VacationPageProps {
   query: { id: string };
@@ -65,6 +66,80 @@ export default function VacationPage({ query }: VacationPageProps) {
       vacationDays: amount,
       employeeId: employee.id,
     });
+  }
+
+  function renderVacations() {
+    if (!employee) {
+      return null;
+    }
+
+    const [futureVacations, pastVacations, currentVacation] = checkVacations(
+      employee.vacations
+    );
+
+    return (
+      <div>
+        {currentVacation && (
+          <>
+            {" "}
+            <Heading size={"sm"} className="mb-3 mt-16 flex items-baseline">
+              <Palmtree size={32} className="ml-1 mr-2 text-green-400" />
+              Currently on vacation -
+              <span className="ml-2 text-2xl">
+                Ends in: {howManyDays(currentVacation)}{" "}
+                {howManyDays(currentVacation) === 1 ? "day" : "days"}
+              </span>
+            </Heading>
+            <Vacation employee={employee} vacation={currentVacation} />
+          </>
+        )}
+
+        {futureVacations && futureVacations.length > 0 ? (
+          <>
+            <Heading size={"xs"} className="mb-3 mt-12">
+              Upcoming Vacations for {employee?.name}
+            </Heading>
+            {futureVacations?.map((vacation) => (
+              <Vacation
+                key={vacation.id}
+                vacation={vacation}
+                employee={employee}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            <Heading size={"xs"} className="mb-3 mt-12">
+              Upcoming Vacations for {employee?.name}
+            </Heading>
+            <Paragraph className="mt-4">No upcoming vacations</Paragraph>
+          </>
+        )}
+
+        {pastVacations && pastVacations.length > 0 ? (
+          <>
+            <Heading size={"xs"} className="mb-3 mt-12">
+              Past Vacations
+            </Heading>
+
+            {pastVacations?.map((vacation) => (
+              <Vacation
+                key={vacation.id}
+                vacation={vacation}
+                employee={employee}
+              />
+            ))}
+          </>
+        ) : (
+          <>
+            <Heading size={"xs"} className="mb-3 mt-12">
+              Past Vacations
+            </Heading>
+            <Paragraph className="mt-4">No past vacations</Paragraph>
+          </>
+        )}
+      </div>
+    );
   }
 
   if (!employee) {
@@ -155,28 +230,14 @@ export default function VacationPage({ query }: VacationPageProps) {
         </>
       )}
 
-      {!showChangeAmount && !showPlanner && employee?.vacations.length > 0 ? (
-        <div className="">
-          <Heading size={"xs"} className="mb-3 mt-16">
-            Upcoming Vacations for {employee?.name}
-          </Heading>
-          {employee?.vacations.map((vacation) => (
-            <VacationComponent
-              key={vacation.id}
-              vacation={vacation}
-              employee={employee}
-              setAmount={setAmount}
-            />
-          ))}
-        </div>
-      ) : (
-        !showChangeAmount &&
-        !showPlanner && (
-          <Paragraph className=" mt-8 text-center" size={"lg"}>
-            {employee?.name} has no planned vacations.
-          </Paragraph>
-        )
-      )}
+      {!showChangeAmount && !showPlanner && employee?.vacations.length > 0
+        ? renderVacations()
+        : !showChangeAmount &&
+          !showPlanner && (
+            <Paragraph className=" mt-8 text-center" size={"lg"}>
+              {employee?.name} has no planned vacations.
+            </Paragraph>
+          )}
     </main>
   );
 }
