@@ -3,6 +3,7 @@ import {
   formatDay,
   formatMonth,
   formatTime,
+  formatTotal,
   getMonthBoundaryTimestamps,
 } from "~/utils/dateFormatting";
 import { useState } from "react";
@@ -49,7 +50,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
     return (
       <main className="ml-auto flex">
         <Sidebar />
-        <div className="ml-auto mt-2 pr-52 pt-28">
+        <div className="ml-auto pr-52 pt-20">
           <Calendar
             value={value}
             view={"month"}
@@ -65,54 +66,65 @@ export default function SchedulePage({ query }: SchedulePageProps) {
   return (
     <main className="flex flex-col">
       <Sidebar employee={employee} />
-      <div className="mt-4 flex w-full flex-col items-center">
-        {" "}
-        <Heading>Schedules for {employee?.name}</Heading>
-      </div>
-      <div className="mt-16 flex justify-end">
-        <div
-          className={`ml-auto h-[39rem] overflow-x-hidden overflow-y-scroll rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-800`}
-        >
-          <div className="flex w-full items-center justify-between border-b-2 border-t border-slate-300 bg-white py-4 dark:border-slate-500 dark:bg-slate-800">
-            <Heading
-              size={"xs"}
-              className="text-md ml-8 text-center font-normal"
-            >
-              {month} ({calculateTotalHours(employee?.workDays)} hours)
-            </Heading>
-            <PDFButton employee={employee} month={month} value={value} />
-          </div>
+      <div className="mt-8 flex justify-end">
+        <section>
+          <Heading className="mb-2">Schedules for {employee?.name}</Heading>
+          <div
+            className={`ml-auto h-[41.6rem] w-[56rem] overflow-x-hidden overflow-y-scroll rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-800`}
+          >
+            <div className="flex min-h-[5.7rem] w-full items-center justify-between border-b-2 border-t border-slate-300 bg-white py-4 dark:border-slate-500 dark:bg-slate-800">
+              <Heading size={"sm"} className="text-md ml-8">
+                {month} ({calculateTotalHours(employee?.workDays)} hours)
+              </Heading>
+              <PDFButton employee={employee} month={month} value={value} />
+            </div>
 
-          {employee.workDays.map((day, index) => (
-            <div
-              key={day.id}
-              onClick={() => void router.push(`/days/${day.id}`)}
-              className={`group flex w-[48rem] cursor-pointer items-center space-y-4 border-b-2 border-slate-300 dark:border-slate-500 ${
-                index % 2 === 0
-                  ? "bg-slate-50 dark:bg-slate-700"
-                  : "bg-white dark:bg-slate-800"
-              } py-2`}
-            >
-              <div className="ml-8 mr-auto flex w-96 flex-col items-start group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                {formatDay(day.date)}
-                <Paragraph className=" group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                  {formatDateLong(day.date)}
+            {employee.workDays.map((day, index) => (
+              <div
+                key={day.id}
+                onClick={() => void router.push(`/days/${day.id}`)}
+                className={`group flex cursor-pointer items-center space-y-4 border-b-2 border-slate-300 dark:border-slate-500 ${
+                  index % 2 === 0
+                    ? "bg-slate-50 dark:bg-slate-700"
+                    : "bg-white dark:bg-slate-800"
+                } py-2`}
+              >
+                <div className="group ml-8 mr-auto flex w-96 flex-col items-start">
+                  <Paragraph
+                    size={"lg"}
+                    className="m-0 group-hover:text-sky-500 dark:group-hover:text-sky-400"
+                  >
+                    {formatDay(day.date)}
+                  </Paragraph>
+                  <Paragraph
+                    size={"lg"}
+                    className="m-0 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400"
+                  >
+                    {formatDateLong(day.date)}
+                  </Paragraph>
+                </div>
+
+                <Paragraph
+                  size={"lg"}
+                  className="m-0 ml-auto mr-8 pb-2 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400"
+                >
+                  {day.shifts[0]?.start && (
+                    <>
+                      {formatTime(day.shifts[0]?.start)} -{" "}
+                      {formatTime(day.shifts[0]?.end)}{" "}
+                      <span className="font-normal">
+                        [{" "}
+                        {formatTotal(day.shifts[0]?.start, day.shifts[0]?.end)}]
+                      </span>{" "}
+                    </>
+                  )}
                 </Paragraph>
               </div>
+            ))}
+          </div>
+        </section>
 
-              <Paragraph className="ml-auto mr-8  pb-2 group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                {day.shifts[0]?.start && (
-                  <>
-                    {formatTime(day.shifts[0]?.start)} -{" "}
-                    {formatTime(day.shifts[0]?.end)}
-                  </>
-                )}
-              </Paragraph>
-            </div>
-          ))}
-        </div>
-
-        <div className="ml-4 mr-52">
+        <div className="ml-4 mr-52 mt-12">
           <Calendar
             value={value}
             view={"month"}
