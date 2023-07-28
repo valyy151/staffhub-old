@@ -42,7 +42,7 @@ export default function ScheduleMaker({
   const [value, setValue] = useState<Date>(currentDate);
   const [schedule, setSchedule] = useState<any[]>(updateMonthData(currentDate));
 
-  const [yearArray, setYearArray] = useState<{ date: number }[]>(
+  const [yearArray, setYearArray] = useState(
     generateYearArray(currentDate.getFullYear())
   );
 
@@ -53,9 +53,23 @@ export default function ScheduleMaker({
     setSchedule(() => updateMonthData(date));
   }
 
-  const createShift = api.shift.create.useMutation();
+  const createShift = api.shift.createMany.useMutation({
+    onSuccess: () => {
+      toast.success("Schedule created!");
+    },
+    onError: () => {
+      toast.error("Something went wrong.");
+    },
+  });
 
-  const createDay = api.workDay.create.useMutation();
+  const createDay = api.workDay.createMany.useMutation({
+    onSuccess: () => {
+      toast.success("Shifts created!");
+    },
+    onError: () => {
+      toast.error("Something went wrong.");
+    },
+  });
 
   const { refetch } = api.workDay.yearExists.useQuery(
     {
@@ -71,48 +85,22 @@ export default function ScheduleMaker({
 
     refetch().then(({ data }) => {
       if (!data) {
-        createYearlyWorkDays();
+        createDay.mutate(yearArray);
       }
+
+      const filteredSchedule = schedule.filter(
+        (shift) => shift.start && shift.end
+      );
+
+      if (filteredSchedule.length === 0) {
+        toast.error("Please write at least one shift.");
+      }
+
+      createShift.mutate({
+        employeeId,
+        schedule: filteredSchedule,
+      });
     });
-
-    createMonthlySchedule();
-  }
-
-  function createYearlyWorkDays() {
-    Promise.all(
-      yearArray.map((day) => {
-        return createDay.mutate({
-          date: day.date,
-        });
-      })
-    )
-      .then(() => {
-        toast.success("Yearly work days created.");
-      })
-      .catch(() => {
-        toast.error("Something went wrong.");
-      });
-  }
-
-  function createMonthlySchedule() {
-    Promise.all(
-      schedule.map((day) => {
-        if (day.start && day.end) {
-          createShift.mutate({
-            end: day.end,
-            date: day.date,
-            start: day.start,
-            employeeId: employeeId,
-          });
-        }
-      })
-    )
-      .then(() => {
-        toast.success("Schedule created.");
-      })
-      .catch(() => {
-        toast.error("Something went wrong.");
-      });
   }
 
   function checkPreferences() {

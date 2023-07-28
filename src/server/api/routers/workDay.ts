@@ -16,22 +16,21 @@ export const workDayRouter = createTRPCRouter({
       return true;
     }),
 
-  create: protectedProcedure
-    .input(
-      z.object({
-        date: z.number(),
-      })
-    )
-    .mutation(async ({ input: { date }, ctx }) => {
-      const modifiedDate = new Date(date * 1000);
+  createMany: protectedProcedure
+    .input(z.array(z.object({ date: z.number() })))
+    .mutation(async ({ input: yearArray, ctx }) => {
+      return await ctx.prisma.workDay.createMany({
+        data: yearArray.map((day) => {
+          const modifiedDate = new Date(day.date * 1000);
 
-      modifiedDate.setHours(0, 0, 0, 0);
-      const midnightUnixCode = Math.floor(modifiedDate.getTime() / 1000);
+          modifiedDate.setDate(day.date);
+          modifiedDate.setHours(0, 0, 0, 0);
 
-      return await ctx.prisma.workDay.create({
-        data: {
-          date: midnightUnixCode,
-        },
+          const midnightUnixCode = Math.floor(modifiedDate.getTime() / 1000);
+          return {
+            date: midnightUnixCode,
+          };
+        }),
       });
     }),
 

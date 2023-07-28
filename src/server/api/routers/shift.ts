@@ -11,20 +11,49 @@ export const shiftRouter = createTRPCRouter({
         employeeId: z.string(),
       })
     )
-    .mutation(async ({ input: { start, end, date, employeeId }, ctx }) => {
-      const modifiedDate = new Date(date * 1000);
-
-      modifiedDate.setHours(0, 0, 0, 0);
-      const midnightUnixCode = Math.floor(modifiedDate.getTime() / 1000);
-
+    .mutation(async ({ input: { end, date, start, employeeId }, ctx }) => {
       return await ctx.prisma.shift.create({
         data: {
           end,
+          date,
           start,
           employeeId,
-          date: midnightUnixCode,
           userId: ctx.session.user.id,
         },
+      });
+    }),
+
+  createMany: protectedProcedure
+    .input(
+      z.object({
+        employeeId: z.string(),
+        schedule: z.array(
+          z.object({
+            end: z.number(),
+            date: z.number(),
+            start: z.number(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input: { schedule, employeeId }, ctx }) => {
+      return await ctx.prisma.shift.createMany({
+        data: schedule.map((shift) => {
+          const modifiedDate = new Date(shift.date * 1000);
+
+          modifiedDate.setDate(shift.date);
+          modifiedDate.setHours(0, 0, 0, 0);
+
+          const midnightUnixCode = Math.floor(modifiedDate.getTime() / 1000);
+
+          return {
+            employeeId,
+            end: shift.end,
+            start: shift.start,
+            date: midnightUnixCode,
+            userId: ctx.session.user.id,
+          };
+        }),
       });
     }),
 
