@@ -7,11 +7,10 @@ import { Save } from "lucide-react";
 
 interface PDFButtonProps {
   value: Date;
-  month: string;
   employee: EmployeeProfile;
 }
 
-export default function PDFButton({ employee, month, value }: PDFButtonProps) {
+export default function PDFButton({ employee, value }: PDFButtonProps) {
   return (
     <Button
       size={"lg"}
@@ -19,7 +18,15 @@ export default function PDFButton({ employee, month, value }: PDFButtonProps) {
     >
       <Save size={28} className="mr-2" />
       <PDFDownloadLink
-        document={<MonthlyRoster employee={employee} month={month} />}
+        document={
+          <MonthlyRoster
+            employee={employee}
+            month={value.toLocaleDateString("en-GB", {
+              month: "long",
+              year: "numeric",
+            })}
+          />
+        }
         fileName={`${employee?.name} - ${formatMonth(value.getTime() / 1000)}`}
       >
         Save as PDF

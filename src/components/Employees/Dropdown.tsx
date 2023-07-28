@@ -29,7 +29,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            void router.push(`/employees/${employee.id}/notes`);
+            router.push(`/employees/${employee.id}/notes`);
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -40,7 +40,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            void router.push(`/employees/${employee.id}/vacation`);
+            router.push(`/employees/${employee.id}/vacation`);
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -51,7 +51,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            void router.push(`/employees/${employee.id}/schedule`);
+            router.push(`/employees/${employee.id}/schedule`);
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >
@@ -62,7 +62,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            void router.push(`/employees/${employee.id}/preferences`);
+            router.push(`/employees/${employee.id}/preferences`);
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-500"
         >

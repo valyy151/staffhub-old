@@ -59,7 +59,7 @@ export default function Navbar() {
         Documentation
       </Link>
 
-      <Button onClick={() => void signIn("google")}>Sign In</Button>
+      <Button onClick={() => signIn("google")}>Sign In</Button>
     </div>
   );
 

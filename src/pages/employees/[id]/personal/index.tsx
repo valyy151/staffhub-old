@@ -56,9 +56,9 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
   }
 
   return (
-    <main className="flex">
+    <main className="flex flex-col items-center">
       <Sidebar employee={employee} />
-      <div className="mt-4 flex w-full flex-col items-center">
+      <div className="mt-4 flex flex-col">
         <Heading>
           {employee.name.endsWith("s")
             ? `${employee.name}'`
@@ -66,7 +66,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
           Personal Information
         </Heading>
 
-        <form onSubmit={handleSubmit} className="mt-12 w-1/4">
+        <form onSubmit={handleSubmit} className="mt-8 w-4/5">
           <label className="text-xl" htmlFor="name">
             Name
           </label>

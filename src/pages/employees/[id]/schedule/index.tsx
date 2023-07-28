@@ -1,7 +1,6 @@
 import {
   formatDateLong,
   formatDay,
-  formatMonth,
   formatTime,
   formatTotal,
   getMonthBoundaryTimestamps,
@@ -31,7 +30,6 @@ SchedulePage.getInitialProps = ({ query }: SchedulePageProps) => {
 
 export default function SchedulePage({ query }: SchedulePageProps) {
   const [value, setValue] = useState<Date>(new Date());
-  const [month, setMonth] = useState(formatMonth(value.getTime() / 1000));
 
   const [startOfMonth, endOfMonth] = getMonthBoundaryTimestamps(value);
 
@@ -43,7 +41,6 @@ export default function SchedulePage({ query }: SchedulePageProps) {
 
   function handleMonthChange(date: any) {
     setValue(date);
-    setMonth(formatMonth(value.getTime() / 1000));
   }
 
   if (!employee) {
@@ -74,15 +71,19 @@ export default function SchedulePage({ query }: SchedulePageProps) {
           >
             <div className="flex min-h-[5.7rem] w-full items-center justify-between border-b-2 border-t border-slate-300 bg-white py-4 dark:border-slate-500 dark:bg-slate-800">
               <Heading size={"sm"} className="text-md ml-8">
-                {month} ({calculateTotalHours(employee?.workDays)} hours)
+                {value.toLocaleDateString("en-GB", {
+                  month: "long",
+                  year: "numeric",
+                })}{" "}
+                ({calculateTotalHours(employee?.workDays)} hours)
               </Heading>
-              <PDFButton employee={employee} month={month} value={value} />
+              <PDFButton employee={employee} value={value} />
             </div>
 
             {employee.workDays.map((day, index) => (
               <div
                 key={day.id}
-                onClick={() => void router.push(`/days/${day.id}`)}
+                onClick={() => router.push(`/days/${day.id}`)}
                 className={`group flex cursor-pointer items-center space-y-4 border-b-2 border-slate-300 dark:border-slate-500 ${
                   index % 2 === 0
                     ? "bg-slate-50 dark:bg-slate-700"

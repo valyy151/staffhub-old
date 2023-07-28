@@ -91,14 +91,14 @@ export default function AddSickLeave({
   }
 
   return (
-    <main className="flex flex-col items-center">
-      <Heading className=" mt-12 text-center font-normal">
+    <main className="flex flex-col">
+      <Heading className="mt-12 ">
         Days planned:{" "}
-        <span className="font-bold">{daysPlanned > 0 ? daysPlanned : 0}</span>
+        <span className="">{daysPlanned > 0 ? daysPlanned : 0}</span>
       </Heading>
-      <div className="mt-6 flex h-96 space-x-24">
+      <div className="mt-6 flex h-96 space-x-12">
         <div>
-          <Heading className="mb-2 text-center" size={"sm"}>
+          <Heading className="mb-2" size={"sm"}>
             Start:{" "}
             {start.toLocaleString("en-GB", {
               day: "numeric",
@@ -109,7 +109,7 @@ export default function AddSickLeave({
           <Calendar value={start} onChange={handleStartChange} />
         </div>
         <div>
-          <Heading className="mb-2 text-center" size={"sm"}>
+          <Heading className="mb-2" size={"sm"}>
             End:{" "}
             {end.toLocaleString("en-GB", {
               day: "numeric",
@@ -121,14 +121,11 @@ export default function AddSickLeave({
         </div>
       </div>
 
-      <form
-        onSubmit={void handleSubmit}
-        className="mt-12 flex w-1/2 flex-col space-y-3"
-      >
+      <form onSubmit={handleSubmit} className="mt-12 flex w-full flex-col">
         <Button
           size={"lg"}
           title="Create sick leave"
-          className="h-16 w-full text-3xl"
+          className="mt-2 h-16 w-[22rem] text-3xl"
         >
           <HeartPulse size={32} className="mr-2" /> Submit
         </Button>
@@ -139,7 +136,7 @@ export default function AddSickLeave({
           variant={"link"}
           title="Cancel sick leave creation"
           onClick={() => setShowPlanner(false)}
-          className="h-16 w-full text-3xl"
+          className="mt-2 h-16 w-[22rem] text-3xl"
         >
           <ArrowLeft size={32} className="mr-2" />
           Cancel

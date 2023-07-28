@@ -52,83 +52,90 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
     });
   }
 
+  function renderShiftPreferences() {
+    if (showAddPreference) {
+      return null;
+    }
+
+    if (employee?.shiftPreferences.length === 0) {
+      return (
+        <Paragraph size={"lg"} className="mt-8">
+          There are no shift preferences for {employee.name}.
+        </Paragraph>
+      );
+    }
+
+    return (
+      <>
+        <Paragraph size={"lg"} className="mr-auto mt-8">
+          {employee?.name} has {employee?.shiftPreferences.length}{" "}
+          {employee?.shiftPreferences.length === 1
+            ? "shift preference"
+            : "shift preferences"}
+        </Paragraph>
+        {employee?.shiftPreferences.map((preference) => (
+          <ShiftPreferenceComponent
+            key={preference.id}
+            shiftPreference={preference}
+          />
+        ))}
+      </>
+    );
+  }
+
   if (!employee) {
-    return null;
+    return <Sidebar />;
   }
 
   return (
     <main className="flex flex-col items-center">
       <Sidebar employee={employee} />
-      <div className="mx-auto mt-4 flex w-fit flex-col items-center">
+      <div className="mx-auto mt-4 flex flex-col">
         <Heading>Shift preferences for {employee?.name}</Heading>
         <Button
           size={"lg"}
-          className="mt-2 h-14 text-2xl"
+          className="mt-2 h-14 w-fit text-2xl"
           onClick={() => setShowAddPreference(true)}
         >
           <Sticker size={32} className="mr-2" />
           New Shift Preference
         </Button>
-        {employee?.shiftPreferences.length > 0 && !showAddPreference && (
-          <Paragraph size={"lg"} className="mr-auto mt-8">
-            {employee?.name} has {employee?.shiftPreferences.length}{" "}
-            {employee?.shiftPreferences.length === 1
-              ? "shift preference"
-              : "shift preferences"}
-          </Paragraph>
-        )}
 
-        {employee?.shiftPreferences.length > 0 &&
-          !showAddPreference &&
-          employee?.shiftPreferences.map((preference) => (
-            <ShiftPreferenceComponent
-              key={preference.id}
-              shiftPreference={preference}
+        {renderShiftPreferences()}
+
+        {showAddPreference && (
+          <form onSubmit={createPreference} className="mt-8 flex-col">
+            <Heading size={"xs"} className="mb-3">
+              Add a new shift preference
+            </Heading>
+
+            <Input
+              type="text"
+              placeholder=" Add a shift preference..."
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              className="h-14 text-lg"
             />
-          ))}
-
-        {employee?.shiftPreferences.length === 0 && !showAddPreference && (
-          <Paragraph size={"lg"} className="mt-8">
-            There are no shift preferences for {employee.name}.
-          </Paragraph>
+            <div className="mt-2 flex w-full space-x-1">
+              <Button
+                className="h-14 w-full text-2xl"
+                title="Add shift preference"
+              >
+                <Save size={36} className="mr-2" /> Save
+              </Button>
+              <Button
+                onClick={() => setShowAddPreference(false)}
+                className="h-14 w-full text-2xl"
+                title="Cancel shift preference creation"
+                variant={"subtle"}
+                type="button"
+              >
+                <ArrowLeft size={36} className="mr-2" /> Cancel
+              </Button>
+            </div>
+          </form>
         )}
       </div>
-
-      {showAddPreference && (
-        <form
-          onSubmit={createPreference}
-          className="mx-auto mt-8 flex w-5/12 flex-col"
-        >
-          <Heading size={"xs"} className="mb-3">
-            Add a new shift preference
-          </Heading>
-
-          <Input
-            type="text"
-            placeholder=" Add a shift preference..."
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            className="h-14 text-lg"
-          />
-          <div className="mt-2 flex w-full space-x-1">
-            <Button
-              className="h-14 w-full text-2xl"
-              title="Add shift preference"
-            >
-              <Save size={36} className="mr-2" /> Save
-            </Button>
-            <Button
-              onClick={() => setShowAddPreference(false)}
-              className="h-14 w-full text-2xl"
-              title="Cancel shift preference creation"
-              variant={"subtle"}
-              type="button"
-            >
-              <ArrowLeft size={36} className="mr-2" /> Cancel
-            </Button>
-          </div>
-        </form>
-      )}
     </main>
   );
 }

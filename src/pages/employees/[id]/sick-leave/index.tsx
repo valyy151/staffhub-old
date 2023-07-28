@@ -35,7 +35,7 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
     );
 
     return (
-      <div>
+      <div className="w-[36rem]">
         {currentSickLeave ? (
           <>
             {" "}
@@ -70,10 +70,10 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
         ) : (
           <>
             <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
-              <HeartPulse size={32} className="ml-1 mr-2 text-gray-400" /> Past
+              <HeartPulse size={42} className="ml-1 mr-2 text-gray-400" /> Past
               Sick Leaves
             </Heading>
-            <Paragraph className="mt-4">No past sick leaves</Paragraph>
+            <Paragraph className="ml-14 mt-4">No past sick leaves</Paragraph>
           </>
         )}
       </div>
@@ -87,23 +87,24 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
   return (
     <main className="flex flex-col items-center">
       <Sidebar employee={employee} />
-      <Heading className="mt-4">{employee?.name}</Heading>
-      <Button
-        size={"lg"}
-        title="Create a new sick leave"
-        className="mt-2 h-14 text-2xl"
-        onClick={() => {
-          setShowPlanner(true);
-        }}
-      >
-        <HeartPulse size={32} className="mr-2" />
-        New Sick Leave
-      </Button>
-      {showPlanner && (
-        <AddSickLeave employee={employee} setShowPlanner={setShowPlanner} />
-      )}
-
-      {!showPlanner && renderSickLeaves()}
+      <div>
+        <Heading className="mt-4">Sick leaves for {employee?.name}</Heading>
+        <Button
+          size={"lg"}
+          title="Create a new sick leave"
+          className="mt-2 h-14 text-2xl"
+          onClick={() => {
+            setShowPlanner(true);
+          }}
+        >
+          <HeartPulse size={32} className="mr-2" />
+          New Sick Leave
+        </Button>
+        {showPlanner && (
+          <AddSickLeave employee={employee} setShowPlanner={setShowPlanner} />
+        )}
+        {!showPlanner && renderSickLeaves()}
+      </div>
     </main>
   );
 }

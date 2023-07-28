@@ -64,7 +64,7 @@ const DashboardPage = () => {
         <Button
           size={"lg"}
           className="mt-4 h-14 text-2xl"
-          onClick={() => void router.push("/schedule")}
+          onClick={() => router.push("/schedule")}
         >
           <CalendarPlus size={30} className="mr-2" /> New Schedule
         </Button>
@@ -93,7 +93,7 @@ const DashboardPage = () => {
             <div
               className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
               key={day.id}
-              onClick={() => void router.push(`/days/${day.id}`)}
+              onClick={() => router.push(`/days/${day.id}`)}
             >
               <div className="w-full text-center">
                 <Heading
