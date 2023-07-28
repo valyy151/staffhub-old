@@ -1,91 +1,124 @@
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { createTw } from "react-pdf-tailwind";
+import { EmployeeProfile } from "~/utils/api";
 
 import { calculateTotalHours } from "~/utils/calculateHours";
 import { formatDate, formatTime, formatTotal } from "~/utils/dateFormatting";
 
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: "column",
-    backgroundColor: "#1e293b",
-    color: "#e2e8f0",
+const tw = createTw({
+  theme: {
+    fontFamily: {
+      sans: ["General Sans"],
+    },
+    extend: {
+      colors: {
+        custom: "#bada55",
+      },
+    },
   },
-  title: {
-    textAlign: "center",
-    fontSize: 24,
-    padding: 16,
-    borderBottom: "1px solid #64748b",
-    backgroundColor: "#334155",
-  },
-  section: {
-    padding: 3.32,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    borderBottom: "1px solid #64748b",
-  },
-  sectionShift: {
-    padding: 3.32,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "center",
-    borderBottom: "1px solid #64748b",
-    backgroundColor: "#334155",
-  },
+});
 
-  shift: {
-    width: 200,
-    fontSize: 16,
-    textAlign: "center",
+const styles = StyleSheet.create({
+  title: {
+    margin: 0,
+    paddingLeft: 12,
+    paddingTop: 16,
+    paddingBottom: 16,
+    display: "flex",
+    backgroundColor: "black",
+    color: "white",
+    fontSize: 26,
   },
 });
 
 export function MonthlyRoster({
-  employee,
   month,
+  employee,
 }: {
-  employee: any;
   month: string;
+  employee: EmployeeProfile;
 }) {
   return (
     <Document pageLayout="singlePage">
-      <Page size="A4" orientation="portrait" style={styles.page}>
-        <View style={styles.title}>
-          <Text>
-            {employee?.name} - {month} (
-            {calculateTotalHours(employee?.workDays)}
-            h)
+      <Page size="B4" orientation="portrait" style={tw("bg-white")}>
+        <Text style={styles.title}>
+          {employee?.name} - {month} [{calculateTotalHours(employee.workDays)}{" "}
+          hours]
+        </Text>
+        <View style={tw("flex flex-row")}>
+          <Text
+            style={tw(
+              "px-4 py-[0.3572rem] border-b border-r w-1/4 bg-gray-200"
+            )}
+          >
+            Date
+          </Text>
+
+          <Text
+            style={tw(
+              "px-4 py-[0.3572rem] border-b border-r w-1/4 bg-gray-200"
+            )}
+          >
+            Time
+          </Text>
+
+          <Text
+            style={tw(
+              "px-4 py-[0.3572rem] border-b border-r w-1/4 bg-gray-200"
+            )}
+          >
+            Total
+          </Text>
+
+          <Text
+            style={tw(
+              "px-4 py-[0.3572rem] border-b border-r w-1/4 bg-gray-200"
+            )}
+          >
+            Note
           </Text>
         </View>
-        {employee?.workDays.map((workDay: any) => (
-          <View
-            key={workDay.id}
-            style={
-              workDay.shifts[0]?.start && workDay.shifts[0]?.end
-                ? styles.section
-                : styles.sectionShift
-            }
-          >
-            <Text style={styles.shift}>{formatDate(workDay.date)}</Text>
+        {employee.workDays.map((workDay) => (
+          <View style={tw("m-0 flex flex-row")}>
+            <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
+              {formatDate(workDay.date)}
+            </Text>
 
-            {workDay.shifts[0]?.start && workDay.shifts[0]?.end ? (
+            {workDay.shifts[0] &&
+            workDay.shifts[0].start &&
+            workDay.shifts[0].end ? (
               <>
-                <Text style={styles.shift}>
-                  {formatTime(workDay.shifts[0]?.start)} -{" "}
-                  {formatTime(workDay.shifts[0]?.end)}
-                </Text>
-                <Text style={styles.shift}>
-                  {formatTotal(
-                    workDay.shifts[0]?.start,
-                    workDay.shifts[0]?.end
+                <Text
+                  style={tw(
+                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
                   )}
+                >
+                  {formatTime(workDay.shifts[0].start)} -{" "}
+                  {formatTime(workDay.shifts[0].end)}
                 </Text>
+
+                <Text
+                  style={tw(
+                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+                  )}
+                >
+                  {formatTotal(workDay.shifts[0].start, workDay.shifts[0].end)}
+                </Text>
+                <Text
+                  style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
+                ></Text>
               </>
             ) : (
               <>
-                <Text style={styles.shift}></Text>
-                <Text style={styles.shift}></Text>
+                <Text
+                  style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
+                ></Text>
+                <Text
+                  style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
+                ></Text>
+                <Text
+                  style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
+                ></Text>
               </>
             )}
           </View>

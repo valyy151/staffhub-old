@@ -50,7 +50,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
     return (
       <main className="ml-auto flex">
         <Sidebar />
-        <div className="ml-auto pr-52 pt-20">
+        <div className="ml-auto pr-52 pt-16">
           <Calendar
             value={value}
             view={"month"}
@@ -66,7 +66,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
   return (
     <main className="flex flex-col">
       <Sidebar employee={employee} />
-      <div className="mt-8 flex justify-end">
+      <div className="mt-4 flex justify-end">
         <section>
           <Heading className="mb-2">Schedules for {employee?.name}</Heading>
           <div
