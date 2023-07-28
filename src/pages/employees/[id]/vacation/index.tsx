@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
+import { howManyDays } from "~/utils/calculateHours";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import Vacation from "~/components/Employees/Vacation";
 import { checkVacations } from "~/utils/checkVacations";
 import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
 import VacationPlanner from "~/components/Employees/VacationPlanner";
-import { howManyDays } from "~/utils/calculateHours";
 
 interface VacationPageProps {
   query: { id: string };
@@ -33,6 +33,7 @@ export default function VacationPage({ query }: VacationPageProps) {
   });
 
   useEffect(() => {
+    setAmount(employee?.vacationDays || 0);
     setDaysRemaining(employee?.vacationDays);
   }, [employee?.vacationDays]);
 
@@ -199,8 +200,8 @@ export default function VacationPage({ query }: VacationPageProps) {
             className="m-0 h-14 text-center text-2xl shadow-md"
           />
           <div className="flex w-full space-x-1">
-            <Button size={"lg"} className="mt-2 h-12 w-full text-xl">
-              <Save className="mr-2" />
+            <Button size={"lg"} className="mt-2 h-14 w-full text-2xl">
+              <Save size={28} className="mr-2" />
               Save
             </Button>
             <Button
@@ -208,10 +209,10 @@ export default function VacationPage({ query }: VacationPageProps) {
               type="button"
               variant={"subtle"}
               onClick={() => setShowChangeAmount(false)}
-              className="mt-2 h-12 w-full text-xl"
+              className="mt-2 h-14 w-full text-2xl"
             >
               {" "}
-              <ArrowLeft className="mr-2" />
+              <ArrowLeft size={28} className="mr-2" />
               Cancel
             </Button>
           </div>

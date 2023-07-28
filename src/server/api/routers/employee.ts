@@ -128,7 +128,6 @@ export const employeeRouter = createTRPCRouter({
 
       const workDays = await ctx.prisma.workDay.findMany({
         where: {
-          userId: ctx.session.user.id,
           date: { lte: endOfMonth, gte: startOfMonth },
         },
       });

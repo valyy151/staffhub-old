@@ -50,7 +50,6 @@ model User {
     shifts          Shift[]
     accounts        Account[]
     sessions        Session[]
-    workDays        WorkDay[]
     employees       Employee[]
     vacations       Vacation[]
     sickLeaves      SickLeave[]
@@ -138,13 +137,9 @@ model Vacation {
 }
 
 model WorkDay {
-    id     String        @id @default(cuid())
-    date   Int           @unique
-    userId String
-    notes  WorkDayNote[]
-    user   User          @relation(fields: [userId], references: [id])
-
-    @@index([userId])
+    id    String        @id @default(cuid())
+    date  Int           @unique
+    notes WorkDayNote[]
 }
 
 model WorkDayNote {

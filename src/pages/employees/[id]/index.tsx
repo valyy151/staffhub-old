@@ -36,6 +36,8 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
     id: query.id,
   });
 
+  console.log(employee);
+
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const [showModal, setShowModal] = useState<boolean>(false);

@@ -9,9 +9,11 @@ export const workDayRouter = createTRPCRouter({
         where: { date },
       });
 
-      if (exists) {
-        return true;
-      } else return false;
+      if (!exists) {
+        return false;
+      }
+
+      return true;
     }),
 
   create: protectedProcedure
@@ -29,7 +31,6 @@ export const workDayRouter = createTRPCRouter({
       return await ctx.prisma.workDay.create({
         data: {
           date: midnightUnixCode,
-          userId: ctx.session.user.id,
         },
       });
     }),
