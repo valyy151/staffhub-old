@@ -42,7 +42,9 @@ export default function ScheduleMaker({
   const [value, setValue] = useState<Date>(currentDate);
   const [schedule, setSchedule] = useState<any[]>(updateMonthData(currentDate));
 
-  const [yearArray, setYearArray] = useState<{ date: number }[]>([]);
+  const [yearArray, setYearArray] = useState<{ date: number }[]>(
+    generateYearArray(currentDate.getFullYear())
+  );
 
   function handleMonthChange(date: any) {
     setValue(date);

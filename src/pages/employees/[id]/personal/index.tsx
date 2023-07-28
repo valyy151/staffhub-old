@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { use, useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import { Save } from "lucide-react";
 import toast from "react-hot-toast";
@@ -7,6 +7,7 @@ import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
+import { set } from "zod";
 
 interface EmployeePersonalProps {
   query: { id: string };
@@ -21,10 +22,20 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
     id: query.id,
   });
 
-  const [name, setName] = useState(employee?.name);
-  const [email, setEmail] = useState(employee?.email);
-  const [phone, setPhone] = useState(employee?.phoneNumber);
-  const [address, setAddress] = useState(employee?.address);
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+
+  useEffect(() => {
+    if (!employee) {
+      return;
+    }
+    employee.name && setName(employee.name);
+    employee.email && setEmail(employee.email);
+    employee.address && setAddress(employee.address);
+    employee.phoneNumber && setPhone(employee.phoneNumber);
+  }, [employee]);
 
   const queryClient = useQueryClient();
 
@@ -38,7 +49,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!name || !email || !phone || !address) {
+    if (!name || !email || !address || !phone) {
       return toast.error("Please fill out all the fields.");
     }
 
@@ -66,7 +77,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
           Personal Information
         </Heading>
 
-        <form onSubmit={handleSubmit} className="mt-8 w-4/5">
+        <form onSubmit={handleSubmit} className="mt-8 w-3/4">
           <label className="text-xl" htmlFor="name">
             Name
           </label>
@@ -89,17 +100,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             onChange={(e) => setEmail(e.target.value)}
             className="mb-2 h-16 text-xl"
           />
-          <label className="text-xl" htmlFor="phone">
-            Phone
-          </label>
-          <Input
-            type="text"
-            id="phone"
-            name="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="mb-2 h-16 text-xl"
-          />
+
           <label className="text-xl" htmlFor="address">
             Address
           </label>
@@ -112,6 +113,17 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             className="mb-2 h-16 text-xl"
           />
 
+          <label className="text-xl" htmlFor="phone">
+            Phone Number
+          </label>
+          <Input
+            type="text"
+            id="phone"
+            name="phone"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className="mb-2 h-16 text-xl"
+          />
           <Button
             size={"lg"}
             title="Update information"

@@ -24,23 +24,15 @@ import router from "next/router";
 import groupShifts from "~/utils/groupShifts";
 import Spinner from "~/components/ui/Spinner";
 import Paragraph from "~/components/ui/Paragraph";
+import { set } from "zod";
 
 const DashboardPage = () => {
   const [skip, setSkip] = useState<number>(0);
-  const [workDays, setWorkDays] = useState<DashboardWorkDay[]>([]);
-  const [smallLoading, setSmallLoading] = useState<boolean>(false);
+  const [workDay, setWorkDay] = useState<DashboardWorkDay[] | null>(null);
 
-  const { data } = api.dashboard.find.useQuery({
+  const { data, isFetching } = api.dashboard.find.useQuery({
     skip: skip,
   });
-
-  useEffect(() => {
-    setSmallLoading(true);
-    if (data) {
-      setWorkDays(data);
-      setSmallLoading(false);
-    }
-  }, [data]);
 
   function handlePrevPage(): void {
     setSkip(skip - 1);
@@ -50,7 +42,13 @@ const DashboardPage = () => {
     setSkip(skip + 1);
   }
 
-  if (workDays.length === 0) {
+  useEffect(() => {
+    if (data) {
+      setWorkDay(data);
+    }
+  }, [data]);
+
+  if (data?.length === 0) {
     return (
       <main className="flex flex-col items-center">
         <Heading className="mt-6" size={"sm"}>
@@ -72,7 +70,7 @@ const DashboardPage = () => {
     );
   }
 
-  if (!data) {
+  if (!workDay) {
     return <Spinner />;
   }
 
@@ -81,15 +79,16 @@ const DashboardPage = () => {
       <div className="dashboard p-0 pt-20">
         <div className="flex">
           <Heading size={"sm"} className="mb-4 mr-auto text-left">
-            {data[3] && formatMonth(data[3].date)}
+            {workDay && workDay[3] && formatMonth(workDay[3].date)}
           </Heading>
           <Heading size={"sm"} className="font-normal">
-            {data[0] && formatDate(data[0].date)} -{" "}
-            {data[6] && formatDate(data[6].date)}
+            {workDay && workDay[0] && formatDate(workDay[0].date)} -{" "}
+            {workDay && workDay[6] && formatDate(workDay[6].date)}
           </Heading>
         </div>
+
         <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-700">
-          {data.map((day) => (
+          {workDay?.map((day) => (
             <div
               className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
               key={day.id}
@@ -149,7 +148,7 @@ const DashboardPage = () => {
           ))}
         </div>
 
-        {smallLoading ? (
+        {isFetching ? (
           <div className="flex flex-col items-center pt-4">
             <Loader2 size={32} className="animate-spin" />
           </div>

@@ -79,7 +79,7 @@ export function MonthlyRoster({
           </Text>
         </View>
         {employee.workDays.map((workDay) => (
-          <View style={tw("m-0 flex flex-row")}>
+          <View key={workDay.id} style={tw("m-0 flex flex-row")}>
             <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
               {formatDate(workDay.date)}
             </Text>

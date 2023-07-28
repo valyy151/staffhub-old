@@ -8,7 +8,7 @@ import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
-import ShiftPreferenceComponent from "~/components/Employees/ShiftPreference";
+import ShiftPreference from "~/components/Employees/ShiftPreference";
 
 interface ShiftPreferencesProps {
   query: { id: string };
@@ -74,10 +74,7 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
             : "shift preferences"}
         </Paragraph>
         {employee?.shiftPreferences.map((preference) => (
-          <ShiftPreferenceComponent
-            key={preference.id}
-            shiftPreference={preference}
-          />
+          <ShiftPreference key={preference.id} shiftPreference={preference} />
         ))}
       </>
     );
@@ -88,7 +85,7 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
   }
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex flex-col">
       <Sidebar employee={employee} />
       <div className="mx-auto mt-4 flex flex-col">
         <Heading>Shift preferences for {employee?.name}</Heading>

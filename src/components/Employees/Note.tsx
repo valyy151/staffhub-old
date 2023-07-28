@@ -1,12 +1,12 @@
-import { XCircle, Trash2, Pencil, Save } from "lucide-react";
-import { useState } from "react";
 import Input from "../ui/Input";
-import { Button } from "../ui/Button";
 import Modal from "../ui/Modal";
+import { api } from "~/utils/api";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { Button } from "../ui/Button";
 import Paragraph from "../ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
-import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { XCircle, Trash2, Pencil, Save } from "lucide-react";
 
 interface NoteProps {
   note: { id: string; content: string; createdAt: Date };

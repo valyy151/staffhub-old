@@ -91,7 +91,7 @@ export default function AddSickLeave({
   }
 
   return (
-    <main className="flex flex-col">
+    <main className="flex flex-col w-[36rem]">
       <Heading className="mt-12 ">
         Days planned:{" "}
         <span className="">{daysPlanned > 0 ? daysPlanned : 0}</span>
@@ -133,7 +133,7 @@ export default function AddSickLeave({
         <Button
           size={"lg"}
           type="button"
-          variant={"link"}
+          variant={"subtle"}
           title="Cancel sick leave creation"
           onClick={() => setShowPlanner(false)}
           className="mt-2 h-16 w-[22rem] text-3xl"

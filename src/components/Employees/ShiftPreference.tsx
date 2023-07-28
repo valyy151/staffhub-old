@@ -52,7 +52,7 @@ export default function ShiftPreference({
   }
 
   return (
-    <div className="my-2 flex flex-col items-start">
+    <div className="my-2 flex w-[42rem] flex-col items-start">
       <Paragraph className="m-0 font-medium">
         {" "}
         {shiftPreference.createdAt.toLocaleString("en-GB", {
