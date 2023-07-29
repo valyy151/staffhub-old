@@ -52,11 +52,8 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
   }
 
   return (
-    <div className="flex w-full flex-col">
-      <form
-        onSubmit={handleSubmit}
-        className="mx-auto mt-8 flex w-5/12 flex-col"
-      >
+    <div className="flex flex-col">
+      <form onSubmit={handleSubmit} className="mx-auto mt-8 flex flex-col">
         <Heading size={"sm"} className="mb-3">
           Add a New Note
         </Heading>
@@ -65,7 +62,7 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
           type="text"
           value={content}
           placeholder=" Add a note..."
-          className="h-14 text-lg"
+          className="h-14 w-[46rem] text-lg"
           onChange={(e) => setContent(e.target.value)}
         />
         <div className="mt-2 flex w-full space-x-1">

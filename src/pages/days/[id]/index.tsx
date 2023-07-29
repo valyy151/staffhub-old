@@ -46,10 +46,10 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
     if (workDay?.shifts.length === 0) {
       return (
-        <div className="flex flex-col items-start pb-4">
+        <div className="mr-auto flex flex-col items-start pb-4">
           <Heading className="mb-2">Shifts</Heading>
 
-          <Paragraph size={"lg"} className="m-0">
+          <Paragraph size={"lg"}>
             There are currently no shifts for this day.
           </Paragraph>
         </div>
@@ -57,7 +57,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     }
 
     return (
-      <div className="flex flex-col">
+      <div className="mr-auto flex flex-col">
         <Heading className="mb-2">Shifts</Heading>
 
         {workDay?.shifts.map((shift) => (
@@ -74,7 +74,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
     if (workDay?.notes.length === 0) {
       return (
-        <div className="flex flex-col items-start">
+        <div className="mr-auto flex flex-col items-start">
           <Heading className="mb-2 mt-8">Notes</Heading>
 
           <Paragraph size={"lg"}>
@@ -85,7 +85,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     }
 
     return (
-      <div className="flex flex-col">
+      <div className="mr-auto flex flex-col">
         <Heading className="mb-2 mt-8">Notes</Heading>
 
         {workDay?.notes.map((note) => (
@@ -97,48 +97,49 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
   return (
     <main className="flex flex-col items-center">
-      <div className="my-6 flex w-full flex-col items-center border-b border-slate-300 pb-6 shadow-sm dark:border-slate-700">
-        <div className="flex space-x-3">
-          <Heading>{formatDay(workDay.date)}</Heading>
-          <Heading>{formatDateLong(workDay.date)}</Heading>
+      <div className="mt-4 flex w-full flex-col items-center">
+        <div>
+          <div className="flex space-x-3">
+            <Heading>{formatDay(workDay.date)}</Heading>
+            <Heading>{formatDateLong(workDay.date)}</Heading>
+          </div>
+
+          <div className="mt-2 space-x-1">
+            <Button
+              size="lg"
+              className="h-14 text-xl"
+              onClick={() => {
+                setShowAddNote(false);
+                setShowAddShift(true);
+              }}
+            >
+              <Clock8 className="mr-2" /> New Shift
+            </Button>
+
+            <Button
+              size="lg"
+              variant="subtle"
+              className="h-14 text-xl"
+              onClick={() => {
+                setShowAddNote(true);
+                setShowAddShift(false);
+              }}
+            >
+              <ScrollText className="mr-2" /> Add Note
+            </Button>
+          </div>
         </div>
+        {showAddShift && (
+          <AddShift data={workDay} setShowAddShift={setShowAddShift} />
+        )}
+        {showAddNote && (
+          <AddNote data={workDay} setShowAddNote={setShowAddNote} />
+        )}
+        <div className="mt-8">
+          {renderShifts()}
 
-        <div className="mt-2 space-x-1">
-          <Button
-            size="lg"
-            className="h-14 text-xl"
-            onClick={() => {
-              setShowAddNote(false);
-              setShowAddShift(true);
-            }}
-          >
-            <Clock8 className="mr-2" /> New Shift
-          </Button>
-
-          <Button
-            size="lg"
-            variant="subtle"
-            className="h-14 text-xl"
-            onClick={() => {
-              setShowAddNote(true);
-              setShowAddShift(false);
-            }}
-          >
-            <ScrollText className="mr-2" /> Add Note
-          </Button>
+          {renderNotes()}
         </div>
-      </div>
-
-      {showAddShift && (
-        <AddShift data={workDay} setShowAddShift={setShowAddShift} />
-      )}
-      {showAddNote && (
-        <AddNote data={workDay} setShowAddNote={setShowAddNote} />
-      )}
-      <div>
-        {renderShifts()}
-
-        {renderNotes()}
       </div>
     </main>
   );

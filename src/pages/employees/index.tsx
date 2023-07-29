@@ -49,15 +49,15 @@ export default function EmployeesListPage() {
   return (
     <main className="mx-auto flex w-2/3 flex-col items-center">
       <div className="mt-8 w-full">
-        <div className="mb-1 flex justify-between">
-          <div className="flex items-baseline space-x-4">
+        <div className="mb-2 flex justify-between">
+          <div className="ml-6 flex items-baseline space-x-4">
             <Heading size={"lg"}>Your Staff</Heading>
 
             <Heading>
               has {data.length} {data.length > 1 ? "members" : "member"}
             </Heading>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="mr-6 flex items-center space-x-2">
             <div className="mx-auto flex items-center rounded-md border border-slate-300 bg-white px-2 shadow focus-within:shadow-md focus-within:outline-none focus-within:ring-2 focus-within:ring-slate-400 focus-within:ring-offset-2 dark:border-slate-700 dark:bg-slate-700 dark:text-slate-50 dark:focus-within:ring-slate-400 dark:focus-within:ring-offset-slate-900 sm:w-full">
               <Search />
 

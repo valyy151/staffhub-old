@@ -76,14 +76,14 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   }
 
   return (
-    <div className="mx-auto">
-      <Heading size={"sm"}>
+    <div className="flex flex-col items-start">
+      <Heading size={"sm"} className="mt-8">
         Add a new shift {name && "for"} {name}
       </Heading>
 
       <form onSubmit={handleSubmit} className="mt-2 flex flex-col items-center">
         <div className="flex space-x-8">
-          <div className="mt-auto flex w-96 flex-col">
+          <div className="mt-auto flex flex-col">
             <label className="ml-2 text-xl">Employee</label>
 
             <SearchEmployees
@@ -128,7 +128,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                   name="start"
                   placeholder="Start time"
                   value={formatTime(start)}
-                  className="m-0 h-14 w-32 text-xl"
+                  className="m-0 h-14 w-44 text-xl"
                   onChange={(e) => handleTimeChange(e.target.value, "start")}
                 />
               </div>
@@ -143,7 +143,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                   type="text"
                   placeholder="End time"
                   value={formatTime(end)}
-                  className="m-0 h-14 w-32 text-xl"
+                  className="m-0 h-14 w-44 text-xl"
                   onChange={(e) => handleTimeChange(e.target.value, "end")}
                 />
               </div>

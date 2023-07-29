@@ -65,7 +65,7 @@ export default function Note({ note }: NoteProps) {
 
   return (
     <div className="my-2 flex flex-col items-start">
-      <Paragraph className="font-medium">
+      <Paragraph className="ml-1 font-medium">
         {note.createdAt.toLocaleString("en-GB", {
           day: "numeric",
           month: "short",
