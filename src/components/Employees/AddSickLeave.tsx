@@ -61,10 +61,14 @@ export default function AddSickLeave({
     onSuccess: () => {
       setShowPlanner(false);
       void queryClient.invalidateQueries();
-      toast.success("Sick leave created successfully.");
+      toast.success("Sick leave created successfully.", {
+        className: "text-xl",
+      });
     },
     onError: () => {
-      toast.error("There was an error creating the sick leave.");
+      toast.error("There was an error creating the sick leave.", {
+        className: "text-xl",
+      });
     },
   });
 
@@ -72,7 +76,9 @@ export default function AddSickLeave({
     e.preventDefault();
 
     if (!start || !end) {
-      return toast.error("Please select a start and end date.");
+      return toast.error("Please select a start and end date.", {
+        className: "text-xl",
+      });
     }
 
     if (!employee.id) {
@@ -91,7 +97,7 @@ export default function AddSickLeave({
   }
 
   return (
-    <main className="flex flex-col w-[36rem]">
+    <main className="flex w-[36rem] flex-col">
       <Heading className="mt-12 ">
         Days planned:{" "}
         <span className="">{daysPlanned > 0 ? daysPlanned : 0}</span>
@@ -121,7 +127,7 @@ export default function AddSickLeave({
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-12 flex w-full flex-col">
+      <form onSubmit={handleSubmit} className="flex w-full flex-col">
         <Button
           size={"lg"}
           title="Create sick leave"

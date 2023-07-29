@@ -42,7 +42,9 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
   const updatePersonalInfo = api.employee?.update.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Personal info updated successfully.");
+      toast.success("Personal info updated successfully.", {
+        className: "text-xl",
+      });
     },
   });
 
@@ -50,7 +52,9 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
     e.preventDefault();
 
     if (!name || !email || !address || !phone) {
-      return toast.error("Please fill out all the fields.");
+      return toast("Please fill out all the fields.", {
+        className: "text-xl",
+      });
     }
 
     updatePersonalInfo.mutate({

@@ -43,10 +43,14 @@ export default function VacationPage({ query }: VacationPageProps) {
     onSuccess: () => {
       setShowChangeAmount(false);
       void queryClient.invalidateQueries();
-      toast.success("Vacation days updated successfully.");
+      toast.success("Vacation days updated successfully.", {
+        className: "text-xl",
+      });
     },
     onError: () => {
-      toast.error("There was an error updating the vacation days.");
+      toast.error("There was an error updating the vacation days.", {
+        className: "text-xl",
+      });
     },
   });
 
@@ -54,7 +58,9 @@ export default function VacationPage({ query }: VacationPageProps) {
     e.preventDefault();
 
     if (!amount) {
-      return toast.error("Please fill the amount of vacation days.");
+      return toast("Please fill the amount of vacation days.", {
+        className: "text-xl",
+      });
     }
 
     if (!employee?.id) {

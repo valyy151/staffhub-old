@@ -13,18 +13,15 @@ import {
   formatMonth,
   formatTime,
 } from "~/utils/dateFormatting";
-import Link from "next/link";
+import router from "next/router";
 import { useEffect, useState } from "react";
 import { CalendarPlus } from "lucide-react";
 import Heading from "~/components/ui/Heading";
-import { type DashboardWorkDay, api } from "~/utils/api";
-import { Button, buttonVariants } from "~/components/ui/Button";
-
-import router from "next/router";
 import groupShifts from "~/utils/groupShifts";
 import Spinner from "~/components/ui/Spinner";
+import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
-import { set } from "zod";
+import { type DashboardWorkDay, api } from "~/utils/api";
 
 const DashboardPage = () => {
   const [skip, setSkip] = useState<number>(0);
@@ -87,10 +84,10 @@ const DashboardPage = () => {
           </Heading>
         </div>
 
-        <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-700">
+        <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-750">
           {workDay?.map((day) => (
             <div
-              className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+              className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
               key={day.id}
               onClick={() => router.push(`/days/${day.id}`)}
             >
@@ -101,7 +98,7 @@ const DashboardPage = () => {
                 >
                   {formatDay(day.date)}
                 </Heading>
-                <Paragraph className=" w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-400 dark:border-slate-500">
+                <Paragraph className=" w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-400 dark:border-slate-600">
                   {day && formatDate(day.date)}
                 </Paragraph>
               </div>
@@ -161,7 +158,7 @@ const DashboardPage = () => {
             variant={"link"}
             title="Previous Week"
             onClick={handlePrevPage}
-            className="mr-1 rounded-lg bg-slate-200 px-3 py-2 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600"
+            className="mr-1 rounded-lg bg-slate-200 px-3 py-2 hover:bg-slate-300 dark:bg-slate-750 dark:hover:bg-slate-700"
           >
             {<ChevronLeft size={48} />}
           </Button>
@@ -170,7 +167,7 @@ const DashboardPage = () => {
             variant={"link"}
             title="Next Week"
             onClick={handleNextPage}
-            className="mr-1 rounded-lg bg-slate-200 px-3 py-2 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600"
+            className="mr-1 rounded-lg bg-slate-200 px-3 py-2 hover:bg-slate-300 dark:bg-slate-750 dark:hover:bg-slate-700"
           >
             {<ChevronRight size={48} />}
           </Button>

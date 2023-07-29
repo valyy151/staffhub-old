@@ -26,7 +26,15 @@ export default function ShiftPreference({
     onSuccess: () => {
       setShowModal(false);
       void queryClient.invalidateQueries();
-      toast.success("Shift preference deleted successfully.");
+      toast.success("Shift preference deleted successfully.", {
+        className: "text-xl",
+      });
+    },
+
+    onError: () => {
+      toast.error("There was a problem deleting the shift preference.", {
+        className: "text-xl",
+      });
     },
   });
 
@@ -34,7 +42,15 @@ export default function ShiftPreference({
     onSuccess: () => {
       setEditPreference(false);
       void queryClient.invalidateQueries();
-      toast.success("Shift preference updated successfully.");
+      toast.success("Shift preference updated successfully.", {
+        className: "text-xl",
+      });
+    },
+
+    onError: () => {
+      toast.error("There was a problem updating the shift preference.", {
+        className: "text-xl",
+      });
     },
   });
 

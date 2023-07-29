@@ -20,10 +20,14 @@ export default function SickLeave({ sickLeave }: SickLeaveProps) {
   const deleteSickLeave = api.sickLeave.delete.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Sick leave deleted successfully.");
+      toast.success("Sick leave deleted successfully.", {
+        className: "text-xl",
+      });
     },
     onError: () => {
-      toast.error("There was an error deleting the sick leave.");
+      toast.error("There was an error deleting the sick leave.", {
+        className: "text-xl",
+      });
     },
   });
 

@@ -121,10 +121,14 @@ export default function VacationPlanner({
     onSuccess: () => {
       setShowPlanner(false);
       void queryClient.invalidateQueries();
-      toast.success("Vacation created successfully.");
+      toast.success("Vacation created successfully.", {
+        className: "text-xl",
+      });
     },
     onError: () => {
-      toast.error("There was an error creating the vacation.");
+      toast.error("There was an error creating the vacation.", {
+        className: "text-xl",
+      });
     },
   });
 
@@ -132,11 +136,15 @@ export default function VacationPlanner({
     e.preventDefault();
 
     if (!start || !end) {
-      return toast.error("Please select a start and end date.");
+      return toast("Please select a start and end date.", {
+        className: "text-xl",
+      });
     }
 
     if (daysPlanned <= 0) {
-      return toast.error("Please select a valid date range.");
+      return toast("Please select a valid date range.", {
+        className: "text-xl",
+      });
     }
 
     if (!employee.id || !employee.vacationDays) {
@@ -183,7 +191,7 @@ export default function VacationPlanner({
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="mt-12 flex w-full flex-col">
+      <form onSubmit={handleSubmit} className="flex w-full flex-col">
         <Button
           size={"lg"}
           title="Create vacation"

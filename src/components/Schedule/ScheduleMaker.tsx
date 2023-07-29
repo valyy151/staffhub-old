@@ -55,19 +55,27 @@ export default function ScheduleMaker({
 
   const createShift = api.shift.createMany.useMutation({
     onSuccess: () => {
-      toast.success("Schedule created!");
+      toast.success("Schedule created!", {
+        className: "text-xl",
+      });
     },
     onError: () => {
-      toast.error("Something went wrong.");
+      toast.error("Something went wrong.", {
+        className: "text-xl",
+      });
     },
   });
 
   const createDay = api.workDay.createMany.useMutation({
     onSuccess: () => {
-      toast.success("Shifts created!");
+      toast.success("Shifts created!", {
+        className: "text-xl",
+      });
     },
     onError: () => {
-      toast.error("Something went wrong.");
+      toast.error("Something went wrong.", {
+        className: "text-xl",
+      });
     },
   });
 
@@ -80,7 +88,9 @@ export default function ScheduleMaker({
 
   function createSchedule() {
     if (!employeeId) {
-      toast.error("Please select an employee.");
+      return toast("Please select an employee.", {
+        className: "text-xl",
+      });
     }
 
     refetch().then(({ data }) => {
@@ -93,7 +103,9 @@ export default function ScheduleMaker({
       );
 
       if (filteredSchedule.length === 0) {
-        toast.error("Please write at least one shift.");
+        return toast("Please write at least one shift.", {
+          className: "text-xl",
+        });
       }
 
       createShift.mutate({
@@ -147,7 +159,7 @@ export default function ScheduleMaker({
           className="h-fit"
           onChange={handleMonthChange}
         />
-        {schedule.length > 0 && name && (
+        {schedule.length > 0 && (
           <Button
             size={"lg"}
             title="Create schedule"

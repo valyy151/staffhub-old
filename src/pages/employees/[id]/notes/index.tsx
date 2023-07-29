@@ -33,10 +33,14 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
       setContent("");
       setShowAddNote(false);
       void queryClient.invalidateQueries();
-      toast.success("Note created successfully.");
+      toast.success("Note created successfully.", {
+        className: "text-xl",
+      });
     },
     onError: () => {
-      toast.error("There was an error creating the note.");
+      toast.error("There was an error creating the note.", {
+        className: "text-xl",
+      });
     },
   });
 
@@ -44,7 +48,9 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
     e.preventDefault();
 
     if (!content) {
-      return toast.error("Please fill the note content.");
+      return toast("Please fill the note content.", {
+        className: "text-xl",
+      });
     }
 
     createNote.mutate({

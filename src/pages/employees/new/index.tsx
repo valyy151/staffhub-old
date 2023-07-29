@@ -16,7 +16,9 @@ export default function NewEmployeePage() {
     e.preventDefault();
 
     if (!name || !email || !address || !phoneNumber) {
-      return toast.error("Please fill out all the fields.");
+      return toast("Please fill out all the fields.", {
+        className: "text-xl",
+      });
     }
 
     createEmployee.mutate({ name, email, address, phoneNumber });
@@ -24,12 +26,16 @@ export default function NewEmployeePage() {
 
   const createEmployee = api.employee.create.useMutation({
     onSuccess: () => {
-      toast.success("Employee created successfully.");
+      toast.success("Employee created successfully.", {
+        className: "text-xl",
+      });
       window.location.href = "/employees";
     },
 
     onError: () => {
-      toast.error("There was an error creating the employee.");
+      toast.error("There was an error creating the employee.", {
+        className: "text-xl",
+      });
     },
   });
 
