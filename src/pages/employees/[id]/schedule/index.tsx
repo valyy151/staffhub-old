@@ -5,9 +5,9 @@ import {
   formatTotal,
   getMonthBoundaryTimestamps,
 } from "~/utils/dateFormatting";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import router from "next/router";
-import { api } from "~/utils/api";
+import { EmployeeProfile, api } from "~/utils/api";
 import dynamic from "next/dynamic";
 import "react-calendar/dist/Calendar.css";
 import { Calendar } from "react-calendar";
@@ -32,32 +32,35 @@ export default function SchedulePage({ query }: SchedulePageProps) {
   const [value, setValue] = useState<Date>(new Date());
 
   const [startOfMonth, endOfMonth] = getMonthBoundaryTimestamps(value);
+  const [month, setMonth] = useState<string>(
+    value.toLocaleDateString("en-GB", {
+      month: "long",
+      year: "numeric",
+    })
+  );
 
-  const { data: employee } = api.employee?.findOne.useQuery({
+  const { data, isFetched } = api.employee?.findOne.useQuery({
     id: query.id,
     endOfMonth,
     startOfMonth,
   });
 
+  const [employee, setEmployee] = useState<EmployeeProfile | undefined>(data);
+
+  useEffect(() => {
+    if (data) {
+      setEmployee(data);
+      setMonth(
+        value.toLocaleDateString("en-GB", {
+          month: "long",
+          year: "numeric",
+        })
+      );
+    }
+  }, [data]);
+
   function handleMonthChange(date: any) {
     setValue(date);
-  }
-
-  if (!employee) {
-    return (
-      <main className="ml-auto flex">
-        <Sidebar />
-        <div className="ml-auto pr-52 pt-16">
-          <Calendar
-            value={value}
-            view={"month"}
-            maxDetail="year"
-            className="h-fit"
-            onChange={handleMonthChange}
-          />
-        </div>
-      </main>
-    );
   }
 
   return (
@@ -71,16 +74,13 @@ export default function SchedulePage({ query }: SchedulePageProps) {
           >
             <div className="flex min-h-[5.7rem] w-full items-center justify-between border-b-2 border-t border-slate-300 bg-white py-4 dark:border-slate-500 dark:bg-slate-800">
               <Heading size={"sm"} className="text-md ml-8">
-                {value.toLocaleDateString("en-GB", {
-                  month: "long",
-                  year: "numeric",
-                })}{" "}
-                ({calculateTotalHours(employee?.workDays)} hours)
+                {month} ({employee && calculateTotalHours(employee?.workDays)}{" "}
+                hours)
               </Heading>
-              <PDFButton employee={employee} value={value} />
+              <PDFButton employee={employee} value={value} month={month} />
             </div>
 
-            {employee.workDays.map((day, index) => (
+            {employee?.workDays.map((day, index) => (
               <div
                 key={day.id}
                 onClick={() => router.push(`/days/${day.id}`)}

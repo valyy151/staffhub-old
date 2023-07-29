@@ -36,14 +36,14 @@ export function MonthlyRoster({
   employee,
 }: {
   month: string;
-  employee: EmployeeProfile;
+  employee: EmployeeProfile | undefined;
 }) {
   return (
     <Document pageLayout="singlePage">
       <Page size="B4" orientation="portrait" style={tw("bg-white")}>
         <Text style={styles.title}>
-          {employee?.name} - {month} [{calculateTotalHours(employee.workDays)}{" "}
-          hours]
+          {employee?.name} - {month} [
+          {employee && calculateTotalHours(employee?.workDays)} hours]
         </Text>
         <View style={tw("flex flex-row")}>
           <Text
@@ -78,7 +78,7 @@ export function MonthlyRoster({
             Note
           </Text>
         </View>
-        {employee.workDays.map((workDay) => (
+        {employee?.workDays.map((workDay) => (
           <View key={workDay.id} style={tw("m-0 flex flex-row")}>
             <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
               {formatDate(workDay.date)}

@@ -64,23 +64,23 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
       onClick={() => showDropdown && setShowDropdown(false)}
       className="flex flex-col px-12 pb-80 pt-24"
     >
-      <div className="flex flex-col rounded-md border border-slate-300 bg-white shadow-lg dark:border-slate-500 dark:bg-slate-700">
+      <div className="flex flex-col rounded-md border border-slate-300 bg-white shadow-lg dark:border-slate-600 dark:bg-slate-750">
         {/* name and button begin */}
-        <div className="flex items-center justify-between border-b border-slate-300 py-4 dark:border-slate-500">
+        <div className="flex items-center justify-between border-b border-slate-300 py-4 dark:border-slate-600">
           <Heading className="pl-4 text-left">{employee.name}</Heading>
 
           <Button
-            className="ml-auto mr-2 min-w-0 rounded-full  p-8 text-2xl"
+            className="ml-auto mr-2 p-8 text-3xl"
             onClick={() => router.push(`/employees/${employee.id}/schedule`)}
           >
-            Schedules <Calendar className="ml-4" />
+            <Calendar className="mr-4" /> Schedules
           </Button>
           <Button
-            className="mr-2 min-w-0 rounded-full p-8 text-2xl focus:ring-0 focus:ring-offset-0"
+            className="mr-2 p-8 text-3xl focus:ring-0 focus:ring-offset-0"
             variant={"subtle"}
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            Manage <Pencil className="ml-4" />
+            <Pencil className="mr-4" /> Manage
           </Button>
         </div>
         {/* name and button end */}
@@ -99,7 +99,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* personal info begin */}
           <div
             onClick={() => router.push(`/employees/${employee.id}/personal`)}
-            className="w-1/5 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+            className="w-1/5 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Personal Info
@@ -131,7 +131,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* notes begin */}
           <div
             onClick={() => router.push(`/employees/${employee.id}/notes`)}
-            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Notes
@@ -154,7 +154,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* sick leave begin */}
           <div
             onClick={() => router.push(`/employees/${employee.id}/sick-leave`)}
-            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Sick Leave
@@ -172,7 +172,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           <div
             onClick={() => router.push(`/employees/${employee.id}/vacation`)}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300
-                 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-500 dark:hover:bg-slate-600"
+                 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Vacation <Palmtree size={26} className="ml-2" />
@@ -188,7 +188,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* preferences begin */}
           <div
             onClick={() => router.push(`/employees/${employee.id}/preferences`)}
-            className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-600"
+            className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Shift Preferences <Sticker size={26} className="ml-2" />
