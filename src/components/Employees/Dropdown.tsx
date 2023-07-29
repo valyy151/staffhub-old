@@ -24,7 +24,7 @@ export default function Dropdown({
   showDelete,
 }: DropdownProps) {
   return (
-    <div className="absolute right-0 z-50 w-[30rem] rounded-md border border-slate-300 bg-white text-xl  shadow-lg ring-1 ring-black ring-opacity-5 dark:border-slate-600 dark:bg-slate-700 dark:shadow-slate-900">
+    <div className="absolute right-0 z-50 w-[30rem] rounded-md border border-slate-300 bg-white py-1 text-xl  shadow-lg ring-1 ring-black ring-opacity-5 dark:border-slate-600 dark:bg-slate-700 dark:shadow-slate-900">
       <ul>
         <li
           onClick={() => {

@@ -72,116 +72,114 @@ const DashboardPage = () => {
   }
 
   return (
-    <main className="flex flex-col items-center">
-      <div className="dashboard mt-12">
-        <div className="mb-2 flex items-baseline justify-between">
-          <Heading size={"sm"} className="ml-2">
-            {workDay &&
-              workDay[0] &&
-              new Date(workDay[0].date * 1000).toLocaleDateString("en-GB", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}{" "}
-            -{" "}
-            {workDay &&
-              workDay[6] &&
-              new Date(workDay[6].date * 1000).toLocaleDateString("en-GB", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}{" "}
-          </Heading>
+    <main className="mx-auto mt-12 w-fit">
+      <div className="mb-2 flex items-baseline justify-between">
+        <Heading className="ml-2">
+          {workDay &&
+            workDay[0] &&
+            new Date(workDay[0].date * 1000).toLocaleDateString("en-GB", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}{" "}
+          -{" "}
+          {workDay &&
+            workDay[6] &&
+            new Date(workDay[6].date * 1000).toLocaleDateString("en-GB", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}{" "}
+        </Heading>
 
-          <div className="flex space-x-1">
-            <Button
-              variant={"link"}
-              title="Previous Week"
-              onClick={handlePrevPage}
-              className="h-16 w-32 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
-            >
-              {<ChevronLeft size={48} />}
-            </Button>
+        <div className="flex space-x-1">
+          <Button
+            variant={"link"}
+            title="Previous Week"
+            onClick={handlePrevPage}
+            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
+          >
+            {<ChevronLeft size={48} />}
+          </Button>
 
-            <Button
-              variant={"link"}
-              title="Next Week"
-              onClick={handleNextPage}
-              className="h-16 w-32 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
-            >
-              {<ChevronRight size={48} />}
-            </Button>
-          </div>
+          <Button
+            variant={"link"}
+            title="Next Week"
+            onClick={handleNextPage}
+            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
+          >
+            {<ChevronRight size={48} />}
+          </Button>
         </div>
+      </div>
 
-        <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-750">
-          {workDay?.map((day) => (
-            <div
-              className="group flex min-w-[16rem] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
-              key={day.id}
-              onClick={() => router.push(`/days/${day.id}`)}
-            >
-              <div className="w-full text-center">
-                <Heading
-                  className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-500 dark:group-hover:text-sky-400"
-                  size={"xs"}
-                >
-                  {formatDay(day.date)}
-                </Heading>
-                <Paragraph className="w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-500 dark:border-slate-600 dark:group-hover:text-sky-400">
-                  {day && formatDate(day.date)}
-                </Paragraph>
-              </div>
-              <div className="mt-4 flex w-full flex-col items-center">
-                {groupShifts(day.shifts).length > 0 ? (
-                  groupShifts(day.shifts).map((groupedShift) => (
-                    <Paragraph
-                      className="flex items-center"
-                      title={`${day.shifts.length} ${
-                        day.shifts.length === 1 ? "shift" : "shifts"
-                      } `}
-                      key={`${groupedShift.start}-${groupedShift.end}`}
-                    >
-                      <div className="mr-3 flex">
-                        {`${groupedShift.count}`}{" "}
-                        <User className="font-normal" />
-                      </div>
-                      {`${formatTime(groupedShift.start)} - ${formatTime(
-                        groupedShift.end
-                      )}`}
-                    </Paragraph>
-                  ))
-                ) : (
-                  <Paragraph className="flex items-center">
-                    <X className="mr-2" />
-                    No Shifts
-                  </Paragraph>
-                )}
-              </div>
-              <Paragraph
-                title={`${day.notes.length} ${
-                  day.notes.length === 1 ? "note" : "notes"
-                }`}
-                className="mt-auto flex items-center pb-2 text-2xl"
+      <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-750">
+        {workDay?.map((day) => (
+          <div
+            className="group flex min-w-[14rem] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
+            key={day.id}
+            onClick={() => router.push(`/days/${day.id}`)}
+          >
+            <div className="w-full text-center">
+              <Heading
+                className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-500 dark:group-hover:text-sky-400"
+                size={"xs"}
               >
-                {day.notes.length}{" "}
-                {day.notes.length > 0 ? (
-                  <ScrollText className="ml-2 h-6 w-6" />
-                ) : (
-                  <Scroll className="ml-2 h-6 w-6" />
-                )}
+                {formatDay(day.date)}
+              </Heading>
+              <Paragraph className="w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-500 dark:border-slate-600 dark:group-hover:text-sky-400">
+                {day && formatDate(day.date)}
               </Paragraph>
             </div>
-          ))}
-        </div>
+            <div className="mt-4 flex w-full flex-col items-center">
+              {groupShifts(day.shifts).length > 0 ? (
+                groupShifts(day.shifts).map((groupedShift) => (
+                  <Paragraph
+                    className="flex items-center"
+                    title={`${day.shifts.length} ${
+                      day.shifts.length === 1 ? "shift" : "shifts"
+                    } `}
+                    key={`${groupedShift.start}-${groupedShift.end}`}
+                  >
+                    <div className="mr-3 flex">
+                      {`${groupedShift.count}`} <User className="font-normal" />
+                    </div>
+                    {`${formatTime(groupedShift.start)} - ${formatTime(
+                      groupedShift.end
+                    )}`}
+                  </Paragraph>
+                ))
+              ) : (
+                <Paragraph className="flex items-center">
+                  <X className="mr-2" />
+                  No Shifts
+                </Paragraph>
+              )}
+            </div>
+            <Paragraph
+              size={"lg"}
+              title={`${day.notes.length} ${
+                day.notes.length === 1 ? "note" : "notes"
+              }`}
+              className="mt-auto flex items-center pb-2 text-2xl"
+            >
+              {day.notes.length}{" "}
+              {day.notes.length > 0 ? (
+                <ScrollText className="ml-2 h-6 w-6" />
+              ) : (
+                <Scroll className="ml-2 h-6 w-6" />
+              )}
+            </Paragraph>
+          </div>
+        ))}
+      </div>
 
-        <div className="mt-4 flex justify-center">
-          {isFetching ? (
-            <Loader2 size={52} className="animate-spin" />
-          ) : (
-            <div className="h-12"></div>
-          )}
-        </div>
+      <div className="mt-4 flex justify-center">
+        {isFetching ? (
+          <Loader2 size={52} className="animate-spin" />
+        ) : (
+          <div className="h-12"></div>
+        )}
       </div>
     </main>
   );

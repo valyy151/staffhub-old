@@ -47,8 +47,8 @@ export default function EmployeesListPage() {
   });
 
   return (
-    <main className="mx-auto flex w-2/3 flex-col items-center">
-      <div className="mt-8 w-full">
+    <main className="mx-auto flex flex-col items-center">
+      <div className="mt-8 w-2/3">
         <div className="mb-2 flex justify-between">
           <div className="ml-6 flex items-baseline space-x-4">
             <Heading size={"lg"}>Your Staff</Heading>
@@ -100,11 +100,11 @@ export default function EmployeesListPage() {
               <tr
                 onClick={() => router.push(`/employees/${employee.id}`)}
                 key={`employee-${index}`}
-                className={`cursor-pointer duration-75 hover:bg-slate-100 dark:hover:bg-slate-600
+                className={`cursor-pointer duration-75 hover:bg-slate-100 dark:hover:bg-slate-700
 							${
                 index % 2 === 0
                   ? "bg-slate-50 dark:bg-slate-800 "
-                  : "bg-white dark:bg-slate-700"
+                  : "bg-white dark:bg-slate-750"
               }`}
               >
                 <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>

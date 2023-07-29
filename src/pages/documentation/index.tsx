@@ -9,7 +9,7 @@ export default function DocumentationPage() {
       </Heading>
 
       <Heading size={"sm"} className="mt-4">
-        Employees
+        Staff
       </Heading>
 
       <Paragraph size={"lg"}>

@@ -2,7 +2,6 @@ import Link from "next/link.js";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { Button, buttonVariants } from "./ui/Button";
 import { useSession, signIn, signOut } from "next-auth/react";
-import router from "next/router";
 
 export default function Navbar() {
   const { status } = useSession();
@@ -37,13 +36,7 @@ export default function Navbar() {
           Documentation
         </Link>
 
-        <Button
-          variant={"destructive"}
-          onClick={async () => {
-            await signOut();
-            router.push("/");
-          }}
-        >
+        <Button variant={"destructive"} onClick={() => signOut()}>
           Sign Out
         </Button>
       </div>
