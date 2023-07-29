@@ -7,16 +7,19 @@ interface SpinnerProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof spinnerVariants> {}
 
-const spinnerVariants = cva("dark:text-slate-200 flex flex-col items-center", {
-  variants: {},
-  defaultVariants: { size: "default" },
-});
+const spinnerVariants = cva(
+  "dark:text-slate-400 text-slate-600 flex flex-col items-center mt-24",
+  {
+    variants: {},
+    defaultVariants: { size: "default" },
+  }
+);
 
 const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
   ({ className, ...props }, ref) => {
     return (
       <div ref={ref} {...props} className={cn(spinnerVariants({ className }))}>
-        <Loader size={48} strokeWidth={1} className="mt-24 animate-spin" />
+        <Loader size={40} strokeWidth={0.75} className="animate-spin" />
       </div>
     );
   }

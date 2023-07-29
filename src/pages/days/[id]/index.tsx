@@ -97,7 +97,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
   return (
     <main className="flex flex-col items-center">
-      <div className="my-6 flex w-full flex-col items-center border-b-2 border-slate-300 pb-6 dark:border-slate-700">
+      <div className="my-6 flex w-full flex-col items-center border-b border-slate-300 pb-6 shadow-sm dark:border-slate-700">
         <div className="flex space-x-3">
           <Heading>{formatDay(workDay.date)}</Heading>
           <Heading>{formatDateLong(workDay.date)}</Heading>

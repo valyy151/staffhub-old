@@ -51,7 +51,7 @@ export default function NewEmployeePage() {
           type="text"
           name="name"
           value={name}
-          className="mb-2 h-16 text-xl"
+          className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter the name of your employee"
         />
@@ -63,7 +63,7 @@ export default function NewEmployeePage() {
           type="text"
           name="email"
           value={email}
-          className="mb-2 h-16 text-xl"
+          className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter the email of your employee"
         />
@@ -76,7 +76,7 @@ export default function NewEmployeePage() {
           id="address"
           name="address"
           value={address}
-          className="mb-2 h-16 text-xl"
+          className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
           placeholder="Enter the address of your employee"
           onChange={(e) => setAddress(e.target.value)}
         />
@@ -89,7 +89,7 @@ export default function NewEmployeePage() {
           id="phone"
           name="phone"
           value={phoneNumber}
-          className="mb-2 h-16 text-xl"
+          className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
           placeholder="Enter the phone number of your employee"
           onChange={(e) => setPhoneNumber(e.target.value)}
         />

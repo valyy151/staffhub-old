@@ -69,7 +69,7 @@ export default function ShiftPreference({
 
   return (
     <div className="my-2 flex w-[42rem] flex-col items-start">
-      <Paragraph className="m-0 font-medium">
+      <Paragraph className="font-medium">
         {" "}
         {shiftPreference.createdAt.toLocaleString("en-GB", {
           day: "numeric",
@@ -113,7 +113,7 @@ export default function ShiftPreference({
           </>
         ) : (
           <div className="flex items-center">
-            <Paragraph className="m-0 flex h-12 w-[36rem] min-w-[16rem] items-center rounded-md bg-white text-left dark:bg-slate-700">
+            <Paragraph className="flex h-12 w-[36rem] min-w-[16rem] items-center rounded-md bg-white text-left dark:bg-slate-700">
               {content}
             </Paragraph>
             <Button

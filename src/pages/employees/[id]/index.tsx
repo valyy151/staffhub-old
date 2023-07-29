@@ -79,7 +79,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           </Button>
           <Button
             className="mr-2 p-8 text-3xl focus:ring-0 focus:ring-offset-0"
-            variant={"subtle"}
+            variant={"subtler"}
             onClick={() => setShowDropdown(!showDropdown)}
           >
             <Pencil className="mr-4" /> Manage

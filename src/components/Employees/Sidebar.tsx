@@ -25,7 +25,7 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/employees/${employee?.id}`)
           }
-          className="flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700"
+          className="flex w-96 cursor-pointer items-center p-4 hover:bg-slate-150 dark:hover:bg-slate-750"
         >
           <ArrowLeft className="mr-2" /> Back
         </li>
@@ -33,10 +33,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/employees/${employee?.id}/personal`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
+          className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "personal"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : ""
+              : "hover:bg-slate-150 dark:hover:bg-slate-750"
           }`}
         >
           <User2 className="mr-2" /> Personal Info
@@ -45,10 +45,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/employees/${employee?.id}/notes`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
+          className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "notes"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : ""
+              : "hover:bg-slate-150 dark:hover:bg-slate-750"
           }`}
         >
           <ScrollText className="mr-2" /> Notes
@@ -57,10 +57,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/employees/${employee?.id}/sick-leave`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
+          className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "sick-leave"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : ""
+              : "hover:bg-slate-150 dark:hover:bg-slate-750"
           }`}
         >
           <HeartPulse className="mr-2" /> SickLeave
@@ -69,10 +69,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/employees/${employee?.id}/vacation`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
+          className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "vacation"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : ""
+              : "hover:bg-slate-150 dark:hover:bg-slate-750"
           }`}
         >
           <Palmtree className="mr-2" /> Vacation
@@ -82,10 +82,10 @@ export default function Sidebar({ employee }: SidebarProps) {
             employee?.id &&
             router.push(`/employees/${employee?.id}/preferences`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
+          className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "preferences"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : ""
+              : "hover:bg-slate-150 dark:hover:bg-slate-750"
           }`}
         >
           <Sticker className="mr-2" /> Shift Preferences
@@ -94,10 +94,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/employees/${employee?.id}/schedule`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-700 ${
+          className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "schedule"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : ""
+              : "hover:bg-slate-150 dark:hover:bg-slate-750"
           }`}
         >
           <CalendarSearch className="mr-2" /> Work Schedules

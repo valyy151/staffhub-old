@@ -48,84 +48,85 @@ export default function EmployeesListPage() {
 
   return (
     <main className="mx-auto flex w-2/3 flex-col items-center">
-      <div className="mb-2 mt-12 flex w-full items-end justify-between">
-        <div className="flex items-baseline space-x-4">
-          <Heading size={"lg"}>Your Staff</Heading>
+      <div className="mt-8 w-full">
+        <div className="mb-1 flex justify-between">
+          <div className="flex items-baseline space-x-4">
+            <Heading size={"lg"}>Your Staff</Heading>
 
-          <Heading>
-            has {data.length} {data.length > 1 ? "members" : "member"}
-          </Heading>
-        </div>
-
-        <div className="flex items-center space-x-2">
-          <div className="mx-auto flex items-center rounded-md border border-slate-300 bg-white  px-2 shadow focus-within:shadow-md focus-within:outline-none focus-within:ring-2 focus-within:ring-slate-400 focus-within:ring-offset-2 dark:border-slate-700 dark:bg-slate-700 dark:text-slate-50 dark:focus-within:ring-slate-400 dark:focus-within:ring-offset-slate-900 sm:w-full">
-            <Search />
-
-            <Input
-              type="text"
-              value={searchText}
-              placeholder="Search for a  staff member"
-              className="h-12 w-96 border-none text-lg focus:outline-none focus:ring-0 focus:ring-offset-0"
-              onChange={(e) => setSearchText(e.target.value)}
-            />
+            <Heading>
+              has {data.length} {data.length > 1 ? "members" : "member"}
+            </Heading>
           </div>
+          <div className="flex items-center space-x-2">
+            <div className="mx-auto flex items-center rounded-md border border-slate-300 bg-white px-2 shadow focus-within:shadow-md focus-within:outline-none focus-within:ring-2 focus-within:ring-slate-400 focus-within:ring-offset-2 dark:border-slate-700 dark:bg-slate-700 dark:text-slate-50 dark:focus-within:ring-slate-400 dark:focus-within:ring-offset-slate-900 sm:w-full">
+              <Search />
 
-          <Button
-            size={"lg"}
-            className="flex h-12 w-4/5 text-xl"
-            onClick={() => router.push("/employees/new")}
-            title="Add a new employee"
-          >
-            <UserPlus size={24} className="mr-2" /> Add Employee
-          </Button>
+              <Input
+                type="text"
+                value={searchText}
+                placeholder="Search for a  staff member"
+                className="h-12 w-96 border-none text-lg focus:outline-none focus:ring-0 focus:ring-offset-0"
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+            </div>
+
+            <Button
+              size={"lg"}
+              className="flex h-12 w-4/5 text-xl"
+              onClick={() => router.push("/employees/new")}
+              title="Add a new employee"
+            >
+              <UserPlus size={24} className="mr-2" /> Add Employee
+            </Button>
+          </div>
         </div>
-      </div>
 
-      <table className="w-full divide-y-2 divide-slate-300 border-2 border-slate-300 bg-white text-left dark:divide-slate-600  dark:border-slate-600 dark:bg-slate-700">
-        <thead>
-          <tr>
-            {headings.map((heading, index) => (
-              <th
-                key={`heading-${index}`}
-                className="whitespace-nowrap px-8 py-3 font-bold "
-              >
-                {heading}
-              </th>
-            ))}
-          </tr>
-        </thead>
+        <table className="w-full divide-y-2 divide-slate-300 border-2 border-slate-300 bg-white text-left dark:divide-slate-600  dark:border-slate-600 dark:bg-slate-700">
+          <thead>
+            <tr>
+              {headings.map((heading, index) => (
+                <th
+                  key={`heading-${index}`}
+                  className="whitespace-nowrap px-8 py-3 font-bold "
+                >
+                  {heading}
+                </th>
+              ))}
+            </tr>
+          </thead>
 
-        <tbody className="divide-y-2 divide-slate-300 dark:divide-slate-600">
-          {filteredData.map((employee: Employee, index: number) => (
-            <tr
-              onClick={() => router.push(`/employees/${employee.id}`)}
-              key={`employee-${index}`}
-              className={`cursor-pointer duration-75 hover:bg-slate-200 dark:hover:bg-slate-600
+          <tbody className="divide-y-2 divide-slate-300 dark:divide-slate-600">
+            {filteredData.map((employee: Employee, index: number) => (
+              <tr
+                onClick={() => router.push(`/employees/${employee.id}`)}
+                key={`employee-${index}`}
+                className={`cursor-pointer duration-75 hover:bg-slate-100 dark:hover:bg-slate-600
 							${
                 index % 2 === 0
                   ? "bg-slate-50 dark:bg-slate-800 "
                   : "bg-white dark:bg-slate-700"
               }`}
-            >
-              <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
-                {employee.name}
-              </td>
+              >
+                <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
+                  {employee.name}
+                </td>
 
-              <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
-                {employee.email}
-              </td>
+                <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
+                  {employee.email}
+                </td>
 
-              <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
-                {employee.phoneNumber}
-              </td>
+                <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
+                  {employee.phoneNumber}
+                </td>
 
-              <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
-                {employee.address}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
+                  {employee.address}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </main>
   );
 }

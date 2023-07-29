@@ -38,7 +38,7 @@ export default function SickLeave({ sickLeave }: SickLeaveProps) {
   return (
     <div className="mx-auto my-2 flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700">
       <div className="flex items-center space-x-6">
-        <Paragraph className="m-0 w-[36rem] min-w-[16rem] rounded-md bg-white px-2 py-2 text-left dark:bg-slate-700">
+        <Paragraph className="w-[36rem] min-w-[16rem] rounded-md bg-white px-2 py-2 text-left dark:bg-slate-700">
           From{" "}
           <span className="font-bold">
             {formatDateLong(Number(sickLeave.start) / 1000)}.{" "}

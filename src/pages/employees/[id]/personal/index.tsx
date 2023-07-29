@@ -91,7 +91,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mb-2 h-16 text-xl"
+            className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
           />
           <label className="text-xl" htmlFor="email">
             Email
@@ -102,7 +102,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mb-2 h-16 text-xl"
+            className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
           />
 
           <label className="text-xl" htmlFor="address">
@@ -114,7 +114,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             name="address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="mb-2 h-16 text-xl"
+            className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
           />
 
           <label className="text-xl" htmlFor="phone">
@@ -126,7 +126,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             name="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="mb-2 h-16 text-xl"
+            className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
           />
           <Button
             size={"lg"}

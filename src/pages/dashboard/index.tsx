@@ -73,32 +73,62 @@ const DashboardPage = () => {
 
   return (
     <main className="flex flex-col items-center">
-      <div className="dashboard p-0 pt-20">
-        <div className="flex">
-          <Heading size={"sm"} className="mb-4 mr-auto text-left">
-            {workDay && workDay[3] && formatMonth(workDay[3].date)}
+      <div className="dashboard mt-12">
+        <div className="mb-2 flex items-baseline justify-between">
+          <Heading size={"sm"} className="ml-2">
+            {workDay &&
+              workDay[0] &&
+              new Date(workDay[0].date * 1000).toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}{" "}
+            -{" "}
+            {workDay &&
+              workDay[6] &&
+              new Date(workDay[6].date * 1000).toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}{" "}
           </Heading>
-          <Heading size={"sm"} className="font-normal">
-            {workDay && workDay[0] && formatDate(workDay[0].date)} -{" "}
-            {workDay && workDay[6] && formatDate(workDay[6].date)}
-          </Heading>
+
+          <div className="flex space-x-1">
+            <Button
+              variant={"link"}
+              title="Previous Week"
+              onClick={handlePrevPage}
+              className="h-16 w-32 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
+            >
+              {<ChevronLeft size={48} />}
+            </Button>
+
+            <Button
+              variant={"link"}
+              title="Next Week"
+              onClick={handleNextPage}
+              className="h-16 w-32 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
+            >
+              {<ChevronRight size={48} />}
+            </Button>
+          </div>
         </div>
 
         <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-750">
           {workDay?.map((day) => (
             <div
-              className="group flex w-64 cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
+              className="group flex min-w-[16rem] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
               key={day.id}
               onClick={() => router.push(`/days/${day.id}`)}
             >
               <div className="w-full text-center">
                 <Heading
-                  className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-400"
+                  className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-500 dark:group-hover:text-sky-400"
                   size={"xs"}
                 >
                   {formatDay(day.date)}
                 </Heading>
-                <Paragraph className=" w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-400 dark:border-slate-600">
+                <Paragraph className="w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-500 dark:border-slate-600 dark:group-hover:text-sky-400">
                   {day && formatDate(day.date)}
                 </Paragraph>
               </div>
@@ -145,32 +175,12 @@ const DashboardPage = () => {
           ))}
         </div>
 
-        {isFetching ? (
-          <div className="flex flex-col items-center pt-4">
-            <Loader2 size={32} className="animate-spin" />
-          </div>
-        ) : (
-          <div className="h-12"></div>
-        )}
-
-        <div className="flex justify-center pt-2">
-          <Button
-            variant={"link"}
-            title="Previous Week"
-            onClick={handlePrevPage}
-            className="mr-1 rounded-lg bg-slate-200 px-3 py-2 hover:bg-slate-300 dark:bg-slate-750 dark:hover:bg-slate-700"
-          >
-            {<ChevronLeft size={48} />}
-          </Button>
-
-          <Button
-            variant={"link"}
-            title="Next Week"
-            onClick={handleNextPage}
-            className="mr-1 rounded-lg bg-slate-200 px-3 py-2 hover:bg-slate-300 dark:bg-slate-750 dark:hover:bg-slate-700"
-          >
-            {<ChevronRight size={48} />}
-          </Button>
+        <div className="mt-4 flex justify-center">
+          {isFetching ? (
+            <Loader2 size={52} className="animate-spin" />
+          ) : (
+            <div className="h-12"></div>
+          )}
         </div>
       </div>
     </main>
