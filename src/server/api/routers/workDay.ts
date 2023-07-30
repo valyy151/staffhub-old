@@ -40,18 +40,26 @@ export const workDayRouter = createTRPCRouter({
   findOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input: { id }, ctx }) => {
-      const workDay = await ctx.prisma.workDay.findUnique({
+      const workDayPromise = ctx.prisma.workDay.findUnique({
         where: { id },
       });
 
-      const shifts = await ctx.prisma.shift.findMany({
-        where: { date: workDay?.date, userId: ctx.session.user.id },
-        include: { employee: { select: { name: true } } },
+      const shiftsPromise = workDayPromise.then((workDay) => {
+        return ctx.prisma.shift.findMany({
+          where: { date: workDay?.date, userId: ctx.session.user.id },
+          include: { employee: { select: { name: true } } },
+        });
       });
 
-      const notes = await ctx.prisma.workDayNote.findMany({
+      const notesPromise = ctx.prisma.workDayNote.findMany({
         where: { workDayId: id, userId: ctx.session.user.id },
       });
+
+      const [notes, shifts, workDay] = await Promise.all([
+        notesPromise,
+        shiftsPromise,
+        workDayPromise,
+      ]);
 
       return { ...workDay, notes, shifts };
     }),

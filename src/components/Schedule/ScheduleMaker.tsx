@@ -120,8 +120,7 @@ export default function ScheduleMaker({
       return (
         name && (
           <Heading size={"sm"} className="mt-4">
-            {name}{" "}
-            <span className="font-normal">has no shift preferences.</span>
+            {name} has no shift preferences.
           </Heading>
         )
       );
@@ -159,16 +158,15 @@ export default function ScheduleMaker({
           className="h-fit"
           onChange={handleMonthChange}
         />
-        {schedule.length > 0 && (
-          <Button
-            size={"lg"}
-            title="Create schedule"
-            className="mt-2 h-14 w-full text-2xl"
-            onClick={createSchedule}
-          >
-            <CalendarPlus size={28} className="mr-2" /> Create Schedule{" "}
-          </Button>
-        )}
+
+        <Button
+          size={"lg"}
+          title="Create schedule"
+          className="mt-2 h-14 w-full text-2xl"
+          onClick={createSchedule}
+        >
+          <CalendarPlus size={28} className="mr-2" /> Create Schedule{" "}
+        </Button>
       </section>
       <section>
         {name && schedule ? (

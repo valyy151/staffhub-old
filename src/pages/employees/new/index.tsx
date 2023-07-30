@@ -26,9 +26,6 @@ export default function NewEmployeePage() {
 
   const createEmployee = api.employee.create.useMutation({
     onSuccess: () => {
-      toast.success("Employee created successfully.", {
-        className: "text-xl",
-      });
       window.location.href = "/employees";
     },
 

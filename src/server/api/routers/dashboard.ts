@@ -24,28 +24,36 @@ export const dashboardRouter = createTRPCRouter({
 
       const startOfWeek =
         currentDate - currentDayOfWeek * 24 * 60 * 60 + skip * 7 * 24 * 60 * 60;
+
       const endOfWeek = startOfWeek + 7 * 24 * 60 * 60;
 
-      const workDays = await ctx.prisma.workDay.findMany({
+      const workDaysPromise = ctx.prisma.workDay.findMany({
         where: { date: { lte: endOfWeek, gte: startOfWeek } },
       });
 
-      const workDaysIds = workDays.map((workDay) => workDay.id);
-
-      const notes = await ctx.prisma.workDayNote.findMany({
-        where: { workDayId: { in: workDaysIds } },
+      const notesPromise = workDaysPromise.then((workDays) => {
+        const workDaysIds = workDays.map((workDay) => workDay.id);
+        return ctx.prisma.workDayNote.findMany({
+          where: { workDayId: { in: workDaysIds } },
+        });
       });
 
-      const shifts = await ctx.prisma.shift.findMany({
+      const shiftsPromise = ctx.prisma.shift.findMany({
         where: {
           userId: ctx.session.user.id,
           date: { lte: endOfWeek, gte: startOfWeek },
         },
       });
 
+      const [notes, shifts, workDays] = await Promise.all([
+        notesPromise,
+        shiftsPromise,
+        workDaysPromise,
+      ]);
+
       return workDays.map((workDay) => {
-        const dayShifts = shifts.filter((shift) => shift.date === workDay.date);
         const dayNotes = notes.filter((note) => note.workDayId === workDay.id);
+        const dayShifts = shifts.filter((shift) => shift.date === workDay.date);
         return { ...workDay, shifts: dayShifts, notes: dayNotes };
       });
     }),

@@ -76,7 +76,7 @@ export const employeeRouter = createTRPCRouter({
       })
     )
     .query(async ({ input: { id, endOfMonth, startOfMonth }, ctx }) => {
-      const employee = await ctx.prisma.employee.findUnique({
+      const employeePromise = ctx.prisma.employee.findUnique({
         where: { id },
         select: {
           id: true,
@@ -92,31 +92,61 @@ export const employeeRouter = createTRPCRouter({
         },
       });
 
-      const notes = await ctx.prisma.employeeNote.findMany({
+      const notesPromise = ctx.prisma.employeeNote.findMany({
         where: { employeeId: id, userId: ctx.session.user.id },
         select: { id: true, content: true, createdAt: true },
       });
 
-      const vacations = await ctx.prisma.vacation.findMany({
+      const vacationsPromise = ctx.prisma.vacation.findMany({
         where: { employeeId: id, userId: ctx.session.user.id },
         select: { id: true, start: true, end: true },
       });
 
-      const sickLeaves = await ctx.prisma.sickLeave.findMany({
+      const sickLeavesPromise = ctx.prisma.sickLeave.findMany({
         where: { employeeId: id, userId: ctx.session.user.id },
         select: { id: true, start: true, end: true },
       });
 
-      const shiftPreferences = await ctx.prisma.shiftPreference.findMany({
+      const shiftPreferencesPromise = ctx.prisma.shiftPreference.findMany({
         where: { employeeId: id, userId: ctx.session.user.id },
         select: { id: true, content: true, createdAt: true },
       });
 
-      const shifts = await ctx.prisma.shift.findMany({
+      const shiftsPromise = ctx.prisma.shift.findMany({
         where: { employeeId: id, date: { lte: endOfMonth, gte: startOfMonth } },
       });
 
-      if (!endOfMonth || !startOfMonth)
+      let workDaysPromise;
+
+      if (endOfMonth && startOfMonth) {
+        workDaysPromise = ctx.prisma.workDay.findMany({
+          where: {
+            date: { lte: endOfMonth, gte: startOfMonth },
+          },
+        });
+      } else {
+        workDaysPromise = Promise.resolve([]);
+      }
+
+      const [
+        notes,
+        shifts,
+        employee,
+        workDays,
+        vacations,
+        sickLeaves,
+        shiftPreferences,
+      ] = await Promise.all([
+        notesPromise,
+        shiftsPromise,
+        employeePromise,
+        workDaysPromise,
+        vacationsPromise,
+        sickLeavesPromise,
+        shiftPreferencesPromise,
+      ]);
+
+      if (!endOfMonth || !startOfMonth) {
         return {
           ...employee,
           notes,
@@ -125,12 +155,7 @@ export const employeeRouter = createTRPCRouter({
           shiftPreferences,
           workDays: [],
         };
-
-      const workDays = await ctx.prisma.workDay.findMany({
-        where: {
-          date: { lte: endOfMonth, gte: startOfMonth },
-        },
-      });
+      }
 
       const newWorkDays = workDays.map((workDay) => {
         const dayShifts = shifts.filter((shift) => shift.date === workDay.date);

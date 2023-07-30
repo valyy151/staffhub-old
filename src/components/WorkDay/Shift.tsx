@@ -87,13 +87,13 @@ export default function Shift({ shift, date, index }: ShiftProps) {
 
   return (
     <div className="flex items-end justify-between">
-      <div className="w-64">
+      <div className="h-20 w-64 ">
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Name
           </Heading>
         )}
-        <Heading size={"xs"}>
+        <Heading size={"xs"} className="">
           <Link
             className="underline-offset-8 hover:text-sky-500 hover:underline"
             href={`/employees/${shift.employeeId}`}
@@ -102,54 +102,58 @@ export default function Shift({ shift, date, index }: ShiftProps) {
           </Link>
         </Heading>
       </div>
-      <div>
+      <div className="h-20">
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Time
           </Heading>
         )}
         {editMode ? (
-          <div className="flex w-[10.25rem]">
+          <div className="flex h-20 w-[10.25rem] text-2xl">
             <Input
               type="text"
               name="start"
               placeholder="Start time"
               value={formatTime(start)}
-              className="m-0 w-20 px-0 pl-1 text-2xl"
+              className="m-0 h-8 w-[4.2rem] p-0 pl-0.5 text-2xl"
               onChange={(e) => handleTimeChange(e.target.value, "start")}
             />
+            -
             <Input
               name="end"
               type="text"
               placeholder="End time"
               value={formatTime(end)}
-              className="m-0 ml-1 w-20 px-0 pl-1 text-2xl"
+              className="m-0 ml-1 h-8 w-[4.2rem] p-0 pl-0.5 text-2xl"
               onChange={(e) => handleTimeChange(e.target.value, "end")}
             />
           </div>
         ) : (
           <>
-            <Heading size={"xs"} className="w-[10.25rem] font-normal">
+            <Heading size={"xs"} className="h-20 w-[10.25rem] font-normal">
               {formatTime(shift.start)} - {formatTime(shift.end)}
             </Heading>
           </>
         )}
       </div>
 
-      <div className="ml-11 w-36">
+      <div className="ml-11 h-20 w-36">
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Total
           </Heading>
         )}
-        <Heading size={"xs"}>{formatTotal(start, end)}</Heading>
+        <Heading size={"xs"} className="h-20 ">
+          {formatTotal(start, end)}
+        </Heading>
       </div>
       {editMode ? (
-        <form className="flex w-64 space-x-1" onSubmit={updateShift}>
-          <Button title="Save changes" className="ml-auto">
+        <form className="flex h-20 w-64 space-x-1 pt-5" onSubmit={updateShift}>
+          <Button size={"lg"} title="Save changes" className="ml-auto">
             {<Save className="mr-2" />} Save
           </Button>
           <Button
+            size={"lg"}
             type="button"
             className=""
             title="Cancel editing"
@@ -164,8 +168,9 @@ export default function Shift({ shift, date, index }: ShiftProps) {
           </Button>
         </form>
       ) : (
-        <div className="flex w-64 space-x-1">
+        <div className="flex h-20 w-64 space-x-1 pt-5">
           <Button
+            size={"lg"}
             title="Edit Shift"
             onClick={() => setEditMode(true)}
             className="ml-auto"
@@ -173,6 +178,7 @@ export default function Shift({ shift, date, index }: ShiftProps) {
             {<Pencil className="mr-2" />} Edit
           </Button>
           <Button
+            size={"lg"}
             title="Delete Shift"
             variant={"destructive"}
             onClick={() => setShowModal(true)}
