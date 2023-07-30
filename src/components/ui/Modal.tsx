@@ -1,7 +1,7 @@
 import Heading from "./Heading";
 import { Button } from "./Button";
 import ReactModal from "react-modal";
-import { UserX2 } from "lucide-react";
+import { Trash2, UserX2 } from "lucide-react";
 import { UserCheck2 } from "lucide-react";
 import { type MouseEventHandler } from "react";
 
@@ -30,10 +30,15 @@ export default function Modal({
           {text}
         </Heading>
         <div className="mt-6 flex h-full justify-center space-x-2">
-          <Button variant="danger" onClick={submit} className="text-xl">
+          <Button
+            size={"lg"}
+            variant="danger"
+            onClick={submit}
+            className="text-xl"
+          >
             Yes {icon === "employee" && <UserX2 size={30} className="ml-2" />}
           </Button>
-          <Button onClick={cancel} className="text-xl">
+          <Button size={"lg"} onClick={cancel} className="text-xl">
             No{" "}
             {icon === "employee" && <UserCheck2 size={30} className="ml-2" />}
           </Button>

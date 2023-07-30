@@ -210,11 +210,11 @@
 .react-calendar__navigation__label,
 .react-calendar__tile,
 .react-calendar__tile--now {
-  @apply hover:bg-slate-200 hover:text-slate-800 focus:bg-blue-500 focus:text-white dark:text-slate-200 dark:hover:bg-slate-600 dark:focus:bg-blue-500 !important;
+  @apply hover:bg-slate-200 hover:text-slate-800 focus:bg-blue-500 focus:text-white dark:text-slate-200 dark:hover:bg-slate-700 dark:focus:bg-blue-500 !important;
 }
 
 .react-calendar {
-  @apply dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 !important;
+  @apply dark:border-slate-700 dark:bg-slate-750 dark:text-slate-200 !important;
 }
 
 .react-calendar__tile--now {

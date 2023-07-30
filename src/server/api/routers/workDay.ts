@@ -23,7 +23,6 @@ export const workDayRouter = createTRPCRouter({
         data: yearArray.map((day) => {
           const modifiedDate = new Date(day.date * 1000);
 
-          modifiedDate.setDate(day.date);
           modifiedDate.setHours(0, 0, 0, 0);
 
           const midnightUnixCode = Math.floor(modifiedDate.getTime() / 1000);

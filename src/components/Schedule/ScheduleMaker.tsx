@@ -68,12 +68,12 @@ export default function ScheduleMaker({
 
   const createDay = api.workDay.createMany.useMutation({
     onSuccess: () => {
-      toast.success("Shifts created!", {
+      toast.success("Schedule created!", {
         className: "text-xl",
       });
     },
     onError: () => {
-      toast.error("Something went wrong.", {
+      toast.error("Something went wrong with creating work days.", {
         className: "text-xl",
       });
     },

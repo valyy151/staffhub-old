@@ -1,3 +1,4 @@
+import { userRouter } from "./routers/user";
 import { shiftRouter } from "./routers/shift";
 import { workDayRouter } from "./routers/workDay";
 import { employeeRouter } from "./routers/employee";
@@ -15,6 +16,7 @@ import { shiftPreferenceRouter } from "./routers/shiftPreference";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  user: userRouter,
   shift: shiftRouter,
   workDay: workDayRouter,
   vacation: vacationRouter,

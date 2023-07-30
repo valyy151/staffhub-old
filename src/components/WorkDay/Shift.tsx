@@ -13,10 +13,11 @@ import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
 interface ShiftProps {
   date: number | undefined;
+  index: number;
   shift: Shift & { employee: { name: string } };
 }
 
-export default function Shift({ shift, date }: ShiftProps) {
+export default function Shift({ shift, date, index }: ShiftProps) {
   const [showModal, setShowModal] = useState(false);
 
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -85,46 +86,67 @@ export default function Shift({ shift, date }: ShiftProps) {
   }
 
   return (
-    <div className="my-2 flex items-center justify-between space-x-8">
-      <Heading size={"xs"}>
-        <Link
-          className="underline-offset-8 hover:text-sky-500 hover:underline"
-          href={`/employees/${shift.employeeId}`}
-        >
-          {shift?.employee.name}
-        </Link>
-      </Heading>
-
-      {editMode ? (
-        <div className="flex items-center space-x-2">
-          <Input
-            type="text"
-            name="start"
-            placeholder="Start time"
-            value={formatTime(start)}
-            className="m-0 w-20 text-xl"
-            onChange={(e) => handleTimeChange(e.target.value, "start")}
-          />
-          <Input
-            name="end"
-            type="text"
-            placeholder="End time"
-            value={formatTime(end)}
-            className="m-0 w-20 text-xl"
-            onChange={(e) => handleTimeChange(e.target.value, "end")}
-          />
-        </div>
-      ) : (
-        <Heading size={"xs"} className="font-normal">
-          {formatTime(shift.start)} - {formatTime(shift.end)}
+    <div className="flex items-end justify-between">
+      <div className="w-64">
+        {index === 0 && (
+          <Heading size={"xxs"} className="font-normal">
+            Name
+          </Heading>
+        )}
+        <Heading size={"xs"}>
+          <Link
+            className="underline-offset-8 hover:text-sky-500 hover:underline"
+            href={`/employees/${shift.employeeId}`}
+          >
+            {shift?.employee.name}
+          </Link>
         </Heading>
-      )}
+      </div>
+      <div>
+        {index === 0 && (
+          <Heading size={"xxs"} className="font-normal">
+            Time
+          </Heading>
+        )}
+        {editMode ? (
+          <div className="flex w-[10.25rem]">
+            <Input
+              type="text"
+              name="start"
+              placeholder="Start time"
+              value={formatTime(start)}
+              className="m-0 w-20 px-0 pl-1 text-2xl"
+              onChange={(e) => handleTimeChange(e.target.value, "start")}
+            />
+            <Input
+              name="end"
+              type="text"
+              placeholder="End time"
+              value={formatTime(end)}
+              className="m-0 ml-1 w-20 px-0 pl-1 text-2xl"
+              onChange={(e) => handleTimeChange(e.target.value, "end")}
+            />
+          </div>
+        ) : (
+          <>
+            <Heading size={"xs"} className="w-[10.25rem] font-normal">
+              {formatTime(shift.start)} - {formatTime(shift.end)}
+            </Heading>
+          </>
+        )}
+      </div>
 
-      <Heading size={"xs"}> {formatTotal(start, end)}</Heading>
-
+      <div className="ml-11 w-36">
+        {index === 0 && (
+          <Heading size={"xxs"} className="font-normal">
+            Total
+          </Heading>
+        )}
+        <Heading size={"xs"}>{formatTotal(start, end)}</Heading>
+      </div>
       {editMode ? (
-        <form className="flex justify-center space-x-2" onSubmit={updateShift}>
-          <Button title="Save changes" className="">
+        <form className="flex w-64 space-x-1" onSubmit={updateShift}>
+          <Button title="Save changes" className="ml-auto">
             {<Save className="mr-2" />} Save
           </Button>
           <Button
@@ -142,8 +164,12 @@ export default function Shift({ shift, date }: ShiftProps) {
           </Button>
         </form>
       ) : (
-        <div className="space-x-1">
-          <Button title="Edit Shift" onClick={() => setEditMode(true)}>
+        <div className="flex w-64 space-x-1">
+          <Button
+            title="Edit Shift"
+            onClick={() => setEditMode(true)}
+            className="ml-auto"
+          >
             {<Pencil className="mr-2" />} Edit
           </Button>
           <Button

@@ -27,7 +27,7 @@ export default function SearchEmployees({
   return (
     <main className="relative w-full">
       <div
-        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-700 dark:shadow-slate-950 "
+        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-750 dark:shadow-slate-950 "
         onClick={() => setIsOpen(!isOpen)}
       >
         <Input

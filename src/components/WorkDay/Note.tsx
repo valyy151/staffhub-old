@@ -75,7 +75,7 @@ export default function Note({ note }: NoteProps) {
         })}
       </Paragraph>
       <div
-        className={`flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
+        className={`flex h-16 w-[54rem] items-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
           editNote ? "ring-05 ring-slate-400" : ""
         }`}
       >
@@ -85,51 +85,52 @@ export default function Note({ note }: NoteProps) {
               type="text"
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="m-0 h-12 w-[36rem] border-none px-0 text-lg shadow-none focus:ring-0 focus:ring-offset-0"
+              className="m-0 h-12 border-none px-0 text-lg shadow-none focus:ring-0 focus:ring-offset-0"
             />
-            <Button
-              size={"sm"}
-              variant={"link"}
-              title="Save changes"
-              className="w-16 min-w-0 p-5"
-              onClick={updateNote}
-            >
-              {<Save className="text-green-500" />}
-            </Button>
-            <Button
-              size={"sm"}
-              title="Cancel"
-              variant={"link"}
-              className="w-16 min-w-0 p-5"
-              onClick={() => setEditNote(false)}
-            >
-              {<XCircle />}
-            </Button>
+            <div className="flex">
+              <Button
+                size={"sm"}
+                variant={"link"}
+                title="Save changes"
+                className="w-16 min-w-0 p-5 focus:ring-0 focus:ring-offset-0"
+                onClick={updateNote}
+              >
+                {<Save className="text-green-500" />}
+              </Button>
+              <Button
+                size={"sm"}
+                title="Cancel"
+                variant={"link"}
+                className="w-16 min-w-0 p-5 focus:ring-0 focus:ring-offset-0"
+                onClick={() => setEditNote(false)}
+              >
+                {<XCircle />}
+              </Button>
+            </div>
           </>
         ) : (
-          <div className="flex items-center">
-            <Paragraph className="flex h-12 w-[36rem] min-w-[16rem] items-center rounded-md bg-white text-left dark:bg-slate-700">
-              {note.content}
-            </Paragraph>
-            <Button
-              size={"sm"}
-              variant={"link"}
-              className="w-16 min-w-0 p-5"
-              onClick={() => setEditNote(true)}
-              title="Edit note"
-            >
-              {<Pencil />}
-            </Button>
-            <Button
-              size={"sm"}
-              variant={"link"}
-              title="Delete note"
-              className="w-16 min-w-0 p-5"
-              onClick={() => setShowModal(true)}
-            >
-              {<Trash2 className="text-red-500" />}
-            </Button>
-
+          <>
+            <Paragraph>{note.content}</Paragraph>
+            <div className="ml-auto flex">
+              <Button
+                size={"sm"}
+                variant={"link"}
+                className="w-16 min-w-0 p-5 focus:ring-0 focus:ring-offset-0"
+                onClick={() => setEditNote(true)}
+                title="Edit note"
+              >
+                {<Pencil />}
+              </Button>
+              <Button
+                size={"sm"}
+                variant={"link"}
+                title="Delete note"
+                className="w-16 min-w-0 p-5 focus:ring-0 focus:ring-offset-0"
+                onClick={() => setShowModal(true)}
+              >
+                {<Trash2 className="text-red-500" />}
+              </Button>
+            </div>
             {showModal && (
               <Modal
                 text={"Delete note?"}
@@ -138,7 +139,7 @@ export default function Note({ note }: NoteProps) {
                 cancel={() => setShowModal(false)}
               />
             )}
-          </div>
+          </>
         )}
       </div>
     </div>

@@ -60,8 +60,13 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       <div className="mr-auto flex flex-col">
         <Heading className="mb-2">Shifts</Heading>
 
-        {workDay?.shifts.map((shift) => (
-          <Shift key={shift.id} shift={shift} date={workDay.date} />
+        {workDay?.shifts.map((shift, index) => (
+          <Shift
+            key={shift.id}
+            shift={shift}
+            index={index}
+            date={workDay.date}
+          />
         ))}
       </div>
     );

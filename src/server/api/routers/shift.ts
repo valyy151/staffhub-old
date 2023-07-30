@@ -12,12 +12,17 @@ export const shiftRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input: { end, date, start, employeeId }, ctx }) => {
+      const modifiedDate = new Date(date * 1000);
+
+      modifiedDate.setHours(0, 0, 0, 0);
+
+      const midnightUnixCode = Math.floor(modifiedDate.getTime() / 1000);
       return await ctx.prisma.shift.create({
         data: {
           end,
-          date,
           start,
           employeeId,
+          date: midnightUnixCode,
           userId: ctx.session.user.id,
         },
       });
@@ -41,7 +46,6 @@ export const shiftRouter = createTRPCRouter({
         data: schedule.map((shift) => {
           const modifiedDate = new Date(shift.date * 1000);
 
-          modifiedDate.setDate(shift.date);
           modifiedDate.setHours(0, 0, 0, 0);
 
           const midnightUnixCode = Math.floor(modifiedDate.getTime() / 1000);

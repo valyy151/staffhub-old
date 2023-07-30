@@ -18,7 +18,7 @@ export default function Home() {
           <Heading className="mt-2 font-semibold">
             Enjoy the Seamless Efficiency at Your Fingertips!
           </Heading>
-          {/* <div className="mt-4 space-x-2">
+          <div className="mt-4 space-x-2">
             <Button
               size={"lg"}
               className="h-14 text-2xl"
@@ -34,7 +34,7 @@ export default function Home() {
             >
               How to Use
             </Button>
-          </div> */}
+          </div>
         </>
       )}
 
