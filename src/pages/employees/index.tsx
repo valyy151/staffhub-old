@@ -83,8 +83,8 @@ export default function EmployeesListPage() {
 
         <div
           className={`${
-            filteredData.length > 9 && "h-[38.9rem]"
-          } overflow-y-scroll border-2 border-slate-300 dark:border-slate-600`}
+            filteredData.length > 9 && "h-[38.9rem] overflow-y-scroll"
+          } border-2 border-slate-300 dark:border-slate-600`}
         >
           <table className="w-full divide-y-2 divide-slate-300 bg-white text-left text-lg dark:divide-slate-600 dark:bg-slate-700">
             <thead>
