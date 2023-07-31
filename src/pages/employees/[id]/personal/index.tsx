@@ -71,7 +71,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
   }
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex">
       <Sidebar employee={employee} />
       <div className="mt-4 flex flex-col">
         <Heading>
@@ -81,7 +81,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
           Personal Information
         </Heading>
 
-        <form onSubmit={handleSubmit} className="mt-8 w-3/4">
+        <form onSubmit={handleSubmit} className="mt-8 w-4/5">
           <label className="text-xl" htmlFor="name">
             Name
           </label>

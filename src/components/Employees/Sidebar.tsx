@@ -19,8 +19,8 @@ export default function Sidebar({ employee }: SidebarProps) {
   const path = router.asPath.split("/")[3];
 
   return (
-    <div className="fixed left-0">
-      <ul className="h-screen border-r border-slate-400 text-2xl dark:border-slate-500">
+    <div className="mr-[26rem]">
+      <ul className="fixed h-full w-fit border-r border-slate-500 text-2xl">
         <li
           onClick={() =>
             employee?.id && router.push(`/employees/${employee?.id}`)

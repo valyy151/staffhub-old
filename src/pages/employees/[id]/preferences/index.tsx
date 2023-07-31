@@ -91,9 +91,9 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
   }
 
   return (
-    <main className="flex flex-col">
+    <main className="flex">
       <Sidebar employee={employee} />
-      <div className="mx-auto mt-4 flex flex-col">
+      <div className="mt-4 flex flex-col">
         <Heading>Shift preferences for {employee?.name}</Heading>
         <Button
           size={"lg"}

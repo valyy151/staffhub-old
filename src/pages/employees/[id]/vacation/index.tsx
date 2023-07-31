@@ -83,7 +83,7 @@ export default function VacationPage({ query }: VacationPageProps) {
     );
 
     return (
-      <div className="">
+      <div>
         {currentVacation && (
           <>
             {" "}
@@ -156,7 +156,7 @@ export default function VacationPage({ query }: VacationPageProps) {
   }
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex ">
       <Sidebar employee={employee} />
 
       <div>
@@ -225,18 +225,15 @@ export default function VacationPage({ query }: VacationPageProps) {
           </form>
         )}
         {showPlanner && (
-          <>
-            {" "}
-            <AddVacation
-              employee={employee}
-              setAmount={setAmount}
-              daysPlanned={daysPlanned}
-              daysRemaining={daysRemaining}
-              setDaysPlanned={setDaysPlanned}
-              setShowPlanner={setShowPlanner}
-              setDaysRemaining={setDaysRemaining}
-            />
-          </>
+          <AddVacation
+            employee={employee}
+            setAmount={setAmount}
+            daysPlanned={daysPlanned}
+            daysRemaining={daysRemaining}
+            setDaysPlanned={setDaysPlanned}
+            setShowPlanner={setShowPlanner}
+            setDaysRemaining={setDaysRemaining}
+          />
         )}
 
         {!showChangeAmount && !showPlanner && renderVacations()}

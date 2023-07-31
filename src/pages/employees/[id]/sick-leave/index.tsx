@@ -35,7 +35,7 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
     );
 
     return (
-      <div className="w-[36rem]">
+      <div>
         {currentSickLeave ? (
           <>
             {" "}
@@ -85,7 +85,7 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
   }
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="flex">
       <Sidebar employee={employee} />
       <div>
         <Heading className="mt-4">Sick leaves for {employee?.name}</Heading>

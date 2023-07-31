@@ -93,10 +93,10 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
   }
 
   return (
-    <main className="flex flex-col">
+    <main className="flex">
       <Sidebar employee={employee} />
 
-      <div className="mx-auto mt-4 flex w-[36rem] flex-col">
+      <div className="mt-4 flex w-[36rem] flex-col">
         <Heading>Notes for {employee?.name}</Heading>
         <Button
           size={"lg"}

@@ -63,8 +63,12 @@ export default function SchedulePage({ query }: SchedulePageProps) {
     setValue(date);
   }
 
+  if (!employee) {
+    return <Sidebar />;
+  }
+
   return (
-    <main className="flex flex-col">
+    <main className="flex">
       <Sidebar employee={employee} />
       <div className="mt-4 flex justify-end">
         <section>

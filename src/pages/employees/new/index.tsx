@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import { Save } from "lucide-react";
 import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
-import { Save } from "lucide-react";
 
 export default function NewEmployeePage() {
   const [name, setName] = useState<string>("");
