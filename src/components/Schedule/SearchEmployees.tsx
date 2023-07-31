@@ -1,6 +1,7 @@
 import Input from "../ui/Input";
 import { type Employee } from "~/utils/api";
 import { type ShiftPreference } from "@prisma/client";
+import { useState } from "react";
 
 interface SearchEmployeesProps {
   name: string;
@@ -21,6 +22,7 @@ export default function SearchEmployees({
   setEmployeeId,
   setShiftPreferences,
 }: SearchEmployeesProps) {
+  const [searchValue, setSearchValue] = useState<string>("");
   function handleSelect(
     id: string,
     name: string,
@@ -39,7 +41,6 @@ export default function SearchEmployees({
         onClick={() => setIsOpen(!isOpen)}
       >
         <Input
-          readOnly
           type="text"
           value={name}
           placeholder={"Choose an Employee..."}
@@ -47,26 +48,30 @@ export default function SearchEmployees({
         />
       </div>
       {isOpen && (
-        <div
-          className={`absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-600 dark:text-slate-300`}
-        >
-          <ul>
-            {employees?.map((employee: Employee) => (
-              <li
-                className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-500"
-                key={employee.id}
-                onClick={() =>
-                  handleSelect(
-                    employee.id,
-                    employee.name,
-                    employee.shiftPreferences
-                  )
-                }
-              >
-                {employee.name}
-              </li>
-            ))}
-          </ul>
+        <div className="rounded-md">
+          <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-600 dark:text-slate-300">
+            <ul
+              className={`${
+                employees.length > 8 && "h-[28.5rem] overflow-y-scroll"
+              } p-1`}
+            >
+              {employees?.map((employee: Employee) => (
+                <li
+                  className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-500"
+                  key={employee.id}
+                  onClick={() =>
+                    handleSelect(
+                      employee.id,
+                      employee.name,
+                      employee.shiftPreferences
+                    )
+                  }
+                >
+                  {employee.name}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </main>

@@ -48,7 +48,7 @@ export default function EmployeesListPage() {
 
   return (
     <main className="mx-auto flex flex-col items-center">
-      <div className="mt-8 w-2/3">
+      <div className="mt-8 min-w-[85vw]">
         <div className="mb-2 flex justify-between">
           <div className="ml-6 flex items-baseline space-x-4">
             <Heading size={"lg"}>Your Staff</Heading>
@@ -64,7 +64,7 @@ export default function EmployeesListPage() {
               <Input
                 type="text"
                 value={searchText}
-                placeholder="Search for a  staff member"
+                placeholder="Search for a staff member"
                 className="h-12 w-96 border-none text-lg focus:outline-none focus:ring-0 focus:ring-offset-0"
                 onChange={(e) => setSearchText(e.target.value)}
               />
@@ -81,51 +81,61 @@ export default function EmployeesListPage() {
           </div>
         </div>
 
-        <table className="w-full divide-y-2 divide-slate-300 border-2 border-slate-300 bg-white text-left dark:divide-slate-600  dark:border-slate-600 dark:bg-slate-700">
-          <thead>
-            <tr>
-              {headings.map((heading, index) => (
-                <th
-                  key={`heading-${index}`}
-                  className="whitespace-nowrap px-8 py-3 font-bold "
-                >
-                  {heading}
-                </th>
-              ))}
-            </tr>
-          </thead>
+        <div className="h-[38.9rem] overflow-y-scroll border-2 border-slate-300 dark:border-slate-600">
+          <table className="w-full divide-y-2 divide-slate-300 bg-white text-left text-lg dark:divide-slate-600 dark:bg-slate-700">
+            <thead>
+              <tr>
+                {headings.map((heading, index) => (
+                  <th
+                    key={`heading-${index}`}
+                    className="whitespace-nowrap px-8 py-4 font-bold "
+                  >
+                    {heading}
+                  </th>
+                ))}
+              </tr>
+            </thead>
 
-          <tbody className="divide-y-2 divide-slate-300 dark:divide-slate-600">
-            {filteredData.map((employee: Employee, index: number) => (
-              <tr
-                onClick={() => router.push(`/employees/${employee.id}`)}
-                key={`employee-${index}`}
-                className={`cursor-pointer duration-75 hover:bg-slate-100 dark:hover:bg-slate-700
+            <tbody className="divide-y-2 divide-slate-300 dark:divide-slate-600">
+              {filteredData.map((employee: Employee, index: number) => (
+                <tr
+                  onClick={() => router.push(`/employees/${employee.id}`)}
+                  key={`employee-${index}`}
+                  className={`cursor-pointer duration-75 hover:bg-slate-100 dark:hover:bg-slate-700
 							${
                 index % 2 === 0
                   ? "bg-slate-50 dark:bg-slate-800 "
                   : "bg-white dark:bg-slate-750"
               }`}
-              >
-                <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
-                  {employee.name}
-                </td>
+                >
+                  <td
+                    className={`cursor-pointer'} whitespace-nowrap px-8 py-4`}
+                  >
+                    {employee.name}
+                  </td>
 
-                <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
-                  {employee.email}
-                </td>
+                  <td
+                    className={`cursor-pointer'} whitespace-nowrap px-8 py-4`}
+                  >
+                    {employee.email}
+                  </td>
 
-                <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
-                  {employee.phoneNumber}
-                </td>
+                  <td
+                    className={`cursor-pointer'} whitespace-nowrap px-8 py-4`}
+                  >
+                    {employee.phoneNumber}
+                  </td>
 
-                <td className={`cursor-pointer'} whitespace-nowrap px-8 py-3`}>
-                  {employee.address}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  <td
+                    className={`cursor-pointer'} whitespace-nowrap px-8 py-4`}
+                  >
+                    {employee.address}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </main>
   );
