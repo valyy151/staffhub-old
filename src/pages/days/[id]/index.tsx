@@ -10,6 +10,8 @@ import Paragraph from "~/components/ui/Paragraph";
 import AddNote from "~/components/WorkDay/AddNote";
 import AddShift from "~/components/WorkDay/AddShift";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
+import Sidebar from "~/components/WorkDay/Sidebar";
+import router from "next/router";
 
 interface WorkDayPageProps {
   query: { id: string };
@@ -22,6 +24,9 @@ WorkDayPage.getInitialProps = ({ query }: WorkDayPageProps) => {
 export default function WorkDayPage({ query }: WorkDayPageProps) {
   const [showAddNote, setShowAddNote] = useState(false);
   const [showAddShift, setShowAddShift] = useState(false);
+
+  const [showNotes, setShowNotes] = useState(false);
+  const [showShifts, setShowShifts] = useState(false);
 
   const { data } = api.workDay.findOne.useQuery({ id: query.id });
 
@@ -44,30 +49,18 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       return null;
     }
 
-    if (workDay?.shifts.length === 0) {
-      return (
-        <div className="mr-auto flex flex-col items-start pb-4">
-          <Heading className="mb-2">Shifts</Heading>
-
-          <Paragraph size={"lg"}>
-            There are currently no shifts for this day.
-          </Paragraph>
-        </div>
-      );
-    }
-
     return (
-      <div className="mr-auto flex flex-col">
-        <Heading className="mb-2">Shifts</Heading>
-
-        {workDay?.shifts.map((shift, index) => (
-          <Shift
-            key={shift.id}
-            shift={shift}
-            index={index}
-            date={workDay.date}
-          />
-        ))}
+      <div className="mt-8">
+        {workDay?.shifts
+          .sort((a, b) => (a.start > b.start ? 1 : -1))
+          .map((shift, index) => (
+            <Shift
+              key={shift.id}
+              shift={shift}
+              index={index}
+              date={workDay.date}
+            />
+          ))}
       </div>
     );
   }
@@ -77,22 +70,8 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       return null;
     }
 
-    if (workDay?.notes.length === 0) {
-      return (
-        <div className="mr-auto flex flex-col items-start">
-          <Heading className="mb-2 mt-8">Notes</Heading>
-
-          <Paragraph size={"lg"}>
-            There are currently no notes for this day.
-          </Paragraph>
-        </div>
-      );
-    }
-
     return (
-      <div className="mr-auto flex flex-col">
-        <Heading className="mb-2 mt-8">Notes</Heading>
-
+      <div className="mt-8">
         {workDay?.notes.map((note) => (
           <Note key={note.id} note={note} />
         ))}
@@ -101,21 +80,30 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   }
 
   return (
-    <main className="flex flex-col items-center">
-      <div className="mt-4 flex w-full flex-col items-center">
-        <div>
-          <div className="flex space-x-3">
-            <Heading>{formatDay(workDay.date)}</Heading>
-            <Heading>{formatDateLong(workDay.date)}</Heading>
-          </div>
+    <main className="flex">
+      <Sidebar
+        showNotes={showNotes}
+        showShifts={showShifts}
+        setShowNotes={setShowNotes}
+        setShowShifts={setShowShifts}
+        setShowAddNote={setShowAddNote}
+        setShowAddShift={setShowAddShift}
+      />
+      <div className="mt-4">
+        <div className="flex items-center space-x-8">
+          <Heading size={"lg"}>
+            {formatDay(workDay.date)} {formatDateLong(workDay.date)}
+          </Heading>
 
-          <div className="mt-2 space-x-1">
+          <div className="space-x-1">
             <Button
               size="lg"
               className="h-14 text-xl"
               onClick={() => {
-                setShowAddNote(false);
                 setShowAddShift(true);
+                setShowAddNote(false);
+                setShowShifts(true);
+                setShowNotes(false);
               }}
             >
               <Clock8 className="mr-2" /> New Shift
@@ -128,23 +116,42 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               onClick={() => {
                 setShowAddNote(true);
                 setShowAddShift(false);
+                setShowShifts(false);
+                setShowNotes(true);
               }}
             >
               <ScrollText className="mr-2" /> Add Note
             </Button>
           </div>
         </div>
+
+        {!showNotes && !showShifts && (
+          <div className="mt-8">
+            <Heading>Shifts</Heading>
+            <Heading size={"sm"} className="font-normal">
+              There {workDay?.shifts.length === 1 ? "is" : "are"}{" "}
+              {workDay?.shifts.length}{" "}
+              {workDay?.shifts.length === 1 ? "shift" : "shifts"} planned for
+              this day.
+            </Heading>
+            <Heading className="mt-8">Notes</Heading>
+            <Heading size={"sm"} className="font-normal">
+              There {workDay?.notes.length === 1 ? "is" : "are"}{" "}
+              {workDay?.notes.length}{" "}
+              {workDay?.notes.length === 1 ? "note" : "notes"} for this day.
+            </Heading>
+          </div>
+        )}
+
         {showAddShift && (
           <AddShift data={workDay} setShowAddShift={setShowAddShift} />
         )}
         {showAddNote && (
           <AddNote data={workDay} setShowAddNote={setShowAddNote} />
         )}
-        <div className="mt-8">
-          {renderShifts()}
 
-          {renderNotes()}
-        </div>
+        {showNotes && renderNotes()}
+        {showShifts && renderShifts()}
       </div>
     </main>
   );

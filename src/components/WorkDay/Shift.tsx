@@ -87,13 +87,13 @@ export default function Shift({ shift, date, index }: ShiftProps) {
 
   return (
     <div className="flex items-end justify-between">
-      <div className="h-20 w-64 ">
+      <div className="w-[40rem]">
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Name
           </Heading>
         )}
-        <Heading size={"xs"} className="">
+        <Heading>
           <Link
             className="underline-offset-8 hover:text-sky-500 hover:underline"
             href={`/employees/${shift.employeeId}`}
@@ -102,20 +102,20 @@ export default function Shift({ shift, date, index }: ShiftProps) {
           </Link>
         </Heading>
       </div>
-      <div className="h-20">
+      <div className="">
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Time
           </Heading>
         )}
         {editMode ? (
-          <div className="flex h-20 w-[10.25rem] text-2xl">
+          <div className="flex w-[17rem] text-4xl">
             <Input
               type="text"
               name="start"
               placeholder="Start time"
               value={formatTime(start)}
-              className="m-0 h-8 w-[4.2rem] p-0 pl-0.5 text-2xl"
+              className=" w-24 p-0 pl-0.5 text-4xl"
               onChange={(e) => handleTimeChange(e.target.value, "start")}
             />
             -
@@ -124,40 +124,42 @@ export default function Shift({ shift, date, index }: ShiftProps) {
               type="text"
               placeholder="End time"
               value={formatTime(end)}
-              className="m-0 ml-1 h-8 w-[4.2rem] p-0 pl-0.5 text-2xl"
+              className=" ml-1 w-24 p-0 pl-0.5 text-4xl"
               onChange={(e) => handleTimeChange(e.target.value, "end")}
             />
           </div>
         ) : (
-          <>
-            <Heading size={"xs"} className="h-20 w-[10.25rem] font-normal">
+          <div className="w-[17rem]">
+            <Heading className=" font-normal">
               {formatTime(shift.start)} - {formatTime(shift.end)}
             </Heading>
-          </>
+          </div>
         )}
       </div>
 
-      <div className="ml-11 h-20 w-36">
+      <div className="ml-11 w-36">
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Total
           </Heading>
         )}
-        <Heading size={"xs"} className="h-20 ">
-          {formatTotal(start, end)}
-        </Heading>
+        <Heading>{formatTotal(start, end)}</Heading>
       </div>
       {editMode ? (
-        <form className="flex h-20 w-64 space-x-1 pt-5" onSubmit={updateShift}>
-          <Button size={"lg"} title="Save changes" className="ml-auto">
+        <form className="flex w-[21rem] pt-5" onSubmit={updateShift}>
+          <Button
+            size={"lg"}
+            title="Save changes"
+            className="mr-2 h-14 w-32 p-0 text-2xl"
+          >
             {<Save className="mr-2" />} Save
           </Button>
           <Button
             size={"lg"}
             type="button"
-            className=""
-            title="Cancel editing"
             variant={"subtle"}
+            title="Cancel editing"
+            className="h-14 w-36 p-0 text-2xl"
             onClick={() => {
               setEnd(shift.end);
               setStart(shift.start);
@@ -168,12 +170,12 @@ export default function Shift({ shift, date, index }: ShiftProps) {
           </Button>
         </form>
       ) : (
-        <div className="flex h-20 w-64 space-x-1 pt-5">
+        <div className="flex w-[21rem] pt-5">
           <Button
             size={"lg"}
             title="Edit Shift"
             onClick={() => setEditMode(true)}
-            className="ml-auto"
+            className="mr-2 h-14 w-32 p-0 text-2xl"
           >
             {<Pencil className="mr-2" />} Edit
           </Button>
@@ -181,6 +183,7 @@ export default function Shift({ shift, date, index }: ShiftProps) {
             size={"lg"}
             title="Delete Shift"
             variant={"destructive"}
+            className="h-14 w-36 p-0 text-2xl"
             onClick={() => setShowModal(true)}
           >
             {<Trash2 className="mr-2" />} Delete

@@ -53,21 +53,21 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
 
   return (
     <div className="flex flex-col">
-      <form onSubmit={handleSubmit} className="mx-auto mt-8 flex flex-col">
+      <form onSubmit={handleSubmit} className="mt-8 flex flex-col">
         <Heading size={"sm"} className="mb-3">
-          Add a New Note
+          Add a new note
         </Heading>
 
-        <Input
-          type="text"
+        <textarea
           value={content}
+          rows={5}
           placeholder=" Add a note..."
-          className="h-14 w-[46rem] text-lg"
+          className="resize-none rounded border border-slate-400 bg-transparent px-3 py-2 text-xl placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
           onChange={(e) => setContent(e.target.value)}
         />
-        <div className="mt-2 flex w-full space-x-1">
+        <div className="mt-3 flex w-full space-x-2">
           {" "}
-          <Button size={"lg"} title="Add note" className="h-14 w-full text-2xl">
+          <Button size={"lg"} title="Add note" className="h-14 text-2xl">
             <Save size={28} className="mr-2" />
             Save
           </Button>
@@ -76,7 +76,7 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
             type="button"
             title="Cancel note creation"
             variant={"subtle"}
-            className="h-14 w-full text-2xl"
+            className="h-14 text-2xl"
             onClick={() => setShowAddNote(false)}
           >
             <ArrowLeft size={28} className="mr-2" />

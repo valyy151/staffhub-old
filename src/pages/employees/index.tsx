@@ -6,7 +6,7 @@ import { type Employee, api } from "~/utils/api";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { Search, UserPlus } from "lucide-react";
-import { Button, buttonVariants } from "~/components/ui/Button";
+import { Button } from "~/components/ui/Button";
 
 export default function EmployeesListPage() {
   const { data } = api.employee.find.useQuery();

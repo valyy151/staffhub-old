@@ -75,7 +75,7 @@ export default function Note({ note }: NoteProps) {
         })}
       </Paragraph>
       <div
-        className={`flex h-16 w-[54rem] items-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
+        className={`flex h-16 w-[72rem] items-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
           editNote ? "ring-05 ring-slate-400" : ""
         }`}
       >
