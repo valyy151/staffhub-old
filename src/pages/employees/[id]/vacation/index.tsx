@@ -103,7 +103,7 @@ export default function VacationPage({ query }: VacationPageProps) {
           <>
             <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
               <Palmtree size={42} className="ml-1 mr-2 text-rose-400" />{" "}
-              Upcoming Vacations for {employee?.name}
+              Upcoming Vacations
             </Heading>
             {futureVacations?.map((vacation) => (
               <Vacation
@@ -117,7 +117,7 @@ export default function VacationPage({ query }: VacationPageProps) {
           <>
             <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
               <Palmtree size={42} className="ml-1 mr-2 text-rose-400" />{" "}
-              Upcoming Vacations for {employee?.name}
+              Upcoming Vacations
             </Heading>
             <Paragraph className="ml-14 mt-4">No upcoming vacations</Paragraph>
           </>
