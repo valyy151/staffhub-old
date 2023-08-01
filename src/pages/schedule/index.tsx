@@ -154,8 +154,8 @@ export default function NewSchedulePage() {
 
   return (
     <main onClick={() => isOpen && setIsOpen(false)}>
-      <section className="mt-8 flex justify-evenly">
-        <div className="flex flex-col">
+      <section className="mt-4 flex justify-evenly">
+        <div className="mt-16 flex flex-col">
           <SearchEmployees
             name={name}
             isOpen={isOpen}
@@ -190,9 +190,9 @@ export default function NewSchedulePage() {
             <Info size={28} className="mr-2" /> How do I write a schedule?
           </Button>
         </div>
-        <div className="mt-4">
+        <div>
           {name && schedule ? (
-            <div className="mb-2 flex justify-between">
+            <div className="mb-2 mt-4 flex justify-between">
               <Heading className="ml-4">
                 {value.toLocaleDateString("en-GB", {
                   month: "long",
@@ -216,7 +216,7 @@ export default function NewSchedulePage() {
               </div>
             </div>
           ) : (
-            <Heading className="mb-2 ml-4">
+            <Heading className="mb-2 ml-4 mt-4">
               {value.toLocaleDateString("en-GB", {
                 month: "long",
                 year: "numeric",
