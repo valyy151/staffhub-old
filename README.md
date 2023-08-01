@@ -40,8 +40,8 @@ To run this project, you will need to add the following environment variables to
 
 - [tRPC](https://trpc.io/)
 - [Next.js](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
 - [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
 
 
