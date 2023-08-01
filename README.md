@@ -38,9 +38,10 @@ To run this project, you will need to add the following environment variables to
 
 ## Built With
 
+- [tRPC](https://trpc.io/)
 - [Next.js](https://nextjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 
 
 
