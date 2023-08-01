@@ -34,8 +34,8 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
   }
 
   return (
-    <div className="h-[32rem] overflow-x-hidden rounded border-2 border-slate-300 shadow-md dark:border-slate-500">
-      <table className="w-full divide-y-2 divide-slate-300 overflow-scroll rounded bg-white text-left  text-xl shadow-md dark:divide-slate-600 dark:bg-slate-800">
+    <div className="h-[44rem] overflow-x-hidden rounded border-2 border-slate-300 shadow-md dark:border-slate-500">
+      <table className="w-[90rem] divide-y-2 divide-slate-300 overflow-scroll rounded bg-white text-left text-xl shadow-md dark:divide-slate-600 dark:bg-slate-800">
         <thead>
           <tr className="sticky top-0 bg-white dark:bg-slate-800 ">
             {headings.map((heading, index) => (
@@ -61,8 +61,8 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
                     : "bg-white dark:bg-slate-800"
                 }
               >
-                <td className="flex w-96 items-baseline justify-between px-8 py-3">
-                  <span className=" text-sm">
+                <td className="flex w-96 items-baseline justify-between px-8 py-4">
+                  <span className="text-md">
                     {item.date && formatDay(item.date)}
                   </span>
 
@@ -78,7 +78,7 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
                     onChange={(e) =>
                       handleTimeChange(index, e.target.value, "start")
                     }
-                    className="rounded bg-transparent py-3 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1"
+                    className="rounded bg-transparent py-4 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1"
                   />
                 </td>
 
@@ -88,7 +88,7 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
                     onChange={(e) =>
                       handleTimeChange(index, e.target.value, "end")
                     }
-                    className="rounded bg-transparent py-3 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1"
+                    className="rounded bg-transparent py-4 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1"
                     type="text"
                   />
                 </td>
@@ -96,14 +96,14 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
                 {item.start && item.end ? (
                   <td
                     title="Total hours in shift"
-                    className="w-40 px-8 py-3 text-right"
+                    className="w-40 px-8 py-4 text-right"
                   >
                     {formatTotal(item.start, item.end)}
                   </td>
                 ) : (
                   <td
                     title="Total hours in shift"
-                    className="w-40 px-8 py-3"
+                    className="w-40 px-8 py-4"
                   ></td>
                 )}
               </tr>
