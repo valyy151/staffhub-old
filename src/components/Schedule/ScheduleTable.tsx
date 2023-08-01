@@ -1,3 +1,4 @@
+import { RefObject } from "react";
 import {
   formatDateLong,
   formatDay,
@@ -73,6 +74,7 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
 
                 <td>
                   <input
+                    autoFocus={index === 0}
                     type="text"
                     value={formatTime(item.start)}
                     onChange={(e) =>

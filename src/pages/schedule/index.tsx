@@ -15,6 +15,8 @@ import ScheduleTable from "~/components/Schedule/ScheduleTable";
 import SearchEmployees from "~/components/Schedule/SearchEmployees";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";
+import Modal from "~/components/ui/Modal";
+import ScheduleModal from "~/components/Schedule/ScheduleModal";
 
 export default function NewSchedulePage() {
   const [name, setName] = useState<string>("");
@@ -31,6 +33,8 @@ export default function NewSchedulePage() {
   const [yearArray, setYearArray] = useState(
     generateYearArray(currentDate.getFullYear())
   );
+
+  const [showModal, setShowModal] = useState(false);
 
   const { data } = api.employee.find.useQuery();
 
@@ -176,16 +180,17 @@ export default function NewSchedulePage() {
           <Button
             size={"lg"}
             title="Create schedule"
-            className="mt-2 h-14 w-full text-2xl"
+            className="mt-2 h-16 w-full text-3xl"
             onClick={createSchedule}
           >
-            <CalendarPlus size={28} className="mr-2" /> Create Schedule{" "}
+            <CalendarPlus size={30} className="mr-2" /> Create Schedule{" "}
           </Button>
           <Button
             size={"lg"}
             variant={"subtle"}
             title="How do I make a schedule?"
-            className="mt-2 h-14 w-full text-xl"
+            className="mt-2 h-16 w-full text-xl"
+            onClick={() => setShowModal(true)}
           >
             <Info size={28} className="mr-2" /> How do I write a schedule?
           </Button>
@@ -227,6 +232,13 @@ export default function NewSchedulePage() {
           {checkPreferences()}
         </div>
       </section>
+
+      {showModal && (
+        <ScheduleModal
+          showModal={showModal}
+          close={() => setShowModal(false)}
+        />
+      )}
     </main>
   );
 }
