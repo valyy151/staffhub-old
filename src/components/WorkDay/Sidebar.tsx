@@ -34,7 +34,8 @@ export default function Sidebar({
           }}
           className="flex w-96 cursor-pointer items-center p-4 hover:bg-slate-150 dark:hover:bg-slate-750"
         >
-          <ArrowLeft className="mr-2" /> Back
+          <ArrowLeft className="mr-2" />
+          {!showShifts && !showNotes ? "Dashboard" : "Back"}
         </li>
         <li
           onClick={() => {
