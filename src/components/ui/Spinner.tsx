@@ -5,7 +5,6 @@ import { cva, type VariantProps } from "class-variance-authority";
 interface SpinnerProps
   extends HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof spinnerVariants> {
-  size?: number;
   noMargin?: boolean;
 }
 
@@ -18,7 +17,7 @@ const spinnerVariants = cva(
 );
 
 const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
-  ({ size, noMargin, className, ...props }, ref) => {
+  ({ noMargin, className, ...props }, ref) => {
     return (
       <div
         ref={ref}
@@ -30,9 +29,7 @@ const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         <div role="status">
           <svg
             aria-hidden="true"
-            className={`mr-2 h-${size ?? "8"} w-${
-              size ?? "8"
-            } animate-spin fill-slate-800 text-gray-300 dark:fill-slate-200 dark:text-gray-600`}
+            className="mr-2 h-8 w-8 animate-spin fill-slate-800 text-gray-300 dark:fill-slate-200 dark:text-gray-600"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

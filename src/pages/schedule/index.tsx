@@ -71,7 +71,7 @@ export default function NewSchedulePage() {
 
   const createDay = api.workDay.createMany.useMutation({
     onSuccess: () => {
-      toast.success("Schedule created!", {
+      toast.success("Yearly work days created!", {
         className: "text-xl",
       });
     },
