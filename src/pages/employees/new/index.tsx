@@ -3,8 +3,27 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { Save } from "lucide-react";
 import Input from "~/components/ui/Input";
+import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
+import { type GetServerSideProps } from "next/types";
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};
 
 export default function NewEmployeePage() {
   const [name, setName] = useState<string>("");

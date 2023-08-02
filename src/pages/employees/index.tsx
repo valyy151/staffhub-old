@@ -2,11 +2,30 @@ import Link from "next/link";
 import { useState } from "react";
 import router from "next/router";
 import Input from "~/components/ui/Input";
-import { type Employee, api } from "~/utils/api";
+import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { Search, UserPlus } from "lucide-react";
 import { Button } from "~/components/ui/Button";
+import { type Employee, api } from "~/utils/api";
+import { type GetServerSideProps } from "next/types";
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};
 
 export default function EmployeesListPage() {
   const { data } = api.employee.find.useQuery();

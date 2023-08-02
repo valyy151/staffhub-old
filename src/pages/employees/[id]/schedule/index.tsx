@@ -39,11 +39,13 @@ export default function SchedulePage({ query }: SchedulePageProps) {
     })
   );
 
-  const { data } = api.employee?.findOne.useQuery({
+  const { data, failureReason } = api.employee?.findOne.useQuery({
     id: query.id,
-    endOfMonth,
-    startOfMonth,
   });
+
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
+  }
 
   const [employee, setEmployee] = useState<EmployeeProfile | undefined>(data);
 

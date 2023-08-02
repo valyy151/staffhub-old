@@ -9,6 +9,7 @@ import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
 import ShiftPreference from "~/components/Employees/ShiftPreference";
+import router from "next/router";
 
 interface ShiftPreferencesProps {
   query: { id: string };
@@ -22,9 +23,13 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
   const [content, setContent] = useState<string>("");
   const [showAddPreference, setShowAddPreference] = useState<boolean>(false);
 
-  const { data: employee } = api.employee?.findOne.useQuery({
+  const { data: employee, failureReason } = api.employee.findOne.useQuery({
     id: query.id,
   });
+
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
+  }
 
   const queryClient = useQueryClient();
 

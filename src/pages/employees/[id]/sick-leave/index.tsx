@@ -9,6 +9,7 @@ import { howManyDays } from "~/utils/calculateHours";
 import SickLeave from "~/components/Employees/SickLeave";
 import { checkSickLeaves } from "~/utils/checkSickLeaves";
 import AddSickLeave from "~/components/Employees/AddSickLeave";
+import router from "next/router";
 
 interface SickLeavePageProps {
   query: { id: string };
@@ -21,9 +22,13 @@ SickLeavePage.getInitialProps = ({ query }: SickLeavePageProps) => {
 export default function SickLeavePage({ query }: SickLeavePageProps) {
   const [showPlanner, setShowPlanner] = useState<boolean>(false);
 
-  const { data: employee } = api.employee.findOne.useQuery({
+  const { data: employee, failureReason } = api.employee.findOne.useQuery({
     id: query.id,
   });
+
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
+  }
 
   function renderSickLeaves() {
     if (!employee) {

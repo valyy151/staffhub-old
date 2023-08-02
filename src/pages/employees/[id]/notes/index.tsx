@@ -9,6 +9,7 @@ import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, ScrollText } from "lucide-react";
+import router from "next/router";
 
 interface EmployeeNotesPageProps {
   query: { id: string };
@@ -22,9 +23,13 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
   const [content, setContent] = useState<string>("");
   const [showAddNote, setShowAddNote] = useState<boolean>(false);
 
-  const { data: employee } = api.employee?.findOne.useQuery({
+  const { data: employee, failureReason } = api.employee?.findOne.useQuery({
     id: query.id,
   });
+
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
+  }
 
   const queryClient = useQueryClient();
 

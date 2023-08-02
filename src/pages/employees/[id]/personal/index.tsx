@@ -7,7 +7,7 @@ import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
-import { set } from "zod";
+import router from "next/router";
 
 interface EmployeePersonalProps {
   query: { id: string };
@@ -18,9 +18,13 @@ EmployeePersonalPage.getInitialProps = ({ query }: EmployeePersonalProps) => {
 };
 
 export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
-  const { data: employee } = api.employee.findOne.useQuery({
+  const { data: employee, failureReason } = api.employee?.findOne.useQuery({
     id: query.id,
   });
+
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
+  }
 
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");

@@ -6,11 +6,12 @@ import Heading from "~/components/ui/Heading";
 import Shift from "~/components/WorkDay/Shift";
 import { Button } from "~/components/ui/Button";
 import { Clock8, ScrollText } from "lucide-react";
-import Paragraph from "~/components/ui/Paragraph";
 import AddNote from "~/components/WorkDay/AddNote";
 import AddShift from "~/components/WorkDay/AddShift";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 import Sidebar from "~/components/WorkDay/Sidebar";
+import { getSession } from "next-auth/react";
+import { type GetServerSideProps } from "next/types";
 import router from "next/router";
 
 interface WorkDayPageProps {
@@ -28,7 +29,13 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   const [showNotes, setShowNotes] = useState(false);
   const [showShifts, setShowShifts] = useState(false);
 
-  const { data } = api.workDay.findOne.useQuery({ id: query.id });
+  const { data, failureReason } = api.workDay.findOne.useQuery({
+    id: query.id,
+  });
+
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
+  }
 
   const [workDay, setWorkDay] = useState(data);
 

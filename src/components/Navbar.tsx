@@ -70,10 +70,6 @@ export default function Navbar() {
           <ThemeSwitcher />
         </div>
 
-        <div className="md:hidden">
-          <ThemeSwitcher />
-        </div>
-
         {status === "authenticated" ? authenticatedLinks : unauthenticatedLinks}
       </div>
     </div>

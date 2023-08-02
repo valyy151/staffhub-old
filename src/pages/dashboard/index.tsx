@@ -1,29 +1,42 @@
 import {
-  ChevronLeft,
-  ChevronRight,
-  Loader2,
+  X,
+  User,
   Scroll,
   ScrollText,
-  User,
-  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
-import {
-  formatDate,
-  formatDay,
-  formatMonth,
-  formatTime,
-} from "~/utils/dateFormatting";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import { CalendarPlus } from "lucide-react";
 import Heading from "~/components/ui/Heading";
 import groupShifts from "~/utils/groupShifts";
 import Spinner from "~/components/ui/Spinner";
+import { getSession } from "next-auth/react";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
+import { type GetServerSideProps } from "next/types";
 import { type DashboardWorkDay, api } from "~/utils/api";
+import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 
-const DashboardPage = () => {
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};
+
+export default function DashboardPage() {
   const [skip, setSkip] = useState<number>(0);
   const [workDay, setWorkDay] = useState<DashboardWorkDay[] | null>(null);
 
@@ -181,6 +194,4 @@ const DashboardPage = () => {
       </div>
     </main>
   );
-};
-
-export default DashboardPage;
+}

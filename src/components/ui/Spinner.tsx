@@ -1,4 +1,3 @@
-import { Loader } from "lucide-react";
 import { cn } from "~/utils/tailwindMerge";
 import { forwardRef, type HTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -31,8 +30,8 @@ const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         <div role="status">
           <svg
             aria-hidden="true"
-            className={`mr-2 h-${size ? size : "10"} w-${
-              size ? size : "10"
+            className={`mr-2 h-${size ?? "8"} w-${
+              size ?? "8"
             } animate-spin fill-slate-800 text-gray-300 dark:fill-slate-200 dark:text-gray-600`}
             viewBox="0 0 100 101"
             fill="none"

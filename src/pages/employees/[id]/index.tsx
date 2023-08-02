@@ -10,6 +10,7 @@ import {
   Sticker,
   User,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -32,11 +33,13 @@ EmployeeProfilePage.getInitialProps = ({ query }: EmployeeProfileProps) => {
 };
 
 export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
-  const { data: employee } = api.employee.findOne.useQuery({
+  const { data: employee, failureReason } = api.employee.findOne.useQuery({
     id: query.id,
   });
 
-  console.log(employee);
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
+  }
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
@@ -72,13 +75,13 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           <Heading className="pl-4 text-left">{employee.name}</Heading>
 
           <Button
-            className="ml-auto mr-2 p-8 text-3xl"
+            className="ml-auto mr-2 rounded-lg p-8 text-3xl"
             onClick={() => router.push(`/employees/${employee.id}/schedule`)}
           >
             <Calendar className="mr-4" /> Schedules
           </Button>
           <Button
-            className="mr-2 p-8 text-3xl focus:ring-0 focus:ring-offset-0"
+            className="mr-2 rounded-lg p-8 text-3xl focus:ring-0 focus:ring-offset-0"
             variant={"subtler"}
             onClick={() => setShowDropdown(!showDropdown)}
           >

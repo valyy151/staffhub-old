@@ -12,6 +12,7 @@ import Vacation from "~/components/Employees/Vacation";
 import { checkVacations } from "~/utils/checkVacations";
 import AddVacation from "~/components/Employees/AddVacation";
 import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
+import router from "next/router";
 
 interface VacationPageProps {
   query: { id: string };
@@ -28,9 +29,13 @@ export default function VacationPage({ query }: VacationPageProps) {
   const [daysRemaining, setDaysRemaining] = useState<number | undefined>(0);
   const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
 
-  const { data: employee } = api.employee.findOne.useQuery({
+  const { data: employee, failureReason } = api.employee.findOne.useQuery({
     id: query.id,
   });
+
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
+  }
 
   useEffect(() => {
     setAmount(employee?.vacationDays || 0);

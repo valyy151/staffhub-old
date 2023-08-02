@@ -4,19 +4,37 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
 import { formatMonth } from "~/utils/dateFormatting";
 import { type ShiftPreference } from "@prisma/client";
+import { type GetServerSideProps } from "next/types";
 import { CalendarPlus, Info, UserPlus } from "lucide-react";
 import ScheduleTable from "~/components/Schedule/ScheduleTable";
+import ScheduleModal from "~/components/Schedule/ScheduleModal";
 import SearchEmployees from "~/components/Schedule/SearchEmployees";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";
-import Modal from "~/components/ui/Modal";
-import ScheduleModal from "~/components/Schedule/ScheduleModal";
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};
 
 export default function NewSchedulePage() {
   const [name, setName] = useState<string>("");
