@@ -1,4 +1,6 @@
+import { ArrowLeft } from "lucide-react";
 import { useSession } from "next-auth/react";
+import router from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Button } from "~/components/ui/Button";
@@ -26,13 +28,21 @@ export default function SettingsPage() {
 
   return (
     <main className="flex flex-col items-center">
-      <Heading size={"lg"} className="mt-16">
+      <Heading size={"lg"} className="mt-4">
         {data?.user.name}
       </Heading>
       <Button
         size="lg"
+        variant={"subtle"}
+        className="mt-4 h-14 w-72 text-2xl"
+        onClick={() => router.push("/")}
+      >
+        <ArrowLeft className="mr-2" /> Go Back
+      </Button>
+      <Button
+        size="lg"
         variant={"danger"}
-        className="mt-4 h-14 text-xl"
+        className="mt-2 h-14 w-72 text-2xl"
         onClick={() => setShowModal(true)}
       >
         Delete My Account

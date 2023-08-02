@@ -11,7 +11,7 @@ export default function Home() {
     <main className="mt-4 flex flex-col items-center text-2xl">
       {status === "authenticated" && (
         <>
-          <Heading size={"lg"} className="font-semibold">
+          <Heading size={"lg"} className="">
             {" "}
             Hello {data.user.name}{" "}
           </Heading>

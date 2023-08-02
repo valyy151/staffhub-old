@@ -97,6 +97,7 @@ const DashboardPage = () => {
             variant={"link"}
             title="Previous Week"
             onClick={handlePrevPage}
+            disabled={isFetching}
             className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
           >
             {<ChevronLeft size={48} />}
@@ -106,6 +107,7 @@ const DashboardPage = () => {
             variant={"link"}
             title="Next Week"
             onClick={handleNextPage}
+            disabled={isFetching}
             className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
           >
             {<ChevronRight size={48} />}
@@ -174,12 +176,8 @@ const DashboardPage = () => {
         ))}
       </div>
 
-      <div className="mt-4 flex justify-center">
-        {isFetching ? (
-          <Loader2 size={52} className="animate-spin" />
-        ) : (
-          <div className="h-12"></div>
-        )}
+      <div className="mt-8 flex justify-center">
+        {isFetching && <Spinner noMargin />}
       </div>
     </main>
   );

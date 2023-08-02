@@ -1,6 +1,5 @@
-import { User2, ArrowLeft, ScrollText, Clock8 } from "lucide-react";
+import { ArrowLeft, ScrollText, Clock8 } from "lucide-react";
 import { useRouter } from "next/router";
-import { set } from "zod";
 
 interface SidebarProps {
   showNotes: boolean;
