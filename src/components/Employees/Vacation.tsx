@@ -35,12 +35,12 @@ export default function Vacation({ vacation, employee }: VacationProps) {
     onSuccess: () => {
       void queryClient.invalidateQueries();
       toast.success("Vacation deleted successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
     onError: () => {
       toast.error("There was an error deleting the vacation.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });

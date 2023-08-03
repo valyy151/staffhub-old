@@ -27,13 +27,13 @@ export default function ShiftPreference({
       setShowModal(false);
       void queryClient.invalidateQueries();
       toast.success("Shift preference deleted successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
 
     onError: () => {
       toast.error("There was a problem deleting the shift preference.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -43,13 +43,13 @@ export default function ShiftPreference({
       setEditPreference(false);
       void queryClient.invalidateQueries();
       toast.success("Shift preference updated successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
 
     onError: () => {
       toast.error("There was a problem updating the shift preference.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });

@@ -38,12 +38,12 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
       setShowAddPreference(false);
       void queryClient.invalidateQueries();
       toast.success("Shift preference created successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
     onError: () => {
       toast.error("There was an error creating the shift preference.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -53,7 +53,7 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
 
     if (!content) {
       return toast("Please fill the shift preference content.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 

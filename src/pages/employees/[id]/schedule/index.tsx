@@ -41,6 +41,8 @@ export default function SchedulePage({ query }: SchedulePageProps) {
 
   const { data, failureReason } = api.employee?.findOne.useQuery({
     id: query.id,
+    endOfMonth,
+    startOfMonth,
   });
 
   if (failureReason?.data?.httpStatus === 401) {

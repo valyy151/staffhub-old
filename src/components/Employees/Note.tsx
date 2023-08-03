@@ -24,13 +24,13 @@ export default function Note({ note }: NoteProps) {
       setShowModal(false);
       void queryClient.invalidateQueries();
       toast.success("Note deleted successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
 
     onError: () => {
       toast.error("There was a problem deleting the note.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -40,13 +40,13 @@ export default function Note({ note }: NoteProps) {
       setEditNote(false);
       void queryClient.invalidateQueries();
       toast.success("Note updated successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
 
     onError: () => {
       toast.error("There was a problem updating the note.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });

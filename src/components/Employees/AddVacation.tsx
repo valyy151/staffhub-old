@@ -122,12 +122,12 @@ export default function VacationPlanner({
       setShowPlanner(false);
       void queryClient.invalidateQueries();
       toast.success("Vacation created successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
     onError: () => {
       toast.error("There was an error creating the vacation.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -137,13 +137,13 @@ export default function VacationPlanner({
 
     if (!start || !end) {
       return toast("Please select a start and end date.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 
     if (daysPlanned <= 0) {
       return toast("Please select a valid date range.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 

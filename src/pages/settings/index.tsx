@@ -4,27 +4,9 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { ArrowLeft } from "lucide-react";
 import Modal from "~/components/ui/Modal";
+import { useSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
-import { type GetServerSideProps } from "next/types";
-import { getSession, useSession } from "next-auth/react";
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: { session },
-  };
-};
 
 export default function SettingsPage() {
   const { data } = useSession();
@@ -32,17 +14,22 @@ export default function SettingsPage() {
 
   const deleteUser = api.user.delete.useMutation({
     onSuccess: () => {
-      window.location.href = "/";
+      setShowModal(false);
+      toast.success("Your account has successfully been deleted.", {
+        className: "text-center text-xl",
+      });
+
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 2000);
     },
 
     onError: () => {
-      toast.error("There was an error deleting your account.");
+      toast.error("There was an error deleting your account.", {
+        className: "text-center text-xl",
+      });
     },
   });
-
-  function handleDelete() {
-    deleteUser.mutate(data?.user?.id ?? "");
-  }
 
   return (
     <main className="flex flex-col items-center">
@@ -68,7 +55,7 @@ export default function SettingsPage() {
 
       {showModal && (
         <Modal
-          submit={handleDelete}
+          submit={() => deleteUser.mutate()}
           icon="employee"
           showModal={showModal}
           cancel={() => setShowModal(false)}

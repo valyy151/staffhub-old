@@ -23,13 +23,13 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
       setShowAddNote(false);
       void queryClient.invalidateQueries();
       toast.success("Note created successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
 
     onError: () => {
       toast.error("There was an error creating the note.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -39,7 +39,7 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
 
     if (!content) {
       return toast("Please fill the note content.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 

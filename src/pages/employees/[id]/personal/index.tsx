@@ -47,7 +47,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
     onSuccess: () => {
       void queryClient.invalidateQueries();
       toast.success("Personal info updated successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -57,7 +57,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
 
     if (!name || !email || !address || !phone) {
       return toast("Please fill out all the fields.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 

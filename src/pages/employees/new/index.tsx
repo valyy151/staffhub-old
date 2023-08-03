@@ -36,7 +36,7 @@ export default function NewEmployeePage() {
 
     if (!name || !email || !address || !phoneNumber) {
       return toast("Please fill out all the fields.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 
@@ -50,7 +50,7 @@ export default function NewEmployeePage() {
 
     onError: () => {
       toast.error("There was an error creating the employee.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });

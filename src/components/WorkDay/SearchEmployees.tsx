@@ -1,4 +1,5 @@
 import Input from "../ui/Input";
+import { useState } from "react";
 import { type Employee } from "@prisma/client";
 
 interface SearchEmployeesProps {
@@ -8,6 +9,9 @@ interface SearchEmployeesProps {
   setId: (id: string) => void;
   setName: (name: string) => void;
   setIsOpen: (isOpen: boolean) => void;
+  setIsSick: (isSick: boolean) => void;
+  setEndDate: (endDate: number) => void;
+  setRemainingDays: (remainingDays: number) => void;
 }
 
 export default function SearchEmployees({
@@ -17,12 +21,39 @@ export default function SearchEmployees({
   setName,
   setIsOpen,
   employees,
+  setIsSick,
+  setEndDate,
+  setRemainingDays,
 }: SearchEmployeesProps) {
-  const handleSelect = (option: string, id: string) => {
+  const handleSelect = (name: string, id: string) => {
     setId(id);
-    setName(option);
+    setName(name);
     setIsOpen(false);
   };
+
+  function checkIfSick(sickLeaves: any) {
+    const currentDate = Date.now();
+
+    for (const sickLeave of sickLeaves) {
+      const startDate: Date = new Date(Number(sickLeave.start));
+      const endDate: Date = new Date(Number(sickLeave.end));
+
+      if (
+        Number(currentDate) >= Number(startDate) &&
+        Number(currentDate) <= Number(endDate)
+      ) {
+        const remainingDays = Math.ceil(
+          (Number(endDate) - currentDate) / (1000 * 60 * 60 * 24)
+        );
+
+        setIsSick(true);
+        setEndDate(Number(endDate));
+        setRemainingDays(remainingDays);
+        return;
+      }
+    }
+    return setIsSick(false);
+  }
 
   return (
     <main className="relative w-full">
@@ -47,11 +78,14 @@ export default function SearchEmployees({
               employees.length > 8 && "h-[28.5rem] overflow-y-scroll"
             } p-1`}
           >
-            {employees?.map((employee: Employee) => (
+            {employees.map((employee: any) => (
               <li
                 className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
                 key={employee.id}
-                onClick={() => handleSelect(employee.name, employee.id)}
+                onClick={() => {
+                  checkIfSick(employee.sickLeaves);
+                  handleSelect(employee.name, employee.id);
+                }}
               >
                 {employee.name}
               </li>

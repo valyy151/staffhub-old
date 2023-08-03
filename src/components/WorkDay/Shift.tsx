@@ -43,13 +43,13 @@ export default function Shift({ shift, date, index }: ShiftProps) {
     onSuccess: () => {
       void queryClient.invalidateQueries();
       toast.success("Shift updated successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
 
     onError: () => {
       toast.error("There was a problem updating the shift.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -58,13 +58,13 @@ export default function Shift({ shift, date, index }: ShiftProps) {
     onSuccess: () => {
       void queryClient.invalidateQueries();
       toast.success("Shift deleted successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
 
     onError: () => {
       toast.error("There was a problem deleting the shift.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });

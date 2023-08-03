@@ -21,12 +21,12 @@ export default function SickLeave({ sickLeave }: SickLeaveProps) {
     onSuccess: () => {
       void queryClient.invalidateQueries();
       toast.success("Sick leave deleted successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
     onError: () => {
       toast.error("There was an error deleting the sick leave.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });

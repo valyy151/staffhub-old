@@ -62,12 +62,12 @@ export default function AddSickLeave({
       setShowPlanner(false);
       void queryClient.invalidateQueries();
       toast.success("Sick leave created successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
     onError: () => {
       toast.error("There was an error creating the sick leave.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -77,7 +77,7 @@ export default function AddSickLeave({
 
     if (!start || !end) {
       return toast.error("Please select a start and end date.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 

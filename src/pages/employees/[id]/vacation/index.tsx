@@ -49,12 +49,12 @@ export default function VacationPage({ query }: VacationPageProps) {
       setShowChangeAmount(false);
       void queryClient.invalidateQueries();
       toast.success("Vacation days updated successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
     onError: () => {
       toast.error("There was an error updating the vacation days.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -64,7 +64,7 @@ export default function VacationPage({ query }: VacationPageProps) {
 
     if (!amount) {
       return toast("Please fill the amount of vacation days.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 

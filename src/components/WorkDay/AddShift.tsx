@@ -24,6 +24,10 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const [end, setEnd] = useState<number>(0);
   const [start, setStart] = useState<number>(0);
 
+  const [endDate, setEndDate] = useState<number>(0);
+  const [isSick, setIsSick] = useState<boolean>(false);
+  const [remainingDays, setRemainingDays] = useState<number>(0);
+
   const handleTimeChange = (newTime: string, field: "start" | "end") => {
     // convert the new time into Unix timestamp
     if (data.date) {
@@ -46,12 +50,12 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
       setShowAddShift(false);
       void queryClient.invalidateQueries();
       toast.success("Shift created successfully.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
     onError: () => {
       toast.error("There was an error creating the shift.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     },
   });
@@ -61,7 +65,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
 
     if (!end || !start) {
       return toast("Please fill the start and end time.", {
-        className: "text-xl",
+        className: "text-xl text-center",
       });
     }
 
@@ -90,9 +94,12 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
               name={name}
               isOpen={isOpen}
               setName={setName}
+              setIsSick={setIsSick}
               employees={employees}
               setIsOpen={setIsOpen}
               setId={setEmployeeId}
+              setEndDate={setEndDate}
+              setRemainingDays={setRemainingDays}
             />
 
             <div className="mr-auto mt-2 flex w-full space-x-1">
@@ -156,6 +163,26 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
           </div>
         </div>
       </form>
+      {isSick && (
+        <>
+          <Heading
+            size={"sm"}
+            className="mt-4 font-normal text-rose-700 dark:text-rose-400"
+          >
+            {name} is on sick leave untill{" "}
+            {new Date(endDate).toLocaleDateString("en-GB", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+            .
+          </Heading>
+          <Heading size={"sm"} className="mt-2 font-normal">
+            Ends in {remainingDays} days.
+          </Heading>
+        </>
+      )}
     </div>
   );
 }
