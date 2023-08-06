@@ -2,6 +2,7 @@ import Link from "next/link.js";
 import ThemeSwitcher from "./ThemeSwitcher";
 import { Button, buttonVariants } from "./ui/Button";
 import { useSession, signIn, signOut } from "next-auth/react";
+import Spinner from "./ui/Spinner";
 
 export default function Navbar() {
   const { status } = useSession();
@@ -55,6 +56,10 @@ export default function Navbar() {
       <Button onClick={() => signIn("google")}>Sign In</Button>
     </div>
   );
+
+  if (status === "loading") {
+    return null;
+  }
 
   return (
     <div className="sticky top-0 z-50 flex h-20 items-center justify-between border-b border-slate-300 bg-white shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900">

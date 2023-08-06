@@ -1,11 +1,16 @@
-import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
-import { Button } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
+import Spinner from "~/components/ui/Spinner";
+import { Button } from "~/components/ui/Button";
+import { signIn, useSession } from "next-auth/react";
 
 export default function Home() {
   const { data, status } = useSession();
+
+  if (status === "loading") {
+    return <Spinner />;
+  }
 
   return (
     <main className="mt-4 flex flex-col items-center text-2xl">
