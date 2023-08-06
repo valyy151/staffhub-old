@@ -4,9 +4,27 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { ArrowLeft } from "lucide-react";
 import Modal from "~/components/ui/Modal";
-import { useSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
+import { type GetServerSideProps } from "next/types";
+import { getSession, useSession } from "next-auth/react";
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: { session },
+  };
+};
 
 export default function SettingsPage() {
   const { data } = useSession();
