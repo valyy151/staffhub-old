@@ -8,6 +8,7 @@ import SearchEmployees from "./SearchEmployees";
 import { ArrowLeft, Clock8 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import Link from "next/link";
 
 interface AddShiftProps {
   data: WorkDay;
@@ -27,6 +28,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const [endDate, setEndDate] = useState<number>(0);
   const [isSick, setIsSick] = useState<boolean>(false);
   const [remainingDays, setRemainingDays] = useState<number>(0);
+  const [isOnVacation, setIsOnVacation] = useState<boolean>(false);
 
   const handleTimeChange = (newTime: string, field: "start" | "end") => {
     // convert the new time into Unix timestamp
@@ -82,7 +84,10 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   return (
     <div className="flex flex-col items-start">
       <Heading size={"sm"} className="mt-8">
-        Add a new shift {name && "for"} {name}
+        Add a new shift {name && "for"}{" "}
+        <Link href={`/employees/${employeeId}`} className="hover:text-sky-500">
+          {name}
+        </Link>
       </Heading>
 
       <form onSubmit={handleSubmit} className="mt-2 flex flex-col items-center">
@@ -99,6 +104,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
               setIsOpen={setIsOpen}
               setId={setEmployeeId}
               setEndDate={setEndDate}
+              setIsOnVacation={setIsOnVacation}
               setRemainingDays={setRemainingDays}
             />
 
@@ -170,6 +176,27 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             className="mt-4 font-normal text-rose-700 dark:text-rose-400"
           >
             {name} is on sick leave untill{" "}
+            {new Date(endDate).toLocaleDateString("en-GB", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+            .
+          </Heading>
+          <Heading size={"sm"} className="mt-2 font-normal">
+            Ends in {remainingDays} days.
+          </Heading>
+        </>
+      )}
+
+      {isOnVacation && (
+        <>
+          <Heading
+            size={"sm"}
+            className="mt-4 font-normal text-rose-700 dark:text-rose-400"
+          >
+            {name} is on vacation untill{" "}
             {new Date(endDate).toLocaleDateString("en-GB", {
               weekday: "long",
               year: "numeric",

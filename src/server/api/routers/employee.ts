@@ -61,6 +61,7 @@ export const employeeRouter = createTRPCRouter({
         name: true,
         email: true,
         address: true,
+        vacations: true,
         sickLeaves: true,
         phoneNumber: true,
         shiftPreferences: true,

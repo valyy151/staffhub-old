@@ -11,6 +11,7 @@ interface SearchEmployeesProps {
   setIsOpen: (isOpen: boolean) => void;
   setIsSick: (isSick: boolean) => void;
   setEndDate: (endDate: number) => void;
+  setIsOnVacation: (isOnVacation: boolean) => void;
   setRemainingDays: (remainingDays: number) => void;
 }
 
@@ -23,6 +24,7 @@ export default function SearchEmployees({
   employees,
   setIsSick,
   setEndDate,
+  setIsOnVacation,
   setRemainingDays,
 }: SearchEmployeesProps) {
   const handleSelect = (name: string, id: string) => {
@@ -31,10 +33,10 @@ export default function SearchEmployees({
     setIsOpen(false);
   };
 
-  function checkIfSick(sickLeaves: any) {
+  function checkIfSickOrVacation(employee: any) {
     const currentDate = Date.now();
 
-    for (const sickLeave of sickLeaves) {
+    for (const sickLeave of employee.sickLeaves) {
       const startDate: Date = new Date(Number(sickLeave.start));
       const endDate: Date = new Date(Number(sickLeave.end));
 
@@ -52,7 +54,25 @@ export default function SearchEmployees({
         return;
       }
     }
-    return setIsSick(false);
+
+    for (const vacation of employee.vacations) {
+      const startDate: Date = new Date(Number(vacation.start));
+      const endDate: Date = new Date(Number(vacation.end));
+
+      if (
+        Number(currentDate) >= Number(startDate) &&
+        Number(currentDate) <= Number(endDate)
+      ) {
+        const remainingDays = Math.ceil(
+          (Number(endDate) - currentDate) / (1000 * 60 * 60 * 24)
+        );
+
+        setIsOnVacation(true);
+        setEndDate(Number(endDate));
+        setRemainingDays(remainingDays);
+        return;
+      }
+    }
   }
 
   return (
@@ -83,7 +103,7 @@ export default function SearchEmployees({
                 className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
                 key={employee.id}
                 onClick={() => {
-                  checkIfSick(employee.sickLeaves);
+                  checkIfSickOrVacation(employee);
                   handleSelect(employee.name, employee.id);
                 }}
               >
