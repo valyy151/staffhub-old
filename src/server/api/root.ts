@@ -6,6 +6,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { vacationRouter } from "./routers/vacation";
 import { dashboardRouter } from "./routers/dashboard";
 import { sickLeaveRouter } from "./routers/sickLeave";
+import { staffRoleRouter } from "./routers/staffRole";
 import { workDayNoteRouter } from "./routers/workDayNote";
 import { employeeNoteRouter } from "./routers/employeeNote";
 import { shiftPreferenceRouter } from "./routers/shiftPreference";
@@ -21,6 +22,7 @@ export const appRouter = createTRPCRouter({
   workDay: workDayRouter,
   vacation: vacationRouter,
   employee: employeeRouter,
+  staffRole: staffRoleRouter,
   dashboard: dashboardRouter,
   sickLeave: sickLeaveRouter,
   workDayNote: workDayNoteRouter,

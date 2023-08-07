@@ -172,10 +172,11 @@ model Shift {
 }
 
 model StaffRole {
-    id     String @id @default(cuid())
-    name   String
-    userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String @id @default(cuid())
+    numberPerDay Int?
+    name         String
+    userId       String
+    user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
 }
