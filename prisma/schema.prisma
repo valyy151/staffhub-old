@@ -42,20 +42,21 @@ model Session {
 }
 
 model User {
-    id              String            @id @default(cuid())
-    name            String?
-    email           String?           @unique
-    emailVerified   DateTime?
-    image           String?
-    shifts          Shift[]
-    accounts        Account[]
-    sessions        Session[]
-    employees       Employee[]
-    vacations       Vacation[]
-    sickLeaves      SickLeave[]
-    workDayNotes    WorkDayNote[]
-    employeeNotes   EmployeeNote[]
-    ShiftPreference ShiftPreference[]
+    id               String            @id @default(cuid())
+    name             String?
+    email            String?           @unique
+    emailVerified    DateTime?
+    image            String?
+    shifts           Shift[]
+    accounts         Account[]
+    sessions         Session[]
+    employees        Employee[]
+    vacations        Vacation[]
+    sickLeaves       SickLeave[]
+    staffRoles       StaffRole[]
+    workDayNotes     WorkDayNote[]
+    employeeNotes    EmployeeNote[]
+    shiftPreferences ShiftPreference[]
 }
 
 model VerificationToken {
@@ -168,4 +169,13 @@ model Shift {
     @@unique([employeeId, date])
     @@index([userId])
     @@index([employeeId])
+}
+
+model StaffRole {
+    id     String @id @default(cuid())
+    name   String
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }

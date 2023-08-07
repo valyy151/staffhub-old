@@ -13,6 +13,7 @@ import Sidebar from "~/components/WorkDay/Sidebar";
 import { getSession } from "next-auth/react";
 import { type GetServerSideProps } from "next/types";
 import router from "next/router";
+import Paragraph from "~/components/ui/Paragraph";
 
 interface WorkDayPageProps {
   query: { id: string };
@@ -56,6 +57,14 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       return null;
     }
 
+    if (!workDay?.shifts || workDay?.shifts.length === 0) {
+      return (
+        <div className="mt-8">
+          <Heading size={"xs"}>No shifts for this day.</Heading>
+        </div>
+      );
+    }
+
     return (
       <div className="mt-8">
         {workDay?.shifts
@@ -75,6 +84,14 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   function renderNotes() {
     if (showAddNote || showAddShift) {
       return null;
+    }
+
+    if (!workDay?.notes || workDay?.notes.length === 0) {
+      return (
+        <div className="mt-8">
+          <Heading size={"xs"}>No notes for this day.</Heading>
+        </div>
+      );
     }
 
     return (

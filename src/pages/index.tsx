@@ -9,7 +9,14 @@ export default function Home() {
   const { data, status } = useSession();
 
   if (status === "loading") {
-    return <Spinner />;
+    return (
+      <main className="mt-8 flex flex-col items-center">
+        <Heading className="mb-6" size={"lg"}>
+          StaffHub
+        </Heading>
+        <Spinner noMargin />
+      </main>
+    );
   }
 
   return (

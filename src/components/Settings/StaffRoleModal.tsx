@@ -21,29 +21,21 @@ export default function Modal({ close, showModal }: ModalProps) {
           <X size={36} />
         </Button>
         <Heading className="mb-2 mt-6" size={"sm"}>
-          How to write a schedule?
+          What are staff roles?
         </Heading>
 
         <Paragraph size={"lg"}>
-          Start by selecting a staff member on the left and choosing which month
-          you want to make a schedule for.
+          Staff roles are used to assign permissions to staff members.
         </Paragraph>
+
         <Paragraph size={"lg"}>
-          Then, click on one of the inputs in the table on the right, and start
-          writing.
+          For example, you can create a role called "Manager" or "Driver" and
+          assign it to one of your staff members.
         </Paragraph>
+
         <Paragraph size={"lg"}>
-          For each day, there are 2 inputs: one for the start time and one for
-          the end time.
-        </Paragraph>
-        <Paragraph size={"lg"}>
-          Type the start time and end time in the format HH:MM (24 hour format).
-          For example 09:00 - 16:45.
-        </Paragraph>
-        <Paragraph size={"lg"}></Paragraph>
-        <Paragraph size={"lg"}>
-          If you already made the schedule but want to make changes, go to the
-          Dashboard and edit that particular day.
+          You can then use these roles when planning your schedules to know what
+          roles are filled and what roles need to be filled.
         </Paragraph>
       </div>
     </ReactModal>

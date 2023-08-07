@@ -42,7 +42,7 @@ export default function EmployeesListPage() {
     return (
       <main className="flex flex-col items-center">
         <Heading size={"sm"} className="mt-6">
-          You do not currently have any employees on your account.
+          You do not currently have any staff members on your account.
         </Heading>
 
         <Heading size={"xs"} className="mt-2">
@@ -60,10 +60,12 @@ export default function EmployeesListPage() {
     );
   }
 
-  const filteredData = data.filter((employee) => {
-    const values = Object.values(employee).join("").toLowerCase();
-    return values.includes(searchText.toLowerCase());
-  });
+  const filteredData = data
+    .filter((employee) => {
+      const values = Object.values(employee).join("").toLowerCase();
+      return values.includes(searchText.toLowerCase());
+    })
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <main className="mx-auto flex flex-col items-center">
@@ -95,7 +97,7 @@ export default function EmployeesListPage() {
               onClick={() => router.push("/employees/new")}
               title="Add a new employee"
             >
-              <UserPlus size={24} className="mr-2" /> Add Employee
+              <UserPlus size={24} className="mr-2" /> New Staff Member
             </Button>
           </div>
         </div>
