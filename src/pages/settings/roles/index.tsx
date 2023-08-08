@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { getSession } from "next-auth/react";
-import { ArrowLeft, Info, Save, UserCog2 } from "lucide-react";
+import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import { type GetServerSideProps } from "next/types";
@@ -8,6 +8,9 @@ import StaffRoleModal from "~/components/Settings/StaffRoleModal";
 import Input from "~/components/ui/Input";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
+import Sidebar from "~/components/Settings/Sidebar";
+import { useQueryClient } from "@tanstack/react-query";
+import Paragraph from "~/components/ui/Paragraph";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -33,42 +36,118 @@ export default function StaffRolesPage() {
   const [showModal, setShowModal] = useState(false);
   const [showCreateRole, setShowCreateRole] = useState(false);
 
+  const queryClient = useQueryClient();
+
+  const { data } = api.staffRole.find.useQuery();
+
   const createStaffRole = api.staffRole.create.useMutation({
     onSuccess: () => {
       toast.success("Staff Role Created", {
         className: "text-xl text-center",
       });
+      setShowCreateRole(false);
+      queryClient.invalidateQueries();
+    },
+
+    onError: () => {
+      toast.error("Failed to create Staff Role", {
+        className: "text-xl text-center",
+      });
     },
   });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const deleteStaffRole = api.staffRole.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Staff Role Deleted", {
+        className: "text-xl text-center",
+      });
+      queryClient.invalidateQueries();
+    },
 
-    createStaffRole.mutate({ name: role, numberPerDay: parseInt(number) });
+    onError: () => {
+      toast.error("Failed to delete Staff Role", {
+        className: "text-xl text-center",
+      });
+    },
+  });
+
+  if (!data) {
+    return <Sidebar />;
   }
 
   return (
-    <main className="mx-auto flex w-fit flex-col items-center">
-      <section className="mt-4 flex flex-col items-start">
-        <Heading className="mb-2">Add and manage Staff Roles</Heading>
-        <Button
-          size={"lg"}
-          className="h-14 w-96 text-2xl"
-          onClick={() => setShowCreateRole(true)}
-        >
-          <UserCog2 size={34} className="mr-2" /> New Staff Role
-        </Button>
-        <Button
-          size={"lg"}
-          variant={"subtle"}
-          className="mt-2 h-14 w-96 text-2xl"
-          onClick={() => setShowModal(true)}
-        >
-          <Info className="mr-2" /> What are Staff Roles?
-        </Button>
+    <main className="flex">
+      <Sidebar />
+      <section className="mt-4">
+        <Heading size={"lg"} className="mb-2">
+          Add and manage Staff Roles
+        </Heading>
+        <div className="space-x-1">
+          <Button
+            className="h-14 text-2xl"
+            onClick={() => setShowCreateRole(true)}
+          >
+            <UserCog className="mr-2" /> New Staff Role
+          </Button>
+          <Button
+            variant={"subtle"}
+            className="h-14 text-2xl"
+            onClick={() => setShowModal(true)}
+          >
+            <Info className="mr-2" /> What are Staff Roles?
+          </Button>
+        </div>
+        {data.length > 0 && (
+          <div>
+            <Heading className="mt-4 border-b border-slate-300 py-1 dark:border-slate-500">
+              My Staff Roles
+            </Heading>
+            {data.map((role, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500"
+              >
+                <div className="flex items-center space-x-2">
+                  <UserCog size={28} />
+                  <Heading size={"xs"}>{role.name}</Heading>
+                </div>
+                <div className="flex items-center space-x-2">
+                  {role.numberPerDay !== null && role.numberPerDay > 0 && (
+                    <>
+                      <Paragraph size={"lg"} className="text-2xl">
+                        Minimum
+                      </Paragraph>
+                      <Paragraph size={"lg"} className="text-2xl font-bold">
+                        {role.numberPerDay}
+                      </Paragraph>
+                      <Paragraph size={"lg"} className="text-2xl">
+                        per work day
+                      </Paragraph>
+                    </>
+                  )}
 
+                  <Button
+                    variant={"subtle"}
+                    className="h-14 text-2xl"
+                    onClick={() => deleteStaffRole.mutate({ id: role.id })}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
         {showCreateRole && (
-          <form className="mt-4" onSubmit={handleSubmit}>
+          <form
+            className="mt-4"
+            onSubmit={() =>
+              createStaffRole.mutate({
+                name: role,
+                numberPerDay: parseInt(number) | 0,
+              })
+            }
+          >
             <label className="text-xl">Staff Role</label>
             <Input
               value={role}
