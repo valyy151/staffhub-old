@@ -11,6 +11,8 @@ import toast from "react-hot-toast";
 import Sidebar from "~/components/Settings/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import Paragraph from "~/components/ui/Paragraph";
+import Modal from "~/components/ui/Modal";
+import StaffRole from "~/components/Settings/StaffRole";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -56,21 +58,6 @@ export default function StaffRolesPage() {
     },
   });
 
-  const deleteStaffRole = api.staffRole.delete.useMutation({
-    onSuccess: () => {
-      toast.success("Staff Role Deleted", {
-        className: "text-xl text-center",
-      });
-      queryClient.invalidateQueries();
-    },
-
-    onError: () => {
-      toast.error("Failed to delete Staff Role", {
-        className: "text-xl text-center",
-      });
-    },
-  });
-
   if (!data) {
     return <Sidebar />;
   }
@@ -102,39 +89,8 @@ export default function StaffRolesPage() {
             <Heading className="mt-4 border-b border-slate-300 py-1 dark:border-slate-500">
               My Staff Roles
             </Heading>
-            {data.map((role, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500"
-              >
-                <div className="flex items-center space-x-2">
-                  <UserCog size={28} />
-                  <Heading size={"xs"}>{role.name}</Heading>
-                </div>
-                <div className="flex items-center space-x-2">
-                  {role.numberPerDay !== null && role.numberPerDay > 0 && (
-                    <>
-                      <Paragraph size={"lg"} className="text-2xl">
-                        Minimum
-                      </Paragraph>
-                      <Paragraph size={"lg"} className="text-2xl font-bold">
-                        {role.numberPerDay}
-                      </Paragraph>
-                      <Paragraph size={"lg"} className="text-2xl">
-                        per work day
-                      </Paragraph>
-                    </>
-                  )}
-
-                  <Button
-                    variant={"subtle"}
-                    className="h-14 text-2xl"
-                    onClick={() => deleteStaffRole.mutate({ id: role.id })}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </div>
+            {data.map((role) => (
+              <StaffRole role={role} key={role.id} />
             ))}
           </div>
         )}

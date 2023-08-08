@@ -70,6 +70,8 @@ export type WorkDay = RouterOutputs["workDay"]["findOne"];
 
 export type Employee = RouterOutputs["employee"]["find"][number];
 
+export type StaffRole = RouterOutputs["staffRole"]["find"][number];
+
 export type EmployeeProfile = RouterOutputs["employee"]["findOne"];
 
 export type DashboardWorkDay = RouterOutputs["dashboard"]["find"][number];
