@@ -59,6 +59,7 @@ export const employeeRouter = createTRPCRouter({
       select: {
         id: true,
         name: true,
+        roles: true,
         email: true,
         address: true,
         vacations: true,
@@ -83,6 +84,7 @@ export const employeeRouter = createTRPCRouter({
         select: {
           id: true,
           name: true,
+          roles: true,
           email: true,
           notes: true,
           address: true,

@@ -6,11 +6,10 @@ import {
   Palmtree,
   Pencil,
   Phone,
-  ScrollText,
   Sticker,
   User,
+  UserCog,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -41,9 +40,9 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
     router.push("/");
   }
 
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
-
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
   const deleteEmployee = api.employee.delete.useMutation({
     onSuccess: () => {
@@ -133,28 +132,28 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           </div>
           {/* personal info end */}
 
-          {/* notes begin */}
+          {/* roles begin */}
           <div
-            onClick={() => router.push(`/employees/${employee.id}/notes`)}
+            onClick={() => router.push(`/employees/${employee.id}/roles`)}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
-              Notes
-              <ScrollText size={26} className="ml-2" />
+              Roles
+              <UserCog size={26} className="ml-2" />
             </Heading>
 
             <div className="flex flex-col py-2">
-              {employee.notes?.length > 0 ? (
+              {employee.roles && employee.roles.length > 0 ? (
                 <Paragraph className="text-left">
-                  {employee.notes.length}{" "}
-                  {employee.notes.length === 1 ? "Note" : "Notes"}
+                  {employee.roles.length}{" "}
+                  {employee.roles.length === 1 ? "Role" : "Roles"}
                 </Paragraph>
               ) : (
-                <Paragraph className="text-left">No notes</Paragraph>
+                <Paragraph className="text-left">No roles</Paragraph>
               )}
             </div>
           </div>
-          {/* notes end */}
+          {/* roles end */}
 
           {/* sick leave begin */}
           <div

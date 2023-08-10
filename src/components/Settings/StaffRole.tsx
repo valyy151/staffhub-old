@@ -67,7 +67,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
   }
 
   return (
-    <div className="flex w-[64rem] items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
+    <div className="flex h-20 w-[64rem] items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
       {!edit && (
         <div className="flex items-center">
           <UserCog size={28} />
@@ -119,16 +119,22 @@ export default function StaffRole({ role }: StaffRoleProps) {
         >
           <div className="flex items-center space-x-2">
             <UserCog size={28} />
-            <Input
-              value={name}
-              className="h-14 w-[22rem] text-2xl font-bold"
-              onChange={(e) => setName(e.target.value)}
-            />
-            <Input
-              value={numberPerDay}
-              className="h-14 w-48 text-2xl font-bold"
-              onChange={(e) => setNumberPerDay(e.target.value)}
-            />
+            <div>
+              <label htmlFor="">Name</label>
+              <Input
+                value={name}
+                className=" w-[26rem] text-xl font-bold"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label htmlFor="">Number needed per work day</label>
+              <Input
+                value={numberPerDay}
+                className=" w-48 text-xl font-bold"
+                onChange={(e) => setNumberPerDay(e.target.value)}
+              />
+            </div>
           </div>
           <div className="space-x-2">
             <Button size={"lg"} className="h-14 w-28 text-2xl">

@@ -76,6 +76,7 @@ model Employee {
     phoneNumber      String
     shifts           Shift[]
     vacations        Vacation[]
+    roles            StaffRole[]
     sickLeaves       SickLeave[]
     notes            EmployeeNote[]
     shiftPreferences ShiftPreference[]
@@ -172,11 +173,14 @@ model Shift {
 }
 
 model StaffRole {
-    id           String @id @default(cuid())
+    id           String    @id @default(cuid())
     numberPerDay Int?
     name         String
     userId       String
-    user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    employeeId   String?
+    Employee     Employee? @relation(fields: [employeeId], references: [id])
+    user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
+    @@index([employeeId])
 }
