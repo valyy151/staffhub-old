@@ -22,6 +22,26 @@ export const staffRoleRouter = createTRPCRouter({
     });
   }),
 
+  update: protectedProcedure
+    .input(
+      z.object({
+        name: z.string(),
+        staffRoleId: z.string(),
+        numberPerDay: z.number().optional(),
+      })
+    )
+    .mutation(async ({ input: { staffRoleId, name, numberPerDay }, ctx }) => {
+      return await ctx.prisma.staffRole.update({
+        where: {
+          id: staffRoleId,
+        },
+        data: {
+          name,
+          numberPerDay,
+        },
+      });
+    }),
+
   delete: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input: { id }, ctx }) => {

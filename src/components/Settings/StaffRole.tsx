@@ -40,12 +40,40 @@ export default function StaffRole({ role }: StaffRoleProps) {
     },
   });
 
+  const updateStaffRole = api.staffRole.update.useMutation({
+    onSuccess: () => {
+      toast.success("Staff Role Updated", {
+        className: "text-xl text-center",
+      });
+      setEdit(false);
+      queryClient.invalidateQueries();
+    },
+
+    onError: () => {
+      toast.error("Failed to update Staff Role", {
+        className: "text-xl text-center",
+      });
+    },
+  });
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    updateStaffRole.mutate({
+      name,
+      staffRoleId: role.id,
+      numberPerDay: Number(numberPerDay),
+    });
+  }
+
   return (
     <div className="flex items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
       {!edit && (
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center">
           <UserCog size={28} />
-          <Heading size={"xs"}>{role.name}</Heading>
+          <Heading size={"xs"} className="ml-5 min-w-[7.75rem]">
+            {role.name}
+          </Heading>
         </div>
       )}
 
@@ -85,38 +113,38 @@ export default function StaffRole({ role }: StaffRoleProps) {
         </div>
       )}
       {edit && (
-        <div className="flex w-full items-center justify-between space-x-2">
-          <div className="flex space-x-2">
+        <form
+          onSubmit={handleSubmit}
+          className="flex w-full items-center justify-between space-x-2"
+        >
+          <div className="flex items-center space-x-2">
+            <UserCog size={28} />
             <Input
               value={name}
-              className="h-14 w-48 text-xl"
+              className="h-14 w-[22rem] text-2xl font-bold"
               onChange={(e) => setName(e.target.value)}
             />
             <Input
               value={numberPerDay}
-              className="h-14 w-24 text-xl"
+              className="h-14 w-24 text-2xl font-bold"
               onChange={(e) => setNumberPerDay(e.target.value)}
             />
           </div>
           <div className="space-x-2">
-            <Button
-              size={"lg"}
-              variant={"subtle"}
-              className="h-14 w-28 text-2xl"
-            >
+            <Button size={"lg"} className="h-14 w-28 text-2xl">
               Save
             </Button>
 
             <Button
               size={"lg"}
-              variant={"destructive"}
+              variant={"subtle"}
               className="h-14 w-36 text-2xl"
               onClick={() => setEdit(false)}
             >
               Cancel
             </Button>
           </div>
-        </div>
+        </form>
       )}
       {showModal && (
         <Modal
