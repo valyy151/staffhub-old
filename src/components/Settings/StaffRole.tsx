@@ -67,7 +67,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
   }
 
   return (
-    <div className="flex items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
+    <div className="flex w-[64rem] items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
       {!edit && (
         <div className="flex items-center">
           <UserCog size={28} />
@@ -126,7 +126,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
             />
             <Input
               value={numberPerDay}
-              className="h-14 w-24 text-2xl font-bold"
+              className="h-14 w-48 text-2xl font-bold"
               onChange={(e) => setNumberPerDay(e.target.value)}
             />
           </div>
