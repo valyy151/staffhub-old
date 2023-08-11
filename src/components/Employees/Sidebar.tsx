@@ -6,6 +6,7 @@ import {
   ScrollText,
   CalendarSearch,
   HeartPulse,
+  UserCog,
 } from "lucide-react";
 import { useRouter } from "next/router";
 import { type EmployeeProfile } from "~/utils/api";
@@ -40,6 +41,18 @@ export default function Sidebar({ employee }: SidebarProps) {
           }`}
         >
           <User2 className="mr-2" /> Personal Info
+        </li>
+        <li
+          onClick={() =>
+            employee?.id && router.push(`/employees/${employee?.id}/roles`)
+          }
+          className={`flex w-96 cursor-pointer items-center p-4 ${
+            path === "roles"
+              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
+              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+          }`}
+        >
+          <UserCog className="mr-2" /> Roles
         </li>
         <li
           onClick={() =>

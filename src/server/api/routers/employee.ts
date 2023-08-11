@@ -74,105 +74,157 @@ export const employeeRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
+        fetchAllRoles: z.boolean().optional(),
         endOfMonth: z.number().optional(),
         startOfMonth: z.number().optional(),
       })
     )
-    .query(async ({ input: { id, endOfMonth, startOfMonth }, ctx }) => {
-      const employeePromise = ctx.prisma.employee.findUnique({
-        where: { id },
-        select: {
-          id: true,
-          name: true,
-          roles: true,
-          email: true,
-          notes: true,
-          address: true,
-          vacations: true,
-          sickLeaves: true,
-          phoneNumber: true,
-          vacationDays: true,
-          shiftPreferences: true,
-        },
-      });
+    .query(
+      async ({
+        input: { id, fetchAllRoles, endOfMonth, startOfMonth },
+        ctx,
+      }) => {
+        const employeePromise = ctx.prisma.employee.findUnique({
+          where: { id },
+          select: {
+            id: true,
+            name: true,
+            roles: true,
+            email: true,
+            notes: true,
+            address: true,
+            vacations: true,
+            sickLeaves: true,
+            phoneNumber: true,
+            vacationDays: true,
+            shiftPreferences: true,
+          },
+        });
 
-      const notesPromise = ctx.prisma.employeeNote.findMany({
-        where: { employeeId: id, userId: ctx.session.user.id },
-        select: { id: true, content: true, createdAt: true },
-      });
+        const notesPromise = ctx.prisma.employeeNote.findMany({
+          where: { employeeId: id, userId: ctx.session.user.id },
+          select: { id: true, content: true, createdAt: true },
+        });
 
-      const vacationsPromise = ctx.prisma.vacation.findMany({
-        where: { employeeId: id, userId: ctx.session.user.id },
-        select: { id: true, start: true, end: true },
-      });
+        const rolesPromise = ctx.prisma.staffRole.findMany({
+          where: { employeeId: id, userId: ctx.session.user.id },
+          select: { name: true },
+        });
 
-      const sickLeavesPromise = ctx.prisma.sickLeave.findMany({
-        where: { employeeId: id, userId: ctx.session.user.id },
-        select: { id: true, start: true, end: true },
-      });
+        const employeeNotesPromise = ctx.prisma.employeeNote.findMany({
+          where: { employeeId: id, userId: ctx.session.user.id },
+          select: { id: true, content: true, createdAt: true },
+        });
 
-      const shiftPreferencesPromise = ctx.prisma.shiftPreference.findMany({
-        where: { employeeId: id, userId: ctx.session.user.id },
-        select: { id: true, content: true, createdAt: true },
-      });
+        const vacationsPromise = ctx.prisma.vacation.findMany({
+          where: { employeeId: id, userId: ctx.session.user.id },
+          select: { id: true, start: true, end: true },
+        });
 
-      const shiftsPromise = ctx.prisma.shift.findMany({
-        where: { employeeId: id, date: { lte: endOfMonth, gte: startOfMonth } },
-      });
+        const sickLeavesPromise = ctx.prisma.sickLeave.findMany({
+          where: { employeeId: id, userId: ctx.session.user.id },
+          select: { id: true, start: true, end: true },
+        });
 
-      let workDaysPromise;
+        const shiftPreferencesPromise = ctx.prisma.shiftPreference.findMany({
+          where: { employeeId: id, userId: ctx.session.user.id },
+          select: { id: true, content: true, createdAt: true },
+        });
 
-      if (endOfMonth && startOfMonth) {
-        workDaysPromise = ctx.prisma.workDay.findMany({
+        const shiftsPromise = ctx.prisma.shift.findMany({
           where: {
+            employeeId: id,
             date: { lte: endOfMonth, gte: startOfMonth },
           },
         });
-      } else {
-        workDaysPromise = Promise.resolve([]);
-      }
 
-      const [
-        notes,
-        shifts,
-        employee,
-        workDays,
-        vacations,
-        sickLeaves,
-        shiftPreferences,
-      ] = await Promise.all([
-        notesPromise,
-        shiftsPromise,
-        employeePromise,
-        workDaysPromise,
-        vacationsPromise,
-        sickLeavesPromise,
-        shiftPreferencesPromise,
-      ]);
+        let allRolesPromise;
 
-      if (!endOfMonth || !startOfMonth) {
-        return {
-          ...employee,
+        let workDaysPromise;
+
+        if (endOfMonth && startOfMonth) {
+          workDaysPromise = ctx.prisma.workDay.findMany({
+            where: {
+              date: { lte: endOfMonth, gte: startOfMonth },
+            },
+          });
+        } else {
+          workDaysPromise = Promise.resolve([]);
+        }
+
+        if (fetchAllRoles) {
+          allRolesPromise = ctx.prisma.staffRole.findMany({
+            where: { userId: ctx.session.user.id },
+            select: { id: true, name: true },
+          });
+        } else {
+          allRolesPromise = Promise.resolve([]);
+        }
+
+        const [
           notes,
+          roles,
+          shifts,
+          employee,
+          workDays,
+          allRoles,
           vacations,
           sickLeaves,
           shiftPreferences,
+        ] = await Promise.all([
+          notesPromise,
+          rolesPromise,
+          shiftsPromise,
+          employeePromise,
+          workDaysPromise,
+          allRolesPromise,
+          vacationsPromise,
+          sickLeavesPromise,
+          employeeNotesPromise,
+          shiftPreferencesPromise,
+        ]);
+
+        if (endOfMonth && startOfMonth) {
+          const newWorkDays = workDays.map((workDay) => {
+            const dayShifts = shifts.filter(
+              (shift) => shift.date === workDay.date
+            );
+            return { ...workDay, shifts: dayShifts };
+          });
+
+          return {
+            ...employee,
+            notes,
+            roles,
+            vacations,
+            sickLeaves,
+            shiftPreferences,
+            workDays: newWorkDays,
+          };
+        }
+
+        if (fetchAllRoles) {
+          return {
+            ...employee,
+            notes,
+            roles,
+            allRoles,
+            vacations,
+            sickLeaves,
+            workDays: [],
+            shiftPreferences,
+          };
+        }
+
+        return {
+          ...employee,
+          notes,
+          roles,
+          vacations,
+          sickLeaves,
           workDays: [],
+          shiftPreferences,
         };
       }
-
-      const newWorkDays = workDays.map((workDay) => {
-        const dayShifts = shifts.filter((shift) => shift.date === workDay.date);
-        return { ...workDay, shifts: dayShifts };
-      });
-
-      return {
-        ...employee,
-        notes,
-        vacations,
-        sickLeaves,
-        shiftPreferences,
-        workDays: newWorkDays,
-      };
-    }),
+    ),
 });
