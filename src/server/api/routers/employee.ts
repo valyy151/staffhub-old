@@ -108,7 +108,7 @@ export const employeeRouter = createTRPCRouter({
 
         const rolesPromise = ctx.prisma.staffRole.findMany({
           where: { employeeId: id, userId: ctx.session.user.id },
-          select: { name: true },
+          select: { id: true, name: true },
         });
 
         const employeeNotesPromise = ctx.prisma.employeeNote.findMany({
@@ -198,6 +198,7 @@ export const employeeRouter = createTRPCRouter({
             roles,
             vacations,
             sickLeaves,
+            allRoles: [],
             shiftPreferences,
             workDays: newWorkDays,
           };
@@ -222,6 +223,7 @@ export const employeeRouter = createTRPCRouter({
           roles,
           vacations,
           sickLeaves,
+          allRoles: [],
           workDays: [],
           shiftPreferences,
         };

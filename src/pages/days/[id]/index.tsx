@@ -1,3 +1,4 @@
+import router from "next/router";
 import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
 import Note from "~/components/WorkDay/Note";
@@ -6,14 +7,10 @@ import Heading from "~/components/ui/Heading";
 import Shift from "~/components/WorkDay/Shift";
 import { Button } from "~/components/ui/Button";
 import { Clock8, ScrollText } from "lucide-react";
+import Sidebar from "~/components/WorkDay/Sidebar";
 import AddNote from "~/components/WorkDay/AddNote";
 import AddShift from "~/components/WorkDay/AddShift";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
-import Sidebar from "~/components/WorkDay/Sidebar";
-import { getSession } from "next-auth/react";
-import { type GetServerSideProps } from "next/types";
-import router from "next/router";
-import Paragraph from "~/components/ui/Paragraph";
 
 interface WorkDayPageProps {
   query: { id: string };
@@ -102,6 +99,8 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       </div>
     );
   }
+
+  console.log(data.roles);
 
   return (
     <main className="flex">

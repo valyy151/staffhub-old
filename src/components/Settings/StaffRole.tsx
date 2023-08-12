@@ -69,48 +69,48 @@ export default function StaffRole({ role }: StaffRoleProps) {
   return (
     <div className="flex h-20 w-[64rem] items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
       {!edit && (
-        <div className="flex items-center">
-          <UserCog size={28} />
-          <Heading size={"xs"} className="ml-5 min-w-[7.75rem]">
-            {role.name}
-          </Heading>
-        </div>
-      )}
+        <>
+          <div className="flex items-center">
+            <UserCog size={28} />
+            <Heading size={"xs"} className="ml-5 min-w-[7.75rem]">
+              {role.name}
+            </Heading>
+          </div>
 
-      {!edit && (
-        <div className="flex items-center">
-          {role.numberPerDay !== null && role.numberPerDay > 0 && (
-            <>
-              <Paragraph size={"lg"} className="ml-8 text-2xl">
-                Minimum
-              </Paragraph>
-              <Paragraph size={"lg"} className="ml-2 text-2xl font-bold">
-                {role.numberPerDay}
-              </Paragraph>
-              <Paragraph size={"lg"} className="ml-2 text-2xl">
-                per work day
-              </Paragraph>
-            </>
-          )}
+          <div className="flex items-center">
+            {role.numberPerDay !== null && role.numberPerDay > 0 && (
+              <>
+                <Paragraph size={"lg"} className="ml-8 text-2xl">
+                  Minimum
+                </Paragraph>
+                <Paragraph size={"lg"} className="ml-2 text-2xl font-bold">
+                  {role.numberPerDay}
+                </Paragraph>
+                <Paragraph size={"lg"} className="ml-2 text-2xl">
+                  per work day
+                </Paragraph>
+              </>
+            )}
 
-          <Button
-            size={"lg"}
-            variant={"subtle"}
-            onClick={() => setEdit(true)}
-            className="ml-8 h-14 w-28 text-2xl"
-          >
-            Edit
-          </Button>
+            <Button
+              size={"lg"}
+              variant={"subtle"}
+              onClick={() => setEdit(true)}
+              className="ml-8 h-14 w-28 text-2xl"
+            >
+              Edit
+            </Button>
 
-          <Button
-            size={"lg"}
-            variant={"destructive"}
-            className="ml-2 h-14 w-36 text-2xl"
-            onClick={() => setShowModal(true)}
-          >
-            Delete
-          </Button>
-        </div>
+            <Button
+              size={"lg"}
+              variant={"destructive"}
+              className="ml-2 h-14 w-36 text-2xl"
+              onClick={() => setShowModal(true)}
+            >
+              Delete
+            </Button>
+          </div>
+        </>
       )}
       {edit && (
         <form
@@ -120,18 +120,18 @@ export default function StaffRole({ role }: StaffRoleProps) {
           <div className="flex items-center space-x-2">
             <UserCog size={28} />
             <div>
-              <label htmlFor="">Name</label>
+              <label className="ml-1">Name</label>
               <Input
                 value={name}
-                className=" w-[26rem] text-xl font-bold"
+                className=" w-[26rem] bg-white text-xl font-bold dark:bg-transparent"
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div>
-              <label htmlFor="">Number needed per work day</label>
+              <label className="ml-1">Number needed per work day</label>
               <Input
                 value={numberPerDay}
-                className=" w-48 text-xl font-bold"
+                className=" w-48 bg-white text-xl font-bold dark:bg-transparent"
                 onChange={(e) => setNumberPerDay(e.target.value)}
               />
             </div>

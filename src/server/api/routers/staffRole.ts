@@ -51,4 +51,38 @@ export const staffRoleRouter = createTRPCRouter({
         },
       });
     }),
+
+  assignToEmployee: protectedProcedure
+    .input(z.object({ employeeId: z.string(), staffRoleId: z.string() }))
+    .mutation(async ({ input: { employeeId, staffRoleId }, ctx }) => {
+      return await ctx.prisma.employee.update({
+        where: {
+          id: employeeId,
+        },
+        data: {
+          roles: {
+            connect: {
+              id: staffRoleId,
+            },
+          },
+        },
+      });
+    }),
+
+  removeFromEmployee: protectedProcedure
+    .input(z.object({ employeeId: z.string(), staffRoleId: z.string() }))
+    .mutation(async ({ input: { employeeId, staffRoleId }, ctx }) => {
+      return await ctx.prisma.employee.update({
+        where: {
+          id: employeeId,
+        },
+        data: {
+          roles: {
+            disconnect: {
+              id: staffRoleId,
+            },
+          },
+        },
+      });
+    }),
 });

@@ -43,10 +43,11 @@ export default function StaffRolesPage() {
   const { data } = api.staffRole.find.useQuery();
 
   const createStaffRole = api.staffRole.create.useMutation({
-    onSuccess: () => {
-      toast.success("Staff Role Created", {
+    onSuccess: ({ name }) => {
+      toast.success(`Role ${name} Created`, {
         className: "text-xl text-center",
       });
+      setRole("");
       setShowCreateRole(false);
       queryClient.invalidateQueries();
     },
@@ -57,6 +58,21 @@ export default function StaffRolesPage() {
       });
     },
   });
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!role) {
+      return toast.error("Please enter a role name", {
+        className: "text-xl text-center",
+      });
+    }
+
+    createStaffRole.mutate({
+      name: role,
+      numberPerDay: parseInt(number) | 0,
+    });
+  }
 
   if (!data) {
     return <Sidebar />;
@@ -84,7 +100,7 @@ export default function StaffRolesPage() {
             <Info className="mr-2" /> What are Staff Roles?
           </Button>
         </div>
-        {data.length > 0 && (
+        {!showCreateRole && data.length > 0 && (
           <div>
             <Heading className="mt-4 border-b border-slate-300 py-1 dark:border-slate-500">
               My Staff Roles
@@ -95,19 +111,11 @@ export default function StaffRolesPage() {
           </div>
         )}
         {showCreateRole && (
-          <form
-            className="mt-4"
-            onSubmit={() =>
-              createStaffRole.mutate({
-                name: role,
-                numberPerDay: parseInt(number) | 0,
-              })
-            }
-          >
+          <form className="mt-4" onSubmit={handleSubmit}>
             <label className="text-xl">Staff Role</label>
             <Input
               value={role}
-              className="mb-4 h-14 text-2xl"
+              className="mb-4 h-14 bg-white text-2xl dark:bg-transparent"
               placeholder="Enter the role name..."
               onChange={(e) => setRole(e.target.value)}
             />
@@ -121,7 +129,7 @@ export default function StaffRolesPage() {
               value={number}
               placeholder="Enter the number..."
               onChange={(e) => setNumber(parseInt(e.target.value).toString())}
-              className="h-14 text-2xl [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              className="h-14 bg-white text-2xl [appearance:textfield] dark:bg-transparent [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
             <div className="mt-4 space-x-2">
               <Button size={"lg"} className="h-14 text-2xl">
