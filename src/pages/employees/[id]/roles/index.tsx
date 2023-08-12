@@ -20,8 +20,6 @@ EmployeeRolesPage.getInitialProps = ({ query }: EmployeeRolesPageProps) => {
 };
 
 export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
-  const [showAddRole, setShowAddRole] = useState(false);
-
   const { data: employee, failureReason } = api.employee?.findOne.useQuery({
     id: query.id,
     fetchAllRoles: true,
@@ -36,13 +34,13 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
   const assignRole = api.staffRole.assignToEmployee.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.success(`Assigned role to ${employee?.name}`, {
+      toast.success(`Role assigned successfuly`, {
         className: "text-xl text-center",
       });
     },
 
     onError: () => {
-      toast.error(`Failed to assign role to ${employee?.name}`, {
+      toast.error(`Failed to assign role`, {
         className: "text-xl text-center",
       });
     },
@@ -51,13 +49,13 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
   const removeRole = api.staffRole.removeFromEmployee.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.success(`Removed role from ${employee?.name}`, {
+      toast.success(`Role removed successfuly `, {
         className: "text-xl text-center",
       });
     },
 
     onError: () => {
-      toast.error(`Failed to remove role from ${employee?.name}`, {
+      toast.error(`Failed to remove role`, {
         className: "text-xl text-center",
       });
     },
@@ -86,39 +84,34 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
     <main className="flex">
       <Sidebar employee={employee} />
 
-      <div className="mt-4 flex w-[36rem] flex-col">
+      <div className="mt-4 flex flex-col">
         <Heading>Roles for {employee?.name}</Heading>
-        <Button
-          size={"lg"}
-          className="mt-2 h-14 w-fit text-2xl"
-          onClick={() => setShowAddRole(true)}
-        >
-          <UserCog size={30} className="mr-2" /> Assign a Role
-        </Button>
-        {!showAddRole && employee?.roles.length === 0 && (
-          <Paragraph size={"lg"} className="mt-4">
-            {employee?.name} has no assigned roles.
-          </Paragraph>
-        )}
-        {showAddRole && (
-          <div className="mt-4">
-            {/* for every role in the database, display a checkbox with the role
-            name and a save button */}
-            {employee?.allRoles.map((role) => (
-              <div key={role.id} className="flex items-center">
+
+        <div className="mt-4 grid grid-cols-2 gap-4">
+          {employee?.allRoles
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .map((role) => (
+              <div
+                key={role.id}
+                className="flex cursor-pointer items-center rounded border border-slate-300 pl-4 hover:shadow dark:border-slate-700 dark:shadow-slate-700"
+              >
                 <input
+                  id={role.id}
                   type="checkbox"
-                  className="mr-2"
+                  className="h-8 w-8 cursor-pointer"
+                  name="bordered-checkbox cursor-pointer"
+                  onChange={(e) => handleChange(e, role.id)}
                   checked={employee?.roles.some((r) => r.id === role.id)}
-                  onChange={(e) => {
-                    handleChange(e, role.id);
-                  }}
                 />
-                <Paragraph size={"lg"}>{role.name}</Paragraph>
+                <label
+                  htmlFor={role.id}
+                  className="ml-2 w-full cursor-pointer py-4 text-2xl"
+                >
+                  {role.name}
+                </label>
               </div>
             ))}
-          </div>
-        )}
+        </div>
       </div>
     </main>
   );
