@@ -144,10 +144,11 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
             <div className="flex flex-col py-2">
               {employee.roles && employee.roles.length > 0 ? (
-                <Paragraph className="text-left">
-                  {employee.roles.length}{" "}
-                  {employee.roles.length === 1 ? "Role" : "Roles"}
-                </Paragraph>
+                employee.roles.map((role) => (
+                  <Paragraph key={role.id} className="text-left">
+                    {role.name}
+                  </Paragraph>
+                ))
               ) : (
                 <Paragraph className="text-left">No roles</Paragraph>
               )}

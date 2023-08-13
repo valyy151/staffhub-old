@@ -48,6 +48,7 @@ export default function StaffRolesPage() {
         className: "text-xl text-center",
       });
       setRole("");
+      setNumber("");
       setShowCreateRole(false);
       queryClient.invalidateQueries();
     },

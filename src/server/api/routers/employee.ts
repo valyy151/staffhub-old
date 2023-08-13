@@ -74,9 +74,9 @@ export const employeeRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        fetchAllRoles: z.boolean().optional(),
         endOfMonth: z.number().optional(),
         startOfMonth: z.number().optional(),
+        fetchAllRoles: z.boolean().optional(),
       })
     )
     .query(
@@ -107,7 +107,7 @@ export const employeeRouter = createTRPCRouter({
         });
 
         const rolesPromise = ctx.prisma.staffRole.findMany({
-          where: { employeeId: id, userId: ctx.session.user.id },
+          where: { employees: { some: { id } }, userId: ctx.session.user.id },
           select: { id: true, name: true },
         });
 
