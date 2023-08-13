@@ -9,6 +9,7 @@ import { ArrowLeft, Clock8 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Link from "next/link";
+import RolesDropdown from "./RolesDropdown";
 
 interface AddShiftProps {
   data: WorkDay;
@@ -17,9 +18,12 @@ interface AddShiftProps {
 
 export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const [name, setName] = useState<string>("");
+  const [role, setRole] = useState<string>("");
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [openStaff, setOpenStaff] = useState<boolean>(false);
+  const [openRoles, setOpenRoles] = useState<boolean>(false);
 
+  const [roles, setRoles] = useState([]);
   const [employeeId, setEmployeeId] = useState<string>("");
 
   const [end, setEnd] = useState<number>(0);
@@ -74,6 +78,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
     if (data.date) {
       createShift.mutate({
         end: end,
+        role: role,
         start: start,
         date: data.date,
         employeeId: employeeId,
@@ -97,13 +102,16 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
 
             <SearchEmployees
               name={name}
-              isOpen={isOpen}
+              setRole={setRole}
               setName={setName}
+              isOpen={openStaff}
+              setRoles={setRoles}
               setIsSick={setIsSick}
               employees={employees}
-              setIsOpen={setIsOpen}
               setId={setEmployeeId}
               setEndDate={setEndDate}
+              setIsOpen={setOpenStaff}
+              setOpenRoles={setOpenRoles}
               setIsOnVacation={setIsOnVacation}
               setRemainingDays={setRemainingDays}
             />
@@ -160,6 +168,22 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                   onChange={(e) => handleTimeChange(e.target.value, "end")}
                 />
               </div>
+              {roles.length > 0 && (
+                <div className="mb-auto flex flex-col">
+                  <label htmlFor="end" className="ml-2 text-xl">
+                    Role
+                  </label>
+
+                  <RolesDropdown
+                    role={role}
+                    roles={roles}
+                    setRole={setRole}
+                    isOpen={openRoles}
+                    setIsOpen={setOpenRoles}
+                    setOpenStaff={setOpenStaff}
+                  />
+                </div>
+              )}
             </div>
 
             <Heading size={"sm"} className="font-normal">

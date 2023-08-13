@@ -1,16 +1,17 @@
 import Input from "../ui/Input";
-import { useState } from "react";
-import { type Employee } from "@prisma/client";
 
 interface SearchEmployeesProps {
   name: string;
   isOpen: boolean;
   employees: any;
   setId: (id: string) => void;
+  setRoles: (roles: any) => void;
+  setRole: (role: string) => void;
   setName: (name: string) => void;
   setIsOpen: (isOpen: boolean) => void;
   setIsSick: (isSick: boolean) => void;
   setEndDate: (endDate: number) => void;
+  setOpenRoles: (openRoles: boolean) => void;
   setIsOnVacation: (isOnVacation: boolean) => void;
   setRemainingDays: (remainingDays: number) => void;
 }
@@ -20,16 +21,25 @@ export default function SearchEmployees({
   setId,
   isOpen,
   setName,
+  setRole,
   setIsOpen,
+  setRoles,
   employees,
   setIsSick,
   setEndDate,
+  setOpenRoles,
   setIsOnVacation,
   setRemainingDays,
 }: SearchEmployeesProps) {
-  const handleSelect = (name: string, id: string) => {
+  const handleSelect = (
+    id: string,
+    name: string,
+    roles: { name: string; id: string }
+  ) => {
     setId(id);
+    setRole("");
     setName(name);
+    setRoles(roles);
     setIsOpen(false);
   };
 
@@ -79,7 +89,10 @@ export default function SearchEmployees({
     <main className="relative w-full">
       <div
         className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-750 dark:shadow-slate-950 "
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setOpenRoles(false);
+        }}
       >
         <Input
           readOnly
@@ -104,7 +117,7 @@ export default function SearchEmployees({
                 key={employee.id}
                 onClick={() => {
                   checkIfSickOrVacation(employee);
-                  handleSelect(employee.name, employee.id);
+                  handleSelect(employee.id, employee.name, employee.roles);
                 }}
               >
                 {employee.name}

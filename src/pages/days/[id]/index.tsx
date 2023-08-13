@@ -100,8 +100,13 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     );
   }
 
-  console.log(data.roles);
+  // function that checks all roles and the minimum number of them required for the day
+  // and compares it to how many shifts there are with employees with that role
+  // if there are not enough employees with that role, it will return a message
 
+  function checkRoles() {}
+
+  console.log(data.shifts);
   return (
     <main className="flex">
       <Sidebar

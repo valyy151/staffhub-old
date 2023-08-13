@@ -47,7 +47,16 @@ export const workDayRouter = createTRPCRouter({
       const shiftsPromise = workDayPromise.then((workDay) => {
         return ctx.prisma.shift.findMany({
           where: { date: workDay?.date, userId: ctx.session.user.id },
-          include: { employee: { select: { name: true } } },
+          include: {
+            employee: {
+              select: {
+                name: true,
+                roles: {
+                  select: { name: true },
+                },
+              },
+            },
+          },
         });
       });
 
