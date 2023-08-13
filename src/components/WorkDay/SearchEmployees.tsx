@@ -108,7 +108,7 @@ export default function SearchEmployees({
         >
           <ul
             className={`${
-              employees.length > 8 && "h-[28.5rem] overflow-y-scroll"
+              employees?.length > 8 && "h-[28.5rem] overflow-y-scroll"
             } p-1`}
           >
             {employees.map((employee: any) => (

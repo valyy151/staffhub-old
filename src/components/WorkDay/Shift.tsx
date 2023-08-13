@@ -87,14 +87,14 @@ export default function Shift({ shift, date, index }: ShiftProps) {
 
   return (
     <div className="flex items-end justify-between">
-      <div>
+      <div className="min-w-[9rem]">
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Role
           </Heading>
         )}
 
-        <Heading className="font-semibold">{shift.role}</Heading>
+        <Heading className="font-normal">{shift.role}</Heading>
       </div>
       <div className="ml-12 w-[32rem]">
         {index === 0 && (

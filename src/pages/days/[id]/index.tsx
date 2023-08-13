@@ -74,6 +74,12 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               date={workDay.date}
             />
           ))}
+        <div className="mt-8 border-t border-slate-300 dark:border-slate-500">
+          <Heading size={"sm"} className="my-2">
+            For this day you have:
+          </Heading>
+          {checkRoles()}
+        </div>
       </div>
     );
   }
@@ -104,9 +110,30 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   // and compares it to how many shifts there are with employees with that role
   // if there are not enough employees with that role, it will return a message
 
-  function checkRoles() {}
+  function checkRoles() {
+    const roles: JSX.Element[] = [];
+    workDay?.roles.forEach((role, index) => {
+      const minRequired = role.numberPerDay;
 
-  console.log(data.shifts);
+      const shifts = workDay?.shifts.filter(
+        (shift) => shift.role === role.name
+      );
+
+      const employees = shifts?.map((shift) => shift.employeeId);
+      const uniqueEmployees = [...new Set(employees)];
+
+      return roles.push(
+        <div className={`${index !== 0 && "mt-4"}`}>
+          <Heading size={"sm"} className="font-normal">
+            {uniqueEmployees.length} / {minRequired} {role.name}s
+          </Heading>
+        </div>
+      );
+    });
+
+    return roles;
+  }
+
   return (
     <main className="flex">
       <Sidebar
@@ -155,14 +182,19 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
         {!showNotes && !showShifts && (
           <div className="mt-8">
-            <Heading>Shifts</Heading>
-            <Heading size={"sm"} className="font-normal">
-              There {workDay?.shifts.length === 1 ? "is" : "are"}{" "}
-              {workDay?.shifts.length}{" "}
-              {workDay?.shifts.length === 1 ? "shift" : "shifts"} planned for
-              this day.
+            <Heading
+              onClick={() => setShowShifts(true)}
+              className="mb-1 cursor-pointer hover:text-sky-500"
+            >
+              Shifts
             </Heading>
-            <Heading className="mt-8">Notes</Heading>
+            {checkRoles()}
+            <Heading
+              onClick={() => setShowNotes(true)}
+              className="mt-8 cursor-pointer hover:text-sky-500"
+            >
+              Notes
+            </Heading>
             <Heading size={"sm"} className="font-normal">
               There {workDay?.notes.length === 1 ? "is" : "are"}{" "}
               {workDay?.notes.length}{" "}
