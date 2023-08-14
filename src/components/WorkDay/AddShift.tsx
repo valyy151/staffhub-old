@@ -90,7 +90,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
     <div className="flex flex-col items-start">
       <Heading size={"sm"} className="mt-8">
         Add a new shift {name && "for"}{" "}
-        <Link href={`/employees/${employeeId}`} className="hover:text-sky-500">
+        <Link href={`/staff/${employeeId}`} className="hover:text-sky-500">
           {name}
         </Link>
       </Heading>

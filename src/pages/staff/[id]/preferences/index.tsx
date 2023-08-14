@@ -5,10 +5,10 @@ import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
-import Sidebar from "~/components/Employees/Sidebar";
+import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
-import ShiftPreference from "~/components/Employees/ShiftPreference";
+import ShiftPreference from "~/components/Staff/ShiftPreference";
 import router from "next/router";
 
 interface ShiftPreferencesProps {

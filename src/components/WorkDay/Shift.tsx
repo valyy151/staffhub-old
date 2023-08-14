@@ -105,7 +105,7 @@ export default function Shift({ shift, date, index }: ShiftProps) {
         <Heading>
           <Link
             className="underline-offset-8 hover:text-sky-500 hover:underline"
-            href={`/employees/${shift.employeeId}`}
+            href={`/staff/${shift.employeeId}`}
           >
             {shift?.employee.name}
           </Link>

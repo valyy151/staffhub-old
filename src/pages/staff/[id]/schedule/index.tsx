@@ -13,7 +13,7 @@ import "react-calendar/dist/Calendar.css";
 import { Calendar } from "react-calendar";
 import Heading from "~/components/ui/Heading";
 import Paragraph from "~/components/ui/Paragraph";
-import Sidebar from "~/components/Employees/Sidebar";
+import Sidebar from "~/components/Staff/Sidebar";
 import { calculateTotalHours } from "~/utils/calculateHours";
 
 const PDFButton = dynamic(() => import("~/components/PDFButton"), {

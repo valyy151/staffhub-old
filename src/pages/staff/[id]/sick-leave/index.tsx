@@ -4,11 +4,11 @@ import { HeartPulse } from "lucide-react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
-import Sidebar from "~/components/Employees/Sidebar";
+import Sidebar from "~/components/Staff/Sidebar";
 import { howManyDays } from "~/utils/calculateHours";
-import SickLeave from "~/components/Employees/SickLeave";
+import SickLeave from "~/components/Staff/SickLeave";
 import { checkSickLeaves } from "~/utils/checkSickLeaves";
-import AddSickLeave from "~/components/Employees/AddSickLeave";
+import AddSickLeave from "~/components/Staff/AddSickLeave";
 import router from "next/router";
 
 interface SickLeavePageProps {

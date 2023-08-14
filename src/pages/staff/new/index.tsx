@@ -45,7 +45,7 @@ export default function NewEmployeePage() {
 
   const createEmployee = api.employee.create.useMutation({
     onSuccess: () => {
-      window.location.href = "/employees";
+      window.location.href = "/staff";
     },
 
     onError: () => {

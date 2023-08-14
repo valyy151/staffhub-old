@@ -6,11 +6,11 @@ import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
 import { howManyDays } from "~/utils/calculateHours";
-import Sidebar from "~/components/Employees/Sidebar";
+import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
-import Vacation from "~/components/Employees/Vacation";
+import Vacation from "~/components/Staff/Vacation";
 import { checkVacations } from "~/utils/checkVacations";
-import AddVacation from "~/components/Employees/AddVacation";
+import AddVacation from "~/components/Staff/AddVacation";
 import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
 import router from "next/router";
 

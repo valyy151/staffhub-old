@@ -106,10 +106,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     );
   }
 
-  // function that checks all roles and the minimum number of them required for the day
-  // and compares it to how many shifts there are with employees with that role
-  // if there are not enough employees with that role, it will return a message
-
   function checkRoles() {
     const roles: JSX.Element[] = [];
     workDay?.roles.forEach((role, index) => {
@@ -184,14 +180,14 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
           <div className="mt-8">
             <Heading
               onClick={() => setShowShifts(true)}
-              className="mb-1 cursor-pointer hover:text-sky-500"
+              className="mb-1 w-fit cursor-pointer hover:text-sky-500"
             >
               Shifts
             </Heading>
             {checkRoles()}
             <Heading
               onClick={() => setShowNotes(true)}
-              className="mt-8 cursor-pointer hover:text-sky-500"
+              className="mt-8 w-fit cursor-pointer hover:text-sky-500"
             >
               Notes
             </Heading>

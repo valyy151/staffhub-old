@@ -1,15 +1,12 @@
-import { useState } from "react";
+import router from "next/router";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import Input from "~/components/ui/Input";
+import { UserCog } from "lucide-react";
 import Heading from "~/components/ui/Heading";
-import Note from "~/components/Employees/Note";
 import { Button } from "~/components/ui/Button";
+import Sidebar from "~/components/Staff/Sidebar";
 import Paragraph from "~/components/ui/Paragraph";
-import Sidebar from "~/components/Employees/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Save, ScrollText, UserCog } from "lucide-react";
-import router from "next/router";
 
 interface EmployeeRolesPageProps {
   query: { id: string };
@@ -86,6 +83,20 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
 
       <div className="mt-4 flex flex-col">
         <Heading>Roles for {employee?.name}</Heading>
+        {employee?.allRoles.length === 0 && (
+          <>
+            <Paragraph size={"lg"} className="mt-4">
+              You have not created any roles to assign to this employee.
+            </Paragraph>
+            <Button
+              size={"lg"}
+              onClick={() => router.push("/settings/roles")}
+              className="mt-4 h-14 w-fit text-2xl"
+            >
+              <UserCog size={30} className="mr-2" /> Create a role
+            </Button>
+          </>
+        )}
 
         <div className="mt-4 grid grid-cols-2 gap-4">
           {employee?.allRoles

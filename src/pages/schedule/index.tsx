@@ -166,7 +166,7 @@ export default function NewSchedulePage() {
         <Button
           size={"lg"}
           className="mt-4 h-14 text-2xl"
-          onClick={() => router.push("/employees/new")}
+          onClick={() => router.push("/staff/new")}
         >
           <UserPlus size={30} className="mr-2" /> New Employee
         </Button>

@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
-import Sidebar from "~/components/Employees/Sidebar";
+import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import router from "next/router";
 

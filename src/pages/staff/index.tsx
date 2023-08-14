@@ -52,7 +52,7 @@ export default function EmployeesListPage() {
         <Button
           size={"lg"}
           className="mt-4 h-14 text-2xl"
-          onClick={() => router.push("/employees/new")}
+          onClick={() => router.push("/staff/new")}
         >
           <UserPlus size={30} className="mr-2" /> New Employee
         </Button>
@@ -94,7 +94,7 @@ export default function EmployeesListPage() {
             <Button
               size={"lg"}
               className="flex h-12 w-4/5 text-xl"
-              onClick={() => router.push("/employees/new")}
+              onClick={() => router.push("/staff/new")}
               title="Add a new employee"
             >
               <UserPlus size={24} className="mr-2" /> New Staff Member
@@ -124,7 +124,7 @@ export default function EmployeesListPage() {
             <tbody className="divide-y-2 divide-slate-300 dark:divide-slate-600">
               {filteredData.map((employee: Employee, index: number) => (
                 <tr
-                  onClick={() => router.push(`/employees/${employee.id}`)}
+                  onClick={() => router.push(`/staff/${employee.id}`)}
                   key={`employee-${index}`}
                   className={`cursor-pointer duration-75 hover:bg-slate-100 dark:hover:bg-slate-700
 							${

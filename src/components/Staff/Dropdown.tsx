@@ -29,7 +29,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            router.push(`/employees/${employee.id}/notes`);
+            router.push(`/staff/${employee.id}/notes`);
           }}
           className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
         >
@@ -40,7 +40,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            router.push(`/employees/${employee.id}/vacation`);
+            router.push(`/staff/${employee.id}/vacation`);
           }}
           className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
         >
@@ -51,7 +51,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            router.push(`/employees/${employee.id}/schedule`);
+            router.push(`/staff/${employee.id}/schedule`);
           }}
           className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
         >
@@ -62,7 +62,7 @@ export default function Dropdown({
         <li
           onClick={() => {
             setShowDropdown(false);
-            router.push(`/employees/${employee.id}/preferences`);
+            router.push(`/staff/${employee.id}/preferences`);
           }}
           className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
         >
@@ -70,7 +70,7 @@ export default function Dropdown({
           <Sticker className="ml-2" />
         </li>
         <li
-          onClick={() => router.push(`/employees/${employee.id}/personal`)}
+          onClick={() => router.push(`/staff/${employee.id}/personal`)}
           className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3  dark:hover:bg-slate-600"
         >
           Personal Information

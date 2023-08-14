@@ -11,7 +11,7 @@ export default function Navbar() {
     <>
       <div className="flex w-1/3 justify-center space-x-2">
         <Link
-          href={"/employees"}
+          href={"/staff"}
           className={`${buttonVariants({ variant: "ghost" })}`}
         >
           Your Staff

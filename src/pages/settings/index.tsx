@@ -68,7 +68,7 @@ export default function SettingsPage() {
         size="lg"
         variant={"subtle"}
         className="mt-2 h-14 w-72 text-2xl"
-        onClick={() => router.push("/")}
+        onClick={() => router.push("/settings/shift-models")}
       >
         <Clock8 className="mr-2" /> Shift Models
       </Button>

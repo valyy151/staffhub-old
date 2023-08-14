@@ -23,16 +23,14 @@ export default function Sidebar({ employee }: SidebarProps) {
     <div className="mr-[26rem]">
       <ul className="fixed h-full w-fit border-r border-slate-500 text-2xl">
         <li
-          onClick={() =>
-            employee?.id && router.push(`/employees/${employee?.id}`)
-          }
+          onClick={() => employee?.id && router.push(`/staff/${employee?.id}`)}
           className="flex w-96 cursor-pointer items-center p-4 hover:bg-slate-150 dark:hover:bg-slate-750"
         >
           <ArrowLeft className="mr-2" /> Back
         </li>
         <li
           onClick={() =>
-            employee?.id && router.push(`/employees/${employee?.id}/personal`)
+            employee?.id && router.push(`/staff/${employee?.id}/personal`)
           }
           className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "personal"
@@ -44,7 +42,7 @@ export default function Sidebar({ employee }: SidebarProps) {
         </li>
         <li
           onClick={() =>
-            employee?.id && router.push(`/employees/${employee?.id}/roles`)
+            employee?.id && router.push(`/staff/${employee?.id}/roles`)
           }
           className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "roles"
@@ -56,7 +54,7 @@ export default function Sidebar({ employee }: SidebarProps) {
         </li>
         <li
           onClick={() =>
-            employee?.id && router.push(`/employees/${employee?.id}/notes`)
+            employee?.id && router.push(`/staff/${employee?.id}/notes`)
           }
           className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "notes"
@@ -68,7 +66,7 @@ export default function Sidebar({ employee }: SidebarProps) {
         </li>
         <li
           onClick={() =>
-            employee?.id && router.push(`/employees/${employee?.id}/sick-leave`)
+            employee?.id && router.push(`/staff/${employee?.id}/sick-leave`)
           }
           className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "sick-leave"
@@ -80,7 +78,7 @@ export default function Sidebar({ employee }: SidebarProps) {
         </li>
         <li
           onClick={() =>
-            employee?.id && router.push(`/employees/${employee?.id}/vacation`)
+            employee?.id && router.push(`/staff/${employee?.id}/vacation`)
           }
           className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "vacation"
@@ -92,8 +90,7 @@ export default function Sidebar({ employee }: SidebarProps) {
         </li>
         <li
           onClick={() =>
-            employee?.id &&
-            router.push(`/employees/${employee?.id}/preferences`)
+            employee?.id && router.push(`/staff/${employee?.id}/preferences`)
           }
           className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "preferences"
@@ -105,7 +102,7 @@ export default function Sidebar({ employee }: SidebarProps) {
         </li>
         <li
           onClick={() =>
-            employee?.id && router.push(`/employees/${employee?.id}/schedule`)
+            employee?.id && router.push(`/staff/${employee?.id}/schedule`)
           }
           className={`flex w-96 cursor-pointer items-center p-4 ${
             path === "schedule"

@@ -10,8 +10,6 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Sidebar from "~/components/Settings/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
-import Paragraph from "~/components/ui/Paragraph";
-import Modal from "~/components/ui/Modal";
 import StaffRole from "~/components/Settings/StaffRole";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
