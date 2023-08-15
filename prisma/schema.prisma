@@ -52,6 +52,7 @@ model User {
     sessions         Session[]
     employees        Employee[]
     vacations        Vacation[]
+    shiftModels      ShiftModel[]
     sickLeaves       SickLeave[]
     staffRoles       StaffRole[]
     workDayNotes     WorkDayNote[]
@@ -180,6 +181,16 @@ model StaffRole {
     userId       String
     employees    Employee[]
     user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+model ShiftModel {
+    id     String @id @default(cuid())
+    start  Int
+    end    Int
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
 }
