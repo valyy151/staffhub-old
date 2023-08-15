@@ -3,7 +3,7 @@ import Paragraph from "~/components/ui/Paragraph";
 
 export default function DocumentationPage() {
   return (
-    <main className="mx-auto flex w-fit flex-col items-start text-justify">
+    <main className="mx-auto flex w-fit flex-col items-start pb-24 text-justify">
       <Heading className="my-4 border-b-2 border-slate-300 dark:border-slate-500">
         Documentation
       </Heading>
@@ -23,7 +23,7 @@ export default function DocumentationPage() {
         <span className="font-semibold">shift preferences</span>.
       </Paragraph>
 
-      <Heading size={"sm"} className="mt-4">
+      <Heading size={"sm"} className="mt-8">
         Schedules
       </Heading>
 
@@ -43,7 +43,24 @@ export default function DocumentationPage() {
         number <span className="font-semibold">shifts</span> you have planned.
       </Paragraph>
 
-      <Heading size={"sm"} className="mt-4">
+      <Heading size={"sm"} className="mt-8">
+        Staff Roles
+      </Heading>
+
+      <Paragraph size={"lg"}>
+        You can create different <span className="font-semibold">roles</span>{" "}
+        for your staff members. You can also set how many of that role you need
+        in one work day. This can be done from the{" "}
+        <span className="font-semibold">roles page</span> located in your{" "}
+        <span className="font-semibold">account settings</span> . You can then
+        assign a role to a staff member from their{" "}
+        <span className="font-semibold">profile page</span>. This will allow you
+        to easily see which staff members have which role. When creating shifts
+        you can assign a role to an employee and easily oversee how many roles
+        you got covered for a specific day.
+      </Paragraph>
+
+      <Heading size={"sm"} className="mt-8">
         Work days
       </Heading>
 
@@ -55,7 +72,7 @@ export default function DocumentationPage() {
         <span className="font-semibold">notes</span> for that day.
       </Paragraph>
 
-      <Heading size={"sm"} className="mt-4">
+      <Heading size={"sm"} className="mt-8">
         Shifts
       </Heading>
 
