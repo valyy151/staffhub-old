@@ -159,18 +159,20 @@ model WorkDayNote {
 }
 
 model Shift {
-    id         String   @id @default(cuid())
+    id         String     @id @default(cuid())
     start      Int
     end        Int
     employeeId String
     userId     String
     date       Int
-    role       String?
-    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+    roleId     String?
+    role       StaffRole? @relation(fields: [roleId], references: [id], onDelete: SetNull)
+    user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+    employee   Employee   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
     @@unique([employeeId, date])
     @@index([userId])
+    @@index([roleId])
     @@index([employeeId])
 }
 
@@ -179,6 +181,7 @@ model StaffRole {
     numberPerDay Int?
     name         String
     userId       String
+    shifts       Shift[]
     employees    Employee[]
     user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 

@@ -9,11 +9,11 @@ export const shiftRouter = createTRPCRouter({
         date: z.number(),
         start: z.number(),
         employeeId: z.string(),
-        role: z.string().optional(),
+        roleId: z.string().optional(),
       })
     )
     .mutation(
-      async ({ input: { end, date, role, start, employeeId }, ctx }) => {
+      async ({ input: { end, date, roleId, start, employeeId }, ctx }) => {
         const modifiedDate = new Date(date * 1000);
 
         modifiedDate.setHours(0, 0, 0, 0);
@@ -24,7 +24,7 @@ export const shiftRouter = createTRPCRouter({
             end,
             start,
             employeeId,
-            role: role || "",
+            roleId: roleId || "",
             date: midnightUnixCode,
             userId: ctx.session.user.id,
           },

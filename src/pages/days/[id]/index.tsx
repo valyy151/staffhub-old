@@ -62,6 +62,8 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       );
     }
 
+    const hasRoles = checkRoles();
+
     return (
       <div className="mt-8">
         {workDay?.shifts
@@ -74,12 +76,14 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               date={workDay.date}
             />
           ))}
-        <div className="mt-8 border-t border-slate-300 dark:border-slate-500">
-          <Heading size={"sm"} className="my-2">
-            For this day you have:
-          </Heading>
-          {checkRoles()}
-        </div>
+        {hasRoles && (
+          <div className="mt-8 border-t border-slate-300 dark:border-slate-500">
+            <Heading size={"sm"} className="my-2">
+              For this day you have:
+            </Heading>
+            {checkRoles()}
+          </div>
+        )}
       </div>
     );
   }
@@ -112,7 +116,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       const minRequired = role.numberPerDay;
 
       const shifts = workDay?.shifts.filter(
-        (shift) => shift.role === role.name
+        (shift) => shift.roleId === role.name
       );
 
       const employees = shifts?.map((shift) => shift.employeeId);
@@ -120,12 +124,16 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
       return roles.push(
         <div className={`${index !== 0 && "mt-4"}`}>
-          <Heading size={"sm"} className="font-normal">
+          <Heading size={"xs"} className="font-normal">
             {uniqueEmployees.length} / {minRequired} {role.name}s
           </Heading>
         </div>
       );
     });
+
+    if (roles.length === 0) {
+      return;
+    }
 
     return roles;
   }
@@ -184,7 +192,18 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
             >
               Shifts
             </Heading>
-            {checkRoles()}
+
+            <Heading size={"sm"} className="font-normal">
+              There are {workDay?.shifts.length} shifts for this day.
+            </Heading>
+
+            {checkRoles() && (
+              <>
+                <Heading className="mt-4">Roles filled:</Heading>
+                {checkRoles()}
+              </>
+            )}
+
             <Heading
               onClick={() => setShowNotes(true)}
               className="mt-8 w-fit cursor-pointer hover:text-sky-500"

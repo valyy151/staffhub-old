@@ -18,7 +18,7 @@ interface AddShiftProps {
 
 export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const [name, setName] = useState<string>("");
-  const [role, setRole] = useState<string>("");
+  const [roleId, setRoleId] = useState<string>("");
 
   const [openStaff, setOpenStaff] = useState<boolean>(false);
   const [openRoles, setOpenRoles] = useState<boolean>(false);
@@ -78,8 +78,8 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
     if (data.date) {
       createShift.mutate({
         end: end,
-        role: role,
         start: start,
+        roleId: roleId,
         date: data.date,
         employeeId: employeeId,
       });
@@ -102,10 +102,10 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
 
             <SearchEmployees
               name={name}
-              setRole={setRole}
               setName={setName}
               isOpen={openStaff}
               setRoles={setRoles}
+              setRoleId={setRoleId}
               setIsSick={setIsSick}
               employees={employees}
               setId={setEmployeeId}
@@ -175,10 +175,10 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                   </label>
 
                   <RolesDropdown
-                    role={role}
+                    role={roleId}
                     roles={roles}
-                    setRole={setRole}
                     isOpen={openRoles}
+                    setRole={setRoleId}
                     setIsOpen={setOpenRoles}
                     setOpenStaff={setOpenStaff}
                   />

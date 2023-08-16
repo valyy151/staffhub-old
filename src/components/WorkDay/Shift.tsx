@@ -14,7 +14,9 @@ import { formatTime, formatTotal } from "~/utils/dateFormatting";
 interface ShiftProps {
   date: number | undefined;
   index: number;
-  shift: Shift & { employee: { name: string; roles: { name: string }[] } };
+  shift: Shift & {
+    employee: { name: string; roles: { name: string }[] };
+  };
 }
 
 export default function Shift({ shift, date, index }: ShiftProps) {
@@ -94,9 +96,14 @@ export default function Shift({ shift, date, index }: ShiftProps) {
           </Heading>
         )}
 
-        <Heading className="font-normal">{shift.role}</Heading>
+        {shift.roleId ? (
+          <Heading className="font-medium">{shift.roleId}</Heading>
+        ) : (
+          <Heading className="font-light italic">None</Heading>
+        )}
       </div>
-      <div className="ml-12 w-[32rem]">
+
+      <div className={`ml-12 w-[32rem]`}>
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Name

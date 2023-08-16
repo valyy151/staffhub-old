@@ -6,7 +6,7 @@ interface SearchEmployeesProps {
   employees: any;
   setId: (id: string) => void;
   setRoles: (roles: any) => void;
-  setRole: (role: string) => void;
+  setRoleId: (roleId: string) => void;
   setName: (name: string) => void;
   setIsOpen: (isOpen: boolean) => void;
   setIsSick: (isSick: boolean) => void;
@@ -21,7 +21,7 @@ export default function SearchEmployees({
   setId,
   isOpen,
   setName,
-  setRole,
+  setRoleId,
   setIsOpen,
   setRoles,
   employees,
@@ -37,7 +37,7 @@ export default function SearchEmployees({
     roles: { name: string; id: string }
   ) => {
     setId(id);
-    setRole("");
+    setRoleId("");
     setName(name);
     setRoles(roles);
     setIsOpen(false);
