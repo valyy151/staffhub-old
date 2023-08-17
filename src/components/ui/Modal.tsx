@@ -8,7 +8,6 @@ import Paragraph from "./Paragraph";
 
 interface ModalProps {
   text: string;
-  icon?: string;
   heading?: string;
   showModal: boolean;
   cancel: MouseEventHandler<HTMLButtonElement>;
@@ -16,7 +15,6 @@ interface ModalProps {
 }
 
 export default function Modal({
-  icon,
   text,
   submit,
   cancel,
@@ -28,7 +26,7 @@ export default function Modal({
       isOpen={showModal}
       className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
     >
-      <div className="mx-auto min-w-[26rem] max-w-3xl rounded-xl border border-slate-300 bg-white px-12 pb-6 text-left shadow-lg dark:border-slate-600 dark:bg-slate-700">
+      <div className="mx-auto min-w-[26rem] max-w-3xl animate-fade rounded-xl border border-slate-300 bg-white px-12 pb-6 text-left shadow-lg dark:border-slate-600 dark:bg-slate-700">
         <Heading size={"xs"} className="mb-2 mt-8">
           {heading}
         </Heading>

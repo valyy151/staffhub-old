@@ -11,6 +11,15 @@ export default {
         "slate-250": "#D7DFE9",
         "slate-150": "#EAEFF5",
       },
+      keyframes: {
+        fade: {
+          "0%": { opacity: "0", scale: "0.9" },
+          "100%": { opacity: "1", scale: "1" },
+        },
+      },
+      animation: {
+        fade: "fade 0.2s ease-in-out",
+      },
     },
   },
   plugins: [],
