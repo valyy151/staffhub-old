@@ -19,7 +19,7 @@ export const shiftModelRouter = createTRPCRouter({
       });
     }),
 
-  find: protectedProcedure.mutation(async ({ ctx }) => {
+  find: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.shiftModel.findMany({
       where: {
         userId: ctx.session.user.id,

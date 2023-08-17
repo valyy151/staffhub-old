@@ -1,13 +1,16 @@
+import { useState } from "react";
+import Input from "~/components/ui/Input";
 import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
+import { Button } from "~/components/ui/Button";
 import Sidebar from "~/components/Settings/Sidebar";
 import { type GetServerSideProps } from "next/types";
-import { Button } from "~/components/ui/Button";
 import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
-import { useState } from "react";
-import ShiftModelModal from "~/components/Settings/ShiftModelModal";
-import Input from "~/components/ui/Input";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import ShiftModelModal from "~/components/Settings/ShiftModelModal";
+import { api } from "~/utils/api";
+import { toast } from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -30,12 +33,29 @@ export default function ShiftModelsPage() {
   const [showModal, setShowModal] = useState(false);
   const [showCreateModel, setShowCreateModel] = useState(false);
 
+  const queryClient = useQueryClient();
+
+  const { data } = api.shiftModel.find.useQuery();
+
   const [end, setEnd] = useState<number>(0);
   const [start, setStart] = useState<number>(0);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    createShiftModel.mutate({ start, end });
   }
+
+  const createShiftModel = api.shiftModel.create.useMutation({
+    onSuccess: () => {
+      setShowCreateModel(false);
+      queryClient.invalidateQueries();
+      toast.success("Shift model created");
+    },
+
+    onError: () => {
+      toast.error("Error creating shift model");
+    },
+  });
 
   function handleTimeChange(newTime: string, field: "start" | "end") {
     const [hour, minute]: string[] = newTime.split(":");
@@ -47,6 +67,10 @@ export default function ShiftModelsPage() {
     field === "start" ? setStart(newUnixTime) : setEnd(newUnixTime);
   }
 
+  if (!data) {
+    return <Sidebar />;
+  }
+
   return (
     <main className="flex">
       <Sidebar />
@@ -54,7 +78,7 @@ export default function ShiftModelsPage() {
         <Heading size={"lg"} className="mb-2">
           Add and manage Shift Models
         </Heading>
-        <div className="space-x-1">
+        <div className="space-x-2">
           <Button
             className="h-14 text-2xl"
             onClick={() => setShowCreateModel(true)}
@@ -69,16 +93,16 @@ export default function ShiftModelsPage() {
             <Info className="mr-2" /> What are Shift Models?
           </Button>
         </div>
-        {/* {!showCreateModel && data.length > 0 && (
+        {!showCreateModel && data.length > 0 && (
           <div>
             <Heading className="mt-4 border-b border-slate-300 py-1 dark:border-slate-500">
-              My Staff Roles
+              My Shift Models
             </Heading>
-            {data.map((role) => (
-              <StaffRole role={role} key={role.id} />
+            {data.map((shiftModel) => (
+              <div>{shiftModel.id}</div>
             ))}
           </div>
-        )} */}
+        )}
         {showCreateModel && (
           <form className="mt-4" onSubmit={handleSubmit}>
             <div className="flex space-x-2">
@@ -121,7 +145,7 @@ export default function ShiftModelsPage() {
                 </Heading>
               </div>
             </div>
-            <div>
+            <div className="mt-4 space-x-2">
               <Button size={"lg"} className="h-14 text-2xl">
                 <Save size={28} className="mr-2" />
                 Submit
