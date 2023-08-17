@@ -34,7 +34,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const [remainingDays, setRemainingDays] = useState<number>(0);
   const [isOnVacation, setIsOnVacation] = useState<boolean>(false);
 
-  const handleTimeChange = (newTime: string, field: "start" | "end") => {
+  function handleTimeChange(newTime: string, field: "start" | "end") {
     // convert the new time into Unix timestamp
     if (data.date) {
       const [hour, minute]: string[] = newTime.split(":");
@@ -45,7 +45,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
 
       field === "start" ? setStart(newUnixTime) : setEnd(newUnixTime);
     }
-  };
+  }
 
   const { data: employees } = api.employee.find.useQuery();
 
