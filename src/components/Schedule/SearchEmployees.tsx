@@ -48,7 +48,7 @@ export default function SearchEmployees({
         />
       </div>
       {isOpen && (
-        <div className="rounded-md">
+        <div className="animate-slideDown rounded-md">
           <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-700 dark:text-slate-300">
             <ul
               className={`${

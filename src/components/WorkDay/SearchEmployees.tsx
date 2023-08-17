@@ -104,7 +104,7 @@ export default function SearchEmployees({
       </div>
       {isOpen && (
         <div
-          className={`absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-700 dark:text-slate-300`}
+          className={`absolute z-10 mt-1 w-full animate-slideDown rounded-md bg-white shadow-md dark:bg-slate-700 dark:text-slate-300`}
         >
           <ul
             className={`${

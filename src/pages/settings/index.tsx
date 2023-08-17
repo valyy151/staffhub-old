@@ -93,7 +93,6 @@ export default function SettingsPage() {
 
       {showModal && (
         <Modal
-          icon="employee"
           showModal={showModal}
           cancel={() => setShowModal(false)}
           submit={() => deleteUser.mutate()}
