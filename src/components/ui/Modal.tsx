@@ -1,13 +1,15 @@
 import Heading from "./Heading";
 import { Button } from "./Button";
 import ReactModal from "react-modal";
-import { Trash2, UserX2 } from "lucide-react";
+import { UserX2 } from "lucide-react";
 import { UserCheck2 } from "lucide-react";
 import { type MouseEventHandler } from "react";
+import Paragraph from "./Paragraph";
 
 interface ModalProps {
   text: string;
   icon?: string;
+  heading?: string;
   showModal: boolean;
   cancel: MouseEventHandler<HTMLButtonElement>;
   submit: MouseEventHandler<HTMLButtonElement>;
@@ -18,6 +20,7 @@ export default function Modal({
   text,
   submit,
   cancel,
+  heading,
   showModal,
 }: ModalProps) {
   return (
@@ -26,12 +29,13 @@ export default function Modal({
       className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
     >
       <div className="mx-auto min-w-[26rem] max-w-3xl rounded-xl border border-slate-300 bg-white px-12 pb-6 text-left shadow-lg dark:border-slate-600 dark:bg-slate-700">
-        <Heading size={"xs"} className="mt-8 font-normal">
-          {text}
+        <Heading size={"xs"} className="mb-2 mt-8">
+          {heading}
         </Heading>
+        <Paragraph className="font-normal">{text}</Paragraph>
         <div className="mt-6 flex h-full justify-end space-x-2">
           <Button size={"lg"} onClick={cancel} className="text-xl">
-            {icon === "employee" && <UserCheck2 size={30} className="mr-2" />}No
+            No
           </Button>
           <Button
             size={"lg"}
@@ -39,7 +43,7 @@ export default function Modal({
             onClick={submit}
             className="text-xl"
           >
-            {icon === "employee" && <UserX2 size={30} className="mr-2" />} Yes
+            Yes
           </Button>
         </div>
       </div>

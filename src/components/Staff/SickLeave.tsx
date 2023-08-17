@@ -65,8 +65,9 @@ export default function SickLeave({ sickLeave }: SickLeaveProps) {
           <Modal
             showModal={showModal}
             submit={handleDelete}
-            text={"Delete sick leave?"}
+            heading={"Delete sick leave?"}
             cancel={() => setShowModal(false)}
+            text={"Are you sure you want to delete this sick leave?"}
           />
         )}
       </div>

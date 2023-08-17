@@ -211,6 +211,7 @@ export default function Shift({ shift, date, index }: ShiftProps) {
         <Modal
           submit={deleteShift}
           showModal={showModal}
+          heading={"Delete shift?"}
           cancel={() => setShowModal(false)}
           text={"Are you sure you want to delete this shift?"}
         />

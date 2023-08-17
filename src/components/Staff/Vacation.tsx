@@ -87,9 +87,10 @@ export default function Vacation({ vacation, employee }: VacationProps) {
         {showModal && (
           <Modal
             showModal={showModal}
-            text={"Delete vacation?"}
-            cancel={() => setShowModal(false)}
             submit={handleDelete}
+            heading={"Delete vacation?"}
+            cancel={() => setShowModal(false)}
+            text={"Are you sure you want to delete this vacation"}
           />
         )}
       </div>

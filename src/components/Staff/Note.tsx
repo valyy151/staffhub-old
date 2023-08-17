@@ -134,10 +134,11 @@ export default function Note({ note }: NoteProps) {
 
             {showModal && (
               <Modal
-                text={"Delete note?"}
-                showModal={showModal}
                 submit={deleteNote}
+                showModal={showModal}
+                heading={"Delete note?"}
                 cancel={() => setShowModal(false)}
+                text={"Are you sure you want to delete this note?"}
               />
             )}
           </div>

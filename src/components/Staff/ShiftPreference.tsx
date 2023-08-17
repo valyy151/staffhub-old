@@ -139,8 +139,9 @@ export default function ShiftPreference({
               <Modal
                 showModal={showModal}
                 submit={deletePreference}
-                text={"Delete shift preference?"}
                 cancel={() => setShowModal(false)}
+                heading={"Delete shift preference?"}
+                text={"Are you sure you want to delete this shift preference?"}
               />
             )}
           </div>

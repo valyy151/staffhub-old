@@ -157,6 +157,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
           showModal={showModal}
           cancel={() => setShowModal(false)}
           submit={() => deleteStaffRole.mutate({ id: role.id })}
+          heading={"Delete Staff Role?"}
           text={`Are you sure you want to delete the ${role.name} staff role?`}
         />
       )}

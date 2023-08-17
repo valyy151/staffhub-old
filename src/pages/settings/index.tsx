@@ -93,11 +93,12 @@ export default function SettingsPage() {
 
       {showModal && (
         <Modal
-          submit={() => deleteUser.mutate()}
           icon="employee"
           showModal={showModal}
           cancel={() => setShowModal(false)}
-          text=" Are you sure you want to delete your account? You will also lose all the data that you have. This change is not reversible."
+          submit={() => deleteUser.mutate()}
+          heading="Are you sure you want to delete your account?"
+          text="You will also lose all the data that you have. This change is not reversible."
         />
       )}
     </main>
