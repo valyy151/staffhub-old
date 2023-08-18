@@ -31,30 +31,22 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
   const assignRole = api.staffRole.assignToEmployee.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.success(`Role assigned successfuly`, {
-        className: "text-xl text-center",
-      });
+      toast.success(`Role assigned successfuly`);
     },
 
     onError: () => {
-      toast.error(`Failed to assign role`, {
-        className: "text-xl text-center",
-      });
+      toast.error(`Failed to assign role`);
     },
   });
 
   const removeRole = api.staffRole.removeFromEmployee.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.success(`Role removed successfuly `, {
-        className: "text-xl text-center",
-      });
+      toast.success(`Role removed successfuly `);
     },
 
     onError: () => {
-      toast.error(`Failed to remove role`, {
-        className: "text-xl text-center",
-      });
+      toast.error(`Failed to remove role`);
     },
   });
 

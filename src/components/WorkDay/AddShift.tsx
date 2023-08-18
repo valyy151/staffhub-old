@@ -55,14 +55,10 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
     onSuccess: () => {
       setShowAddShift(false);
       void queryClient.invalidateQueries();
-      toast.success("Shift created successfully.", {
-        className: "text-xl text-center",
-      });
+      toast.success("Shift created successfully.");
     },
     onError: () => {
-      toast.error("There was an error creating the shift.", {
-        className: "text-xl text-center",
-      });
+      toast.error("There was an error creating the shift.");
     },
   });
 
@@ -70,9 +66,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
     e.preventDefault();
 
     if (!end || !start) {
-      return toast("Please fill the start and end time.", {
-        className: "text-xl text-center",
-      });
+      return toast("Please fill the start and end time.");
     }
 
     if (data.date) {

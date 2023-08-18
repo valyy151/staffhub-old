@@ -11,6 +11,7 @@ import ShiftModelModal from "~/components/Settings/ShiftModelModal";
 import { api } from "~/utils/api";
 import { toast } from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
+import ShiftModel from "~/components/Settings/ShiftModel";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -47,6 +48,8 @@ export default function ShiftModelsPage() {
 
   const createShiftModel = api.shiftModel.create.useMutation({
     onSuccess: () => {
+      setEnd(0);
+      setStart(0);
       setShowCreateModel(false);
       queryClient.invalidateQueries();
       toast.success("Shift model created");
@@ -99,12 +102,13 @@ export default function ShiftModelsPage() {
               My Shift Models
             </Heading>
             {data.map((shiftModel) => (
-              <div>{shiftModel.id}</div>
+              <ShiftModel key={shiftModel.id} shiftModel={shiftModel} />
             ))}
           </div>
         )}
         {showCreateModel && (
-          <form className="mt-4" onSubmit={handleSubmit}>
+          <form className="" onSubmit={handleSubmit}>
+            <Heading className="mb-2 mt-5">New Shift Model</Heading>
             <div className="flex space-x-2">
               <div>
                 <label htmlFor="start" className="ml-2 text-xl">

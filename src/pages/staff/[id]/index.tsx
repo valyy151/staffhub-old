@@ -46,9 +46,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
   const deleteEmployee = api.employee.delete.useMutation({
     onSuccess: () => {
-      toast.success("Employee deleted successfully.", {
-        className: "text-xl text-center",
-      });
+      toast.success("Employee deleted successfully.");
       router.push("/staff");
     },
   });

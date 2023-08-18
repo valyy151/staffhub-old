@@ -26,33 +26,25 @@ export default function StaffRole({ role }: StaffRoleProps) {
 
   const deleteStaffRole = api.staffRole.delete.useMutation({
     onSuccess: () => {
-      toast.success("Staff Role Deleted", {
-        className: "text-xl text-center",
-      });
+      toast.success("Staff Role Deleted");
       setShowModal(false);
       queryClient.invalidateQueries();
     },
 
     onError: () => {
-      toast.error("Failed to delete Staff Role", {
-        className: "text-xl text-center",
-      });
+      toast.error("Failed to delete Staff Role");
     },
   });
 
   const updateStaffRole = api.staffRole.update.useMutation({
     onSuccess: () => {
-      toast.success("Staff Role Updated", {
-        className: "text-xl text-center",
-      });
+      toast.success("Staff Role Updated");
       setEdit(false);
       queryClient.invalidateQueries();
     },
 
     onError: () => {
-      toast.error("Failed to update Staff Role", {
-        className: "text-xl text-center",
-      });
+      toast.error("Failed to update Staff Role");
     },
   });
 

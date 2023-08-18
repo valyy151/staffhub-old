@@ -58,27 +58,19 @@ export default function NewSchedulePage() {
 
   const createShift = api.shift.createMany.useMutation({
     onSuccess: () => {
-      toast.success("Schedule created!", {
-        className: "text-xl text-center",
-      });
+      toast.success("Schedule created!");
     },
     onError: () => {
-      toast.error("Something went wrong.", {
-        className: "text-xl text-center",
-      });
+      toast.error("Something went wrong.");
     },
   });
 
   const createDay = api.workDay.createMany.useMutation({
     onSuccess: () => {
-      toast.success("Yearly work days created!", {
-        className: "text-xl text-center",
-      });
+      toast.success("Yearly work days created!");
     },
     onError: () => {
-      toast.error("Something went wrong with creating work days.", {
-        className: "text-xl text-center",
-      });
+      toast.error("Something went wrong with creating work days.");
     },
   });
 
@@ -98,9 +90,7 @@ export default function NewSchedulePage() {
 
   function createSchedule() {
     if (!employeeId) {
-      return toast("Please select an employee.", {
-        className: "text-xl text-center",
-      });
+      return toast("Please select an employee.");
     }
 
     refetch().then(({ data }) => {

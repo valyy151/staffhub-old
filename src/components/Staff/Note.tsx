@@ -23,15 +23,11 @@ export default function Note({ note }: NoteProps) {
     onSuccess: () => {
       setShowModal(false);
       void queryClient.invalidateQueries();
-      toast.success("Note deleted successfully.", {
-        className: "text-xl text-center",
-      });
+      toast.success("Note deleted successfully.");
     },
 
     onError: () => {
-      toast.error("There was a problem deleting the note.", {
-        className: "text-xl text-center",
-      });
+      toast.error("There was a problem deleting the note.");
     },
   });
 
@@ -39,15 +35,11 @@ export default function Note({ note }: NoteProps) {
     onSuccess: () => {
       setEditNote(false);
       void queryClient.invalidateQueries();
-      toast.success("Note updated successfully.", {
-        className: "text-xl text-center",
-      });
+      toast.success("Note updated successfully.");
     },
 
     onError: () => {
-      toast.error("There was a problem updating the note.", {
-        className: "text-xl text-center",
-      });
+      toast.error("There was a problem updating the note.");
     },
   });
 

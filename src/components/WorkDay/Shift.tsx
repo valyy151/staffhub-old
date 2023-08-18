@@ -44,30 +44,22 @@ export default function Shift({ shift, date, index }: ShiftProps) {
   const updateShiftMutation = api.shift.update.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Shift updated successfully.", {
-        className: "text-xl text-center",
-      });
+      toast.success("Shift updated successfully.");
     },
 
     onError: () => {
-      toast.error("There was a problem updating the shift.", {
-        className: "text-xl text-center",
-      });
+      toast.error("There was a problem updating the shift.");
     },
   });
 
   const deleteShiftMutation = api.shift.delete.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Shift deleted successfully.", {
-        className: "text-xl text-center",
-      });
+      toast.success("Shift deleted successfully.");
     },
 
     onError: () => {
-      toast.error("There was a problem deleting the shift.", {
-        className: "text-xl text-center",
-      });
+      toast.error("There was a problem deleting the shift.");
     },
   });
 

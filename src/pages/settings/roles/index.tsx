@@ -42,9 +42,7 @@ export default function StaffRolesPage() {
 
   const createStaffRole = api.staffRole.create.useMutation({
     onSuccess: ({ name }) => {
-      toast.success(`Role ${name} Created`, {
-        className: "text-xl text-center",
-      });
+      toast.success(`Role ${name} Created`);
       setRole("");
       setNumber("");
       setShowCreateRole(false);
@@ -52,9 +50,7 @@ export default function StaffRolesPage() {
     },
 
     onError: () => {
-      toast.error("Failed to create Staff Role", {
-        className: "text-xl text-center",
-      });
+      toast.error("Failed to create Staff Role");
     },
   });
 
@@ -62,9 +58,7 @@ export default function StaffRolesPage() {
     e.preventDefault();
 
     if (!role) {
-      return toast.error("Please enter a role name", {
-        className: "text-xl text-center",
-      });
+      return toast.error("Please enter a role name");
     }
 
     createStaffRole.mutate({

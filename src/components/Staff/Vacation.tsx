@@ -34,14 +34,10 @@ export default function Vacation({ vacation, employee }: VacationProps) {
   const deleteVacation = api.vacation.delete.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Vacation deleted successfully.", {
-        className: "text-xl text-center",
-      });
+      toast.success("Vacation deleted successfully.");
     },
     onError: () => {
-      toast.error("There was an error deleting the vacation.", {
-        className: "text-xl text-center",
-      });
+      toast.error("There was an error deleting the vacation.");
     },
   });
 

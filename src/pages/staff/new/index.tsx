@@ -35,9 +35,7 @@ export default function NewEmployeePage() {
     e.preventDefault();
 
     if (!name || !email || !address || !phoneNumber) {
-      return toast("Please fill out all the fields.", {
-        className: "text-xl text-center",
-      });
+      return toast("Please fill out all the fields.");
     }
 
     createEmployee.mutate({ name, email, address, phoneNumber });
@@ -49,9 +47,7 @@ export default function NewEmployeePage() {
     },
 
     onError: () => {
-      toast.error("There was an error creating the employee.", {
-        className: "text-xl text-center",
-      });
+      toast.error("There was an error creating the employee.");
     },
   });
 
