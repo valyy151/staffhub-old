@@ -10,7 +10,6 @@ import Spinner from "~/components/ui/Spinner";
 import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
 import { formatMonth } from "~/utils/dateFormatting";
-import { type ShiftPreference } from "@prisma/client";
 import { type GetServerSideProps } from "next/types";
 import { CalendarPlus, Info, UserPlus } from "lucide-react";
 import ScheduleTable from "~/components/Schedule/ScheduleTable";
@@ -40,11 +39,9 @@ export default function NewSchedulePage() {
   const [name, setName] = useState<string>("");
   const [employeeId, setEmployeeId] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [shiftPreferences, setShiftPreferences] = useState<ShiftPreference[]>(
-    []
-  );
 
   const currentDate = new Date();
+
   const [value, setValue] = useState<Date>(currentDate);
   const [schedule, setSchedule] = useState<any[]>(updateMonthData(currentDate));
 
@@ -115,30 +112,6 @@ export default function NewSchedulePage() {
     });
   }
 
-  function checkPreferences() {
-    if (shiftPreferences.length === 0) {
-      return (
-        name && (
-          <Heading size={"sm"} className="ml-4 mt-4">
-            {name} has no shift preferences.
-          </Heading>
-        )
-      );
-    }
-
-    return (
-      <div className="ml-4 mt-4 flex items-baseline">
-        <Heading size={"sm"}>Shift preferences:</Heading>
-
-        {shiftPreferences.map((preference) => (
-          <Paragraph size={"lg"} className="m-0 ml-2">
-            {preference.content}
-          </Paragraph>
-        ))}
-      </div>
-    );
-  }
-
   if (!data) {
     return <Spinner />;
   }
@@ -175,7 +148,6 @@ export default function NewSchedulePage() {
             employees={data}
             setIsOpen={setIsOpen}
             setEmployeeId={setEmployeeId}
-            setShiftPreferences={setShiftPreferences}
           />
           <Calendar
             value={value}
@@ -237,7 +209,6 @@ export default function NewSchedulePage() {
             </Heading>
           )}
           <ScheduleTable data={schedule} setData={setSchedule} />
-          {checkPreferences()}
         </div>
       </section>
 

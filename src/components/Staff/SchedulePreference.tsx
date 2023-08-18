@@ -1,4 +1,4 @@
-import { type ShiftPreference } from "@prisma/client";
+import { type SchedulePreference } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { XCircle, Trash2, Pencil, Save } from "lucide-react";
 import { useState } from "react";
@@ -9,24 +9,26 @@ import Modal from "~/components/ui/Modal";
 import Paragraph from "~/components/ui/Paragraph";
 import { api } from "~/utils/api";
 
-interface ShiftPreferenceProps {
-  shiftPreference: { id: string; content: string; createdAt: Date };
+interface SchedulePreferenceProps {
+  schedulePreference: { id: string; hoursPerMonth: number; createdAt: Date };
 }
 
-export default function ShiftPreference({
-  shiftPreference,
-}: ShiftPreferenceProps) {
+export default function SchedulePreference({
+  schedulePreference,
+}: SchedulePreferenceProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [editPreference, setEditPreference] = useState<boolean>(false);
-  const [content, setContent] = useState<string>(shiftPreference.content);
+  const [hoursPerMonth, setHoursPerMonth] = useState<string>(
+    schedulePreference.hoursPerMonth?.toString()
+  );
 
   const queryClient = useQueryClient();
 
-  const deletePreferenceMutation = api.shiftPreference.delete.useMutation({
+  const deletePreferenceMutation = api.schedulePreference.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
       void queryClient.invalidateQueries();
-      toast.success("Shift preference deleted successfully.");
+      toast.success("Schedule preference deleted successfully.");
     },
 
     onError: () => {
@@ -34,28 +36,29 @@ export default function ShiftPreference({
     },
   });
 
-  const updatePreferenceMutation = api.shiftPreference.update.useMutation({
+  const updatePreferenceMutation = api.schedulePreference.update.useMutation({
     onSuccess: () => {
       setEditPreference(false);
       void queryClient.invalidateQueries();
-      toast.success("Shift preference updated successfully.");
+      toast.success("Schedule preference updated successfully.");
     },
 
     onError: () => {
-      toast.error("There was a problem updating the shift preference.");
+      toast.error("There was a problem updating the schedule preference.");
     },
   });
 
   function updatePreference() {
     updatePreferenceMutation.mutate({
-      content,
-      shiftPreferenceId: shiftPreference.id,
+      hoursPerMonth: parseInt(hoursPerMonth),
+      shiftModelIds: [],
+      schedulePreferenceId: schedulePreference.id,
     });
   }
 
   function deletePreference() {
     deletePreferenceMutation.mutate({
-      shiftPreferenceId: shiftPreference.id,
+      schedulePreferenceId: schedulePreference.id,
     });
   }
 
@@ -63,7 +66,7 @@ export default function ShiftPreference({
     <div className="my-2 flex w-[42rem] flex-col items-start">
       <Paragraph className="font-medium">
         {" "}
-        {shiftPreference.createdAt.toLocaleString("en-GB", {
+        {schedulePreference.createdAt.toLocaleString("en-GB", {
           day: "numeric",
           month: "short",
           year: "numeric",
@@ -80,8 +83,8 @@ export default function ShiftPreference({
           <>
             <Input
               type="text"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              // value={content}
+              // onChange={(e) => setContent(e.target.value)}
               className="m-0 h-12 w-[36rem] border-none px-0 text-lg shadow-none focus:ring-0 focus:ring-offset-0"
             />
             <Button
@@ -106,7 +109,7 @@ export default function ShiftPreference({
         ) : (
           <div className="flex items-center">
             <Paragraph className="flex h-12 w-[36rem] min-w-[16rem] items-center rounded-md bg-white text-left dark:bg-slate-700">
-              {content}
+              {/* {content} */}
             </Paragraph>
             <Button
               size={"sm"}

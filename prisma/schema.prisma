@@ -42,22 +42,22 @@ model Session {
 }
 
 model User {
-    id               String            @id @default(cuid())
-    name             String?
-    email            String?           @unique
-    emailVerified    DateTime?
-    image            String?
-    shifts           Shift[]
-    accounts         Account[]
-    sessions         Session[]
-    employees        Employee[]
-    vacations        Vacation[]
-    shiftModels      ShiftModel[]
-    sickLeaves       SickLeave[]
-    staffRoles       StaffRole[]
-    workDayNotes     WorkDayNote[]
-    employeeNotes    EmployeeNote[]
-    shiftPreferences ShiftPreference[]
+    id                  String               @id @default(cuid())
+    name                String?
+    email               String?              @unique
+    emailVerified       DateTime?
+    image               String?
+    shifts              Shift[]
+    accounts            Account[]
+    sessions            Session[]
+    employees           Employee[]
+    vacations           Vacation[]
+    shiftModels         ShiftModel[]
+    sickLeaves          SickLeave[]
+    staffRoles          StaffRole[]
+    workDayNotes        WorkDayNote[]
+    employeeNotes       EmployeeNote[]
+    schedulePreferences SchedulePreference[]
 }
 
 model VerificationToken {
@@ -69,20 +69,20 @@ model VerificationToken {
 }
 
 model Employee {
-    id               String            @id @default(cuid())
-    name             String
-    email            String
-    address          String
-    userId           String
-    phoneNumber      String
-    shifts           Shift[]
-    vacations        Vacation[]
-    roles            StaffRole[]
-    sickLeaves       SickLeave[]
-    notes            EmployeeNote[]
-    shiftPreferences ShiftPreference[]
-    vacationDays     Int               @default(25)
-    user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                  String               @id @default(cuid())
+    name                String
+    email               String
+    address             String
+    userId              String
+    phoneNumber         String
+    shifts              Shift[]
+    vacations           Vacation[]
+    roles               StaffRole[]
+    sickLeaves          SickLeave[]
+    notes               EmployeeNote[]
+    schedulePreferences SchedulePreference[]
+    vacationDays        Int                  @default(25)
+    user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
 }
@@ -100,14 +100,15 @@ model EmployeeNote {
     @@index([employeeId])
 }
 
-model ShiftPreference {
-    id         String   @id @default(cuid())
-    employeeId String
-    content    String
-    userId     String
-    createdAt  DateTime @default(now())
-    user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-    employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+model SchedulePreference {
+    id            String       @id @default(cuid())
+    employeeId    String       @unique
+    userId        String
+    hoursPerMonth Int
+    createdAt     DateTime     @default(now())
+    shiftModels   ShiftModel[]
+    user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    employee      Employee     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
 
     @@index([userId])
     @@index([employeeId])
@@ -189,11 +190,12 @@ model StaffRole {
 }
 
 model ShiftModel {
-    id     String @id @default(cuid())
-    start  Int
-    end    Int
-    userId String
-    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                  String               @id @default(cuid())
+    start               Int
+    end                 Int
+    userId              String
+    user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    schedulePreferences SchedulePreference[]
 
     @@index([userId])
 }

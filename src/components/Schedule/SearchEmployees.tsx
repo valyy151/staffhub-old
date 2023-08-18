@@ -1,6 +1,5 @@
 import Input from "../ui/Input";
 import { type Employee } from "~/utils/api";
-import { type ShiftPreference } from "@prisma/client";
 import { useState } from "react";
 
 interface SearchEmployeesProps {
@@ -10,7 +9,6 @@ interface SearchEmployeesProps {
   setName: (name: string) => void;
   setEmployeeId: (id: string) => void;
   setIsOpen: (isOpen: boolean) => void;
-  setShiftPreferences: (preferences: ShiftPreference[]) => void;
 }
 
 export default function SearchEmployees({
@@ -20,18 +18,12 @@ export default function SearchEmployees({
   setIsOpen,
   employees,
   setEmployeeId,
-  setShiftPreferences,
 }: SearchEmployeesProps) {
   const [searchValue, setSearchValue] = useState<string>("");
-  function handleSelect(
-    id: string,
-    name: string,
-    shiftPreferences: ShiftPreference[]
-  ) {
+  function handleSelect(id: string, name: string) {
     setName(name);
     setIsOpen(false);
     setEmployeeId(id);
-    setShiftPreferences(shiftPreferences);
   }
 
   return (
@@ -59,13 +51,7 @@ export default function SearchEmployees({
                 <li
                   className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
                   key={employee.id}
-                  onClick={() =>
-                    handleSelect(
-                      employee.id,
-                      employee.name,
-                      employee.shiftPreferences
-                    )
-                  }
+                  onClick={() => handleSelect(employee.id, employee.name)}
                 >
                   {employee.name}
                 </li>

@@ -142,7 +142,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
             <div className="flex flex-col py-2">
               {employee.roles && employee.roles.length > 0 ? (
-                employee.roles.map((role) => (
+                employee.roles.map((role: { id: string; name: string }) => (
                   <Paragraph key={role.id} className="text-left">
                     {role.name}
                   </Paragraph>
@@ -198,10 +198,10 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             </Heading>
 
             <div className="flex flex-col py-2">
-              {employee.shiftPreferences?.length > 0 ? (
+              {employee.schedulePreferences?.length > 0 ? (
                 <Paragraph className="text-left">
-                  {employee.shiftPreferences.length} Shift{" "}
-                  {employee.shiftPreferences.length === 1
+                  {employee.schedulePreferences.length} Shift{" "}
+                  {employee.schedulePreferences.length === 1
                     ? "preference"
                     : "preferences"}
                 </Paragraph>
@@ -216,7 +216,6 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
         </div>
         {showModal && (
           <Modal
-            icon="employee"
             showModal={showModal}
             submit={handleDelete}
             heading={"Delete employee?"}

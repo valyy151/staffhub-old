@@ -65,7 +65,7 @@ export const employeeRouter = createTRPCRouter({
         vacations: true,
         sickLeaves: true,
         phoneNumber: true,
-        shiftPreferences: true,
+        schedulePreferences: true,
       },
     });
   }),
@@ -97,7 +97,7 @@ export const employeeRouter = createTRPCRouter({
             sickLeaves: true,
             phoneNumber: true,
             vacationDays: true,
-            shiftPreferences: true,
+            schedulePreferences: true,
           },
         });
 
@@ -126,10 +126,10 @@ export const employeeRouter = createTRPCRouter({
           select: { id: true, start: true, end: true },
         });
 
-        const shiftPreferencesPromise = ctx.prisma.shiftPreference.findMany({
-          where: { employeeId: id, userId: ctx.session.user.id },
-          select: { id: true, content: true, createdAt: true },
-        });
+        const schedulePreferencesPromise =
+          ctx.prisma.schedulePreference.findMany({
+            where: { employeeId: id, userId: ctx.session.user.id },
+          });
 
         const shiftsPromise = ctx.prisma.shift.findMany({
           where: {
@@ -170,7 +170,7 @@ export const employeeRouter = createTRPCRouter({
           allRoles,
           vacations,
           sickLeaves,
-          shiftPreferences,
+          schedulePreferences,
         ] = await Promise.all([
           notesPromise,
           rolesPromise,
@@ -181,7 +181,7 @@ export const employeeRouter = createTRPCRouter({
           vacationsPromise,
           sickLeavesPromise,
           employeeNotesPromise,
-          shiftPreferencesPromise,
+          schedulePreferencesPromise,
         ]);
 
         if (endOfMonth && startOfMonth) {
@@ -199,7 +199,7 @@ export const employeeRouter = createTRPCRouter({
             vacations,
             sickLeaves,
             allRoles: [],
-            shiftPreferences,
+            schedulePreferences,
             workDays: newWorkDays,
           };
         }
@@ -213,7 +213,7 @@ export const employeeRouter = createTRPCRouter({
             vacations,
             sickLeaves,
             workDays: [],
-            shiftPreferences,
+            schedulePreferences,
           };
         }
 
@@ -225,7 +225,7 @@ export const employeeRouter = createTRPCRouter({
           sickLeaves,
           allRoles: [],
           workDays: [],
-          shiftPreferences,
+          schedulePreferences,
         };
       }
     ),

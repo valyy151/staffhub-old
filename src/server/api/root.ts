@@ -10,7 +10,7 @@ import { staffRoleRouter } from "./routers/staffRole";
 import { shiftModelRouter } from "./routers/shiftModel";
 import { workDayNoteRouter } from "./routers/workDayNote";
 import { employeeNoteRouter } from "./routers/employeeNote";
-import { shiftPreferenceRouter } from "./routers/shiftPreference";
+import { schedulePreferenceRouter } from "./routers/schedulePreference";
 
 /**
  * This is the primary router for your server.
@@ -29,7 +29,7 @@ export const appRouter = createTRPCRouter({
   shiftModel: shiftModelRouter,
   workDayNote: workDayNoteRouter,
   employeeNote: employeeNoteRouter,
-  shiftPreference: shiftPreferenceRouter,
+  schedulePreference: schedulePreferenceRouter,
 });
 
 // export type definition of API

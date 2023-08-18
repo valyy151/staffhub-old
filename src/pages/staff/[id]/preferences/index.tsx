@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
+import router from "next/router";
 import toast from "react-hot-toast";
 import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
@@ -8,19 +9,22 @@ import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
-import ShiftPreference from "~/components/Staff/ShiftPreference";
-import router from "next/router";
+import SchedulePreference from "~/components/Staff/SchedulePreference";
 
-interface ShiftPreferencesProps {
+interface schedulePreferencesProps {
   query: { id: string };
 }
 
-ShiftPreferencesPage.getInitialProps = ({ query }: ShiftPreferencesProps) => {
+schedulePreferencesPage.getInitialProps = ({
+  query,
+}: schedulePreferencesProps) => {
   return { query };
 };
 
-export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
-  const [content, setContent] = useState<string>("");
+export default function schedulePreferencesPage({
+  query,
+}: schedulePreferencesProps) {
+  const [hoursPerMonth, setHoursPerMonth] = useState<string>("");
   const [showAddPreference, setShowAddPreference] = useState<boolean>(false);
 
   const { data: employee, failureReason } = api.employee.findOne.useQuery({
@@ -33,7 +37,7 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
 
   const queryClient = useQueryClient();
 
-  const createPreferenceMutation = api.shiftPreference.create.useMutation({
+  const createPreferenceMutation = api.schedulePreference.create.useMutation({
     onSuccess: () => {
       setShowAddPreference(false);
       void queryClient.invalidateQueries();
@@ -47,22 +51,19 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
   function createPreference(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!content) {
-      return toast("Please fill the shift preference content.");
-    }
-
     createPreferenceMutation.mutate({
-      content,
+      shiftModelIds: [],
       employeeId: query.id,
+      hoursPerMonth: parseInt(hoursPerMonth),
     });
   }
 
-  function renderShiftPreferences() {
+  function renderschedulePreferences() {
     if (showAddPreference) {
       return null;
     }
 
-    if (employee?.shiftPreferences.length === 0) {
+    if (employee?.schedulePreferences.length === 0) {
       return (
         <Paragraph size={"lg"} className="mt-8">
           There are no shift preferences for {employee.name}.
@@ -73,13 +74,16 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
     return (
       <>
         <Paragraph size={"lg"} className="mr-auto mt-8">
-          {employee?.name} has {employee?.shiftPreferences.length}{" "}
-          {employee?.shiftPreferences.length === 1
+          {employee?.name} has {employee?.schedulePreferences.length}{" "}
+          {employee?.schedulePreferences.length === 1
             ? "shift preference"
             : "shift preferences"}
         </Paragraph>
-        {employee?.shiftPreferences.map((preference) => (
-          <ShiftPreference key={preference.id} shiftPreference={preference} />
+        {employee?.schedulePreferences.map((preference) => (
+          <SchedulePreference
+            key={preference.id}
+            schedulePreference={preference}
+          />
         ))}
       </>
     );
@@ -103,7 +107,7 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
           New Shift Preference
         </Button>
 
-        {renderShiftPreferences()}
+        {renderschedulePreferences()}
 
         {showAddPreference && (
           <form onSubmit={createPreference} className="mt-8 flex-col">
@@ -114,8 +118,8 @@ export default function ShiftPreferencesPage({ query }: ShiftPreferencesProps) {
             <Input
               type="text"
               placeholder=" Add a shift preference..."
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
+              // value={content}
+              // onChange={(e) => setContent(e.target.value)}
               className="h-14 text-lg"
             />
             <div className="mt-2 flex w-full space-x-1">

@@ -1,17 +1,17 @@
 import { useState } from "react";
+import { api } from "~/utils/api";
+import { toast } from "react-hot-toast";
 import Input from "~/components/ui/Input";
 import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import Sidebar from "~/components/Settings/Sidebar";
 import { type GetServerSideProps } from "next/types";
+import { useQueryClient } from "@tanstack/react-query";
+import ShiftModel from "~/components/Settings/ShiftModel";
 import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import ShiftModelModal from "~/components/Settings/ShiftModelModal";
-import { api } from "~/utils/api";
-import { toast } from "react-hot-toast";
-import { useQueryClient } from "@tanstack/react-query";
-import ShiftModel from "~/components/Settings/ShiftModel";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -107,7 +107,7 @@ export default function ShiftModelsPage() {
           </div>
         )}
         {showCreateModel && (
-          <form className="" onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <Heading className="mb-2 mt-5">New Shift Model</Heading>
             <div className="flex space-x-2">
               <div>
