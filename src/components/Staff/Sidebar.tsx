@@ -98,7 +98,7 @@ export default function Sidebar({ employee }: SidebarProps) {
               : "hover:bg-slate-150 dark:hover:bg-slate-750"
           }`}
         >
-          <Sticker className="mr-2" /> Shift Preferences
+          <Sticker className="mr-2" /> Schedule Preferences
         </li>
         <li
           onClick={() =>

@@ -10,7 +10,7 @@ import Paragraph from "~/components/ui/Paragraph";
 import { api } from "~/utils/api";
 
 interface SchedulePreferenceProps {
-  schedulePreference: { id: string; hoursPerMonth: number; createdAt: Date };
+  schedulePreference: SchedulePreference;
 }
 
 export default function SchedulePreference({
@@ -109,8 +109,9 @@ export default function SchedulePreference({
         ) : (
           <div className="flex items-center">
             <Paragraph className="flex h-12 w-[36rem] min-w-[16rem] items-center rounded-md bg-white text-left dark:bg-slate-700">
-              {/* {content} */}
+              {schedulePreference.hoursPerMonth} hours per month
             </Paragraph>
+
             <Button
               size={"sm"}
               variant={"link"}

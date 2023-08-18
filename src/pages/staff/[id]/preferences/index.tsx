@@ -10,6 +10,7 @@ import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
 import SchedulePreference from "~/components/Staff/SchedulePreference";
+import { formatTime } from "~/utils/dateFormatting";
 
 interface schedulePreferencesProps {
   query: { id: string };
@@ -29,6 +30,7 @@ export default function schedulePreferencesPage({
 
   const { data: employee, failureReason } = api.employee.findOne.useQuery({
     id: query.id,
+    fetchShiftModels: true,
   });
 
   if (failureReason?.data?.httpStatus === 401) {
@@ -51,14 +53,24 @@ export default function schedulePreferencesPage({
   function createPreference(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    if (!employee?.id) {
+      return;
+    }
+
+    const shiftModelIds = Array.from(
+      document.querySelectorAll<HTMLInputElement>(
+        "input[type=checkbox]:checked"
+      )
+    ).map((input) => input.value);
+
     createPreferenceMutation.mutate({
-      shiftModelIds: [],
-      employeeId: query.id,
+      shiftModelIds,
+      employeeId: employee?.id,
       hoursPerMonth: parseInt(hoursPerMonth),
     });
   }
 
-  function renderschedulePreferences() {
+  function renderSchedulePreferences() {
     if (showAddPreference) {
       return null;
     }
@@ -66,7 +78,7 @@ export default function schedulePreferencesPage({
     if (employee?.schedulePreferences.length === 0) {
       return (
         <Paragraph size={"lg"} className="mt-8">
-          There are no shift preferences for {employee.name}.
+          There are no schedule preferences for {employee.name}.
         </Paragraph>
       );
     }
@@ -76,8 +88,8 @@ export default function schedulePreferencesPage({
         <Paragraph size={"lg"} className="mr-auto mt-8">
           {employee?.name} has {employee?.schedulePreferences.length}{" "}
           {employee?.schedulePreferences.length === 1
-            ? "shift preference"
-            : "shift preferences"}
+            ? "schedule preference"
+            : "schedule preferences"}
         </Paragraph>
         {employee?.schedulePreferences.map((preference) => (
           <SchedulePreference
@@ -97,31 +109,52 @@ export default function schedulePreferencesPage({
     <main className="flex">
       <Sidebar employee={employee} />
       <div className="mt-4 flex flex-col">
-        <Heading>Shift preferences for {employee?.name}</Heading>
+        <Heading>Schedule preferences for {employee?.name}</Heading>
         <Button
           size={"lg"}
           className="mt-2 h-14 w-fit text-2xl"
           onClick={() => setShowAddPreference(true)}
         >
           <Sticker size={32} className="mr-2" />
-          New Shift Preference
+          New Schedule Preference
         </Button>
 
-        {renderschedulePreferences()}
+        {renderSchedulePreferences()}
 
         {showAddPreference && (
           <form onSubmit={createPreference} className="mt-8 flex-col">
             <Heading size={"xs"} className="mb-3">
-              Add a new shift preference
+              Add a new schedule preference
             </Heading>
-
-            <Input
-              type="text"
-              placeholder=" Add a shift preference..."
-              // value={content}
-              // onChange={(e) => setContent(e.target.value)}
-              className="h-14 text-lg"
-            />
+            <div>
+              <Input
+                type="text"
+                value={hoursPerMonth}
+                className="h-14 text-lg"
+                placeholder="Hours per month"
+                onChange={(e) => setHoursPerMonth(e.target.value)}
+              />
+            </div>
+            <div className="my-4 space-y-2">
+              {employee?.shiftModels.map((shiftModel) => (
+                <div key={shiftModel.id}>
+                  <input
+                    type="checkbox"
+                    className="h-8 w-8 cursor-pointer"
+                    id={shiftModel.id}
+                    name={shiftModel.id}
+                    value={shiftModel.id}
+                  />
+                  <label
+                    htmlFor={shiftModel.id}
+                    className="ml-2 cursor-pointer text-3xl"
+                  >
+                    {formatTime(shiftModel.start)} -{" "}
+                    {formatTime(shiftModel.end)}
+                  </label>
+                </div>
+              ))}
+            </div>
             <div className="mt-2 flex w-full space-x-1">
               <Button
                 className="h-14 w-full text-2xl"

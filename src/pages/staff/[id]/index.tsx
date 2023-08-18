@@ -194,7 +194,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
-              Shift Preferences <Sticker size={26} className="ml-2" />
+              Schedule Preferences <Sticker size={26} className="ml-2" />
             </Heading>
 
             <div className="flex flex-col py-2">
@@ -207,7 +207,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                 </Paragraph>
               ) : (
                 <Paragraph className="text-left">
-                  No shift preferences.
+                  No schedule preferences.
                 </Paragraph>
               )}
             </div>
