@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import router from "next/router";
 import toast from "react-hot-toast";
@@ -9,7 +9,6 @@ import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
-import SchedulePreference from "~/components/Staff/SchedulePreference";
 import { formatTime } from "~/utils/dateFormatting";
 
 interface schedulePreferencesProps {
@@ -39,16 +38,32 @@ export default function schedulePreferencesPage({
 
   const queryClient = useQueryClient();
 
-  const createPreferenceMutation = api.schedulePreference.create.useMutation({
-    onSuccess: () => {
-      setShowAddPreference(false);
-      void queryClient.invalidateQueries();
-      toast.success("Shift preference created successfully.");
-    },
-    onError: () => {
-      toast.error("There was an error creating the shift preference.");
-    },
-  });
+  useEffect(() => {
+    if (!employee?.schedulePreference) {
+      return;
+    }
+
+    employee?.schedulePreference.shiftModels.forEach((shiftModel) => {
+      const input = document.getElementById(shiftModel.id) as HTMLInputElement;
+      if (input) {
+        input.checked = true;
+      }
+    });
+
+    setHoursPerMonth(employee.schedulePreference.hoursPerMonth.toString());
+  }, [employee, showAddPreference]);
+
+  const createPreferenceMutation =
+    api.schedulePreference.createOrUpdate.useMutation({
+      onSuccess: () => {
+        setShowAddPreference(false);
+        void queryClient.invalidateQueries();
+        toast.success("Schedule preference updated successfully.");
+      },
+      onError: () => {
+        toast.error("There was an error updating the schedule preference.");
+      },
+    });
 
   function createPreference(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -66,39 +81,8 @@ export default function schedulePreferencesPage({
     createPreferenceMutation.mutate({
       shiftModelIds,
       employeeId: employee?.id,
-      hoursPerMonth: parseInt(hoursPerMonth),
+      hoursPerMonth: parseInt(hoursPerMonth) || 0,
     });
-  }
-
-  function renderSchedulePreferences() {
-    if (showAddPreference) {
-      return null;
-    }
-
-    if (employee?.schedulePreferences.length === 0) {
-      return (
-        <Paragraph size={"lg"} className="mt-8">
-          There are no schedule preferences for {employee.name}.
-        </Paragraph>
-      );
-    }
-
-    return (
-      <>
-        <Paragraph size={"lg"} className="mr-auto mt-8">
-          {employee?.name} has {employee?.schedulePreferences.length}{" "}
-          {employee?.schedulePreferences.length === 1
-            ? "schedule preference"
-            : "schedule preferences"}
-        </Paragraph>
-        {employee?.schedulePreferences.map((preference) => (
-          <SchedulePreference
-            key={preference.id}
-            schedulePreference={preference}
-          />
-        ))}
-      </>
-    );
   }
 
   if (!employee) {
@@ -116,28 +100,29 @@ export default function schedulePreferencesPage({
           onClick={() => setShowAddPreference(true)}
         >
           <Sticker size={32} className="mr-2" />
-          New Schedule Preference
+          Edit Schedule Preferences
         </Button>
-
-        {renderSchedulePreferences()}
 
         {showAddPreference && (
           <form onSubmit={createPreference} className="mt-8 flex-col">
             <Heading size={"xs"} className="mb-3">
-              Add a new schedule preference
+              How many hours per month would this employee like to work?
             </Heading>
             <div>
               <Input
                 type="text"
                 value={hoursPerMonth}
                 className="h-14 text-lg"
-                placeholder="Hours per month"
+                placeholder="Enter hours per month  "
                 onChange={(e) => setHoursPerMonth(e.target.value)}
               />
             </div>
+            <Heading size={"xs"} className="my-2">
+              Which shifts does {employee.name} prefer?
+            </Heading>
             <div className="my-4 space-y-2">
               {employee?.shiftModels.map((shiftModel) => (
-                <div key={shiftModel.id}>
+                <div key={shiftModel.id} className="my-2">
                   <input
                     type="checkbox"
                     className="h-8 w-8 cursor-pointer"

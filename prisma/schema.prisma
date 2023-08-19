@@ -69,20 +69,20 @@ model VerificationToken {
 }
 
 model Employee {
-    id                  String               @id @default(cuid())
-    name                String
-    email               String
-    address             String
-    userId              String
-    phoneNumber         String
-    shifts              Shift[]
-    vacations           Vacation[]
-    roles               StaffRole[]
-    sickLeaves          SickLeave[]
-    notes               EmployeeNote[]
-    schedulePreferences SchedulePreference[]
-    vacationDays        Int                  @default(25)
-    user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id                 String              @id @default(cuid())
+    name               String
+    email              String
+    address            String
+    userId             String
+    phoneNumber        String
+    shifts             Shift[]
+    vacations          Vacation[]
+    roles              StaffRole[]
+    sickLeaves         SickLeave[]
+    notes              EmployeeNote[]
+    schedulePreference SchedulePreference?
+    vacationDays       Int                 @default(25)
+    user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
 }
