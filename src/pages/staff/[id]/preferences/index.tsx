@@ -103,7 +103,7 @@ export default function schedulePreferencesPage({
           Edit Schedule Preferences
         </Button>
 
-        {showAddPreference && (
+        {showAddPreference ? (
           <form onSubmit={createPreference} className="mt-8 flex-col">
             <Heading size={"xs"} className="mb-3">
               How many hours per month would this employee like to work?
@@ -158,6 +158,30 @@ export default function schedulePreferencesPage({
               </Button>
             </div>
           </form>
+        ) : (
+          <div className="mt-8 flex-col">
+            <Heading size={"xs"} className="mb-3">
+              How many hours per month would this employee like to work?
+            </Heading>
+            <div>
+              <Heading size={"sm"} className="h-14 text-lg">
+                {employee?.schedulePreference?.hoursPerMonth}
+              </Heading>
+            </div>
+            <Heading size={"xs"} className="my-2">
+              Which shifts does {employee.name} prefer?
+            </Heading>
+            <div className="my-4 space-y-2">
+              {employee?.schedulePreference?.shiftModels.map((shiftModel) => (
+                <div key={shiftModel.id} className="my-2">
+                  <Heading>
+                    {formatTime(shiftModel.start)} -{" "}
+                    {formatTime(shiftModel.end)}
+                  </Heading>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </main>

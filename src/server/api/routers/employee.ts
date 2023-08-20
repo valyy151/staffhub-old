@@ -65,7 +65,20 @@ export const employeeRouter = createTRPCRouter({
         vacations: true,
         sickLeaves: true,
         phoneNumber: true,
-        schedulePreference: true,
+        schedulePreference: {
+          select: {
+            id: true,
+            createdAt: true,
+            hoursPerMonth: true,
+            shiftModels: {
+              select: {
+                id: true,
+                end: true,
+                start: true,
+              },
+            },
+          },
+        },
       },
     });
   }),

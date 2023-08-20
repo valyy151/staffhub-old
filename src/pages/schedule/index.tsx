@@ -1,6 +1,6 @@
 import router from "next/router";
 import { useState } from "react";
-import { api } from "~/utils/api";
+import { Employee, api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -8,8 +8,7 @@ import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { Button } from "~/components/ui/Button";
-import Paragraph from "~/components/ui/Paragraph";
-import { formatMonth } from "~/utils/dateFormatting";
+import { formatMonth, formatTime } from "~/utils/dateFormatting";
 import { type GetServerSideProps } from "next/types";
 import { CalendarPlus, Info, UserPlus } from "lucide-react";
 import ScheduleTable from "~/components/Schedule/ScheduleTable";
@@ -36,9 +35,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 export default function NewSchedulePage() {
-  const [name, setName] = useState<string>("");
-  const [employeeId, setEmployeeId] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [schedulePreference, setSchedulePreference] = useState<{
+    id: string;
+    end: number;
+    start: number;
+  }>({ id: "", end: 0, start: 0 });
 
   const currentDate = new Date();
 
@@ -48,6 +50,8 @@ export default function NewSchedulePage() {
   const [yearArray, setYearArray] = useState(
     generateYearArray(currentDate.getFullYear())
   );
+
+  const [employee, setEmployee] = useState<Employee>({} as Employee);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -86,7 +90,7 @@ export default function NewSchedulePage() {
   }
 
   function createSchedule() {
-    if (!employeeId) {
+    if (employee.id) {
       return toast("Please select an employee.");
     }
 
@@ -106,7 +110,7 @@ export default function NewSchedulePage() {
       }
 
       createShift.mutate({
-        employeeId,
+        employeeId: employee.id,
         schedule: filteredSchedule,
       });
     });
@@ -142,12 +146,11 @@ export default function NewSchedulePage() {
       <section className="mt-4 flex justify-evenly">
         <div className="mt-16 flex flex-col">
           <SearchEmployees
-            name={name}
             isOpen={isOpen}
-            setName={setName}
             employees={data}
+            employee={employee}
             setIsOpen={setIsOpen}
-            setEmployeeId={setEmployeeId}
+            setEmployee={setEmployee}
           />
           <Calendar
             value={value}
@@ -176,7 +179,7 @@ export default function NewSchedulePage() {
           </Button>
         </div>
         <div>
-          {name && schedule ? (
+          {employee.name && schedule ? (
             <div className="mb-2 mt-4 flex justify-between">
               <Heading className="ml-4">
                 {value.toLocaleDateString("en-GB", {
@@ -186,7 +189,7 @@ export default function NewSchedulePage() {
               </Heading>
 
               <div className="flex items-baseline justify-end">
-                <Heading className="mr-2">{name}</Heading>
+                <Heading className="mr-2">{employee.name}</Heading>
 
                 <Heading className="mr-8 text-left font-normal">
                   will work{" "}
@@ -209,6 +212,27 @@ export default function NewSchedulePage() {
             </Heading>
           )}
           <ScheduleTable data={schedule} setData={setSchedule} />
+          {employee.schedulePreference && (
+            <div className="mt-2 flex items-baseline">
+              <Heading className="mr-4">Schedule Preference:</Heading>
+
+              {employee.schedulePreference.shiftModels
+                ?.sort((a, b) => a.start - b.start)
+                .map((shift) => (
+                  <Heading
+                    key={shift.id}
+                    size={"xs"}
+                    className="mr-4 text-left font-normal"
+                  >
+                    [{formatTime(shift.start)} - {formatTime(shift.end)}]
+                  </Heading>
+                ))}
+
+              <Heading className="ml-auto font-normal">
+                {employee.schedulePreference.hoursPerMonth} hours per month
+              </Heading>
+            </div>
+          )}
         </div>
       </section>
 
