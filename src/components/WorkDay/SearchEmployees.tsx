@@ -1,29 +1,24 @@
+import { Employee } from "~/utils/api";
 import Input from "../ui/Input";
 
 interface SearchEmployeesProps {
-  name: string;
   isOpen: boolean;
-  employees: any;
-  setId: (id: string) => void;
-  setRoles: (roles: any) => void;
-  setRoleId: (roleId: string) => void;
-  setName: (name: string) => void;
+  employee: Employee;
+  employees: Employee[] | undefined;
   setIsOpen: (isOpen: boolean) => void;
   setIsSick: (isSick: boolean) => void;
   setEndDate: (endDate: number) => void;
+  setEmployee: (employee: Employee) => void;
   setOpenRoles: (openRoles: boolean) => void;
   setIsOnVacation: (isOnVacation: boolean) => void;
   setRemainingDays: (remainingDays: number) => void;
 }
 
 export default function SearchEmployees({
-  name,
-  setId,
   isOpen,
-  setName,
-  setRoleId,
   setIsOpen,
-  setRoles,
+  employee,
+  setEmployee,
   employees,
   setIsSick,
   setEndDate,
@@ -31,16 +26,9 @@ export default function SearchEmployees({
   setIsOnVacation,
   setRemainingDays,
 }: SearchEmployeesProps) {
-  const handleSelect = (
-    id: string,
-    name: string,
-    roles: { name: string; id: string }
-  ) => {
-    setId(id);
-    setRoleId("");
-    setName(name);
-    setRoles(roles);
+  const handleSelect = (employee: Employee) => {
     setIsOpen(false);
+    setEmployee(employee);
   };
 
   function checkIfSickOrVacation(employee: any) {
@@ -97,7 +85,7 @@ export default function SearchEmployees({
         <Input
           readOnly
           type="text"
-          value={name}
+          value={employee.name}
           placeholder={"Choose an Employee..."}
           className="group m-0 h-14 cursor-pointer text-xl caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
         />
@@ -108,21 +96,25 @@ export default function SearchEmployees({
         >
           <ul
             className={`${
-              employees?.length > 8 && "h-[28.5rem] overflow-y-scroll"
+              employees &&
+              employees.length > 8 &&
+              "h-[28.5rem] overflow-y-scroll"
             } p-1`}
           >
-            {employees.map((employee: any) => (
-              <li
-                className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
-                key={employee.id}
-                onClick={() => {
-                  checkIfSickOrVacation(employee);
-                  handleSelect(employee.id, employee.name, employee.roles);
-                }}
-              >
-                {employee.name}
-              </li>
-            ))}
+            {employees
+              ?.sort((a, b) => a.name.localeCompare(b.name))
+              .map((employee) => (
+                <li
+                  className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
+                  key={employee.id}
+                  onClick={() => {
+                    checkIfSickOrVacation(employee);
+                    handleSelect(employee);
+                  }}
+                >
+                  {employee.name}
+                </li>
+              ))}
           </ul>
         </div>
       )}

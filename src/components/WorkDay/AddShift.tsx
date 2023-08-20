@@ -3,7 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
-import { type WorkDay, api } from "~/utils/api";
+import { type WorkDay, api, Employee } from "~/utils/api";
 import SearchEmployees from "./SearchEmployees";
 import { ArrowLeft, Clock8 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -17,15 +17,17 @@ interface AddShiftProps {
 }
 
 export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
-  const [name, setName] = useState<string>("");
-  const [roleId, setRoleId] = useState<string>("");
-
   const [openStaff, setOpenStaff] = useState<boolean>(false);
   const [openRoles, setOpenRoles] = useState<boolean>(false);
 
-  const [roles, setRoles] = useState([]);
-  const [employeeId, setEmployeeId] = useState<string>("");
+  const [employee, setEmployee] = useState<Employee>({} as Employee);
 
+  const [role, setRole] = useState<{ id: string; name: string }>(
+    {} as {
+      id: string;
+      name: string;
+    }
+  );
   const [end, setEnd] = useState<number>(0);
   const [start, setStart] = useState<number>(0);
 
@@ -73,9 +75,9 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
       createShift.mutate({
         end: end,
         start: start,
-        roleId: roleId,
+        roleId: role.id,
         date: data.date,
-        employeeId: employeeId,
+        employeeId: employee.id,
       });
     }
   }
@@ -83,9 +85,9 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   return (
     <div className="flex flex-col items-start">
       <Heading size={"sm"} className="mt-8">
-        Add a new shift {name && "for"}{" "}
-        <Link href={`/staff/${employeeId}`} className="hover:text-sky-500">
-          {name}
+        Add a new shift {employee.name && "for"}{" "}
+        <Link href={`/staff/${employee.id}`} className="hover:text-sky-500">
+          {employee.name}
         </Link>
       </Heading>
 
@@ -95,14 +97,11 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             <label className="ml-2 text-xl">Employee</label>
 
             <SearchEmployees
-              name={name}
-              setName={setName}
               isOpen={openStaff}
-              setRoles={setRoles}
-              setRoleId={setRoleId}
               setIsSick={setIsSick}
+              employee={employee}
               employees={employees}
-              setId={setEmployeeId}
+              setEmployee={setEmployee}
               setEndDate={setEndDate}
               setIsOpen={setOpenStaff}
               setOpenRoles={setOpenRoles}
@@ -162,17 +161,17 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                   onChange={(e) => handleTimeChange(e.target.value, "end")}
                 />
               </div>
-              {roles.length > 0 && (
+              {employee.roles?.length > 0 && (
                 <div className="mb-auto flex flex-col">
                   <label htmlFor="end" className="ml-2 text-xl">
                     Role
                   </label>
 
                   <RolesDropdown
-                    role={roleId}
-                    roles={roles}
+                    role={role}
+                    setRole={setRole}
                     isOpen={openRoles}
-                    setRole={setRoleId}
+                    roles={employee.roles}
                     setIsOpen={setOpenRoles}
                     setOpenStaff={setOpenStaff}
                   />
@@ -193,7 +192,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             size={"sm"}
             className="mt-4 font-normal text-rose-700 dark:text-rose-400"
           >
-            {name} is on sick leave untill{" "}
+            {employee.name} is on sick leave untill{" "}
             {new Date(endDate).toLocaleDateString("en-GB", {
               weekday: "long",
               year: "numeric",
@@ -214,7 +213,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             size={"sm"}
             className="mt-4 font-normal text-rose-700 dark:text-rose-400"
           >
-            {name} is on vacation untill{" "}
+            {employee.name} is on vacation untill{" "}
             {new Date(endDate).toLocaleDateString("en-GB", {
               weekday: "long",
               year: "numeric",

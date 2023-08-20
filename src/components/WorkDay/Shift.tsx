@@ -15,7 +15,11 @@ interface ShiftProps {
   date: number | undefined;
   index: number;
   shift: Shift & {
-    employee: { name: string; roles: { name: string }[] };
+    employee: {
+      name: string;
+      roles: { name: string }[];
+    };
+    role: { name: string } | null;
   };
 }
 
@@ -88,8 +92,8 @@ export default function Shift({ shift, date, index }: ShiftProps) {
           </Heading>
         )}
 
-        {shift.roleId ? (
-          <Heading className="font-medium">{shift.roleId}</Heading>
+        {shift.role ? (
+          <Heading className="font-medium">{shift.role.name}</Heading>
         ) : (
           <Heading className="font-light italic">None</Heading>
         )}

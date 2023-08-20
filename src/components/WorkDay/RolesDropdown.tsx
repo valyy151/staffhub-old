@@ -1,12 +1,12 @@
 import Input from "../ui/Input";
 
 interface RolesDropdownProps {
-  role: string;
   isOpen: boolean;
-  setRole: (role: string) => void;
+  role: { name: string; id: string };
   setIsOpen: (isOpen: boolean) => void;
   roles: { name: string; id: string }[];
   setOpenStaff: (openStaff: boolean) => void;
+  setRole: (role: { name: string; id: string }) => void;
 }
 
 export default function RolesDropdown({
@@ -17,7 +17,7 @@ export default function RolesDropdown({
   setIsOpen,
   setOpenStaff,
 }: RolesDropdownProps) {
-  function handleSelect(role: string) {
+  function handleSelect(role: { name: string; id: string }) {
     setRole(role);
     setIsOpen(false);
   }
@@ -33,7 +33,7 @@ export default function RolesDropdown({
         <Input
           readOnly
           type="text"
-          value={role}
+          value={role.name}
           placeholder={"Choose a Role..."}
           className="group m-0 h-14 cursor-pointer text-xl caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
         />
@@ -47,11 +47,11 @@ export default function RolesDropdown({
               roles.length > 8 && "h-[28.5rem] overflow-y-scroll"
             } p-1`}
           >
-            {roles.map((role: any) => (
+            {roles.map((role) => (
               <li
                 className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
                 key={role.id}
-                onClick={() => handleSelect(role.name)}
+                onClick={() => handleSelect(role)}
               >
                 {role.name}
               </li>
