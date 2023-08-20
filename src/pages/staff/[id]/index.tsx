@@ -22,6 +22,7 @@ import Spinner from "~/components/ui/Spinner";
 
 import { api } from "~/utils/api";
 import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
+import { formatTime } from "~/utils/dateFormatting";
 
 interface EmployeeProfileProps {
   query: { id: string };
@@ -198,13 +199,19 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             </Heading>
 
             <div className="flex flex-col py-2">
-              {employee.schedulePreferences?.length > 0 ? (
-                <Paragraph className="text-left">
-                  {employee.schedulePreferences.length} Shift{" "}
-                  {employee.schedulePreferences.length === 1
-                    ? "preference"
-                    : "preferences"}
-                </Paragraph>
+              {employee.schedulePreference ? (
+                <>
+                  <Paragraph className="text-left font-medium">
+                    {employee.schedulePreference.hoursPerMonth} hours per month
+                  </Paragraph>
+                  {employee.schedulePreference.shiftModels
+                    .sort((a, b) => a.start - b.start)
+                    .map((item) => (
+                      <Paragraph key={item.id} className="text-left">
+                        [{formatTime(item.start)} - {formatTime(item.end)}]
+                      </Paragraph>
+                    ))}
+                </>
               ) : (
                 <Paragraph className="text-left">
                   No schedule preferences.
