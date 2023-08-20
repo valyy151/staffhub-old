@@ -25,6 +25,10 @@ export default {
         fade: "fade 0.2s ease-in-out",
         slideDown: "slideDown 0.2s ease-in-out",
       },
+      // add ring-0.5 to tailwind
+      ringWidth: {
+        "0.5": "0.5px",
+      },
     },
   },
   plugins: [],

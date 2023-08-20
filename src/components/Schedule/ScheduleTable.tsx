@@ -8,17 +8,26 @@ import {
 
 interface ScheduleTableProps {
   data: any[];
+  shift: string | undefined;
   setData: (data: any[]) => void;
 }
 
-export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
+export default function ScheduleTable({
+  data,
+  shift,
+  setData,
+}: ScheduleTableProps) {
   const headings = ["Date", "Start", "End", "Total"];
 
   function handleTimeChange(
     index: number,
-    newTime: string,
+    newTime: string | undefined,
     field: "start" | "end"
   ) {
+    if (!newTime) {
+      return;
+    }
+
     const [hour, minute]: string[] = newTime.split(":");
 
     const newDate = new Date(data[index].date * 1000);
@@ -30,6 +39,37 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
 
     const newData = data.map((d, i) =>
       i === index ? { ...d, [field]: newUnixTime } : d
+    );
+    setData(newData);
+  }
+
+  //function like handleTimeChange but it will apply it for both start and end
+  function handleTimeWithClick(index: number) {
+    const [start, end] = shift?.split("-") as string[];
+
+    if (!start || !end) {
+      return;
+    }
+
+    const [startHour, startMinute] = start.split(":");
+    const [endHour, endMinute] = end.split(":");
+
+    const newDate = new Date(data[index].date * 1000);
+
+    newDate.setHours(Number(startHour));
+    newDate.setMinutes(Number(startMinute));
+
+    const newUnixTime = Math.floor(newDate.getTime() / 1000);
+
+    const newDate2 = new Date(data[index].date * 1000);
+
+    newDate2.setHours(Number(endHour));
+    newDate2.setMinutes(Number(endMinute));
+
+    const newUnixTime2 = Math.floor(newDate2.getTime() / 1000);
+
+    const newData = data.map((d, i) =>
+      i === index ? { ...d, start: newUnixTime, end: newUnixTime2 } : d
     );
     setData(newData);
   }
@@ -72,28 +112,66 @@ export default function ScheduleTable({ data, setData }: ScheduleTableProps) {
                   </span>
                 </td>
 
-                <td>
-                  <input
-                    autoFocus={index === 0}
-                    type="text"
-                    value={formatTime(item.start)}
-                    onChange={(e) =>
-                      handleTimeChange(index, e.target.value, "start")
-                    }
-                    className="rounded bg-transparent py-4 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1"
-                  />
-                </td>
+                {shift ? (
+                  <>
+                    <td
+                      onClick={() => {
+                        handleTimeWithClick(index);
+                      }}
+                    >
+                      <input
+                        type="text"
+                        value={formatTime(item.start)}
+                        className={`rounded bg-transparent py-4 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1 ${
+                          shift &&
+                          "cursor-pointer ring-slate-800 hover:ring-0.5 dark:ring-slate-50"
+                        }`}
+                      />
+                    </td>
+                    <td
+                      onClick={() => {
+                        handleTimeWithClick(index);
+                      }}
+                    >
+                      <input
+                        value={formatTime(item.end)}
+                        onChange={(e) =>
+                          handleTimeChange(index, e.target.value, "end")
+                        }
+                        className={`rounded bg-transparent py-4 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1 ${
+                          shift &&
+                          "cursor-pointer ring-slate-800 hover:ring-0.5 dark:ring-slate-50"
+                        }`}
+                        type="text"
+                      />
+                    </td>
+                  </>
+                ) : (
+                  <>
+                    <td>
+                      <input
+                        type="text"
+                        autoFocus={index === 0}
+                        value={formatTime(item.start)}
+                        onChange={(e) =>
+                          handleTimeChange(index, e.target.value, "start")
+                        }
+                        className="rounded bg-transparent py-4 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1"
+                      />
+                    </td>
 
-                <td>
-                  <input
-                    value={formatTime(item.end)}
-                    onChange={(e) =>
-                      handleTimeChange(index, e.target.value, "end")
-                    }
-                    className="rounded bg-transparent py-4 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1"
-                    type="text"
-                  />
-                </td>
+                    <td>
+                      <input
+                        value={formatTime(item.end)}
+                        onChange={(e) =>
+                          handleTimeChange(index, e.target.value, "end")
+                        }
+                        className="rounded bg-transparent py-4 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1"
+                        type="text"
+                      />
+                    </td>
+                  </>
+                )}
 
                 {item.start && item.end ? (
                   <td

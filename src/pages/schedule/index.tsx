@@ -10,7 +10,7 @@ import Spinner from "~/components/ui/Spinner";
 import { Button } from "~/components/ui/Button";
 import { formatMonth, formatTime } from "~/utils/dateFormatting";
 import { type GetServerSideProps } from "next/types";
-import { CalendarPlus, Info, UserPlus } from "lucide-react";
+import { CalendarPlus, Info, UserPlus, X } from "lucide-react";
 import ScheduleTable from "~/components/Schedule/ScheduleTable";
 import ScheduleModal from "~/components/Schedule/ScheduleModal";
 import SearchEmployees from "~/components/Schedule/SearchEmployees";
@@ -36,16 +36,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function NewSchedulePage() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [schedulePreference, setSchedulePreference] = useState<{
-    id: string;
-    end: number;
-    start: number;
-  }>({ id: "", end: 0, start: 0 });
 
   const currentDate = new Date();
 
   const [value, setValue] = useState<Date>(currentDate);
   const [schedule, setSchedule] = useState<any[]>(updateMonthData(currentDate));
+
+  const [shift, setShift] = useState<string>();
 
   const [yearArray, setYearArray] = useState(
     generateYearArray(currentDate.getFullYear())
@@ -211,20 +208,45 @@ export default function NewSchedulePage() {
               })}
             </Heading>
           )}
-          <ScheduleTable data={schedule} setData={setSchedule} />
+          <ScheduleTable data={schedule} shift={shift} setData={setSchedule} />
           {employee.schedulePreference && (
             <div className="mt-2 flex items-baseline">
               <Heading className="mr-4">Schedule Preference:</Heading>
 
               {employee.schedulePreference.shiftModels
                 ?.sort((a, b) => a.start - b.start)
-                .map((shift) => (
+                .map((item) => (
                   <Heading
-                    key={shift.id}
                     size={"xs"}
-                    className="mr-4 text-left font-normal"
+                    key={item.id}
+                    onClick={() => {
+                      shift ===
+                      `${formatTime(item.start)} - ${
+                        formatTime(item.end) == "00:00"
+                          ? "24:00"
+                          : formatTime(item.end)
+                      }`
+                        ? setShift("")
+                        : setShift(
+                            `${formatTime(item.start)} - ${
+                              formatTime(item.end) == "00:00"
+                                ? "24:00"
+                                : formatTime(item.end)
+                            }`
+                          );
+                    }}
+                    className={`mr-4 cursor-pointer text-left font-normal hover:text-sky-400 ${
+                      shift ===
+                      `${formatTime(item.start)} - ${
+                        formatTime(item.end) == "00:00"
+                          ? "24:00"
+                          : formatTime(item.end)
+                      }`
+                        ? "text-sky-400 underline underline-offset-8"
+                        : ""
+                    }`}
                   >
-                    [{formatTime(shift.start)} - {formatTime(shift.end)}]
+                    [{formatTime(item.start)} - {formatTime(item.end)}]
                   </Heading>
                 ))}
 

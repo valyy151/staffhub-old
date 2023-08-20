@@ -70,7 +70,7 @@ export default function Note({ note }: NoteProps) {
       </Paragraph>
       <div
         className={`mx-auto flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
-          editNote ? "ring-05 ring-slate-400" : ""
+          editNote ? "ring-0.5 ring-slate-400" : ""
         }`}
       >
         {editNote ? (
