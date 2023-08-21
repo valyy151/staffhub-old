@@ -43,8 +43,32 @@ export function calculateTotalMonthlyHours(days: WorkDay[]) {
   const hours = Math.floor(totalMinutes / 60);
   const minutes = Math.floor(totalMinutes % 60);
 
-  const formattedTime = `${hours}h ${minutes}min`;
-  return formattedTime;
+  if (minutes === 0) {
+    return `${hours}h`;
+  } else {
+    return `${hours}h ${minutes}min`;
+  }
+}
+
+export function isTimeGreaterThanTotalHours(
+  timeString: string,
+  totalHoursPerMonth: number
+) {
+  const timeParts = timeString.split(" ");
+  let hours = 0;
+  let minutes = 0;
+
+  for (const part of timeParts) {
+    if (part.includes("h")) {
+      hours += parseInt(part);
+    } else if (part.includes("min")) {
+      minutes += parseInt(part);
+    }
+  }
+
+  const totalTimeInHours = hours + minutes / 60;
+
+  return totalTimeInHours >= totalHoursPerMonth;
 }
 
 export function howManyDays({ start, end }: { start: bigint; end: bigint }) {

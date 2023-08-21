@@ -90,18 +90,6 @@ export default function Sidebar({ employee }: SidebarProps) {
         </li>
         <li
           onClick={() =>
-            employee?.id && router.push(`/staff/${employee?.id}/preferences`)
-          }
-          className={`flex w-96 cursor-pointer items-center p-4 ${
-            path === "preferences"
-              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : "hover:bg-slate-150 dark:hover:bg-slate-750"
-          }`}
-        >
-          <Sticker className="mr-2" /> Schedule Preferences
-        </li>
-        <li
-          onClick={() =>
             employee?.id && router.push(`/staff/${employee?.id}/schedule`)
           }
           className={`flex w-96 cursor-pointer items-center p-4 ${
@@ -111,6 +99,18 @@ export default function Sidebar({ employee }: SidebarProps) {
           }`}
         >
           <CalendarSearch className="mr-2" /> Work Schedules
+        </li>
+        <li
+          onClick={() =>
+            employee?.id && router.push(`/staff/${employee?.id}/preferences`)
+          }
+          className={`flex w-96 cursor-pointer items-center p-4 ${
+            path === "preferences"
+              ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
+              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+          }`}
+        >
+          <Sticker className="mr-2" /> Schedule Preferences
         </li>
       </ul>
     </div>

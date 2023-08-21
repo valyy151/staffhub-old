@@ -14,7 +14,10 @@ import { CalendarPlus, Info, UserPlus, X } from "lucide-react";
 import ScheduleTable from "~/components/Schedule/ScheduleTable";
 import ScheduleModal from "~/components/Schedule/ScheduleModal";
 import SearchEmployees from "~/components/Schedule/SearchEmployees";
-import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
+import {
+  calculateTotalMonthlyHours,
+  isTimeGreaterThanTotalHours,
+} from "~/utils/calculateHours";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -186,14 +189,19 @@ export default function NewSchedulePage() {
               </Heading>
 
               <div className="flex items-baseline justify-end">
-                <Heading className="mr-2">{employee.name}</Heading>
+                <Heading
+                  onClick={() => router.push(`/staff/${employee.id}`)}
+                  className="mr-2 cursor-pointer underline-offset-8 hover:text-sky-400 hover:underline"
+                >
+                  {employee.name}
+                </Heading>
 
                 <Heading className="mr-8 text-left font-normal">
                   will work{" "}
                   <span className="font-bold">
                     {calculateTotalMonthlyHours(schedule)}
                   </span>{" "}
-                  hours in{" "}
+                  in{" "}
                   <span className="font-bold">
                     {formatMonth(schedule[0].date)}
                   </span>
@@ -209,11 +217,22 @@ export default function NewSchedulePage() {
             </Heading>
           )}
           <ScheduleTable data={schedule} shift={shift} setData={setSchedule} />
-          {employee.schedulePreference && (
-            <div className="mt-2 flex items-baseline">
-              <Heading className="mr-4">Schedule Preference:</Heading>
 
-              {employee.schedulePreference.shiftModels
+          {employee.name && (
+            <div className="mt-2 flex items-baseline">
+              <Heading
+                className="mr-4 cursor-pointer underline-offset-8 hover:text-sky-400 hover:underline"
+                onClick={() => router.push(`/staff/${employee.id}/preferences`)}
+              >
+                Schedule Preference:
+              </Heading>
+              {!employee.schedulePreference && (
+                <Heading size={"sm"} className="mr-4 text-left font-normal">
+                  No preferences set
+                </Heading>
+              )}
+
+              {employee.schedulePreference?.shiftModels
                 ?.sort((a, b) => a.start - b.start)
                 .map((item) => (
                   <Heading
@@ -250,9 +269,23 @@ export default function NewSchedulePage() {
                   </Heading>
                 ))}
 
-              <Heading className="ml-auto font-normal">
-                {employee.schedulePreference.hoursPerMonth} hours per month
-              </Heading>
+              {employee.schedulePreference && (
+                <Heading className="ml-auto font-normal">
+                  <span
+                    className={`${
+                      isTimeGreaterThanTotalHours(
+                        calculateTotalMonthlyHours(schedule),
+                        employee.schedulePreference.hoursPerMonth
+                      )
+                        ? "text-emerald-500"
+                        : "text-yellow-500"
+                    }`}
+                  >
+                    {calculateTotalMonthlyHours(schedule)}
+                  </span>{" "}
+                  / {employee.schedulePreference.hoursPerMonth} hours per month
+                </Heading>
+              )}
             </div>
           )}
         </div>
