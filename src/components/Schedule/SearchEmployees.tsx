@@ -28,6 +28,7 @@ export default function SearchEmployees({
         onClick={() => setIsOpen(!isOpen)}
       >
         <Input
+          readOnly
           type="text"
           value={employee.name}
           placeholder={"Choose an Employee..."}

@@ -1,3 +1,5 @@
+import { Vacation } from "@prisma/client";
+
 export function checkEmployeeVacation(
   vacations: { id: string; start: bigint; end: bigint }[]
 ) {
@@ -62,4 +64,15 @@ export function checkSickLeave(
     }
   }
   return "Not on sick leave";
+}
+
+export function findVacationDays(vacations: Vacation[], schedule: any[]) {
+  const vacationDays: any[] = [];
+  vacations?.forEach((vacation) => {
+    schedule?.forEach((day) => {
+      if (day.date * 1000 >= vacation.start && day.date * 1000 <= vacation.end)
+        vacationDays.push(day.date);
+    });
+  });
+  return vacationDays;
 }

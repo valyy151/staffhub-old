@@ -1,4 +1,5 @@
-import { RefObject } from "react";
+import { Employee } from "~/utils/api";
+import { findVacationDays } from "~/utils/checkAbsence";
 import {
   formatDateLong,
   formatDay,
@@ -8,6 +9,7 @@ import {
 
 interface ScheduleTableProps {
   data: any[];
+  employee: Employee;
   shift: string | undefined;
   setData: (data: any[]) => void;
 }
@@ -16,6 +18,7 @@ export default function ScheduleTable({
   data,
   shift,
   setData,
+  employee,
 }: ScheduleTableProps) {
   const headings = ["Date", "Start", "End", "Total"];
 
@@ -74,6 +77,8 @@ export default function ScheduleTable({
     setData(newData);
   }
 
+  const vacationDays = findVacationDays(employee.vacations, data);
+
   return (
     <div className="h-[44rem] overflow-x-hidden rounded border-2 border-slate-300 shadow-md dark:border-slate-500">
       <table className="w-[90rem] divide-y-2 divide-slate-300 overflow-scroll rounded bg-white text-left text-xl shadow-md dark:divide-slate-600 dark:bg-slate-800">
@@ -122,6 +127,12 @@ export default function ScheduleTable({
                       <input
                         type="text"
                         value={formatTime(item.start)}
+                        placeholder={
+                          vacationDays.includes(item.date)
+                            ? "Vacation"
+                            : undefined
+                        }
+                        disabled={vacationDays.includes(item.date)}
                         className={`rounded bg-transparent py-4 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1 ${
                           shift &&
                           "cursor-pointer ring-slate-800 hover:ring-0.5 dark:ring-slate-50"
@@ -135,6 +146,12 @@ export default function ScheduleTable({
                     >
                       <input
                         value={formatTime(item.end)}
+                        placeholder={
+                          vacationDays.includes(item.date)
+                            ? "Vacation"
+                            : undefined
+                        }
+                        disabled={vacationDays.includes(item.date)}
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "end")
                         }
@@ -152,6 +169,12 @@ export default function ScheduleTable({
                       <input
                         type="text"
                         autoFocus={index === 0}
+                        placeholder={
+                          vacationDays.includes(item.date)
+                            ? "Vacation"
+                            : undefined
+                        }
+                        disabled={vacationDays.includes(item.date)}
                         value={formatTime(item.start)}
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "start")
@@ -163,6 +186,12 @@ export default function ScheduleTable({
                     <td>
                       <input
                         value={formatTime(item.end)}
+                        placeholder={
+                          vacationDays.includes(item.date)
+                            ? "Vacation"
+                            : undefined
+                        }
+                        disabled={vacationDays.includes(item.date)}
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "end")
                         }

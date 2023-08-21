@@ -19,6 +19,7 @@ import {
   isTimeGreaterThanTotalHours,
 } from "~/utils/calculateHours";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";
+import { findVacationDays } from "~/utils/checkAbsence";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -216,7 +217,12 @@ export default function NewSchedulePage() {
               })}
             </Heading>
           )}
-          <ScheduleTable data={schedule} shift={shift} setData={setSchedule} />
+          <ScheduleTable
+            data={schedule}
+            shift={shift}
+            employee={employee}
+            setData={setSchedule}
+          />
 
           {employee.name && (
             <div className="mt-2 flex items-baseline">
