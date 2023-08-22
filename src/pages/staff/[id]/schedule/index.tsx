@@ -125,7 +125,11 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                   size={"lg"}
                   className="m-0 ml-auto mr-8 pb-2 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400"
                 >
-                  {day.vacation && "Vacation"}
+                  {!day.shifts[0]?.start && day.vacation && (
+                    <span className="group-hover:text-slate-800 dark:group-hover:text-slate-300">
+                      Vacation
+                    </span>
+                  )}
                   {day.shifts[0]?.start && (
                     <>
                       {formatTime(day.shifts[0]?.start)} -{" "}
