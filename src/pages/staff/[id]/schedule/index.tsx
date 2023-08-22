@@ -15,6 +15,7 @@ import Heading from "~/components/ui/Heading";
 import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Staff/Sidebar";
 import { calculateTotalHours } from "~/utils/calculateHours";
+import { findVacationDays } from "~/utils/checkAbsence";
 
 const PDFButton = dynamic(() => import("~/components/PDFButton"), {
   ssr: false,
@@ -53,7 +54,14 @@ export default function SchedulePage({ query }: SchedulePageProps) {
 
   useEffect(() => {
     if (data) {
-      setEmployee(data);
+      const vacationDays = findVacationDays(data?.vacations, data?.workDays);
+      const newWorkDays: any = data?.workDays.map((day) => {
+        if (vacationDays.includes(day.date)) {
+          day.vacation = true;
+        }
+        return day;
+      });
+      setEmployee({ ...data, workDays: newWorkDays });
       setMonth(
         value.toLocaleDateString("en-GB", {
           month: "long",
@@ -117,6 +125,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                   size={"lg"}
                   className="m-0 ml-auto mr-8 pb-2 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400"
                 >
+                  {day.vacation && "Vacation"}
                   {day.shifts[0]?.start && (
                     <>
                       {formatTime(day.shifts[0]?.start)} -{" "}

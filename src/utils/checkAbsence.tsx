@@ -66,7 +66,10 @@ export function checkSickLeave(
   return "Not on sick leave";
 }
 
-export function findVacationDays(vacations: Vacation[], schedule: any[]) {
+export function findVacationDays(
+  vacations: { id: string; end: bigint; start: bigint }[] | undefined,
+  schedule: any[] | undefined
+) {
   const vacationDays: any[] = [];
   vacations?.forEach((vacation) => {
     schedule?.forEach((day) => {

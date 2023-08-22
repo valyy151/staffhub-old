@@ -226,7 +226,7 @@ export const employeeRouter = createTRPCRouter({
             const dayShifts = shifts.filter(
               (shift) => shift.date === workDay.date
             );
-            return { ...workDay, shifts: dayShifts };
+            return { ...workDay, shifts: dayShifts, vacation: false };
           });
 
           return {

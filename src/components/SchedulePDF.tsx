@@ -83,7 +83,6 @@ export function MonthlyRoster({
             <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
               {formatDate(workDay.date)}
             </Text>
-
             {workDay.shifts[0] &&
             workDay.shifts[0].start &&
             workDay.shifts[0].end ? (

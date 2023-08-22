@@ -23,9 +23,6 @@ export default function ScheduleTable({
 }: ScheduleTableProps) {
   const headings = ["Date", "Start", "End", "Total"];
 
-  const inputStartRef = useRef(null);
-  const inputEndRef = useRef(null);
-
   function handleTimeChange(
     index: number,
     newTime: string | undefined,
