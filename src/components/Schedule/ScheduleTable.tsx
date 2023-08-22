@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { Employee } from "~/utils/api";
 import { findVacationDays } from "~/utils/checkAbsence";
 import {
@@ -9,24 +10,35 @@ import {
 
 interface ScheduleTableProps {
   data: any[];
-  employee: Employee;
   shift: string | undefined;
   setData: (data: any[]) => void;
+  vacationDays: string[];
 }
 
 export default function ScheduleTable({
   data,
   shift,
   setData,
-  employee,
+  vacationDays,
 }: ScheduleTableProps) {
   const headings = ["Date", "Start", "End", "Total"];
+
+  const inputStartRef = useRef(null);
+  const inputEndRef = useRef(null);
 
   function handleTimeChange(
     index: number,
     newTime: string | undefined,
     field: "start" | "end"
   ) {
+    if (newTime === undefined) {
+      //clear the value
+      const newData = data.map((d, i) =>
+        i === index ? { ...d, [field]: undefined } : d
+      );
+      setData(newData);
+    }
+
     if (!newTime) {
       return;
     }
@@ -77,8 +89,6 @@ export default function ScheduleTable({
     setData(newData);
   }
 
-  const vacationDays = findVacationDays(employee.vacations, data);
-
   return (
     <div className="h-[44rem] overflow-x-hidden rounded border-2 border-slate-300 shadow-md dark:border-slate-500">
       <table className="w-[90rem] divide-y-2 divide-slate-300 overflow-scroll rounded bg-white text-left text-xl shadow-md dark:divide-slate-600 dark:bg-slate-800">
@@ -119,14 +129,19 @@ export default function ScheduleTable({
 
                 {shift ? (
                   <>
-                    <td
-                      onClick={() => {
-                        handleTimeWithClick(index);
-                      }}
-                    >
+                    <td onClick={() => handleTimeWithClick(index)}>
                       <input
                         type="text"
                         value={formatTime(item.start)}
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Backspace") {
+                            e.currentTarget.select();
+                            handleTimeChange(index, undefined, "start");
+                          }
+                        }}
                         placeholder={
                           vacationDays.includes(item.date)
                             ? "Vacation"
@@ -139,22 +154,24 @@ export default function ScheduleTable({
                         }`}
                       />
                     </td>
-                    <td
-                      onClick={() => {
-                        handleTimeWithClick(index);
-                      }}
-                    >
+                    <td onClick={() => handleTimeWithClick(index)}>
                       <input
                         value={formatTime(item.end)}
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Backspace") {
+                            e.currentTarget.select();
+                            handleTimeChange(index, undefined, "end");
+                          }
+                        }}
                         placeholder={
                           vacationDays.includes(item.date)
                             ? "Vacation"
                             : undefined
                         }
                         disabled={vacationDays.includes(item.date)}
-                        onChange={(e) =>
-                          handleTimeChange(index, e.target.value, "end")
-                        }
                         className={`rounded bg-transparent py-4 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1 ${
                           shift &&
                           "cursor-pointer ring-slate-800 hover:ring-0.5 dark:ring-slate-50"
@@ -174,6 +191,15 @@ export default function ScheduleTable({
                             ? "Vacation"
                             : undefined
                         }
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Backspace") {
+                            e.currentTarget.select();
+                            handleTimeChange(index, undefined, "start");
+                          }
+                        }}
                         disabled={vacationDays.includes(item.date)}
                         value={formatTime(item.start)}
                         onChange={(e) =>
@@ -195,6 +221,15 @@ export default function ScheduleTable({
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "end")
                         }
+                        onContextMenu={(e) => {
+                          e.preventDefault();
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Backspace") {
+                            e.currentTarget.select();
+                            handleTimeChange(index, undefined, "end");
+                          }
+                        }}
                         className="rounded bg-transparent py-4 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1"
                         type="text"
                       />

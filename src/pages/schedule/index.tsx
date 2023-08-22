@@ -142,6 +142,8 @@ export default function NewSchedulePage() {
     );
   }
 
+  const vacationDays = findVacationDays(employee.vacations, schedule);
+
   return (
     <main onClick={() => isOpen && setIsOpen(false)}>
       <section className="mt-4 flex justify-evenly">
@@ -220,8 +222,8 @@ export default function NewSchedulePage() {
           <ScheduleTable
             data={schedule}
             shift={shift}
-            employee={employee}
             setData={setSchedule}
+            vacationDays={vacationDays}
           />
 
           {employee.name && (
