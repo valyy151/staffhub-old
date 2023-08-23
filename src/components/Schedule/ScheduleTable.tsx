@@ -10,15 +10,17 @@ import {
 
 interface ScheduleTableProps {
   data: any[];
+  sickDays: string[];
+  vacationDays: string[];
   shift: string | undefined;
   setData: (data: any[]) => void;
-  vacationDays: string[];
 }
 
 export default function ScheduleTable({
   data,
   shift,
   setData,
+  sickDays,
   vacationDays,
 }: ScheduleTableProps) {
   const headings = ["Date", "Start", "End", "Total"];
@@ -123,7 +125,6 @@ export default function ScheduleTable({
                     {item.date && formatDateLong(item.date)}
                   </span>
                 </td>
-
                 {shift ? (
                   <>
                     <td onClick={() => handleTimeWithClick(index)}>
@@ -234,18 +235,31 @@ export default function ScheduleTable({
                   </>
                 )}
 
-                {item.start && item.end ? (
+                {item.start && item.end && (
                   <td
                     title="Total hours in shift"
                     className="w-40 px-8 py-4 text-right"
                   >
                     {formatTotal(item.start, item.end)}
                   </td>
-                ) : (
+                )}
+
+                {!item.start &&
+                  !item.end &&
+                  !vacationDays.includes(item.date) && (
+                    <td
+                      title="Total hours in shift"
+                      className="w-40 px-8 py-4"
+                    ></td>
+                  )}
+
+                {vacationDays.includes(item.date) && (
                   <td
                     title="Total hours in shift"
-                    className="w-40 px-8 py-4"
-                  ></td>
+                    className="w-40 px-8 py-4 text-right"
+                  >
+                    8h
+                  </td>
                 )}
               </tr>
             );

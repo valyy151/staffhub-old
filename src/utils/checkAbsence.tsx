@@ -79,3 +79,20 @@ export function findVacationDays(
   });
   return vacationDays;
 }
+
+export function findSickLeaveDays(
+  sickLeaves: { id: string; end: bigint; start: bigint }[] | undefined,
+  schedule: any[] | undefined
+) {
+  const sickLeaveDays: any[] = [];
+  sickLeaves?.forEach((sickLeave) => {
+    schedule?.forEach((day) => {
+      if (
+        day.date * 1000 >= sickLeave.start &&
+        day.date * 1000 <= sickLeave.end
+      )
+        sickLeaveDays.push(day.date);
+    });
+  });
+  return sickLeaveDays;
+}

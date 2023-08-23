@@ -19,7 +19,7 @@ import {
   isTimeGreaterThanTotalHours,
 } from "~/utils/calculateHours";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";
-import { findVacationDays } from "~/utils/checkAbsence";
+import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -143,6 +143,7 @@ export default function NewSchedulePage() {
   }
 
   const vacationDays = findVacationDays(employee.vacations, schedule);
+  const sickDays = findSickLeaveDays(employee.sickLeaves, schedule);
 
   return (
     <main onClick={() => isOpen && setIsOpen(false)}>
@@ -202,7 +203,7 @@ export default function NewSchedulePage() {
                 <Heading className="mr-8 text-left font-normal">
                   will work{" "}
                   <span className="font-bold">
-                    {calculateTotalMonthlyHours(schedule)}
+                    {calculateTotalMonthlyHours(schedule, vacationDays.length)}
                   </span>{" "}
                   in{" "}
                   <span className="font-bold">
@@ -220,8 +221,9 @@ export default function NewSchedulePage() {
             </Heading>
           )}
           <ScheduleTable
-            data={schedule}
             shift={shift}
+            data={schedule}
+            sickDays={sickDays}
             setData={setSchedule}
             vacationDays={vacationDays}
           />
@@ -282,14 +284,17 @@ export default function NewSchedulePage() {
                   <span
                     className={`${
                       isTimeGreaterThanTotalHours(
-                        calculateTotalMonthlyHours(schedule),
+                        calculateTotalMonthlyHours(
+                          schedule,
+                          vacationDays.length
+                        ),
                         employee.schedulePreference.hoursPerMonth
                       )
                         ? "text-emerald-500"
                         : "text-yellow-500"
                     }`}
                   >
-                    {calculateTotalMonthlyHours(schedule)}
+                    {calculateTotalMonthlyHours(schedule, vacationDays.length)}
                   </span>{" "}
                   / {employee.schedulePreference.hoursPerMonth} hours per month
                 </Heading>
