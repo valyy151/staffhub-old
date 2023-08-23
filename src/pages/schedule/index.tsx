@@ -142,8 +142,8 @@ export default function NewSchedulePage() {
     );
   }
 
-  const vacationDays = findVacationDays(employee.vacations, schedule);
   const sickDays = findSickLeaveDays(employee.sickLeaves, schedule);
+  const vacationDays = findVacationDays(employee.vacations, schedule);
 
   return (
     <main onClick={() => isOpen && setIsOpen(false)}>

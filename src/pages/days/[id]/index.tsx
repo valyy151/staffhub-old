@@ -112,11 +112,12 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
   function checkRoles() {
     const roles: JSX.Element[] = [];
+
     workDay?.roles.forEach((role, index) => {
       const minRequired = role.numberPerDay;
 
       const shifts = workDay?.shifts.filter(
-        (shift) => shift.roleId === role.name
+        (shift) => shift.roleId === role.id
       );
 
       const employees = shifts?.map((shift) => shift.employeeId);
@@ -124,7 +125,14 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
       return roles.push(
         <div className={`${index !== 0 && "mt-4"}`}>
-          <Heading size={"xs"} className="font-normal">
+          <Heading
+            size={"xs"}
+            className={`font-medium ${
+              uniqueEmployees.length < minRequired!!
+                ? "text-red-500"
+                : "text-green-500"
+            }`}
+          >
             {uniqueEmployees.length} / {minRequired} {role.name}s
           </Heading>
         </div>

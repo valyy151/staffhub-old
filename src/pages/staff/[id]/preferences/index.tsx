@@ -121,24 +121,26 @@ export default function schedulePreferencesPage({
               Which shifts does {employee.name} prefer?
             </Heading>
             <div className="my-4 space-y-2">
-              {employee?.shiftModels.map((shiftModel) => (
-                <div key={shiftModel.id} className="my-2">
-                  <input
-                    type="checkbox"
-                    className="h-8 w-8 cursor-pointer"
-                    id={shiftModel.id}
-                    name={shiftModel.id}
-                    value={shiftModel.id}
-                  />
-                  <label
-                    htmlFor={shiftModel.id}
-                    className="ml-2 cursor-pointer text-3xl"
-                  >
-                    {formatTime(shiftModel.start)} -{" "}
-                    {formatTime(shiftModel.end)}
-                  </label>
-                </div>
-              ))}
+              {employee?.shiftModels
+                ?.sort((a, b) => a.start - b.start)
+                .map((shiftModel) => (
+                  <div key={shiftModel.id} className="my-2">
+                    <input
+                      type="checkbox"
+                      className="h-8 w-8 cursor-pointer"
+                      id={shiftModel.id}
+                      name={shiftModel.id}
+                      value={shiftModel.id}
+                    />
+                    <label
+                      htmlFor={shiftModel.id}
+                      className="ml-2 cursor-pointer text-3xl"
+                    >
+                      {formatTime(shiftModel.start)} -{" "}
+                      {formatTime(shiftModel.end)}
+                    </label>
+                  </div>
+                ))}
             </div>
             <div className="mt-2 flex w-full space-x-1">
               <Button
@@ -172,14 +174,16 @@ export default function schedulePreferencesPage({
               Which shifts does {employee.name} prefer?
             </Heading>
             <div className="my-4 space-y-2">
-              {employee?.schedulePreference?.shiftModels.map((shiftModel) => (
-                <div key={shiftModel.id} className="my-2">
-                  <Heading>
-                    {formatTime(shiftModel.start)} -{" "}
-                    {formatTime(shiftModel.end)}
-                  </Heading>
-                </div>
-              ))}
+              {employee?.schedulePreference?.shiftModels
+                .sort((a, b) => a.start - b.start)
+                .map((shiftModel) => (
+                  <div key={shiftModel.id} className="my-2">
+                    <Heading>
+                      {formatTime(shiftModel.start)} -{" "}
+                      {formatTime(shiftModel.end)}
+                    </Heading>
+                  </div>
+                ))}
             </div>
           </div>
         )}

@@ -88,6 +88,8 @@ export default function ScheduleTable({
     setData(newData);
   }
 
+  console.log(sickDays);
+
   return (
     <div className="h-[44rem] overflow-x-hidden rounded border-2 border-slate-300 shadow-md dark:border-slate-500">
       <table className="w-[90rem] divide-y-2 divide-slate-300 overflow-scroll rounded bg-white text-left text-xl shadow-md dark:divide-slate-600 dark:bg-slate-800">
@@ -186,6 +188,8 @@ export default function ScheduleTable({
                         placeholder={
                           vacationDays.includes(item.date)
                             ? "Vacation"
+                            : undefined || sickDays.includes(item.date)
+                            ? "Sick"
                             : undefined
                         }
                         onContextMenu={(e) => {
@@ -197,7 +201,10 @@ export default function ScheduleTable({
                             handleTimeChange(index, undefined, "start");
                           }
                         }}
-                        disabled={vacationDays.includes(item.date)}
+                        disabled={
+                          sickDays.includes(item.date) ||
+                          vacationDays.includes(item.date)
+                        }
                         value={formatTime(item.start)}
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "start")
@@ -209,7 +216,10 @@ export default function ScheduleTable({
                     <td>
                       <input
                         value={formatTime(item.end)}
-                        disabled={vacationDays.includes(item.date)}
+                        disabled={
+                          sickDays.includes(item.date) ||
+                          vacationDays.includes(item.date)
+                        }
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "end")
                         }
@@ -238,16 +248,8 @@ export default function ScheduleTable({
                   </td>
                 )}
 
-                {!item.start &&
-                  !item.end &&
-                  !vacationDays.includes(item.date) && (
-                    <td
-                      title="Total hours in shift"
-                      className="w-40 px-8 py-4"
-                    ></td>
-                  )}
-
-                {vacationDays.includes(item.date) && (
+                {(vacationDays.includes(item.date) ||
+                  sickDays.includes(item.date)) && (
                   <td
                     title="Total hours in shift"
                     className="w-40 px-8 py-4 text-right"
@@ -255,6 +257,16 @@ export default function ScheduleTable({
                     8h
                   </td>
                 )}
+
+                {!item.end &&
+                  !item.start &&
+                  !sickDays.includes(item.date) &&
+                  !vacationDays.includes(item.date) && (
+                    <td
+                      title="Total hours in shift"
+                      className="w-40 px-8 py-4 text-right"
+                    ></td>
+                  )}
               </tr>
             );
           })}

@@ -97,9 +97,9 @@ export const employeeRouter = createTRPCRouter({
       async ({
         input: {
           id,
-          fetchAllRoles,
           endOfMonth,
           startOfMonth,
+          fetchAllRoles,
           fetchShiftModels,
         },
         ctx,
@@ -109,74 +109,76 @@ export const employeeRouter = createTRPCRouter({
           select: {
             id: true,
             name: true,
-            roles: true,
             email: true,
-            notes: true,
+            roles: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            notes: {
+              select: {
+                id: true,
+                content: true,
+                createdAt: true,
+              },
+            },
             address: true,
-            vacations: true,
-            sickLeaves: true,
+            vacations: {
+              select: {
+                id: true,
+                start: true,
+                end: true,
+              },
+            },
+            sickLeaves: {
+              select: {
+                id: true,
+                start: true,
+                end: true,
+              },
+            },
             phoneNumber: true,
             vacationDays: true,
-          },
-        });
-
-        const notesPromise = ctx.prisma.employeeNote.findMany({
-          where: { employeeId: id, userId: ctx.session.user.id },
-          select: { id: true, content: true, createdAt: true },
-        });
-
-        const rolesPromise = ctx.prisma.staffRole.findMany({
-          where: { employees: { some: { id } }, userId: ctx.session.user.id },
-          select: { id: true, name: true },
-        });
-
-        const vacationsPromise = ctx.prisma.vacation.findMany({
-          where: { employeeId: id, userId: ctx.session.user.id },
-          select: { id: true, start: true, end: true },
-        });
-
-        const sickLeavesPromise = ctx.prisma.sickLeave.findMany({
-          where: { employeeId: id, userId: ctx.session.user.id },
-          select: { id: true, start: true, end: true },
-        });
-
-        const schedulePreferencePromise =
-          ctx.prisma.schedulePreference.findUnique({
-            where: { employeeId: id, userId: ctx.session.user.id },
-            select: {
-              id: true,
-              createdAt: true,
-              hoursPerMonth: true,
-              shiftModels: {
-                select: {
-                  id: true,
-                  end: true,
-                  start: true,
+            schedulePreference: {
+              select: {
+                id: true,
+                hoursPerMonth: true,
+                shiftModels: {
+                  select: {
+                    id: true,
+                    end: true,
+                    start: true,
+                  },
                 },
               },
             },
-          });
-
-        const shiftsPromise = ctx.prisma.shift.findMany({
-          where: {
-            employeeId: id,
-            date: { lte: endOfMonth, gte: startOfMonth },
           },
         });
+
+        let shiftsPromise;
 
         let allRolesPromise;
 
         let workDaysPromise;
 
-        let shiftModelsPromise;
+        let allShiftModelsPromise;
 
         if (endOfMonth && startOfMonth) {
+          shiftsPromise = ctx.prisma.shift.findMany({
+            where: {
+              employeeId: id,
+              date: { lte: endOfMonth, gte: startOfMonth },
+            },
+          });
+
           workDaysPromise = ctx.prisma.workDay.findMany({
             where: {
               date: { lte: endOfMonth, gte: startOfMonth },
             },
           });
         } else {
+          shiftsPromise = Promise.resolve([]);
           workDaysPromise = Promise.resolve([]);
         }
 
@@ -190,54 +192,44 @@ export const employeeRouter = createTRPCRouter({
         }
 
         if (fetchShiftModels) {
-          shiftModelsPromise = ctx.prisma.shiftModel.findMany({
+          allShiftModelsPromise = ctx.prisma.shiftModel.findMany({
             where: { userId: ctx.session.user.id },
+            select: {
+              id: true,
+              start: true,
+              end: true,
+            },
           });
         } else {
-          shiftModelsPromise = Promise.resolve([]);
+          allShiftModelsPromise = Promise.resolve([]);
         }
 
-        const [
-          notes,
-          roles,
-          shifts,
-          employee,
-          workDays,
-          allRoles,
-          vacations,
-          sickLeaves,
-          shiftModels,
-          schedulePreference,
-        ] = await Promise.all([
-          notesPromise,
-          rolesPromise,
-          shiftsPromise,
-          employeePromise,
-          workDaysPromise,
-          allRolesPromise,
-          vacationsPromise,
-          sickLeavesPromise,
-          shiftModelsPromise,
-          schedulePreferencePromise,
-        ]);
+        const [shifts, employee, workDays, allRoles, allShiftModels] =
+          await Promise.all([
+            shiftsPromise,
+            employeePromise,
+            workDaysPromise,
+            allRolesPromise,
+            allShiftModelsPromise,
+          ]);
 
         if (endOfMonth && startOfMonth) {
           const newWorkDays = workDays.map((workDay) => {
             const dayShifts = shifts.filter(
               (shift) => shift.date === workDay.date
             );
-            return { ...workDay, shifts: dayShifts, vacation: false };
+            return {
+              ...workDay,
+              vacation: false,
+              sickLeave: false,
+              shifts: dayShifts,
+            };
           });
 
           return {
             ...employee,
-            notes,
-            roles,
-            vacations,
-            sickLeaves,
             allRoles: [],
             shiftModels: [],
-            schedulePreference,
             workDays: newWorkDays,
           };
         }
@@ -245,41 +237,26 @@ export const employeeRouter = createTRPCRouter({
         if (fetchAllRoles) {
           return {
             ...employee,
-            notes,
-            roles,
             allRoles,
-            vacations,
-            sickLeaves,
             workDays: [],
             shiftModels: [],
-            schedulePreference,
           };
         }
 
         if (fetchShiftModels) {
           return {
             ...employee,
-            notes,
-            roles,
-            vacations,
-            sickLeaves,
             allRoles: [],
             workDays: [],
-            shiftModels,
-            schedulePreference,
+            shiftModels: allShiftModels,
           };
         }
 
         return {
           ...employee,
-          notes,
-          roles,
-          vacations,
-          sickLeaves,
           allRoles: [],
           workDays: [],
           shiftModels: [],
-          schedulePreference,
         };
       }
     ),

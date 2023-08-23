@@ -9,11 +9,11 @@ export const dashboardRouter = createTRPCRouter({
       })
     )
     .query(async ({ input: { skip }, ctx }) => {
-      const hasEmployees = await ctx.prisma.employee.findMany({
+      const hasEmployees = await ctx.prisma.employee.findFirstOrThrow({
         where: { userId: ctx.session.user.id },
       });
 
-      if (hasEmployees.length === 0) {
+      if (!hasEmployees) {
         return [];
       }
 
