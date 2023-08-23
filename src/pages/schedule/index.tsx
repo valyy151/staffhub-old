@@ -291,7 +291,7 @@ export default function NewSchedulePage() {
                         employee.schedulePreference.hoursPerMonth
                       )
                         ? "text-emerald-500"
-                        : "text-yellow-500"
+                        : "text-yellow-500 dark:text-yellow-300"
                     }`}
                   >
                     {calculateTotalMonthlyHours(schedule, vacationDays.length)}

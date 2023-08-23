@@ -186,6 +186,34 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
           </div>
         </div>
       </form>
+      {employee.schedulePreference && (
+        <>
+          <Heading size={"sm"} className="mt-4">
+            Select a shift:
+          </Heading>
+          <div className="grid grid-cols-4 gap-8">
+            {employee.schedulePreference.shiftModels
+              .sort((a, b) => a.start - b.start)
+              .map((shift) => (
+                <Heading
+                  size={"xs"}
+                  onClick={() => {
+                    handleTimeChange(formatTime(shift.start)!!, "start");
+                    handleTimeChange(
+                      formatTime(shift.end) === "00:00"
+                        ? "24:00"
+                        : formatTime(shift.end)!!,
+                      "end"
+                    );
+                  }}
+                  className="mt-4 cursor-pointer font-normal underline-offset-8 hover:text-sky-500 hover:underline"
+                >
+                  {formatTime(shift.start)} - {formatTime(shift.end)}
+                </Heading>
+              ))}
+          </div>
+        </>
+      )}
       {isSick && (
         <>
           <Heading

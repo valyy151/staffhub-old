@@ -143,11 +143,14 @@ export default function ScheduleTable({
                         placeholder={
                           vacationDays.includes(item.date)
                             ? "Vacation"
+                            : undefined || sickDays.includes(item.date)
+                            ? "Sick"
                             : undefined
                         }
                         disabled={vacationDays.includes(item.date)}
-                        className={`rounded bg-transparent py-4 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1 ${
+                        className={`rounded bg-transparent py-4 pl-8 text-left placeholder-slate-500 focus:bg-white dark:placeholder-slate-400 dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1 ${
                           shift &&
+                          !vacationDays.includes(item.date) &&
                           "cursor-pointer ring-slate-800 hover:ring-0.5 dark:ring-slate-50"
                         }`}
                       />
@@ -164,14 +167,10 @@ export default function ScheduleTable({
                             handleTimeChange(index, undefined, "end");
                           }
                         }}
-                        placeholder={
-                          vacationDays.includes(item.date)
-                            ? "Vacation"
-                            : undefined
-                        }
                         disabled={vacationDays.includes(item.date)}
                         className={`rounded bg-transparent py-4 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1 ${
                           shift &&
+                          !vacationDays.includes(item.date) &&
                           "cursor-pointer ring-slate-800 hover:ring-0.5 dark:ring-slate-50"
                         }`}
                         type="text"
@@ -203,18 +202,13 @@ export default function ScheduleTable({
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "start")
                         }
-                        className="rounded bg-transparent py-4 pl-8 text-left focus:bg-white dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1"
+                        className="rounded bg-transparent py-4 pl-8 text-left placeholder-slate-500 focus:bg-white dark:placeholder-slate-400 dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1"
                       />
                     </td>
 
                     <td>
                       <input
                         value={formatTime(item.end)}
-                        placeholder={
-                          vacationDays.includes(item.date)
-                            ? "Vacation"
-                            : undefined
-                        }
                         disabled={vacationDays.includes(item.date)}
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "end")

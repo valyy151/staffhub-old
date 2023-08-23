@@ -29,9 +29,12 @@ export default function SearchEmployees({
   const handleSelect = (employee: Employee) => {
     setIsOpen(false);
     setEmployee(employee);
+    checkIfSickOrVacation(employee);
   };
 
   function checkIfSickOrVacation(employee: any) {
+    setIsSick(false);
+    setIsOnVacation(false);
     const currentDate = Date.now();
 
     for (const sickLeave of employee.sickLeaves) {
@@ -107,10 +110,7 @@ export default function SearchEmployees({
                 <li
                   className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
                   key={employee.id}
-                  onClick={() => {
-                    checkIfSickOrVacation(employee);
-                    handleSelect(employee);
-                  }}
+                  onClick={() => handleSelect(employee)}
                 >
                   {employee.name}
                 </li>
