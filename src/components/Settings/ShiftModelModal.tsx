@@ -24,11 +24,21 @@ export default function Modal({ close, showModal }: ModalProps) {
           What are shift models?
         </Heading>
 
-        <Paragraph></Paragraph>
+        <Paragraph>
+          Shift models are a way to describe the different types of shifts
+          available that you use most often. For example: 06:00 - 14:00 or 12:00
+          - 20:00
+        </Paragraph>
 
-        <Paragraph></Paragraph>
+        <Paragraph>
+          You can use this to create schedules faster by selecting a shift model
+          and applying it quickly to a day.
+        </Paragraph>
 
-        <Paragraph></Paragraph>
+        <Paragraph>
+          You can also use it to assign it to your staff if they have a
+          preference to work those shifts.
+        </Paragraph>
       </div>
     </ReactModal>
   );
