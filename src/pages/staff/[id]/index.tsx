@@ -166,7 +166,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             </Heading>
             <div className="flex flex-col space-y-2 py-2">
               <Paragraph className="text-left">
-                {checkSickLeave(employee.sickLeaves)}
+                {checkSickLeave(employee.sickLeaves!!)}
               </Paragraph>
             </div>
           </div>
@@ -183,7 +183,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             </Heading>
             <div className="flex flex-col space-y-2 py-2">
               <Paragraph className="text-left">
-                {checkEmployeeVacation(employee.vacations)}
+                {checkEmployeeVacation(employee.vacations!!)}
               </Paragraph>
             </div>
           </div>
