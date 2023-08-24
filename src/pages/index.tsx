@@ -20,17 +20,14 @@ export default function Home() {
   }
 
   return (
-    <main className="mt-4 flex flex-col items-center text-2xl">
+    <main className="mt-4 flex flex-col items-center px-2 text-2xl sm:px-0">
       {status === "authenticated" && (
         <>
-          <Heading size={"lg"} className="">
-            {" "}
-            Hello {data.user.name}{" "}
-          </Heading>
-          <Heading className="mt-2 font-semibold">
+          <Heading size={"lg"}> Hello {data.user.name} </Heading>
+          <Heading className="mt-2 text-center font-semibold">
             Enjoy the Seamless Efficiency at Your Fingertips!
           </Heading>
-          <div className="mt-4 space-x-2">
+          <div className="mt-8 flex flex-col space-y-2 sm:mt-4 sm:flex-row sm:space-x-2 sm:space-y-0">
             <Button
               size={"lg"}
               className="h-14 text-2xl"

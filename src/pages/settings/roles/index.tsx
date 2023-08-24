@@ -73,7 +73,9 @@ export default function StaffRolesPage() {
 
   return (
     <main className="flex">
-      <Sidebar />
+      <div className="hidden sm:block">
+        <Sidebar />
+      </div>
       <section className="mt-4">
         <Heading size={"lg"} className="mb-2">
           Add and manage Staff Roles
