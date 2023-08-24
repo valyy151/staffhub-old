@@ -36,7 +36,7 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
     }
 
     const [pastSickLeaves, currentSickLeave] = checkSickLeaves(
-      employee.sickLeaves
+      employee.sickLeaves!!
     );
 
     return (

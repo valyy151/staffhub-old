@@ -104,7 +104,7 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
                   className="h-8 w-8 cursor-pointer"
                   name="bordered-checkbox cursor-pointer"
                   onChange={(e) => handleChange(e, role.id)}
-                  checked={employee?.roles.some((r) => r.id === role.id)}
+                  checked={employee?.roles!!.some((r) => r.id === role.id)}
                 />
                 <label
                   htmlFor={role.id}

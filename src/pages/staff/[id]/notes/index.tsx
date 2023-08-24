@@ -63,7 +63,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
       return null;
     }
 
-    if (employee?.notes.length === 0) {
+    if (employee?.notes?.length === 0) {
       return (
         <Paragraph size={"lg"} className="mt-8">
           There are no notes for {employee.name}.
@@ -74,13 +74,13 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
     return (
       <>
         <Paragraph size={"lg"} className="mr-auto mt-8">
-          There {employee?.notes.length === 1 ? "is" : "are"}{" "}
-          {employee?.notes.length}{" "}
-          {employee?.notes.length === 1 ? "note" : "notes"} for {employee?.name}
-          .
+          There {employee?.notes?.length === 1 ? "is" : "are"}{" "}
+          {employee?.notes?.length}{" "}
+          {employee?.notes?.length === 1 ? "note" : "notes"} for{" "}
+          {employee?.name}.
         </Paragraph>
 
-        {employee?.notes.map((note) => (
+        {employee?.notes?.map((note) => (
           <Note note={note} key={note.id} />
         ))}
       </>

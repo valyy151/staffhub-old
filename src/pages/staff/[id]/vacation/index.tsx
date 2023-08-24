@@ -78,7 +78,7 @@ export default function VacationPage({ query }: VacationPageProps) {
     }
 
     const [pastVacations, futureVacations, currentVacation] = checkVacations(
-      employee.vacations
+      employee.vacations!!
     );
 
     return (
