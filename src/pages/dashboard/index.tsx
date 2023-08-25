@@ -18,9 +18,8 @@ import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
 import { type GetServerSideProps } from "next/types";
 import { type DashboardWorkDay, api } from "~/utils/api";
-import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
-import Calendar from "react-calendar";
 import CalendarModal from "~/components/Dashboard/CalendarModal";
+import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -47,6 +46,9 @@ export default function DashboardPage() {
   const { data, isFetching } = api.dashboard.find.useQuery({
     skip: skip,
   });
+
+  const { data: firstAndLastDays } =
+    api.dashboard.findFirstAndLastDay.useQuery();
 
   function handlePrevPage(): void {
     setSkip(skip - 1);
@@ -110,13 +112,13 @@ export default function DashboardPage() {
         </Heading>
 
         <div className="flex space-x-1">
-          <Button
+          {/* <Button
             variant={"link"}
             className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
             onClick={() => setShowCalendar(!showCalendar)}
           >
             <CalendarIcon size={48} />
-          </Button>
+          </Button> */}
           <Button
             variant={"link"}
             title="Previous Week"
@@ -206,9 +208,11 @@ export default function DashboardPage() {
       {showCalendar && (
         <CalendarModal
           showModal={showCalendar}
+          firstAndLastDays={firstAndLastDays}
           cancel={() => setShowCalendar(false)}
         />
       )}
     </main>
   );
+  firstAndLastDays;
 }

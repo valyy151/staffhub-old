@@ -57,4 +57,18 @@ export const dashboardRouter = createTRPCRouter({
         return { ...workDay, shifts: dayShifts, notes: dayNotes };
       });
     }),
+
+  findFirstAndLastDay: protectedProcedure.query(async ({ ctx }) => {
+    const firstDay = await ctx.prisma.workDay.findFirst({
+      select: { date: true },
+      orderBy: { date: "asc" },
+    });
+
+    const lastDay = await ctx.prisma.workDay.findFirst({
+      select: { date: true },
+      orderBy: { date: "desc" },
+    });
+
+    return { firstDay, lastDay };
+  }),
 });

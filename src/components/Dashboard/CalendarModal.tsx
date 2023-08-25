@@ -1,18 +1,28 @@
+import { X } from "lucide-react";
 import ReactModal from "react-modal";
-import { type MouseEventHandler } from "react";
 import Heading from "../ui/Heading";
-import Paragraph from "../ui/Paragraph";
 import { Button } from "../ui/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { X } from "lucide-react";
+import { type MouseEventHandler } from "react";
 
 interface ModalProps {
   showModal: boolean;
+  firstAndLastDays:
+    | {
+        firstDay: { date: number } | null;
+
+        lastDay: { date: number } | null;
+      }
+    | undefined;
   cancel: MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function CalendarModal({ cancel, showModal }: ModalProps) {
+export default function CalendarModal({
+  cancel,
+  firstAndLastDays,
+  showModal,
+}: ModalProps) {
   return (
     <ReactModal
       isOpen={showModal}
@@ -32,7 +42,12 @@ export default function CalendarModal({ cancel, showModal }: ModalProps) {
           <Heading size={"xs"} className="mb-1 ml-1">
             Choose a month
           </Heading>
-          <Calendar view="month" maxDetail="year" />
+          <Calendar
+            view="month"
+            maxDetail="year"
+            maxDate={new Date(1000 * firstAndLastDays?.lastDay?.date!)}
+            minDate={new Date(1000 * firstAndLastDays?.firstDay?.date!)}
+          />
         </div>
       </div>
     </ReactModal>
