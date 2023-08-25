@@ -5,6 +5,7 @@ import {
   ScrollText,
   ChevronLeft,
   ChevronRight,
+  CalendarIcon,
 } from "lucide-react";
 import router from "next/router";
 import { useEffect, useState } from "react";
@@ -18,6 +19,8 @@ import Paragraph from "~/components/ui/Paragraph";
 import { type GetServerSideProps } from "next/types";
 import { type DashboardWorkDay, api } from "~/utils/api";
 import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
+import Calendar from "react-calendar";
+import CalendarModal from "~/components/Dashboard/CalendarModal";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -38,6 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function DashboardPage() {
   const [skip, setSkip] = useState<number>(0);
+  const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [workDay, setWorkDay] = useState<DashboardWorkDay[] | null>(null);
 
   const { data, isFetching } = api.dashboard.find.useQuery({
@@ -106,6 +110,13 @@ export default function DashboardPage() {
         </Heading>
 
         <div className="flex space-x-1">
+          <Button
+            variant={"link"}
+            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
+            onClick={() => setShowCalendar(!showCalendar)}
+          >
+            <CalendarIcon size={48} />
+          </Button>
           <Button
             variant={"link"}
             title="Previous Week"
@@ -192,6 +203,12 @@ export default function DashboardPage() {
       <div className="mt-8 flex justify-center">
         {isFetching && <Spinner noMargin />}
       </div>
+      {showCalendar && (
+        <CalendarModal
+          showModal={showCalendar}
+          cancel={() => setShowCalendar(false)}
+        />
+      )}
     </main>
   );
 }
