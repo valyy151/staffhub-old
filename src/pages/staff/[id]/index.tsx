@@ -102,7 +102,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* personal info begin */}
           <div
             onClick={() => router.push(`/staff/${employee.id}/personal`)}
-            className="w-1/5 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
+            className="min-h-[18rem] w-1/5 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Personal Info
@@ -134,7 +134,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* roles begin */}
           <div
             onClick={() => router.push(`/staff/${employee.id}/roles`)}
-            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
+            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Roles
@@ -158,7 +158,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* sick leave begin */}
           <div
             onClick={() => router.push(`/staff/${employee.id}/sick-leave`)}
-            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
+            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Sick Leave
@@ -176,7 +176,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           <div
             onClick={() => router.push(`/staff/${employee.id}/vacation`)}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300
-                 py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
+                 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Vacation <Palmtree size={26} className="ml-2" />
@@ -192,7 +192,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* preferences begin */}
           <div
             onClick={() => router.push(`/staff/${employee.id}/preferences`)}
-            className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-50 dark:hover:bg-slate-700"
+            className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Schedule Preferences <Sticker size={26} className="ml-2" />

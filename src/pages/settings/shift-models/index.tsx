@@ -101,9 +101,11 @@ export default function ShiftModelsPage() {
             <Heading className="mt-4 border-b border-slate-300 py-1 dark:border-slate-500">
               My Shift Models
             </Heading>
-            {data.map((shiftModel) => (
-              <ShiftModel key={shiftModel.id} shiftModel={shiftModel} />
-            ))}
+            {data
+              .sort((a, b) => a.start - b.start)
+              .map((shiftModel) => (
+                <ShiftModel key={shiftModel.id} shiftModel={shiftModel} />
+              ))}
           </div>
         )}
         {showCreateModel && (

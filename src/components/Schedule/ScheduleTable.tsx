@@ -149,7 +149,10 @@ export default function ScheduleTable({
                             ? "Sick"
                             : undefined
                         }
-                        disabled={vacationDays.includes(item.date)}
+                        disabled={
+                          sickDays.includes(item.date) ||
+                          vacationDays.includes(item.date)
+                        }
                         className={`rounded bg-transparent py-4 pl-8 text-left placeholder-slate-500 focus:bg-white dark:placeholder-slate-400 dark:outline-none dark:ring-slate-100 dark:focus:bg-transparent dark:focus:ring-1 ${
                           shift &&
                           !vacationDays.includes(item.date) &&
@@ -169,7 +172,10 @@ export default function ScheduleTable({
                             handleTimeChange(index, undefined, "end");
                           }
                         }}
-                        disabled={vacationDays.includes(item.date)}
+                        disabled={
+                          sickDays.includes(item.date) ||
+                          vacationDays.includes(item.date)
+                        }
                         className={`rounded bg-transparent py-4 pl-8 text-left ring-slate-100 focus:bg-white dark:outline-none dark:focus:bg-transparent dark:focus:ring-1 ${
                           shift &&
                           !vacationDays.includes(item.date) &&

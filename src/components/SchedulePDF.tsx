@@ -83,9 +83,54 @@ export function MonthlyRoster({
             <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
               {formatDate(workDay.date)}
             </Text>
-            {workDay.shifts[0] &&
-            workDay.shifts[0].start &&
-            workDay.shifts[0].end ? (
+
+            {workDay.vacation && (
+              <>
+                <Text
+                  style={tw(
+                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+                  )}
+                >
+                  -
+                </Text>
+
+                <Text
+                  style={tw(
+                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+                  )}
+                >
+                  -
+                </Text>
+                <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
+                  {" "}
+                  Vacation
+                </Text>
+              </>
+            )}
+            {workDay.sickLeave && (
+              <>
+                <Text
+                  style={tw(
+                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+                  )}
+                >
+                  -
+                </Text>
+
+                <Text
+                  style={tw(
+                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+                  )}
+                >
+                  -
+                </Text>
+                <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
+                  {" "}
+                  Sick
+                </Text>
+              </>
+            )}
+            {workDay.shifts[0] && (
               <>
                 <Text
                   style={tw(
@@ -107,13 +152,18 @@ export function MonthlyRoster({
                   style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
                 ></Text>
               </>
-            ) : (
+            )}
+            {!workDay.shifts[0] && !workDay.vacation && !workDay.sickLeave && (
               <>
                 <Text
-                  style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
+                  style={tw(
+                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+                  )}
                 ></Text>
                 <Text
-                  style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
+                  style={tw(
+                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+                  )}
                 ></Text>
                 <Text
                   style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
