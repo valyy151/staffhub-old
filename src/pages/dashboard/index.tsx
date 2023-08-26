@@ -40,11 +40,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function DashboardPage() {
   const [skip, setSkip] = useState<number>(0);
+  const [value, setValue] = useState<Date | undefined>(undefined);
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
-  const [workDay, setWorkDay] = useState<DashboardWorkDay[] | null>(null);
+  const [workDays, setWorkDays] = useState<DashboardWorkDay[] | null>(null);
 
   const { data, isFetching } = api.dashboard.find.useQuery({
     skip: skip,
+    value: value,
   });
 
   const { data: firstAndLastDays } =
@@ -60,7 +62,7 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (data) {
-      setWorkDay(data);
+      setWorkDays(data);
     }
   }, [data]);
 
@@ -86,7 +88,7 @@ export default function DashboardPage() {
     );
   }
 
-  if (!workDay) {
+  if (!workDays) {
     return <Spinner />;
   }
 
@@ -94,17 +96,17 @@ export default function DashboardPage() {
     <main className="mx-auto mt-12 w-fit">
       <div className="mb-2 flex items-baseline justify-between">
         <Heading className="ml-2">
-          {workDay &&
-            workDay[0] &&
-            new Date(workDay[0].date * 1000).toLocaleDateString("en-GB", {
+          {workDays &&
+            workDays[0] &&
+            new Date(workDays[0].date * 1000).toLocaleDateString("en-GB", {
               year: "numeric",
               month: "long",
               day: "numeric",
             })}{" "}
           -{" "}
-          {workDay &&
-            workDay[6] &&
-            new Date(workDay[6].date * 1000).toLocaleDateString("en-GB", {
+          {workDays &&
+            workDays[6] &&
+            new Date(workDays[6].date * 1000).toLocaleDateString("en-GB", {
               year: "numeric",
               month: "long",
               day: "numeric",
@@ -112,13 +114,13 @@ export default function DashboardPage() {
         </Heading>
 
         <div className="flex space-x-1">
-          {/* <Button
+          <Button
             variant={"link"}
             className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
             onClick={() => setShowCalendar(!showCalendar)}
           >
             <CalendarIcon size={48} />
-          </Button> */}
+          </Button>
           <Button
             variant={"link"}
             title="Previous Week"
@@ -140,9 +142,8 @@ export default function DashboardPage() {
           </Button>
         </div>
       </div>
-
       <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-750">
-        {workDay?.map((day) => (
+        {workDays?.map((day) => (
           <div
             className="group flex min-w-[14rem] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
             key={day.id}
@@ -201,18 +202,19 @@ export default function DashboardPage() {
           </div>
         ))}
       </div>
-
       <div className="mt-8 flex justify-center">
         {isFetching && <Spinner noMargin />}
       </div>
       {showCalendar && (
         <CalendarModal
+          value={value}
+          setValue={setValue}
           showModal={showCalendar}
-          firstAndLastDays={firstAndLastDays}
-          cancel={() => setShowCalendar(false)}
+          lastDay={firstAndLastDays?.[1]?.date}
+          firstDay={firstAndLastDays?.[0]?.date}
+          close={() => setShowCalendar(false)}
         />
       )}
     </main>
   );
-  firstAndLastDays;
 }

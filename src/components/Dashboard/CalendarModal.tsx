@@ -4,23 +4,23 @@ import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { type MouseEventHandler } from "react";
+import { useState, type MouseEventHandler } from "react";
 
 interface ModalProps {
   showModal: boolean;
-  firstAndLastDays:
-    | {
-        firstDay: { date: number } | null;
-
-        lastDay: { date: number } | null;
-      }
-    | undefined;
-  cancel: MouseEventHandler<HTMLButtonElement>;
+  lastDay: number | undefined;
+  firstDay: number | undefined;
+  setValue: (date: Date) => void;
+  close: MouseEventHandler<HTMLButtonElement>;
+  value: Date | undefined;
 }
 
 export default function CalendarModal({
-  cancel,
-  firstAndLastDays,
+  close,
+  value,
+  lastDay,
+  setValue,
+  firstDay,
   showModal,
 }: ModalProps) {
   return (
@@ -32,7 +32,7 @@ export default function CalendarModal({
         <div className="flex">
           <div className="ml-auto">
             {" "}
-            <Button variant={"ghost"} onClick={cancel}>
+            <Button variant={"ghost"} onClick={close}>
               <X size={30} />
             </Button>
           </div>
@@ -45,8 +45,15 @@ export default function CalendarModal({
           <Calendar
             view="month"
             maxDetail="year"
-            maxDate={new Date(1000 * firstAndLastDays?.lastDay?.date!)}
-            minDate={new Date(1000 * firstAndLastDays?.firstDay?.date!)}
+            next2Label={null}
+            prev2Label={null}
+            activeStartDate={value!}
+            maxDate={new Date(1000 * lastDay!)}
+            minDate={new Date(1000 * firstDay!)}
+            onChange={(value: any, e) => {
+              setValue(value);
+              close(e);
+            }}
           />
         </div>
       </div>

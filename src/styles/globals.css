@@ -213,8 +213,12 @@
   @apply hover:bg-slate-200 hover:text-slate-800 focus:bg-blue-500 focus:text-white dark:text-slate-200 dark:hover:bg-slate-700 dark:focus:bg-blue-500 !important;
 }
 
-.react-calendar {
-  @apply dark:border-slate-700 dark:bg-slate-750 dark:text-slate-200 !important;
+.react-calendar,
+.react-calendar__navigation__next-button,
+.react-calendar__navigation__prev-button,
+.react-calendar__navigation__next2-button,
+.react-calendar__navigation__prev2-button {
+  @apply cursor-pointer dark:border-slate-700 dark:bg-slate-750 dark:text-slate-200 !important;
 }
 
 .react-calendar__tile--now {

@@ -168,7 +168,12 @@ export default function VacationPlanner({
               year: "numeric",
             })}
           </Heading>
-          <Calendar value={start} onChange={handleStartChange} />
+          <Calendar
+            value={start}
+            onChange={handleStartChange}
+            next2Label={null}
+            prev2Label={null}
+          />
         </div>
         <div>
           <Heading className="mb-2" size={"sm"}>
@@ -179,7 +184,12 @@ export default function VacationPlanner({
               year: "numeric",
             })}
           </Heading>
-          <Calendar value={end} onChange={handleEndChange} />
+          <Calendar
+            value={end}
+            onChange={handleEndChange}
+            next2Label={null}
+            prev2Label={null}
+          />
         </div>
       </div>
 

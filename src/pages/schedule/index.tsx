@@ -161,6 +161,9 @@ export default function NewSchedulePage() {
             view={"month"}
             maxDetail="year"
             className="h-fit"
+            next2Label={null}
+            prev2Label={null}
+            activeStartDate={value}
             onChange={handleMonthChange}
           />
 

@@ -163,6 +163,9 @@ export default function SchedulePage({ query }: SchedulePageProps) {
             view={"month"}
             maxDetail="year"
             className="h-fit"
+            next2Label={null}
+            prev2Label={null}
+            activeStartDate={value}
             onChange={handleMonthChange}
           />
         </div>

@@ -106,7 +106,12 @@ export default function AddSickLeave({
               year: "numeric",
             })}
           </Heading>
-          <Calendar value={start} onChange={handleStartChange} />
+          <Calendar
+            next2Label={null}
+            prev2Label={null}
+            value={start}
+            onChange={handleStartChange}
+          />
         </div>
         <div>
           <Heading className="mb-2" size={"sm"}>
@@ -117,7 +122,12 @@ export default function AddSickLeave({
               year: "numeric",
             })}
           </Heading>
-          <Calendar value={end} onChange={handleEndChange} />
+          <Calendar
+            next2Label={null}
+            prev2Label={null}
+            value={end}
+            onChange={handleEndChange}
+          />
         </div>
       </div>
 
