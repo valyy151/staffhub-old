@@ -4,15 +4,15 @@ import Heading from "../ui/Heading";
 import { Button } from "../ui/Button";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useState, type MouseEventHandler } from "react";
+import { type MouseEventHandler } from "react";
 
 interface ModalProps {
+  value: Date;
   showModal: boolean;
   lastDay: number | undefined;
   firstDay: number | undefined;
   setValue: (date: Date) => void;
   close: MouseEventHandler<HTMLButtonElement>;
-  value: Date | undefined;
 }
 
 export default function CalendarModal({

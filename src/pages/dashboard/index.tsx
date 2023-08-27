@@ -40,13 +40,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function DashboardPage() {
   const [skip, setSkip] = useState<number>(0);
-  const [value, setValue] = useState<Date | undefined>(undefined);
+  const [value, setValue] = useState<Date>(new Date());
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [workDays, setWorkDays] = useState<DashboardWorkDay[] | null>(null);
 
   const { data, isFetching } = api.dashboard.find.useQuery({
     skip: skip,
-    value: value,
+    date: value,
   });
 
   const { data: firstAndLastDays } =
@@ -65,6 +65,10 @@ export default function DashboardPage() {
       setWorkDays(data);
     }
   }, [data]);
+
+  useEffect(() => {
+    setSkip(0);
+  }, [value]);
 
   if (data?.length === 0) {
     return (
