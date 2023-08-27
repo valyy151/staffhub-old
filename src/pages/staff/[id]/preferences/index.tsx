@@ -112,7 +112,7 @@ export default function schedulePreferencesPage({
               <Input
                 type="text"
                 value={hoursPerMonth}
-                className="h-14 text-lg"
+                className="mt-4 h-14 text-lg"
                 placeholder="Enter hours per month  "
                 onChange={(e) => setHoursPerMonth(e.target.value)}
               />
@@ -165,25 +165,33 @@ export default function schedulePreferencesPage({
             <Heading size={"xs"} className="mb-3">
               How many hours per month would this employee like to work?
             </Heading>
-            <div>
-              <Heading size={"sm"} className="h-14 text-lg">
-                {employee?.schedulePreference?.hoursPerMonth}
-              </Heading>
+            <div className="mt-6">
+              {employee?.schedulePreference?.hoursPerMonth === 0 ? (
+                <Paragraph size={"lg"}>No preference has been set.</Paragraph>
+              ) : (
+                <Paragraph size={"lg"}>
+                  {employee?.schedulePreference?.hoursPerMonth}h
+                </Paragraph>
+              )}
             </div>
-            <Heading size={"xs"} className="my-2">
+            <Heading size={"xs"} className="mb-2 mt-6">
               Which shifts does {employee.name} prefer?
             </Heading>
-            <div className="my-4 space-y-2">
-              {employee?.schedulePreference?.shiftModels
-                .sort((a, b) => a.start - b.start)
-                .map((shiftModel) => (
-                  <div key={shiftModel.id} className="my-2">
-                    <Heading>
-                      {formatTime(shiftModel.start)} -{" "}
-                      {formatTime(shiftModel.end)}
-                    </Heading>
-                  </div>
-                ))}
+            <div className="mb-4 mt-6 space-y-2">
+              {employee?.schedulePreference?.shiftModels.length! > 0 ? (
+                employee?.schedulePreference?.shiftModels
+                  .sort((a, b) => a.start - b.start)
+                  .map((shiftModel) => (
+                    <div key={shiftModel.id} className="my-2">
+                      <Paragraph size="lg">
+                        {formatTime(shiftModel.start)} -{" "}
+                        {formatTime(shiftModel.end)}
+                      </Paragraph>
+                    </div>
+                  ))
+              ) : (
+                <Paragraph size={"lg"}>No preference has been set.</Paragraph>
+              )}
             </div>
           </div>
         )}
