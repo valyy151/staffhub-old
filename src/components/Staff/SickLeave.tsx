@@ -3,7 +3,7 @@ import Paragraph from "~/components/ui/Paragraph";
 import { formatDateLong } from "~/utils/dateFormatting";
 import { Button } from "~/components/ui/Button";
 import { Trash2 } from "lucide-react";
-import Modal from "~/components/ui/Modal";
+import FormModal from "~/components/ui/FormModal";
 import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
@@ -58,7 +58,7 @@ export default function SickLeave({ sickLeave }: SickLeaveProps) {
         </Button>
 
         {showModal && (
-          <Modal
+          <FormModal
             showModal={showModal}
             submit={handleDelete}
             heading={"Delete sick leave?"}

@@ -16,7 +16,7 @@ import toast from "react-hot-toast";
 import Dropdown from "~/components/Staff/Dropdown";
 import { Button } from "~/components/ui/Button";
 import Heading from "~/components/ui/Heading";
-import Modal from "~/components/ui/Modal";
+import FormModal from "~/components/ui/FormModal";
 import Paragraph from "~/components/ui/Paragraph";
 import Spinner from "~/components/ui/Spinner";
 
@@ -222,7 +222,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* preferences end */}
         </div>
         {showModal && (
-          <Modal
+          <FormModal
             showModal={showModal}
             submit={handleDelete}
             heading={"Delete employee?"}

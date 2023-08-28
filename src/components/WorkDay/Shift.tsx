@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Input from "../ui/Input";
-import Modal from "../ui/Modal";
+import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import Heading from "../ui/Heading";
@@ -204,7 +204,7 @@ export default function Shift({ shift, date, index }: ShiftProps) {
       )}
 
       {showModal && (
-        <Modal
+        <FormModal
           submit={deleteShift}
           showModal={showModal}
           heading={"Delete shift?"}

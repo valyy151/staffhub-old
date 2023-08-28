@@ -1,5 +1,5 @@
 import Input from "../ui/Input";
-import Modal from "../ui/Modal";
+import FormModal from "../ui/FormModal";
 import { api } from "~/utils/api";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -125,7 +125,7 @@ export default function Note({ note }: NoteProps) {
             </Button>
 
             {showModal && (
-              <Modal
+              <FormModal
                 submit={deleteNote}
                 showModal={showModal}
                 heading={"Delete note?"}

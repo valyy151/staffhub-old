@@ -1,4 +1,4 @@
-import Modal from "../ui/Modal";
+import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
@@ -145,7 +145,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
         </form>
       )}
       {showModal && (
-        <Modal
+        <FormModal
           showModal={showModal}
           cancel={() => setShowModal(false)}
           submit={() => deleteStaffRole.mutate({ id: role.id })}

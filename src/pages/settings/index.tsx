@@ -2,7 +2,7 @@ import router from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import Modal from "~/components/ui/Modal";
+import FormModal from "~/components/ui/FormModal";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import { type GetServerSideProps } from "next/types";
@@ -92,7 +92,7 @@ export default function SettingsPage() {
       </Button>
 
       {showModal && (
-        <Modal
+        <FormModal
           showModal={showModal}
           cancel={() => setShowModal(false)}
           submit={() => deleteUser.mutate()}

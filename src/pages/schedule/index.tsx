@@ -12,7 +12,7 @@ import { formatMonth, formatTime } from "~/utils/dateFormatting";
 import { type GetServerSideProps } from "next/types";
 import { CalendarPlus, Info, UserPlus, X } from "lucide-react";
 import ScheduleTable from "~/components/Schedule/ScheduleTable";
-import ScheduleModal from "~/components/Schedule/ScheduleModal";
+import sentences from "~/data/schedule.json";
 import SearchEmployees from "~/components/Schedule/SearchEmployees";
 import {
   calculateTotalMonthlyHours,
@@ -20,6 +20,7 @@ import {
 } from "~/utils/calculateHours";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";
 import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
+import InfoModal from "~/components/ui/InfoModal";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -64,6 +65,7 @@ export default function NewSchedulePage() {
     },
     onError: () => {
       toast.error("Something went wrong.");
+      InfoModal;
     },
   });
 
@@ -308,9 +310,11 @@ export default function NewSchedulePage() {
       </section>
 
       {showModal && (
-        <ScheduleModal
+        <InfoModal
+          text={sentences}
           showModal={showModal}
           close={() => setShowModal(false)}
+          heading="How do I write a schedule?"
         />
       )}
     </main>

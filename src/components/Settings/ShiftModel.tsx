@@ -1,4 +1,4 @@
-import Modal from "../ui/Modal";
+import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
@@ -141,7 +141,7 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
         </form>
       )}
       {showModal && (
-        <Modal
+        <FormModal
           showModal={showModal}
           heading={"Delete Shift Model?"}
           cancel={() => setShowModal(false)}

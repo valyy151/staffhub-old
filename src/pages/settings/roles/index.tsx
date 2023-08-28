@@ -4,13 +4,14 @@ import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import { type GetServerSideProps } from "next/types";
-import StaffRoleModal from "~/components/Settings/StaffRoleModal";
+import sentences from "~/data/staffRole.json";
 import Input from "~/components/ui/Input";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Sidebar from "~/components/Settings/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import StaffRole from "~/components/Settings/StaffRole";
+import InfoModal from "~/components/ui/InfoModal";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -146,8 +147,10 @@ export default function StaffRolesPage() {
       </section>
 
       {showModal && (
-        <StaffRoleModal
+        <InfoModal
+          text={sentences}
           showModal={showModal}
+          heading="What are Staff Roles?"
           close={() => setShowModal(false)}
         />
       )}

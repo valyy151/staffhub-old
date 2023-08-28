@@ -14,7 +14,7 @@ interface ModalProps {
   submit: MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function Modal({
+export default function FormModal({
   text,
   submit,
   cancel,
