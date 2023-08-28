@@ -227,7 +227,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             submit={handleDelete}
             heading={"Delete employee?"}
             cancel={() => setShowModal(false)}
-            text={"Are you sure you want to delete this employee"}
+            text={"Are you sure you want to delete this employee?"}
           />
         )}
       </div>

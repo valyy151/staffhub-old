@@ -19,9 +19,9 @@ interface DropdownProps {
 
 export default function Dropdown({
   employee,
+  showDelete,
   setShowModal,
   setShowDropdown,
-  showDelete,
 }: DropdownProps) {
   return (
     <div className="absolute right-0 z-50 w-[30rem] rounded-md border border-slate-300 bg-white p-1 text-xl  shadow-lg ring-1 ring-black ring-opacity-5 dark:border-slate-600 dark:bg-slate-700 dark:shadow-slate-900">
@@ -31,7 +31,7 @@ export default function Dropdown({
             setShowDropdown(false);
             router.push(`/staff/${employee.id}/notes`);
           }}
-          className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-600"
         >
           Notes
           <ScrollText className="ml-2" />
@@ -42,7 +42,7 @@ export default function Dropdown({
             setShowDropdown(false);
             router.push(`/staff/${employee.id}/vacation`);
           }}
-          className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-600"
         >
           Vacation
           <Palmtree className="ml-2" />
@@ -53,7 +53,7 @@ export default function Dropdown({
             setShowDropdown(false);
             router.push(`/staff/${employee.id}/schedule`);
           }}
-          className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-600"
         >
           Schedule
           <Calendar className="ml-2" />
@@ -64,14 +64,14 @@ export default function Dropdown({
             setShowDropdown(false);
             router.push(`/staff/${employee.id}/preferences`);
           }}
-          className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-600"
         >
           Shift Preferences
           <Sticker className="ml-2" />
         </li>
         <li
           onClick={() => router.push(`/staff/${employee.id}/personal`)}
-          className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3  dark:hover:bg-slate-600"
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100  dark:hover:bg-slate-600"
         >
           Personal Information
           <User2 className="ml-2" />
@@ -83,7 +83,7 @@ export default function Dropdown({
               setShowModal(true);
               setShowDropdown(false);
             }}
-            className="hover:bg-slate-60 flex cursor-pointer items-center justify-between rounded-md px-4 py-3 dark:hover:bg-slate-600"
+            className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-600"
           >
             Delete Employee
             <Trash2 className="ml-2 text-red-500" />
