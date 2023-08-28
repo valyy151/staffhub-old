@@ -3,7 +3,7 @@ import Paragraph from "~/components/ui/Paragraph";
 
 export default function DocumentationPage() {
   return (
-    <main className="mx-auto flex w-fit flex-col items-start pb-24 text-justify">
+    <main className="flex w-fit flex-col items-start px-16 pb-24 text-justify">
       <Heading className="my-4 border-b-2 border-slate-300 dark:border-slate-500">
         Documentation
       </Heading>
@@ -86,6 +86,18 @@ export default function DocumentationPage() {
         change to <span className="font-semibold">00:00</span> and calculate the
         total hours of the shift. Writing{" "}
         <span className="font-semibold">00:00</span> yourself will not work.
+      </Paragraph>
+
+      <Heading size={"sm"} className="mt-8">
+        Shift Models
+      </Heading>
+
+      <Paragraph size={"lg"}>
+        Shift models are a way to describe the different types of shifts
+        available that you use most often. For example: 06:00 - 14:00 or 12:00 -
+        20:00. You can use this to create schedules faster by selecting a shift
+        model and applying it quickly to a day. You can also use it to assign it
+        to your staff if they have a preference to work those shifts.
       </Paragraph>
     </main>
   );

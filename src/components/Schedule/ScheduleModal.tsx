@@ -28,18 +28,28 @@ export default function Modal({ close, showModal }: ModalProps) {
           Start by selecting a staff member on the left and choosing which month
           you want to make a schedule for.
         </Paragraph>
+
         <Paragraph>
-          Then, click on one of the inputs in the table on the right, and start
-          writing.
+          If the staff member has any schedule preferences, you will see them
+          below the table. You can use the shift models from there to quickly
+          assign a shift to a day.
         </Paragraph>
+
+        <Paragraph>
+          Alternatively you can write the schedule manually. You can do this by
+          clicking on the day you want to edit.
+        </Paragraph>
+
         <Paragraph>
           For each day, there are 2 inputs: one for the start time and one for
           the end time.
         </Paragraph>
+
         <Paragraph>
           Type the start time and end time in the format HH:MM (24 hour format).
           For example 09:00 - 16:45.
         </Paragraph>
+
         <Paragraph>
           If you already made the schedule but want to make changes, go to the
           Dashboard and edit that particular day.
