@@ -81,7 +81,7 @@ export default function schedulePreferencesPage({
     createPreferenceMutation.mutate({
       shiftModelIds,
       employeeId: employee?.id,
-      hoursPerMonth: parseInt(hoursPerMonth) || 0,
+      hoursPerMonth: parseInt(hoursPerMonth) || undefined,
     });
   }
 
@@ -166,7 +166,8 @@ export default function schedulePreferencesPage({
               How many hours per month would this employee like to work?
             </Heading>
             <div className="mt-6">
-              {employee?.schedulePreference?.hoursPerMonth === 0 ? (
+              {employee?.schedulePreference?.hoursPerMonth === 0 ||
+              !employee?.schedulePreference?.hoursPerMonth ? (
                 <Paragraph size={"lg"}>No preference has been set.</Paragraph>
               ) : (
                 <Paragraph size={"lg"}>

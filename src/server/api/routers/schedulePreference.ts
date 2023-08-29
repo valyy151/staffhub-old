@@ -6,7 +6,7 @@ export const schedulePreferenceRouter = createTRPCRouter({
     .input(
       z.object({
         employeeId: z.string(),
-        hoursPerMonth: z.number(),
+        hoursPerMonth: z.any(),
         shiftModelIds: z.array(z.string()),
       })
     )
@@ -19,7 +19,7 @@ export const schedulePreferenceRouter = createTRPCRouter({
           return await ctx.prisma.schedulePreference.update({
             where: { id: existing.id },
             data: {
-              hoursPerMonth,
+              hoursPerMonth: hoursPerMonth,
               shiftModels: {
                 set: shiftModelIds.map((id) => ({ id })),
               },
@@ -30,7 +30,7 @@ export const schedulePreferenceRouter = createTRPCRouter({
         return await ctx.prisma.schedulePreference.create({
           data: {
             employeeId,
-            hoursPerMonth,
+            hoursPerMonth: hoursPerMonth,
             userId: ctx.session.user.id,
             shiftModels: {
               connect: shiftModelIds.map((id) => ({ id })),

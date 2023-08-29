@@ -202,15 +202,24 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
               {employee.schedulePreference ? (
                 <>
                   <Paragraph className="text-left font-medium">
-                    {employee.schedulePreference.hoursPerMonth} hours per month
+                    {employee.schedulePreference.hoursPerMonth > 0
+                      ? employee.schedulePreference.hoursPerMonth +
+                        " hours per month"
+                      : "No monthly hours set"}
                   </Paragraph>
-                  {employee.schedulePreference.shiftModels
-                    .sort((a, b) => a.start - b.start)
-                    .map((item) => (
-                      <Paragraph key={item.id} className="text-left">
-                        [{formatTime(item.start)} - {formatTime(item.end)}]
-                      </Paragraph>
-                    ))}
+                  {employee.schedulePreference.shiftModels.length > 0 ? (
+                    employee.schedulePreference.shiftModels
+                      .sort((a, b) => a.start - b.start)
+                      .map((item) => (
+                        <Paragraph key={item.id} className="text-left">
+                          [{formatTime(item.start)} - {formatTime(item.end)}]
+                        </Paragraph>
+                      ))
+                  ) : (
+                    <Paragraph className="text-left">
+                      No shift preferences.
+                    </Paragraph>
+                  )}
                 </>
               ) : (
                 <Paragraph className="text-left">
