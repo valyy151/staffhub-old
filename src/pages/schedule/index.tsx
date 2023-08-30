@@ -45,7 +45,13 @@ export default function NewSchedulePage() {
   const currentDate = new Date();
 
   const [value, setValue] = useState<Date>(currentDate);
-  const [schedule, setSchedule] = useState<any[]>(updateMonthData(currentDate));
+  const [schedule, setSchedule] = useState<
+    {
+      date: number;
+      end?: number;
+      start?: number;
+    }[]
+  >(updateMonthData(currentDate));
 
   const [shift, setShift] = useState<string>();
 
@@ -80,7 +86,7 @@ export default function NewSchedulePage() {
 
   const { refetch } = api.workDay.yearExists.useQuery(
     {
-      date: schedule[0]?.date,
+      date: schedule[0]?.date!,
     },
     { enabled: false }
   );
@@ -89,7 +95,7 @@ export default function NewSchedulePage() {
     setValue(date);
     const year = date.getFullYear();
     setYearArray(generateYearArray(year));
-    setSchedule(() => updateMonthData(date));
+    setSchedule(updateMonthData(date));
   }
 
   function createSchedule() {
@@ -102,7 +108,7 @@ export default function NewSchedulePage() {
         createDay.mutate(yearArray);
       }
 
-      const filteredSchedule = schedule.filter(
+      const filteredSchedule: any = schedule.filter(
         (shift) => shift.start && shift.end
       );
 
@@ -212,7 +218,7 @@ export default function NewSchedulePage() {
                   </span>{" "}
                   in{" "}
                   <span className="font-bold">
-                    {formatMonth(schedule[0].date)}
+                    {formatMonth(schedule[0]!.date)}
                   </span>
                 </Heading>
               </div>
@@ -241,50 +247,51 @@ export default function NewSchedulePage() {
               >
                 Schedule Preference:
               </Heading>
-              {!employee.schedulePreference && (
+
+              {employee.schedulePreference?.shiftModels.length! > 1 ? (
+                employee.schedulePreference?.shiftModels
+                  ?.sort((a, b) => a.start - b.start)
+                  .map((item) => (
+                    <Heading
+                      size={"xs"}
+                      key={item.id}
+                      onClick={() => {
+                        shift ===
+                        `${formatTime(item.start)} - ${
+                          formatTime(item.end) == "00:00"
+                            ? "24:00"
+                            : formatTime(item.end)
+                        }`
+                          ? setShift("")
+                          : setShift(
+                              `${formatTime(item.start)} - ${
+                                formatTime(item.end) == "00:00"
+                                  ? "24:00"
+                                  : formatTime(item.end)
+                              }`
+                            );
+                      }}
+                      className={`mr-4 cursor-pointer text-left font-normal hover:text-sky-400 ${
+                        shift ===
+                        `${formatTime(item.start)} - ${
+                          formatTime(item.end) == "00:00"
+                            ? "24:00"
+                            : formatTime(item.end)
+                        }`
+                          ? "text-sky-400 underline underline-offset-8"
+                          : ""
+                      }`}
+                    >
+                      [{formatTime(item.start)} - {formatTime(item.end)}]
+                    </Heading>
+                  ))
+              ) : (
                 <Heading size={"sm"} className="mr-4 text-left font-normal">
-                  No preferences set
+                  No shift models set
                 </Heading>
               )}
 
-              {employee.schedulePreference?.shiftModels
-                ?.sort((a, b) => a.start - b.start)
-                .map((item) => (
-                  <Heading
-                    size={"xs"}
-                    key={item.id}
-                    onClick={() => {
-                      shift ===
-                      `${formatTime(item.start)} - ${
-                        formatTime(item.end) == "00:00"
-                          ? "24:00"
-                          : formatTime(item.end)
-                      }`
-                        ? setShift("")
-                        : setShift(
-                            `${formatTime(item.start)} - ${
-                              formatTime(item.end) == "00:00"
-                                ? "24:00"
-                                : formatTime(item.end)
-                            }`
-                          );
-                    }}
-                    className={`mr-4 cursor-pointer text-left font-normal hover:text-sky-400 ${
-                      shift ===
-                      `${formatTime(item.start)} - ${
-                        formatTime(item.end) == "00:00"
-                          ? "24:00"
-                          : formatTime(item.end)
-                      }`
-                        ? "text-sky-400 underline underline-offset-8"
-                        : ""
-                    }`}
-                  >
-                    [{formatTime(item.start)} - {formatTime(item.end)}]
-                  </Heading>
-                ))}
-
-              {employee.schedulePreference && (
+              {employee.schedulePreference?.hoursPerMonth! > 0 ? (
                 <Heading className="ml-auto font-normal">
                   <span
                     className={`${
@@ -293,7 +300,7 @@ export default function NewSchedulePage() {
                           schedule,
                           vacationDays.length
                         ),
-                        employee.schedulePreference.hoursPerMonth
+                        employee.schedulePreference?.hoursPerMonth!
                       )
                         ? "text-emerald-500"
                         : "text-yellow-500 dark:text-yellow-300"
@@ -301,7 +308,11 @@ export default function NewSchedulePage() {
                   >
                     {calculateTotalMonthlyHours(schedule, vacationDays.length)}
                   </span>{" "}
-                  / {employee.schedulePreference.hoursPerMonth} hours per month
+                  / {employee.schedulePreference?.hoursPerMonth} hours per month
+                </Heading>
+              ) : (
+                <Heading className="ml-auto font-normal">
+                  No monthly hours set
                 </Heading>
               )}
             </div>

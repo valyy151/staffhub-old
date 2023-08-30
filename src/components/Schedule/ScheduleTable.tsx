@@ -9,11 +9,21 @@ import {
 } from "~/utils/dateFormatting";
 
 interface ScheduleTableProps {
-  data: any[];
+  data: {
+    date: number;
+    end?: number;
+    start?: number;
+  }[];
   sickDays: string[];
   vacationDays: string[];
   shift: string | undefined;
-  setData: (data: any[]) => void;
+  setData: (
+    data: {
+      date: number;
+      end?: number;
+      start?: number;
+    }[]
+  ) => void;
 }
 
 export default function ScheduleTable({
@@ -44,7 +54,7 @@ export default function ScheduleTable({
 
     const [hour, minute]: string[] = newTime.split(":");
 
-    const newDate = new Date(data[index].date * 1000);
+    const newDate = new Date(data[index]!.date * 1000);
 
     newDate.setHours(Number(hour));
     newDate.setMinutes(Number(minute));
@@ -68,14 +78,14 @@ export default function ScheduleTable({
     const [startHour, startMinute] = start.split(":");
     const [endHour, endMinute] = end.split(":");
 
-    const newDate = new Date(data[index].date * 1000);
+    const newDate = new Date(data[index]!.date * 1000);
 
     newDate.setHours(Number(startHour));
     newDate.setMinutes(Number(startMinute));
 
     const newUnixTime = Math.floor(newDate.getTime() / 1000);
 
-    const newDate2 = new Date(data[index].date * 1000);
+    const newDate2 = new Date(data[index]!.date * 1000);
 
     newDate2.setHours(Number(endHour));
     newDate2.setMinutes(Number(endMinute));
@@ -87,8 +97,6 @@ export default function ScheduleTable({
     );
     setData(newData);
   }
-
-  console.log(sickDays);
 
   return (
     <div className="h-[44rem] overflow-x-hidden rounded border-2 border-slate-300 shadow-md dark:border-slate-500">
@@ -108,7 +116,7 @@ export default function ScheduleTable({
           </tr>
         </thead>
         <tbody className="divide-y-2 divide-slate-300 dark:divide-slate-600 ">
-          {data.map((item, index) => {
+          {data.map((item: any, index) => {
             return (
               <tr
                 key={index}
@@ -132,7 +140,7 @@ export default function ScheduleTable({
                     <td onClick={() => handleTimeWithClick(index)}>
                       <input
                         type="text"
-                        value={formatTime(item.start)}
+                        value={formatTime(item.start!)}
                         onContextMenu={(e) => {
                           e.preventDefault();
                         }}
@@ -162,7 +170,7 @@ export default function ScheduleTable({
                     </td>
                     <td onClick={() => handleTimeWithClick(index)}>
                       <input
-                        value={formatTime(item.end)}
+                        value={formatTime(item.end!)}
                         onContextMenu={(e) => {
                           e.preventDefault();
                         }}
@@ -211,7 +219,7 @@ export default function ScheduleTable({
                           sickDays.includes(item.date) ||
                           vacationDays.includes(item.date)
                         }
-                        value={formatTime(item.start)}
+                        value={formatTime(item.start!)}
                         onChange={(e) =>
                           handleTimeChange(index, e.target.value, "start")
                         }
@@ -221,7 +229,7 @@ export default function ScheduleTable({
 
                     <td>
                       <input
-                        value={formatTime(item.end)}
+                        value={formatTime(item.end!)}
                         disabled={
                           sickDays.includes(item.date) ||
                           vacationDays.includes(item.date)

@@ -17,7 +17,7 @@ function isLeapYear(year: number) {
   return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
 }
 
-export function updateMonthData(date: any) {
+export function updateMonthData(date: Date) {
   const year = date.getFullYear();
 
   const monthIndex = date.getMonth();
