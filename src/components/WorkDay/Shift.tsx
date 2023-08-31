@@ -100,7 +100,7 @@ export default function Shift({ shift, date, index }: ShiftProps) {
             Total
           </Heading>
         )}
-        <Heading size={"xs"}>{formatTotal(start, end)}</Heading>
+        <Heading size={"xs"}>{formatTotal(shift.start, shift.end)}</Heading>
       </div>
 
       <div className="flex pt-5">
@@ -124,7 +124,6 @@ export default function Shift({ shift, date, index }: ShiftProps) {
       {editMode && (
         <EditModal
           shift={shift}
-          date={date}
           showModal={editMode}
           cancel={() => setEditMode(false)}
         />
