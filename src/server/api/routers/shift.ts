@@ -78,6 +78,7 @@ export const shiftRouter = createTRPCRouter({
         shift: z.object({
           end: z.number(),
           start: z.number(),
+          roleId: z.string().optional(),
         }),
       })
     )

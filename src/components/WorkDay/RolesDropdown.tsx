@@ -5,7 +5,7 @@ interface RolesDropdownProps {
   role: { name: string; id: string };
   setIsOpen: (isOpen: boolean) => void;
   roles: { name: string; id: string }[];
-  setOpenStaff: (openStaff: boolean) => void;
+  setOpenStaff?: (openStaff: boolean) => void;
   setRole: (role: { name: string; id: string }) => void;
 }
 
@@ -26,7 +26,7 @@ export default function RolesDropdown({
       <div
         onClick={() => {
           setIsOpen(!isOpen);
-          setOpenStaff(false);
+          setOpenStaff && setOpenStaff(false);
         }}
         className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-750 dark:shadow-slate-950 "
       >

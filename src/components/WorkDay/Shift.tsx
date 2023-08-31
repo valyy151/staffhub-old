@@ -6,25 +6,30 @@ import { api } from "~/utils/api";
 import Heading from "../ui/Heading";
 import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
-import { type Shift } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Pencil, Save, Trash2 } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import EditModal from "./EditModal";
 
 interface ShiftProps {
+  shiftModels: { start: number; end: number }[];
   date: number | undefined;
   index: number;
-  shift: Shift & {
-    employee: {
-      name: string;
-      roles: { name: string }[];
-    };
-    role: { name: string } | null;
+  shift: {
+    employee: { name: string; roles: { name: string; id: string }[] };
+    role: { name: string; id: string } | null;
+  } & {
+    id: string;
+    start: number;
+    end: number;
+    employeeId: string;
+    userId: string;
+    date: number;
+    roleId: string | null;
   };
 }
 
-export default function Shift({ shift, date, index }: ShiftProps) {
+export default function Shift({ shift, index, shiftModels }: ShiftProps) {
   const [showModal, setShowModal] = useState(false);
 
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -61,7 +66,9 @@ export default function Shift({ shift, date, index }: ShiftProps) {
             {shift.role.name}
           </Heading>
         ) : (
-          <Heading className="font-light italic">None</Heading>
+          <Heading size={"xs"} className="font-light italic">
+            None
+          </Heading>
         )}
       </div>
 
@@ -125,7 +132,8 @@ export default function Shift({ shift, date, index }: ShiftProps) {
         <EditModal
           shift={shift}
           showModal={editMode}
-          cancel={() => setEditMode(false)}
+          shiftModels={shiftModels}
+          setEditMode={setEditMode}
         />
       )}
 

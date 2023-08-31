@@ -70,6 +70,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               shift={shift}
               index={index}
               date={workDay.date}
+              shiftModels={workDay.shiftModels}
             />
           ))}
       </div>
@@ -103,7 +104,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   function checkRoles() {
     const roles: JSX.Element[] = [];
 
-    workDay?.roles.forEach((role, index) => {
+    workDay?.roles.forEach((role) => {
       const minRequired = role.numberPerDay;
 
       const shifts = workDay?.shifts.filter(
@@ -114,9 +115,9 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
       const uniqueEmployees = [...new Set(employees)];
 
       return roles.push(
-        <div className={`${index !== 0 && "mt-4"}`}>
+        <div>
           <Heading
-            size={"xs"}
+            size={"xxs"}
             className={`font-medium ${
               uniqueEmployees.length < minRequired!!
                 ? "text-red-500"
@@ -168,6 +169,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               <ScrollText className="mr-2" /> Add Note
             </Button>
           </div>
+          {checkRoles()}
         </div>
 
         {!showAddShift && !showAddNote && (

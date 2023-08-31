@@ -1,6 +1,6 @@
 import ReactModal from "react-modal";
-import { useState, type MouseEventHandler } from "react";
-
+import { useState } from "react";
+import RolesDropdown from "./RolesDropdown";
 import { Button } from "../ui/Button";
 import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
@@ -11,27 +11,36 @@ import Heading from "../ui/Heading";
 
 interface ModalProps {
   shift: {
-    date: number;
+    employee: { name: string; roles: { name: string; id: string }[] };
+    role: { name: string; id: string } | null;
+  } & {
+    id: string;
     start: number;
     end: number;
-    id: string;
-    employee: {
-      name: string;
-    };
+    employeeId: string;
+    userId: string;
+    date: number;
+    roleId: string | null;
   };
-
+  setEditMode: (editMode: boolean) => void;
   showModal: boolean;
-  cancel: MouseEventHandler<HTMLButtonElement>;
+  shiftModels: { start: number; end: number }[];
 }
 
 export default function EditModal({
-  cancel,
-
   shift,
   showModal,
+  shiftModels,
+  setEditMode,
 }: ModalProps) {
   const [end, setEnd] = useState<number>(shift.end);
   const [start, setStart] = useState<number>(shift.start);
+
+  const [openRoles, setOpenRoles] = useState<boolean>(false);
+  const [role, setRole] = useState<{ name: string; id: string }>({
+    name: "",
+    id: "",
+  });
 
   function handleTimeChange(newTime: string, field: "start" | "end"): void {
     const [hour, minute]: string[] = newTime.split(":");
@@ -59,11 +68,12 @@ export default function EditModal({
 
     updateShiftMutation.mutate({
       shiftId: shift.id,
-      shift: { start, end },
+      shift: { start, end, roleId: role.id },
     });
 
-    cancel();
+    setEditMode(false);
   }
+
   return (
     <ReactModal
       isOpen={showModal}
@@ -81,6 +91,18 @@ export default function EditModal({
             })}
           </Heading>
           <div className="flex w-fit items-center space-x-2">
+            {shift.employee.roles.length > 1 && (
+              <div>
+                <label className="ml-2">Role</label>
+                <RolesDropdown
+                  role={role}
+                  setRole={setRole}
+                  isOpen={openRoles}
+                  setIsOpen={setOpenRoles}
+                  roles={shift.employee.roles}
+                />
+              </div>
+            )}
             <div>
               <label className="ml-2">Start</label>
               <Input
@@ -111,12 +133,37 @@ export default function EditModal({
               </Heading>
             </div>
           </div>
+          <div className="mt-4">
+            <Heading size={"sm"}>Choose a shift:</Heading>
+            <div className="mt-1 flex space-x-8">
+              {shiftModels
+                .sort((a, b) => a.start - b.start)
+                .map((shiftModel) => (
+                  <Heading
+                    size={"xs"}
+                    onClick={() => {
+                      handleTimeChange(formatTime(shiftModel.start)!!, "start");
+                      handleTimeChange(
+                        formatTime(shiftModel.end) === "00:00"
+                          ? "24:00"
+                          : formatTime(shiftModel.end)!!,
+                        "end"
+                      );
+                    }}
+                    className="cursor-pointer font-normal underline-offset-8 hover:text-sky-500 hover:underline"
+                  >
+                    {formatTime(shiftModel.start)} -{" "}
+                    {formatTime(shiftModel.end)}
+                  </Heading>
+                ))}
+            </div>
+          </div>
           <div className="ml-auto mt-4 flex space-x-2">
             <Button
               size={"lg"}
-              onClick={cancel}
               variant={"subtle"}
               className="text-xl"
+              onClick={() => setEditMode(false)}
             >
               Cancel
             </Button>

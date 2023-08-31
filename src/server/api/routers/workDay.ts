@@ -54,6 +54,11 @@ export const workDayRouter = createTRPCRouter({
                 roles: {
                   select: { id: true, name: true },
                 },
+                schedulePreference: {
+                  select: {
+                    shiftModels: { select: { start: true, end: true } },
+                  },
+                },
               },
             },
             role: {
@@ -72,13 +77,22 @@ export const workDayRouter = createTRPCRouter({
         select: { id: true, name: true, numberPerDay: true },
       });
 
-      const [notes, roles, shifts, workDay] = await Promise.all([
+      const shiftModelsPromise = ctx.prisma.shiftModel.findMany({
+        where: { userId: ctx.session.user.id },
+        select: {
+          end: true,
+          start: true,
+        },
+      });
+
+      const [notes, roles, shifts, workDay, shiftModels] = await Promise.all([
         notesPromise,
         rolesPromise,
         shiftsPromise,
         workDayPromise,
+        shiftModelsPromise,
       ]);
 
-      return { ...workDay, roles, notes, shifts };
+      return { ...workDay, roles, notes, shifts, shiftModels };
     }),
 });
