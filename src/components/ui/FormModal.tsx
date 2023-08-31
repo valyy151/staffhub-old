@@ -1,8 +1,6 @@
 import Heading from "./Heading";
 import { Button } from "./Button";
 import ReactModal from "react-modal";
-import { UserX2 } from "lucide-react";
-import { UserCheck2 } from "lucide-react";
 import { type MouseEventHandler } from "react";
 import Paragraph from "./Paragraph";
 

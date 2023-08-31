@@ -10,6 +10,7 @@ import { type Shift } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Pencil, Save, Trash2 } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import EditModal from "./EditModal";
 
 interface ShiftProps {
   date: number | undefined;
@@ -28,33 +29,7 @@ export default function Shift({ shift, date, index }: ShiftProps) {
 
   const [editMode, setEditMode] = useState<boolean>(false);
 
-  const [end, setEnd] = useState<number>(shift.end);
-  const [start, setStart] = useState<number>(shift.start);
-
-  function handleTimeChange(newTime: string, field: "start" | "end"): void {
-    if (date) {
-      const [hour, minute]: string[] = newTime.split(":");
-      const newDate: Date = new Date(date * 1000);
-      newDate.setHours(Number(hour));
-      newDate.setMinutes(Number(minute));
-      const newUnixTime = Math.floor(newDate.getTime() / 1000);
-
-      field === "start" ? setStart(newUnixTime) : setEnd(newUnixTime);
-    }
-  }
-
   const queryClient = useQueryClient();
-
-  const updateShiftMutation = api.shift.update.useMutation({
-    onSuccess: () => {
-      void queryClient.invalidateQueries();
-      toast.success("Shift updated successfully.");
-    },
-
-    onError: () => {
-      toast.error("There was a problem updating the shift.");
-    },
-  });
 
   const deleteShiftMutation = api.shift.delete.useMutation({
     onSuccess: () => {
@@ -66,17 +41,6 @@ export default function Shift({ shift, date, index }: ShiftProps) {
       toast.error("There was a problem deleting the shift.");
     },
   });
-
-  function updateShift(e: React.FormEvent) {
-    e.preventDefault();
-
-    updateShiftMutation.mutate({
-      shiftId: shift.id,
-      shift: { start, end },
-    });
-
-    setEditMode(false);
-  }
 
   function deleteShift() {
     deleteShiftMutation.mutate({ shiftId: shift.id });
@@ -93,19 +57,21 @@ export default function Shift({ shift, date, index }: ShiftProps) {
         )}
 
         {shift.role ? (
-          <Heading className="font-medium">{shift.role.name}</Heading>
+          <Heading size={"xs"} className="font-medium">
+            {shift.role.name}
+          </Heading>
         ) : (
           <Heading className="font-light italic">None</Heading>
         )}
       </div>
 
-      <div className={`ml-12 w-[32rem]`}>
+      <div className={`ml-12 w-[24rem]`}>
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">
             Name
           </Heading>
         )}
-        <Heading>
+        <Heading size={"xs"}>
           <Link
             className="underline-offset-8 hover:text-sky-500 hover:underline"
             href={`/staff/${shift.employeeId}`}
@@ -120,33 +86,12 @@ export default function Shift({ shift, date, index }: ShiftProps) {
             Time
           </Heading>
         )}
-        {editMode ? (
-          <div className="flex w-[17rem] text-4xl">
-            <Input
-              type="text"
-              name="start"
-              placeholder="Start time"
-              value={formatTime(start)}
-              className=" w-24 p-0 pl-0.5 text-4xl"
-              onChange={(e) => handleTimeChange(e.target.value, "start")}
-            />
-            -
-            <Input
-              name="end"
-              type="text"
-              placeholder="End time"
-              value={formatTime(end)}
-              className=" ml-1 w-24 p-0 pl-0.5 text-4xl"
-              onChange={(e) => handleTimeChange(e.target.value, "end")}
-            />
-          </div>
-        ) : (
-          <div className="w-[17rem]">
-            <Heading className=" font-normal">
-              {formatTime(shift.start)} - {formatTime(shift.end)}
-            </Heading>
-          </div>
-        )}
+
+        <div className="">
+          <Heading size={"xs"} className=" font-normal">
+            {formatTime(shift.start)} - {formatTime(shift.end)}
+          </Heading>
+        </div>
       </div>
 
       <div className="ml-11 w-36">
@@ -155,52 +100,34 @@ export default function Shift({ shift, date, index }: ShiftProps) {
             Total
           </Heading>
         )}
-        <Heading>{formatTotal(start, end)}</Heading>
+        <Heading size={"xs"}>{formatTotal(start, end)}</Heading>
       </div>
-      {editMode ? (
-        <form className="flex w-[21rem] pt-5" onSubmit={updateShift}>
-          <Button
-            size={"lg"}
-            title="Save changes"
-            className="mr-2 h-14 w-32 p-0 text-2xl"
-          >
-            {<Save className="mr-2" />} Save
-          </Button>
-          <Button
-            size={"lg"}
-            type="button"
-            variant={"subtle"}
-            title="Cancel editing"
-            className="h-14 w-36 p-0 text-2xl"
-            onClick={() => {
-              setEnd(shift.end);
-              setStart(shift.start);
-              setEditMode(false);
-            }}
-          >
-            {<ArrowLeft className="mr-2" />} Cancel
-          </Button>
-        </form>
-      ) : (
-        <div className="flex w-[21rem] pt-5">
-          <Button
-            size={"lg"}
-            title="Edit Shift"
-            onClick={() => setEditMode(true)}
-            className="mr-2 h-14 w-32 p-0 text-2xl"
-          >
-            {<Pencil className="mr-2" />} Edit
-          </Button>
-          <Button
-            size={"lg"}
-            title="Delete Shift"
-            variant={"destructive"}
-            className="h-14 w-36 p-0 text-2xl"
-            onClick={() => setShowModal(true)}
-          >
-            {<Trash2 className="mr-2" />} Delete
-          </Button>
-        </div>
+
+      <div className="flex pt-5">
+        <Button
+          title="Edit Shift"
+          onClick={() => setEditMode(true)}
+          className="mr-2 text-2xl"
+        >
+          {<Pencil className="mr-2" />} Edit
+        </Button>
+        <Button
+          title="Delete Shift"
+          variant={"destructive"}
+          className="text-2xl"
+          onClick={() => setShowModal(true)}
+        >
+          {<Trash2 className="mr-2" />} Delete
+        </Button>
+      </div>
+
+      {editMode && (
+        <EditModal
+          shift={shift}
+          date={date}
+          showModal={editMode}
+          cancel={() => setEditMode(false)}
+        />
       )}
 
       {showModal && (

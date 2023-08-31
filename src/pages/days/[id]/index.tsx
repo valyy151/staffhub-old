@@ -7,7 +7,6 @@ import Heading from "~/components/ui/Heading";
 import Shift from "~/components/WorkDay/Shift";
 import { Button } from "~/components/ui/Button";
 import { Clock8, ScrollText } from "lucide-react";
-import Sidebar from "~/components/WorkDay/Sidebar";
 import AddNote from "~/components/WorkDay/AddNote";
 import AddShift from "~/components/WorkDay/AddShift";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
@@ -23,9 +22,6 @@ WorkDayPage.getInitialProps = ({ query }: WorkDayPageProps) => {
 export default function WorkDayPage({ query }: WorkDayPageProps) {
   const [showAddNote, setShowAddNote] = useState(false);
   const [showAddShift, setShowAddShift] = useState(false);
-
-  const [showNotes, setShowNotes] = useState(false);
-  const [showShifts, setShowShifts] = useState(false);
 
   const { data, failureReason } = api.workDay.findOne.useQuery({
     id: query.id,
@@ -56,16 +52,16 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
     if (!workDay?.shifts || workDay?.shifts.length === 0) {
       return (
-        <div className="mt-8">
-          <Heading size={"xs"}>No shifts for this day.</Heading>
+        <div>
+          <Heading size={"xs"} className="font-normal">
+            No shifts for this day.
+          </Heading>
         </div>
       );
     }
 
-    const hasRoles = checkRoles();
-
     return (
-      <div className="mt-8">
+      <div className="pb-8">
         {workDay?.shifts
           .sort((a, b) => (a.start > b.start ? 1 : -1))
           .map((shift, index) => (
@@ -76,14 +72,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               date={workDay.date}
             />
           ))}
-        {hasRoles && (
-          <div className="mt-8 border-t border-slate-300 dark:border-slate-500">
-            <Heading size={"sm"} className="my-2">
-              For this day you have:
-            </Heading>
-            {checkRoles()}
-          </div>
-        )}
       </div>
     );
   }
@@ -95,14 +83,16 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
     if (!workDay?.notes || workDay?.notes.length === 0) {
       return (
-        <div className="mt-8">
-          <Heading size={"xs"}>No notes for this day.</Heading>
+        <div>
+          <Heading size={"xs"} className="font-normal">
+            No notes for this day.
+          </Heading>
         </div>
       );
     }
 
     return (
-      <div className="mt-8">
+      <div>
         {workDay?.notes.map((note) => (
           <Note key={note.id} note={note} />
         ))}
@@ -148,16 +138,8 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
   return (
     <main className="flex">
-      <Sidebar
-        showNotes={showNotes}
-        showShifts={showShifts}
-        setShowNotes={setShowNotes}
-        setShowShifts={setShowShifts}
-        setShowAddNote={setShowAddNote}
-        setShowAddShift={setShowAddShift}
-      />
-      <div className="mt-4">
-        <div className="flex items-center space-x-8">
+      <div className="mt-4 w-full">
+        <div className="flex items-center space-x-8 border-b border-slate-300 pb-4 pl-8 dark:border-slate-500">
           <Heading size={"lg"}>
             {formatDay(workDay.date)} {formatDateLong(workDay.date)}
           </Heading>
@@ -169,8 +151,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               onClick={() => {
                 setShowAddShift(true);
                 setShowAddNote(false);
-                setShowShifts(true);
-                setShowNotes(false);
               }}
             >
               <Clock8 className="mr-2" /> New Shift
@@ -183,8 +163,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               onClick={() => {
                 setShowAddNote(true);
                 setShowAddShift(false);
-                setShowShifts(false);
-                setShowNotes(true);
               }}
             >
               <ScrollText className="mr-2" /> Add Note
@@ -192,37 +170,22 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
           </div>
         </div>
 
-        {!showNotes && !showShifts && (
-          <div className="mt-8">
-            <Heading
-              onClick={() => setShowShifts(true)}
-              className="mb-1 w-fit cursor-pointer hover:text-sky-500"
-            >
-              Shifts
-            </Heading>
+        {!showAddShift && !showAddNote && (
+          <div className="flex w-full">
+            <div className="w-2/3 border-r border-slate-300 px-4 pt-4 dark:border-slate-500">
+              <Heading className="mb-4 font-medium underline underline-offset-8">
+                Shifts
+              </Heading>
 
-            <Heading size={"sm"} className="font-normal">
-              There are {workDay?.shifts.length} shifts for this day.
-            </Heading>
+              {renderShifts()}
+            </div>
 
-            {checkRoles() && (
-              <>
-                <Heading className="mt-4">Roles filled:</Heading>
-                {checkRoles()}
-              </>
-            )}
-
-            <Heading
-              onClick={() => setShowNotes(true)}
-              className="mt-8 w-fit cursor-pointer hover:text-sky-500"
-            >
-              Notes
-            </Heading>
-            <Heading size={"sm"} className="font-normal">
-              There {workDay?.notes.length === 1 ? "is" : "are"}{" "}
-              {workDay?.notes.length}{" "}
-              {workDay?.notes.length === 1 ? "note" : "notes"} for this day.
-            </Heading>
+            <div className="pl-4 pt-4">
+              <Heading className="mb-4 font-medium underline underline-offset-8">
+                Notes
+              </Heading>
+              {renderNotes()}
+            </div>
           </div>
         )}
 
@@ -232,9 +195,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         {showAddNote && (
           <AddNote data={workDay} setShowAddNote={setShowAddNote} />
         )}
-
-        {showNotes && renderNotes()}
-        {showShifts && renderShifts()}
       </div>
     </main>
   );
