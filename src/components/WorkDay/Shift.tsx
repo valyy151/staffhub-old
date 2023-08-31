@@ -53,7 +53,7 @@ export default function Shift({ shift, index, shiftModels }: ShiftProps) {
   }
 
   return (
-    <div className="flex items-end justify-between">
+    <div className="flex items-end justify-between border-b border-slate-300 pb-2 dark:border-slate-500">
       <div className="min-w-[9rem]">
         {index === 0 && (
           <Heading size={"xxs"} className="font-normal">

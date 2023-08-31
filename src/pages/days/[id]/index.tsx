@@ -46,7 +46,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   }
 
   function renderShifts() {
-    if (showAddShift || showAddNote) {
+    if (showAddShift) {
       return null;
     }
 
@@ -78,7 +78,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   }
 
   function renderNotes() {
-    if (showAddNote || showAddShift) {
+    if (showAddNote) {
       return null;
     }
 
@@ -172,31 +172,36 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
           {checkRoles()}
         </div>
 
-        {!showAddShift && !showAddNote && (
-          <div className="flex w-full">
-            <div className="w-2/3 border-r border-slate-300 px-4 pt-4 dark:border-slate-500">
-              <Heading className="mb-4 font-medium underline underline-offset-8">
-                Shifts
-              </Heading>
+        <div className="flex w-full">
+          <div className="w-2/3 border-r border-slate-300 px-4 pt-4 dark:border-slate-500">
+            {!showAddShift && (
+              <>
+                <Heading className="mb-4 font-medium underline underline-offset-8">
+                  Shifts
+                </Heading>
 
-              {renderShifts()}
-            </div>
-
-            <div className="pl-4 pt-4">
-              <Heading className="mb-4 font-medium underline underline-offset-8">
-                Notes
-              </Heading>
-              {renderNotes()}
-            </div>
+                {renderShifts()}
+              </>
+            )}
+            {showAddShift && (
+              <AddShift data={workDay} setShowAddShift={setShowAddShift} />
+            )}
           </div>
-        )}
 
-        {showAddShift && (
-          <AddShift data={workDay} setShowAddShift={setShowAddShift} />
-        )}
-        {showAddNote && (
-          <AddNote data={workDay} setShowAddNote={setShowAddNote} />
-        )}
+          <div className="w-1/3 px-4 pt-4">
+            {!showAddNote && (
+              <>
+                <Heading className="mb-4 pl-1 font-medium underline underline-offset-8">
+                  Notes
+                </Heading>
+                {renderNotes()}
+              </>
+            )}
+            {showAddNote && (
+              <AddNote data={workDay} setShowAddNote={setShowAddNote} />
+            )}
+          </div>
+        </div>
       </div>
     </main>
   );

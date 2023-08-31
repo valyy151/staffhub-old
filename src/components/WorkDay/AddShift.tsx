@@ -83,8 +83,8 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   }
 
   return (
-    <div className="flex flex-col items-start pl-8">
-      <Heading size={"sm"} className="mt-8">
+    <div className="flex flex-col items-start">
+      <Heading size={"sm"}>
         Add a new shift {employee.name && "for"}{" "}
         <Link href={`/staff/${employee.id}`} className="hover:text-sky-500">
           {employee.name}
@@ -184,35 +184,32 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
               <span className="font-semibold">{formatTotal(start, end)}</span>
             </Heading>
           </div>
+          <div className="pl-8">
+            <Heading size={"sm"}>Select a shift:</Heading>
+            <div className="grid grid-cols-2 gap-8">
+              {data.shiftModels
+                .sort((a, b) => a.start - b.start)
+                .map((shift) => (
+                  <Heading
+                    size={"xs"}
+                    onClick={() => {
+                      handleTimeChange(formatTime(shift.start)!!, "start");
+                      handleTimeChange(
+                        formatTime(shift.end) === "00:00"
+                          ? "24:00"
+                          : formatTime(shift.end)!!,
+                        "end"
+                      );
+                    }}
+                    className="mt-2 cursor-pointer font-normal underline-offset-8 hover:text-sky-500 hover:underline"
+                  >
+                    {formatTime(shift.start)} - {formatTime(shift.end)}
+                  </Heading>
+                ))}
+            </div>
+          </div>
         </div>
       </form>
-
-      <>
-        <Heading size={"sm"} className="mt-4">
-          Select a shift:
-        </Heading>
-        <div className="grid grid-cols-4 gap-8">
-          {data.shiftModels
-            .sort((a, b) => a.start - b.start)
-            .map((shift) => (
-              <Heading
-                size={"xs"}
-                onClick={() => {
-                  handleTimeChange(formatTime(shift.start)!!, "start");
-                  handleTimeChange(
-                    formatTime(shift.end) === "00:00"
-                      ? "24:00"
-                      : formatTime(shift.end)!!,
-                    "end"
-                  );
-                }}
-                className="mt-4 cursor-pointer font-normal underline-offset-8 hover:text-sky-500 hover:underline"
-              >
-                {formatTime(shift.start)} - {formatTime(shift.end)}
-              </Heading>
-            ))}
-        </div>
-      </>
 
       {isSick && (
         <>
