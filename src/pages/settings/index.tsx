@@ -7,7 +7,7 @@ import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import { type GetServerSideProps } from "next/types";
 import { getSession, useSession } from "next-auth/react";
-import { ArrowLeft, Clock8, UserCog2 } from "lucide-react";
+import { ArrowLeft, Clock8, Palette, UserCog2 } from "lucide-react";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -72,6 +72,15 @@ export default function SettingsPage() {
       >
         <Clock8 className="mr-2" /> Shift Models
       </Button>
+
+      {/* <Button
+        size="lg"
+        variant={"subtle"}
+        className="mt-2 h-14 w-72 text-2xl"
+        onClick={() => router.push("/settings/theme")}
+      >
+        <Palette className="mr-2" /> Theme
+      </Button> */}
 
       <Button
         size="lg"

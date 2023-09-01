@@ -3,11 +3,11 @@ import Paragraph from "~/components/ui/Paragraph";
 
 export default function DocumentationPage() {
   return (
-    <main className="flex w-fit flex-col items-start px-16 pb-24 text-justify">
+    <main className="flex w-fit flex-col items-start px-2 pb-24 text-justify sm:px-16">
       <Heading className="my-4 border-b-2 border-slate-300 dark:border-slate-500">
         Documentation
       </Heading>
-      <section className="ml-4">
+      <section className="sm:ml-4">
         <Heading size={"sm"} className="mt-2">
           Staff
         </Heading>
