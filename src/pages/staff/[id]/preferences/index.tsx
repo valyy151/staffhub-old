@@ -10,6 +10,7 @@ import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
 import { formatTime } from "~/utils/dateFormatting";
+import Link from "next/link";
 
 interface schedulePreferencesProps {
   query: { id: string };
@@ -121,26 +122,34 @@ export default function schedulePreferencesPage({
               Which shifts does {employee.name} prefer?
             </Heading>
             <div className="my-4 space-y-2">
-              {employee?.shiftModels
-                ?.sort((a, b) => a.start - b.start)
-                .map((shiftModel) => (
-                  <div key={shiftModel.id} className="my-2">
-                    <input
-                      type="checkbox"
-                      className="h-8 w-8 cursor-pointer"
-                      id={shiftModel.id}
-                      name={shiftModel.id}
-                      value={shiftModel.id}
-                    />
-                    <label
-                      htmlFor={shiftModel.id}
-                      className="ml-2 cursor-pointer text-3xl"
-                    >
-                      {formatTime(shiftModel.start)} -{" "}
-                      {formatTime(shiftModel.end)}
-                    </label>
-                  </div>
-                ))}
+              {employee?.shiftModels.length > 1 ? (
+                employee?.shiftModels
+                  ?.sort((a, b) => a.start - b.start)
+                  .map((shiftModel) => (
+                    <div key={shiftModel.id} className="my-2">
+                      <input
+                        type="checkbox"
+                        className="h-8 w-8 cursor-pointer"
+                        id={shiftModel.id}
+                        name={shiftModel.id}
+                        value={shiftModel.id}
+                      />
+                      <label
+                        htmlFor={shiftModel.id}
+                        className="ml-2 cursor-pointer text-3xl"
+                      >
+                        {formatTime(shiftModel.start)} -{" "}
+                        {formatTime(shiftModel.end)}
+                      </label>
+                    </div>
+                  ))
+              ) : (
+                <Link href="/settings/shift-models">
+                  <Paragraph className="underline-offset-8 hover:text-sky-600 hover:underline dark:hover:text-sky-300">
+                    No shifts models have been created.
+                  </Paragraph>
+                </Link>
+              )}
             </div>
             <div className="mt-2 flex w-full space-x-1">
               <Button

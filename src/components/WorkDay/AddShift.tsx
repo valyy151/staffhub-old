@@ -184,30 +184,32 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
               <span className="font-semibold">{formatTotal(start, end)}</span>
             </Heading>
           </div>
-          <div className="pl-8">
-            <Heading size={"sm"}>Select a shift:</Heading>
-            <div className="grid grid-cols-2 gap-8">
-              {data.shiftModels
-                .sort((a, b) => a.start - b.start)
-                .map((shift) => (
-                  <Heading
-                    size={"xs"}
-                    onClick={() => {
-                      handleTimeChange(formatTime(shift.start)!!, "start");
-                      handleTimeChange(
-                        formatTime(shift.end) === "00:00"
-                          ? "24:00"
-                          : formatTime(shift.end)!!,
-                        "end"
-                      );
-                    }}
-                    className="mt-2 cursor-pointer font-normal underline-offset-8 hover:text-sky-500 hover:underline"
-                  >
-                    {formatTime(shift.start)} - {formatTime(shift.end)}
-                  </Heading>
-                ))}
+          {data.shiftModels.length > 1 && (
+            <div className="pl-8">
+              <Heading size={"sm"}>Select a shift:</Heading>
+              <div className="grid grid-cols-2 gap-8">
+                {data.shiftModels
+                  .sort((a, b) => a.start - b.start)
+                  .map((shift) => (
+                    <Heading
+                      size={"xs"}
+                      onClick={() => {
+                        handleTimeChange(formatTime(shift.start)!!, "start");
+                        handleTimeChange(
+                          formatTime(shift.end) === "00:00"
+                            ? "24:00"
+                            : formatTime(shift.end)!!,
+                          "end"
+                        );
+                      }}
+                      className="mt-2 cursor-pointer font-normal underline-offset-8 hover:text-sky-500 hover:underline"
+                    >
+                      {formatTime(shift.start)} - {formatTime(shift.end)}
+                    </Heading>
+                  ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </form>
 

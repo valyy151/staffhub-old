@@ -23,7 +23,7 @@ export default function Sidebar({ employee }: SidebarProps) {
     <div className="mr-[26rem]">
       <ul className="fixed h-full w-fit border-r border-slate-500 text-2xl">
         <li
-          onClick={() => employee?.id && router.push(`/staff/${employee?.id}`)}
+          onClick={() => router.back()}
           className="flex w-96 cursor-pointer items-center p-4 hover:bg-slate-150 dark:hover:bg-slate-750"
         >
           <ArrowLeft className="mr-2" /> Back

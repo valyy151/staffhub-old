@@ -86,7 +86,7 @@ export default function SettingsPage() {
         size="lg"
         variant={"subtle"}
         className="mt-8 h-14 w-72 text-2xl"
-        onClick={() => router.push("/")}
+        onClick={() => router.back()}
       >
         <ArrowLeft className="mr-2" /> Go Back
       </Button>
