@@ -5,6 +5,7 @@ import {
   Calendar,
   Palmtree,
   ScrollText,
+  UserCog,
 } from "lucide-react";
 
 import router from "next/router";
@@ -27,6 +28,14 @@ export default function Dropdown({
     <div className="absolute right-0 z-50 w-[30rem] rounded-md border border-slate-300 bg-white p-1 text-xl  shadow-lg ring-1 ring-black ring-opacity-5 dark:border-slate-600 dark:bg-slate-700 dark:shadow-slate-900">
       <ul>
         <li
+          onClick={() => router.push(`/staff/${employee.id}/personal`)}
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100  dark:hover:bg-slate-600"
+        >
+          Personal Information
+          <User2 className="ml-2" />
+        </li>
+
+        <li
           onClick={() => {
             setShowDropdown(false);
             router.push(`/staff/${employee.id}/notes`);
@@ -35,6 +44,17 @@ export default function Dropdown({
         >
           Notes
           <ScrollText className="ml-2" />
+        </li>
+
+        <li
+          onClick={() => {
+            setShowDropdown(false);
+            router.push(`/staff/${employee.id}/roles`);
+          }}
+          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-600"
+        >
+          Roles
+          <UserCog className="ml-2" />
         </li>
 
         <li
@@ -66,15 +86,8 @@ export default function Dropdown({
           }}
           className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100 dark:hover:bg-slate-600"
         >
-          Shift Preferences
+          Schedule Preferences
           <Sticker className="ml-2" />
-        </li>
-        <li
-          onClick={() => router.push(`/staff/${employee.id}/personal`)}
-          className="flex cursor-pointer items-center justify-between rounded-md px-4 py-3 hover:bg-slate-100  dark:hover:bg-slate-600"
-        >
-          Personal Information
-          <User2 className="ml-2" />
         </li>
 
         {showDelete && (

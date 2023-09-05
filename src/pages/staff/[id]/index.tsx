@@ -23,6 +23,8 @@ import Spinner from "~/components/ui/Spinner";
 import { api } from "~/utils/api";
 import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
 import { formatTime } from "~/utils/dateFormatting";
+import SearchEmployees from "../../../components/Schedule/SearchEmployees";
+import Input from "~/components/ui/Input";
 
 interface EmployeeProfileProps {
   query: { id: string };
@@ -37,11 +39,15 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
     id: query.id,
   });
 
+  const { data: employees } = api.employee.find.useQuery();
+
   if (failureReason?.data?.httpStatus === 401) {
     router.push("/");
   }
 
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
@@ -67,6 +73,46 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
       onClick={() => showDropdown && setShowDropdown(false)}
       className="flex flex-col px-12 pb-80 pt-24"
     >
+      <div className="relative mb-2 w-fit">
+        <div
+          className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-700 dark:shadow-slate-950 "
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <Input
+            readOnly
+            type="text"
+            value={employee.name}
+            placeholder={"Choose an Employee..."}
+            className="group m-0 h-14 cursor-pointer text-xl caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
+          />
+        </div>
+        {isOpen && (
+          <div className="animate-slideDown rounded-md">
+            <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-700 dark:text-slate-300">
+              <ul
+                className={`${
+                  employees?.length! > 8 && "h-[28.5rem] overflow-y-scroll"
+                } p-1`}
+              >
+                {employees
+                  ?.sort((a, b) => a.name.localeCompare(b.name))
+                  .map((employee) => (
+                    <li
+                      className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
+                      key={employee.id}
+                      onClick={() => {
+                        setIsOpen(false);
+                        router.push(`/staff/${employee.id}`);
+                      }}
+                    >
+                      {employee.name}
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="flex flex-col rounded-md border border-slate-300 bg-white shadow-lg dark:border-slate-600 dark:bg-slate-750">
         {/* name and button begin */}
         <div className="flex items-center justify-between border-b border-slate-300 py-4 dark:border-slate-600">
