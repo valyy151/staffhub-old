@@ -85,6 +85,8 @@ export default function SchedulePage({ query }: SchedulePageProps) {
     return <Sidebar />;
   }
 
+  console.log(employee.workDays);
+
   return (
     <main className="flex">
       <Sidebar employee={employee} />

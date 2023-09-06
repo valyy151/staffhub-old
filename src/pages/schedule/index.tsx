@@ -99,7 +99,7 @@ export default function NewSchedulePage() {
   }
 
   function createSchedule() {
-    if (employee.id) {
+    if (!employee.id) {
       return toast("Please select an employee.");
     }
 
