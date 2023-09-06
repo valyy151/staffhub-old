@@ -1,15 +1,15 @@
-interface Shift {
+type Shift = {
   start: number;
   end: number;
-}
+};
 
-interface WorkDay {
+type WorkDay = {
   start?: number;
   end?: number;
   total?: number;
   date: number;
   shifts: Shift[];
-}
+};
 
 export function calculateTotalHours(days: WorkDay[]) {
   const totalHours = days?.reduce((acc: number, day: WorkDay) => {

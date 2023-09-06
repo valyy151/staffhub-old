@@ -1,9 +1,9 @@
 import { it, expect } from "vitest";
 import {
   formatDay,
-  formatMonth,
   formatTime,
   formatTotal,
+  formatMonth,
   getMonthBoundaryTimestamps,
 } from "../dateFormatting";
 

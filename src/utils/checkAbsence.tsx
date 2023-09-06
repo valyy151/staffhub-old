@@ -1,5 +1,3 @@
-import { Vacation } from "@prisma/client";
-
 export function checkEmployeeVacation(
   vacations: { id: string; start: bigint; end: bigint }[]
 ) {
