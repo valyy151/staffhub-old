@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "test": "vitest",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "start": "next start"
@@ -37,6 +38,7 @@
     "react-pdf-tailwind": "^2.1.0",
     "superjson": "1.12.2",
     "tailwind-merge": "^1.14.0",
+    "vitest": "^0.34.3",
     "zod": "^3.22.2"
   },
   "devDependencies": {
