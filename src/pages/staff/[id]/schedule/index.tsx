@@ -21,9 +21,9 @@ const PDFButton = dynamic(() => import("~/components/PDFButton"), {
   ssr: false,
 });
 
-interface SchedulePageProps {
+type SchedulePageProps = {
   query: { id: string };
-}
+};
 
 SchedulePage.getInitialProps = ({ query }: SchedulePageProps) => {
   return { query };
@@ -84,8 +84,6 @@ export default function SchedulePage({ query }: SchedulePageProps) {
   if (!employee) {
     return <Sidebar />;
   }
-
-  console.log(employee.workDays);
 
   return (
     <main className="flex">

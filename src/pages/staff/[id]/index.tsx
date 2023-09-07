@@ -23,12 +23,11 @@ import Spinner from "~/components/ui/Spinner";
 import { api } from "~/utils/api";
 import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
 import { formatTime } from "~/utils/dateFormatting";
-import SearchEmployees from "../../../components/Schedule/SearchEmployees";
 import Input from "~/components/ui/Input";
 
-interface EmployeeProfileProps {
+type EmployeeProfileProps = {
   query: { id: string };
-}
+};
 
 EmployeeProfilePage.getInitialProps = ({ query }: EmployeeProfileProps) => {
   return { query };

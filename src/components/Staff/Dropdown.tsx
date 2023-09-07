@@ -11,12 +11,12 @@ import {
 import router from "next/router";
 import { type EmployeeProfile } from "~/utils/api";
 
-interface DropdownProps {
+type DropdownProps = {
   showDelete?: boolean;
   employee: EmployeeProfile;
   setShowModal: (showModal: boolean) => void;
   setShowDropdown: (showDropdown: boolean) => void;
-}
+};
 
 export default function Dropdown({
   employee,

@@ -11,9 +11,9 @@ import AddNote from "~/components/WorkDay/AddNote";
 import AddShift from "~/components/WorkDay/AddShift";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-interface WorkDayPageProps {
+type WorkDayPageProps = {
   query: { id: string };
-}
+};
 
 WorkDayPage.getInitialProps = ({ query }: WorkDayPageProps) => {
   return { query };

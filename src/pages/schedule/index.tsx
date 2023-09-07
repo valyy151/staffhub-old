@@ -214,7 +214,11 @@ export default function NewSchedulePage() {
                 <Heading className="mr-8 text-left font-normal">
                   will work{" "}
                   <span className="font-bold">
-                    {calculateTotalMonthlyHours(schedule, vacationDays.length)}
+                    {calculateTotalMonthlyHours(
+                      schedule,
+                      vacationDays.length,
+                      sickDays.length
+                    )}
                   </span>{" "}
                   in{" "}
                   <span className="font-bold">

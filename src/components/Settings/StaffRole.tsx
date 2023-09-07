@@ -10,9 +10,9 @@ import Paragraph from "~/components/ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
 import Input from "~/components/ui/Input";
 
-interface StaffRoleProps {
+type StaffRoleProps = {
   role: StaffRole;
-}
+};
 
 export default function StaffRole({ role }: StaffRoleProps) {
   const queryClient = useQueryClient();

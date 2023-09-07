@@ -6,10 +6,10 @@ import { Button } from "../ui/Button";
 import { type WorkDay, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 
-interface AddNoteProps {
+type AddNoteProps = {
   data: WorkDay;
   setShowAddNote: (showAddnote: boolean) => void;
-}
+};
 
 export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
   const [content, setContent] = useState<string>("");

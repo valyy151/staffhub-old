@@ -11,9 +11,9 @@ import {
 import { useRouter } from "next/router";
 import { type EmployeeProfile } from "~/utils/api";
 
-interface SidebarProps {
+type SidebarProps = {
   employee?: EmployeeProfile;
-}
+};
 
 export default function Sidebar({ employee }: SidebarProps) {
   const router = useRouter();

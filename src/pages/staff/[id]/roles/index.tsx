@@ -8,9 +8,9 @@ import Sidebar from "~/components/Staff/Sidebar";
 import Paragraph from "~/components/ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
 
-interface EmployeeRolesPageProps {
+type EmployeeRolesPageProps = {
   query: { id: string };
-}
+};
 
 EmployeeRolesPage.getInitialProps = ({ query }: EmployeeRolesPageProps) => {
   return { query };

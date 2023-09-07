@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/Button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
-interface VacationPlannerProps {
+type VacationPlannerProps = {
   daysPlanned: number;
   employee: EmployeeProfile;
   daysRemaining: number | undefined;
@@ -16,7 +16,7 @@ interface VacationPlannerProps {
   setDaysPlanned: (daysPlanned: number) => void;
   setShowPlanner: (showPlanner: boolean) => void;
   setDaysRemaining: (daysRemaining: number | undefined) => void;
-}
+};
 
 export default function VacationPlanner({
   employee,

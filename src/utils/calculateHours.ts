@@ -30,12 +30,18 @@ export function calculateTotalHours(days: WorkDay[]) {
 
 export function calculateTotalMonthlyHours(
   days: { date: number; start?: number; end?: number }[],
-  vacationDays?: number
+  vacationDays?: number,
+  sickLeaveDays?: number
 ) {
   let vacationHours = 0;
+  let sickLeaveHours = 0;
 
   if (vacationDays) {
     vacationHours = vacationDays * 8;
+  }
+
+  if (sickLeaveDays) {
+    sickLeaveHours = sickLeaveDays * 8;
   }
 
   const totalMinutes = days.reduce(
@@ -52,7 +58,7 @@ export function calculateTotalMonthlyHours(
     0
   );
 
-  const hours = Math.floor(totalMinutes / 60) + vacationHours;
+  const hours = Math.floor(totalMinutes / 60) + vacationHours + sickLeaveHours;
 
   const minutes = Math.floor(totalMinutes % 60);
 

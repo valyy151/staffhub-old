@@ -1,13 +1,13 @@
 import Input from "../ui/Input";
 import { type Employee } from "~/utils/api";
 
-interface SearchEmployeesProps {
+type SearchEmployeesProps = {
   isOpen: boolean;
   employee: Employee;
   employees: Employee[];
   setIsOpen: (isOpen: boolean) => void;
   setEmployee: (employee: Employee) => void;
-}
+};
 
 export default function SearchEmployees({
   isOpen,

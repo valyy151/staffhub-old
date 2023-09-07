@@ -9,10 +9,10 @@ import { type EmployeeProfile, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-interface VacationProps {
+type VacationProps = {
   employee: EmployeeProfile;
   vacation: { id: string; start: bigint; end: bigint };
-}
+};
 
 export default function Vacation({ vacation, employee }: VacationProps) {
   const [showModal, setShowModal] = useState<boolean>(false);

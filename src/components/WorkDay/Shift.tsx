@@ -7,27 +7,29 @@ import Heading from "../ui/Heading";
 import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
 import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Pencil, Save, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import EditModal from "./EditModal";
 
-interface ShiftProps {
-  shiftModels: { start: number; end: number }[];
-  date: number | undefined;
+type Shift = {
+  id: string;
+  end: number;
+  date: number;
+  start: number;
+  userId: string;
+  employeeId: string;
+  roleId: string | null;
+} & {
+  role: { name: string; id: string } | null;
+  employee: { name: string; roles: { name: string; id: string }[] };
+};
+
+type ShiftProps = {
+  shift: Shift;
   index: number;
-  shift: {
-    employee: { name: string; roles: { name: string; id: string }[] };
-    role: { name: string; id: string } | null;
-  } & {
-    id: string;
-    start: number;
-    end: number;
-    employeeId: string;
-    userId: string;
-    date: number;
-    roleId: string | null;
-  };
-}
+  date: number | undefined;
+  shiftModels: { start: number; end: number }[];
+};
 
 export default function Shift({ shift, index, shiftModels }: ShiftProps) {
   const [showModal, setShowModal] = useState(false);

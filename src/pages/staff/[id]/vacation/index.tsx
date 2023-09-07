@@ -14,9 +14,9 @@ import AddVacation from "~/components/Staff/AddVacation";
 import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
 import router from "next/router";
 
-interface VacationPageProps {
+type VacationPageProps = {
   query: { id: string };
-}
+};
 
 VacationPage.getInitialProps = ({ query }: VacationPageProps) => {
   return { query };

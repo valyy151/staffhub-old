@@ -1,13 +1,13 @@
 import Input from "../ui/Input";
 
-interface RolesDropdownProps {
+type RolesDropdownProps = {
   isOpen: boolean;
   role: { name: string; id: string };
   setIsOpen: (isOpen: boolean) => void;
   roles: { name: string; id: string }[];
   setOpenStaff?: (openStaff: boolean) => void;
   setRole: (role: { name: string; id: string }) => void;
-}
+};
 
 export default function RolesDropdown({
   role,

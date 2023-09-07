@@ -1,4 +1,3 @@
-import Input from "../ui/Input";
 import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
@@ -7,11 +6,11 @@ import { Button } from "../ui/Button";
 import Paragraph from "../ui/Paragraph";
 import { type WorkDayNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
-import { XCircle, Trash2, Pencil, Save, ChevronDown } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
-interface NoteProps {
+type NoteProps = {
   note: WorkDayNote;
-}
+};
 
 export default function Note({ note }: NoteProps) {
   const [showModal, setShowModal] = useState<boolean>(false);

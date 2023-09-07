@@ -8,10 +8,10 @@ import { Button } from "~/components/ui/Button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
-interface AddSickLeaveProps {
+type AddSickLeaveProps = {
   employee: EmployeeProfile;
   setShowPlanner: (showPlanner: boolean) => void;
-}
+};
 
 export default function AddSickLeave({
   employee,

@@ -9,23 +9,31 @@ import Input from "../ui/Input";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Heading from "../ui/Heading";
 
-interface ModalProps {
-  shift: {
-    employee: { name: string; roles: { name: string; id: string }[] };
-    role: { name: string; id: string } | null;
-  } & {
-    id: string;
-    start: number;
-    end: number;
-    employeeId: string;
-    userId: string;
-    date: number;
-    roleId: string | null;
-  };
-  setEditMode: (editMode: boolean) => void;
+type Employee = {
+  id: string;
+  name: string;
+  roles: { name: string; id: string }[];
+};
+
+type Shift = {
+  id: string;
+  end: number;
+  date: number;
+  start: number;
+  userId: string;
+  employeeId: string;
+  roleId: string | null;
+} & {
+  role: { name: string; id: string } | null;
+  employee: { name: string; roles: { name: string; id: string }[] };
+};
+
+type ModalProps = {
+  shift: Shift;
   showModal: boolean;
+  setEditMode: (editMode: boolean) => void;
   shiftModels: { start: number; end: number }[];
-}
+};
 
 export default function EditModal({
   shift,

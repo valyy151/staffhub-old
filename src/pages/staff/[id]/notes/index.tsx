@@ -11,9 +11,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, ScrollText } from "lucide-react";
 import router from "next/router";
 
-interface EmployeeNotesPageProps {
+type EmployeeNotesPageProps = {
   query: { id: string };
-}
+};
 
 EmployeeNotesPage.getInitialProps = ({ query }: EmployeeNotesPageProps) => {
   return { query };

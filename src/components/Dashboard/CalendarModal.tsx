@@ -6,14 +6,14 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { type MouseEventHandler } from "react";
 
-interface ModalProps {
+type ModalProps = {
   value: Date;
   showModal: boolean;
   lastDay: number | undefined;
   firstDay: number | undefined;
   setValue: (date: Date) => void;
   close: MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 export default function CalendarModal({
   close,

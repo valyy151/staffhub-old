@@ -11,10 +11,10 @@ import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Link from "next/link";
 import RolesDropdown from "./RolesDropdown";
 
-interface AddShiftProps {
+type AddShiftProps = {
   data: WorkDay;
   setShowAddShift: (showAddShift: boolean) => void;
-}
+};
 
 export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
   const [openStaff, setOpenStaff] = useState<boolean>(false);

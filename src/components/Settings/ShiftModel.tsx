@@ -8,14 +8,14 @@ import { Button } from "~/components/ui/Button";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
-interface ShiftModelProps {
+type ShiftModelProps = {
   shiftModel: {
     id: string;
     end: number;
     start: number;
     userId: string;
   };
-}
+};
 
 export default function ShiftModel({ shiftModel }: ShiftModelProps) {
   const queryClient = useQueryClient();

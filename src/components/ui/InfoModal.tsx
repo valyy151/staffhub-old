@@ -5,12 +5,12 @@ import { Button } from "../ui/Button";
 import { type MouseEventHandler } from "react";
 import Paragraph from "~/components/ui/Paragraph";
 
-interface ModalProps {
-  text: { data: string[] };
+type ModalProps = {
   heading: string;
   showModal: boolean;
+  text: { data: string[] };
   close: MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 export default function InfoModal({
   close,

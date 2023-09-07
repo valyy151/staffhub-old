@@ -8,9 +8,9 @@ import Paragraph from "../ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
 import { XCircle, Trash2, Pencil, Save } from "lucide-react";
 
-interface NoteProps {
+type NoteProps = {
   note: { id: string; content: string; createdAt: Date };
-}
+};
 
 export default function Note({ note }: NoteProps) {
   const [editNote, setEditNote] = useState<boolean>(false);

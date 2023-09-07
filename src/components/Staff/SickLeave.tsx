@@ -8,9 +8,9 @@ import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
-interface SickLeaveProps {
+type SickLeaveProps = {
   sickLeave: { id: string; start: bigint; end: bigint };
-}
+};
 
 export default function SickLeave({ sickLeave }: SickLeaveProps) {
   const [showModal, setShowModal] = useState<boolean>(false);

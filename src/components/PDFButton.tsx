@@ -3,13 +3,13 @@ import { MonthlyRoster } from "./SchedulePDF";
 import { formatMonth } from "~/utils/dateFormatting";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { type EmployeeProfile } from "~/utils/api";
-import { Download, Save } from "lucide-react";
+import { Download } from "lucide-react";
 
-interface PDFButtonProps {
+type PDFButtonProps = {
   value: Date;
   month: string;
   employee: EmployeeProfile | undefined;
-}
+};
 
 export default function PDFButton({ employee, value, month }: PDFButtonProps) {
   return (

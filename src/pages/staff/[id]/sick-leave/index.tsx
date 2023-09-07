@@ -11,9 +11,9 @@ import { checkSickLeaves } from "~/utils/checkSickLeaves";
 import AddSickLeave from "~/components/Staff/AddSickLeave";
 import router from "next/router";
 
-interface SickLeavePageProps {
+type SickLeavePageProps = {
   query: { id: string };
-}
+};
 
 SickLeavePage.getInitialProps = ({ query }: SickLeavePageProps) => {
   return { query };

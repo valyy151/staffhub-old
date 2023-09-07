@@ -1,7 +1,7 @@
 import { Employee } from "~/utils/api";
 import Input from "../ui/Input";
 
-interface SearchEmployeesProps {
+type SearchEmployeesProps = {
   isOpen: boolean;
   employee: Employee;
   employees: Employee[] | undefined;
@@ -12,7 +12,7 @@ interface SearchEmployeesProps {
   setOpenRoles: (openRoles: boolean) => void;
   setIsOnVacation: (isOnVacation: boolean) => void;
   setRemainingDays: (remainingDays: number) => void;
-}
+};
 
 export default function SearchEmployees({
   isOpen,

@@ -1,6 +1,3 @@
-import { useRef } from "react";
-import { Employee } from "~/utils/api";
-import { findVacationDays } from "~/utils/checkAbsence";
 import {
   formatDateLong,
   formatDay,
@@ -8,23 +5,19 @@ import {
   formatTotal,
 } from "~/utils/dateFormatting";
 
-interface ScheduleTableProps {
-  data: {
-    date: number;
-    end?: number;
-    start?: number;
-  }[];
+type Data = {
+  date: number;
+  end?: number;
+  start?: number;
+}[];
+
+type ScheduleTableProps = {
+  data: Data;
   sickDays: string[];
   vacationDays: string[];
   shift: string | undefined;
-  setData: (
-    data: {
-      date: number;
-      end?: number;
-      start?: number;
-    }[]
-  ) => void;
-}
+  setData: (data: Data) => void;
+};
 
 export default function ScheduleTable({
   data,

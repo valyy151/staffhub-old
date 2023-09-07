@@ -12,9 +12,9 @@ import { ArrowLeft, Save, Sticker } from "lucide-react";
 import { formatTime } from "~/utils/dateFormatting";
 import Link from "next/link";
 
-interface schedulePreferencesProps {
+type schedulePreferencesProps = {
   query: { id: string };
-}
+};
 
 schedulePreferencesPage.getInitialProps = ({
   query,

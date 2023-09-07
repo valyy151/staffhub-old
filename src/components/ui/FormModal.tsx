@@ -4,13 +4,13 @@ import ReactModal from "react-modal";
 import { type MouseEventHandler } from "react";
 import Paragraph from "./Paragraph";
 
-interface ModalProps {
+type ModalProps = {
   text: string;
   heading?: string;
   showModal: boolean;
   cancel: MouseEventHandler<HTMLButtonElement>;
   submit: MouseEventHandler<HTMLButtonElement>;
-}
+};
 
 export default function FormModal({
   text,

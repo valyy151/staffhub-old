@@ -9,9 +9,9 @@ import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import router from "next/router";
 
-interface EmployeePersonalProps {
+type EmployeePersonalProps = {
   query: { id: string };
-}
+};
 
 EmployeePersonalPage.getInitialProps = ({ query }: EmployeePersonalProps) => {
   return { query };
