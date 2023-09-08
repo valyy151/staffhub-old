@@ -98,7 +98,7 @@ export default function Sidebar({ employee }: SidebarProps) {
               : "hover:bg-slate-150 dark:hover:bg-slate-750"
           }`}
         >
-          <CalendarSearch className="mr-2" /> Work Schedules
+          <CalendarSearch className="mr-2" /> Monthly Schedules
         </li>
         <li
           onClick={() =>

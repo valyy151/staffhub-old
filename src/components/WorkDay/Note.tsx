@@ -55,7 +55,7 @@ export default function Note({ note }: NoteProps) {
           size={"sm"}
           variant={"link"}
           title="Delete note"
-          className="w-fit px-2 py-5 text-xl font-semibold text-red-500 focus:ring-0 focus:ring-offset-0 dark:text-red-500"
+          className="w-fit px-2 py-5 text-xl font-semibold text-red-600 focus:ring-0 focus:ring-offset-0 dark:text-red-500"
           onClick={() => setShowModal(true)}
         >
           {<Trash2 className="mr-2 text-red-500" />} Remove

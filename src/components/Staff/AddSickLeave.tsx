@@ -7,6 +7,7 @@ import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
+import { Value } from "react-calendar/dist/cjs/shared/types";
 
 type AddSickLeaveProps = {
   employee: EmployeeProfile;
@@ -17,27 +18,27 @@ export default function AddSickLeave({
   employee,
   setShowPlanner,
 }: AddSickLeaveProps) {
-  const [end, setEnd] = useState(new Date());
-  const [start, setStart] = useState(new Date());
+  const [end, setEnd] = useState<Value & Date>(new Date());
+  const [start, setStart] = useState<Value & Date>(new Date());
   const [daysPlanned, setDaysPlanned] = useState<number>(0);
 
-  function handleStartChange(date: any) {
+  const handleStartChange = (date: any) => {
     const newStart = date;
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     const newTotalDays =
-      Math.ceil((end.getTime() - newStart.getTime()) / millisecondsPerDay) + 1;
+      Math.ceil((end.getTime() - newStart?.getTime()) / millisecondsPerDay) + 1;
     setStart(date);
     setDaysPlanned(newTotalDays);
-  }
+  };
 
-  function handleEndChange(date: any) {
+  const handleEndChange = (date: any) => {
     setEnd(date);
     const newEnd = date;
     const millisecondsPerDay = 24 * 60 * 60 * 1000;
     const newTotalDays =
-      Math.ceil((newEnd.getTime() - start.getTime()) / millisecondsPerDay) + 1;
+      Math.ceil((newEnd?.getTime() - start.getTime()) / millisecondsPerDay) + 1;
     setDaysPlanned(newTotalDays);
-  }
+  };
 
   useEffect(() => {
     function calculateTotalDays() {

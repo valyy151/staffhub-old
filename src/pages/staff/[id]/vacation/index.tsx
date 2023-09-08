@@ -194,7 +194,7 @@ export default function VacationPage({ query }: VacationPageProps) {
         {showChangeAmount && (
           <form
             onSubmit={updateAmount}
-            className="mt-16 flex flex-col items-center dark:border-slate-700"
+            className="mt-8 flex flex-col dark:border-slate-700"
           >
             <Heading size={"xs"}>Change the amount of vacation days</Heading>
 
@@ -202,10 +202,10 @@ export default function VacationPage({ query }: VacationPageProps) {
               type="text"
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}
-              className="m-0 h-14 text-center text-2xl shadow-md"
+              className="m-0 h-14 w-fit text-center text-2xl shadow-md"
             />
             <div className="flex w-full space-x-1">
-              <Button size={"lg"} className="mt-2 h-14 w-full text-2xl">
+              <Button size={"lg"} className="mt-2 h-14 text-2xl">
                 <Save size={28} className="mr-2" />
                 Save
               </Button>
@@ -214,7 +214,7 @@ export default function VacationPage({ query }: VacationPageProps) {
                 type="button"
                 variant={"subtle"}
                 onClick={() => setShowChangeAmount(false)}
-                className="mt-2 h-14 w-full text-2xl"
+                className="mt-2 h-14 text-2xl"
               >
                 {" "}
                 <ArrowLeft size={28} className="mr-2" />

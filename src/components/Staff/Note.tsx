@@ -6,16 +6,14 @@ import toast from "react-hot-toast";
 import { Button } from "../ui/Button";
 import Paragraph from "../ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
-import { XCircle, Trash2, Pencil, Save } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 type NoteProps = {
   note: { id: string; content: string; createdAt: Date };
 };
 
 export default function Note({ note }: NoteProps) {
-  const [editNote, setEditNote] = useState<boolean>(false);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [content, setContent] = useState<string>(note.content);
 
   const queryClient = useQueryClient();
 
@@ -31,25 +29,6 @@ export default function Note({ note }: NoteProps) {
     },
   });
 
-  const updateNoteMutation = api.employeeNote.update.useMutation({
-    onSuccess: () => {
-      setEditNote(false);
-      void queryClient.invalidateQueries();
-      toast.success("Note updated successfully.");
-    },
-
-    onError: () => {
-      toast.error("There was a problem updating the note.");
-    },
-  });
-
-  function updateNote() {
-    updateNoteMutation.mutate({
-      content,
-      noteId: note.id,
-    });
-  }
-
   function deleteNote() {
     deleteNoteMutation.mutate({
       noteId: note.id,
@@ -58,84 +37,41 @@ export default function Note({ note }: NoteProps) {
 
   return (
     <div className="my-2 flex flex-col items-start">
-      <Paragraph className="ml-2 font-medium">
-        {" "}
-        {note.createdAt.toLocaleString("en-GB", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-        })}
-      </Paragraph>
-      <div
-        className={`mx-auto flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-slate-700 ${
-          editNote ? "ring-0.5 ring-slate-400" : ""
-        }`}
-      >
-        {editNote ? (
-          <>
-            <Input
-              type="text"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="m-0 h-12 w-[36rem] border-none px-0 text-lg shadow-none focus:ring-0 focus:ring-offset-0"
-            />
-            <Button
-              size={"sm"}
-              variant={"link"}
-              title="Save changes"
-              className="w-16 min-w-0 p-5"
-              onClick={updateNote}
-            >
-              {<Save className="text-green-500" />}
-            </Button>
-            <Button
-              size={"sm"}
-              title="Cancel"
-              variant={"link"}
-              className="w-16 min-w-0 p-5"
-              onClick={() => setEditNote(false)}
-            >
-              {<XCircle />}
-            </Button>
-          </>
-        ) : (
-          <div className="flex items-center">
-            <Paragraph className="flex h-12 w-[36rem] min-w-[16rem] items-center rounded-md bg-white text-left dark:bg-slate-700">
-              {note.content}
-            </Paragraph>
-            <Button
-              size={"sm"}
-              variant={"link"}
-              className="w-16 min-w-0 p-5"
-              onClick={() => setEditNote(true)}
-              title="Edit note"
-            >
-              {<Pencil />}
-            </Button>
-            <Button
-              size={"sm"}
-              variant={"link"}
-              title="Delete note"
-              className="w-16 min-w-0 p-5"
-              onClick={() => setShowModal(true)}
-            >
-              {<Trash2 className="text-red-500" />}
-            </Button>
+      <div className="flex w-full min-w-[28rem] flex-col rounded-md bg-white py-1 shadow dark:bg-slate-700 ">
+        <Paragraph className="px-2 text-justify font-medium" size={"lg"}>
+          {note.content}
+        </Paragraph>
 
-            {showModal && (
-              <FormModal
-                submit={deleteNote}
-                showModal={showModal}
-                heading={"Delete note?"}
-                cancel={() => setShowModal(false)}
-                text={"Are you sure you want to delete this note?"}
-              />
-            )}
-          </div>
-        )}
+        <p className="border-b border-slate-300 px-2 pb-2 text-sm font-light dark:border-slate-500">
+          Added{" "}
+          {note.createdAt.toLocaleString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+          })}
+        </p>
+
+        <Button
+          size={"sm"}
+          variant={"link"}
+          title="Delete note"
+          className="w-fit px-2 py-5 text-xl font-semibold text-red-600 focus:ring-0 focus:ring-offset-0 dark:text-red-500"
+          onClick={() => setShowModal(true)}
+        >
+          {<Trash2 className="mr-2 text-red-500" />} Remove
+        </Button>
       </div>
+      {showModal && (
+        <FormModal
+          submit={deleteNote}
+          showModal={showModal}
+          heading={"Delete note?"}
+          cancel={() => setShowModal(false)}
+          text={"Are you sure you want to delete this note?"}
+        />
+      )}
     </div>
   );
 }
