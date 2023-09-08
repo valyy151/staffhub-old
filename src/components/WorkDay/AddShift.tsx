@@ -71,15 +71,13 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
       return toast("Please fill the start and end time.");
     }
 
-    if (data.date) {
-      createShift.mutate({
-        end: end,
-        start: start,
-        roleId: role.id,
-        date: data.date,
-        employeeId: employee.id,
-      });
-    }
+    createShift.mutate({
+      end: end,
+      start: start,
+      roleId: role.id,
+      date: data.date!,
+      employeeId: employee.id,
+    });
   }
 
   return (

@@ -76,14 +76,10 @@ export default function AddSickLeave({
       return toast.error("Please select a start and end date.");
     }
 
-    if (!employee.id) {
-      return null;
-    }
-
     createSickLeave.mutate({
       end: end.getTime(),
       start: start.getTime(),
-      employeeId: employee.id,
+      employeeId: employee.id!,
     });
   }
 

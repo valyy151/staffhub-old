@@ -36,24 +36,22 @@ export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
       return toast("Please fill the note content.");
     }
 
-    if (data.id) {
-      createNote.mutate({
-        content,
-        workDayId: data.id,
-      });
-    }
+    createNote.mutate({
+      content,
+      workDayId: data.id!,
+    });
   }
 
   return (
     <div className="flex w-fit flex-col">
-      <form onSubmit={handleSubmit} className=" flex flex-col">
+      <form onSubmit={handleSubmit} className="flex flex-col">
         <Heading size={"sm"} className="mb-3">
           Add a new note
         </Heading>
 
         <textarea
-          value={content}
           rows={5}
+          value={content}
           placeholder=" Add a note..."
           className="w-[36rem] resize-none rounded border border-slate-400 bg-transparent bg-white px-3 py-2 text-xl placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-transparent dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
           onChange={(e) => setContent(e.target.value)}

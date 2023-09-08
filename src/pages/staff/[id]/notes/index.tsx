@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
 import Note from "~/components/Staff/Note";
 import { Button } from "~/components/ui/Button";

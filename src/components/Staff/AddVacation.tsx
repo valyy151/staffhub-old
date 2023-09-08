@@ -139,16 +139,12 @@ export default function VacationPlanner({
       return toast("Please select a valid date range.");
     }
 
-    if (!employee.id || !employee.vacationDays) {
-      return null;
-    }
-
     createVacation.mutate({
       daysPlanned,
       end: end.getTime(),
       start: start.getTime(),
-      employeeId: employee.id,
-      vacationDays: employee.vacationDays,
+      employeeId: employee.id!,
+      vacationDays: employee.vacationDays!,
     });
   }
 
