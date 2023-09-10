@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Head from "next/head";
 import router from "next/router";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
@@ -21,6 +22,13 @@ export default function Home() {
 
   return (
     <main className="mt-4 flex flex-col items-center px-2 text-2xl sm:px-0">
+      <Head>
+        <title>StaffHub</title>
+        <meta
+          name="StaffHub"
+          content="StaffHub is a web application that helps you manage your staff and their shifts."
+        />
+      </Head>
       {status === "authenticated" && (
         <>
           <Heading size={"lg"}> Hello {data.user.name} </Heading>

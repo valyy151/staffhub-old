@@ -1,26 +1,27 @@
-import router from "next/router";
-import { useState } from "react";
-import { Employee, api } from "~/utils/api";
-import toast from "react-hot-toast";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { getSession } from "next-auth/react";
-import Heading from "~/components/ui/Heading";
-import Spinner from "~/components/ui/Spinner";
-import { Button } from "~/components/ui/Button";
-import { formatMonth, formatTime } from "~/utils/dateFormatting";
-import { type GetServerSideProps } from "next/types";
-import { CalendarPlus, Info, UserPlus, X } from "lucide-react";
-import ScheduleTable from "~/components/Schedule/ScheduleTable";
-import sentences from "~/data/schedule.json";
-import SearchEmployees from "~/components/Schedule/SearchEmployees";
+import Head from "next/head";
 import {
   calculateTotalMonthlyHours,
   isTimeGreaterThanTotalHours,
 } from "~/utils/calculateHours";
+import router from "next/router";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
+import { Employee, api } from "~/utils/api";
+import { getSession } from "next-auth/react";
+import sentences from "~/data/schedule.json";
+import Heading from "~/components/ui/Heading";
+import Spinner from "~/components/ui/Spinner";
+import { Button } from "~/components/ui/Button";
+import InfoModal from "~/components/ui/InfoModal";
+import { type GetServerSideProps } from "next/types";
+import { CalendarPlus, Info, UserPlus } from "lucide-react";
+import ScheduleTable from "~/components/Schedule/ScheduleTable";
+import { formatMonth, formatTime } from "~/utils/dateFormatting";
+import SearchEmployees from "~/components/Schedule/SearchEmployees";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";
 import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
-import InfoModal from "~/components/ui/InfoModal";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -132,6 +133,13 @@ export default function NewSchedulePage() {
   if (data.length === 0) {
     return (
       <main className="flex flex-col items-center">
+        <Head>
+          <title>Create Schedule | StaffHub</title>
+          <meta
+            name="Create Schedule"
+            content="Create a schedule for your staff."
+          />
+        </Head>
         <Heading className="mt-6" size={"sm"}>
           You do not currently have any employees on your account to create a
           schedule.
@@ -155,6 +163,13 @@ export default function NewSchedulePage() {
 
   return (
     <main onClick={() => isOpen && setIsOpen(false)}>
+      <Head>
+        <title>Create Schedule | StaffHub</title>
+        <meta
+          name="Create Schedule"
+          content="Create a schedule for your staff."
+        />
+      </Head>
       <section className="mt-4 flex justify-evenly">
         <div className="mt-16 flex flex-col">
           <SearchEmployees

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import router from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
@@ -7,7 +8,7 @@ import Heading from "~/components/ui/Heading";
 import { Button } from "~/components/ui/Button";
 import { type GetServerSideProps } from "next/types";
 import { getSession, useSession } from "next-auth/react";
-import { ArrowLeft, Clock8, Palette, UserCog2 } from "lucide-react";
+import { ArrowLeft, Clock8, UserCog2 } from "lucide-react";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -51,6 +52,10 @@ export default function SettingsPage() {
 
   return (
     <main className="flex flex-col items-center">
+      <Head>
+        <title>Settings | StaffHub</title>
+        <meta name="Settings" content="Manage your account" />
+      </Head>
       <Heading size={"lg"} className="mt-4">
         {data?.user.name}
       </Heading>

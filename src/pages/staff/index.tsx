@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useState } from "react";
 import router from "next/router";
 import Input from "~/components/ui/Input";
@@ -9,6 +8,7 @@ import { Search, UserPlus } from "lucide-react";
 import { Button } from "~/components/ui/Button";
 import { type Employee, api } from "~/utils/api";
 import { type GetServerSideProps } from "next/types";
+import Head from "next/head";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -41,6 +41,13 @@ export default function EmployeesListPage() {
   if (data.length === 0) {
     return (
       <main className="flex flex-col items-center">
+        <Head>
+          <title>Your Staff | StaffHub</title>
+          <meta
+            name="Your Staff"
+            content="Manage your staff and their shifts"
+          />
+        </Head>
         <Heading size={"sm"} className="mt-6">
           You do not currently have any staff members on your account.
         </Heading>
@@ -69,6 +76,10 @@ export default function EmployeesListPage() {
 
   return (
     <main className="mx-auto flex flex-col items-center">
+      <Head>
+        <title>Your Staff | StaffHub</title>
+        <meta name="Your Staff" content="Manage your staff and their shifts" />
+      </Head>
       <div className="mt-8 min-w-[85vw]">
         <div className="mb-2 flex justify-between">
           <div className="ml-6 flex items-baseline space-x-4">

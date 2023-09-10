@@ -1,9 +1,15 @@
+import Head from "next/head";
 import Heading from "~/components/ui/Heading";
 import Paragraph from "~/components/ui/Paragraph";
 
 export default function DocumentationPage() {
   return (
-    <main className="flex w-fit flex-col items-start px-2 pb-24 text-justify sm:px-16">
+    <main className="flex flex-col items-center px-2 pb-24 text-justify sm:px-16">
+      <Head>
+        <title>Documentation | StaffHub</title>
+        <meta name="Documentation" content="How to use StaffHub" />
+      </Head>
+
       <Heading className="my-4 border-b-2 border-slate-300 dark:border-slate-500">
         Documentation
       </Heading>

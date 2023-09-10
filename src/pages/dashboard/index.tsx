@@ -1,3 +1,4 @@
+import Head from "next/head";
 import {
   X,
   User,
@@ -73,6 +74,10 @@ export default function DashboardPage() {
   if (data?.length === 0) {
     return (
       <main className="flex flex-col items-center">
+        <Head>
+          <title>Dashboard | StaffHub</title>
+          <meta name="Dashboard" content="Manage your schedules" />
+        </Head>
         <Heading className="mt-6" size={"sm"}>
           You do not currently have any created schedules.
         </Heading>
@@ -98,6 +103,10 @@ export default function DashboardPage() {
 
   return (
     <main className="mx-auto mt-12 w-fit">
+      <Head>
+        <title>Dashboard | StaffHub</title>
+        <meta name="Dashboard" content="Manage your schedules" />
+      </Head>
       <div className="mb-2 flex items-baseline justify-between">
         <Heading className="ml-2">
           {workDays &&

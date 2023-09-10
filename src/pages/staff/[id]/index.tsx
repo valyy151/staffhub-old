@@ -12,18 +12,17 @@ import {
 } from "lucide-react";
 import router from "next/router";
 import { useState } from "react";
+import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import Dropdown from "~/components/Staff/Dropdown";
-import { Button } from "~/components/ui/Button";
+import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
+import Spinner from "~/components/ui/Spinner";
+import { Button } from "~/components/ui/Button";
 import FormModal from "~/components/ui/FormModal";
 import Paragraph from "~/components/ui/Paragraph";
-import Spinner from "~/components/ui/Spinner";
-
-import { api } from "~/utils/api";
-import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
+import Dropdown from "~/components/Staff/Dropdown";
 import { formatTime } from "~/utils/dateFormatting";
-import Input from "~/components/ui/Input";
+import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
 
 type EmployeeProfileProps = {
   query: { id: string };
@@ -69,7 +68,10 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
   return (
     <main
-      onClick={() => showDropdown && setShowDropdown(false)}
+      onClick={() => {
+        isOpen && setIsOpen(false);
+        showDropdown && setShowDropdown(false);
+      }}
       className="flex flex-col px-12 pb-80 pt-24"
     >
       <div className="relative mb-2 w-fit">
@@ -80,7 +82,6 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           <Input
             readOnly
             type="text"
-            value={employee.name}
             placeholder={"Choose an Employee..."}
             className="group m-0 h-14 cursor-pointer text-xl caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
           />

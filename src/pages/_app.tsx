@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 import NextNProgress from "nextjs-progressbar";
 import { SessionProvider } from "next-auth/react";
 
-const MyApp: AppType<{ session: Session | null }> = ({
+const StaffHub: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
@@ -30,4 +30,4 @@ const MyApp: AppType<{ session: Session | null }> = ({
   );
 };
 
-export default api.withTRPC(MyApp);
+export default api.withTRPC(StaffHub);
