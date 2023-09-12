@@ -52,8 +52,8 @@ export default function NewEmployeePage() {
   });
 
   return (
-    <div className="mx-auto">
-      <form onSubmit={handleSubmit} className="mx-auto mt-12 w-1/4">
+    <div className="px-2">
+      <form onSubmit={handleSubmit} className="mx-auto mt-12 w-[23rem]">
         <Heading className="mb-4">Create an Employee</Heading>
         <label className="text-xl" htmlFor="name">
           Name
