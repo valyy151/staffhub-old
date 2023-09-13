@@ -22,7 +22,7 @@ export default function SearchEmployees({
   }
 
   return (
-    <main className="relative mb-2 w-full">
+    <main className="text-md relative mb-2 w-fit">
       <div
         className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-700 dark:shadow-slate-950 "
         onClick={() => setIsOpen(!isOpen)}
@@ -32,7 +32,7 @@ export default function SearchEmployees({
           type="text"
           value={employee.name}
           placeholder={"Choose an Employee..."}
-          className="group m-0 h-14 cursor-pointer text-xl caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
+          className="text-md group m-0 cursor-pointer caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
         />
       </div>
       {isOpen && (
@@ -47,7 +47,7 @@ export default function SearchEmployees({
                 ?.sort((a, b) => a.name.localeCompare(b.name))
                 .map((employee: Employee) => (
                   <li
-                    className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
+                    className="flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 dark:hover:bg-slate-600"
                     key={employee.id}
                     onClick={() => handleSelect(employee)}
                   >
