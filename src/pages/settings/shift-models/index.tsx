@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { toast } from "react-hot-toast";
-import Input from "~/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import sentences from "~/data/shiftModel.json";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import InfoModal from "~/components/ui/InfoModal";
 import Sidebar from "~/components/Settings/Sidebar";
 import { type GetServerSideProps } from "next/types";
@@ -13,6 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import ShiftModel from "~/components/Settings/ShiftModel";
 import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import { Label } from "@/components/ui/label";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -102,19 +103,16 @@ export default function ShiftModelsPage() {
     <main className="flex">
       <Sidebar />
       <section className="mt-4">
-        <Heading size={"lg"} className="mb-2">
+        <Heading size={"sm"} className="mb-2">
           Add and manage Shift Models
         </Heading>
         <div className="space-x-2">
-          <Button
-            className="h-14 text-2xl"
-            onClick={() => setShowCreateModel(true)}
-          >
+          <Button size={"lg"} onClick={() => setShowCreateModel(true)}>
             <UserCog className="mr-2" /> New Shift Model
           </Button>
           <Button
+            size={"lg"}
             variant={"subtle"}
-            className="h-14 text-2xl"
             onClick={() => setShowModal(true)}
           >
             <Info className="mr-2" /> What are Shift Models?
@@ -134,60 +132,55 @@ export default function ShiftModelsPage() {
         )}
         {showCreateModel && (
           <form onSubmit={handleSubmit}>
-            <Heading className="mb-2 mt-5">New Shift Model</Heading>
+            <Heading size={"sm"} className="mb-2 mt-5">
+              New Shift Model
+            </Heading>
             <div className="flex space-x-2">
               <div>
-                <label htmlFor="start" className="ml-2 text-xl">
-                  Start
-                </label>
+                <Label htmlFor="start">Start</Label>
 
                 <Input
                   type="text"
                   name="start"
                   placeholder="Start time"
                   value={formatTime(start)}
-                  className="m-0 h-14 w-44 text-xl"
                   onChange={(e) => handleTimeChange(e.target.value, "start")}
                 />
               </div>
 
               <div>
-                <label htmlFor="end" className="ml-2 text-xl">
-                  End
-                </label>
+                <Label htmlFor="end">End</Label>
 
                 <Input
                   name="end"
                   type="text"
                   placeholder="End time"
                   value={formatTime(end)}
-                  className="m-0 h-14 w-44 text-xl"
                   onChange={(e) => handleTimeChange(e.target.value, "end")}
                 />
               </div>
               <div>
-                <label htmlFor="end" className="ml-2 text-xl">
+                <Label htmlFor="end" className="ml-2">
                   Total
-                </label>
+                </Label>
 
-                <Heading size={"xs"} className="ml-3 mt-2">
+                <Heading size={"xxs"} className="ml-2 mt-2">
                   {formatTotal(start, end)}
                 </Heading>
               </div>
             </div>
             <div className="mt-4 space-x-2">
-              <Button size={"lg"} className="h-14 text-2xl">
-                <Save size={28} className="mr-2" />
+              <Button size={"lg"}>
+                <Save className="mr-2" />
                 Submit
               </Button>
               <Button
                 size={"lg"}
                 type="button"
                 variant={"subtle"}
-                className="h-14 text-2xl"
                 onClick={() => setShowCreateModel(false)}
               >
-                <ArrowLeft size={28} className="mr-2" /> Back
+                <ArrowLeft className="mr-2" /> Back
               </Button>
             </div>
           </form>

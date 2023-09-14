@@ -56,9 +56,7 @@ export default function SettingsPage() {
         <title>Settings | StaffHub</title>
         <meta name="Settings" content="Manage your account" />
       </Head>
-      <Heading size={"lg"} className="mt-4">
-        {data?.user.name}
-      </Heading>
+      <Heading className="mt-4">{data?.user.name}</Heading>
 
       <Button
         variant={"subtle"}

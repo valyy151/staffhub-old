@@ -5,10 +5,13 @@ import toast from "react-hot-toast";
 import { UserCog } from "lucide-react";
 import { type StaffRole } from "~/utils/api";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Paragraph from "~/components/ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
-import Input from "~/components/ui/Input";
+import { Input } from "@/components/ui/input";
+import EditModal from "../WorkDay/EditModal";
+import ReactModal from "react-modal";
+import { Label } from "@/components/ui/label";
 
 type StaffRoleProps = {
   role: StaffRole;
@@ -59,90 +62,88 @@ export default function StaffRole({ role }: StaffRoleProps) {
   }
 
   return (
-    <div className="flex h-20 w-[64rem] items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
-      {!edit && (
-        <>
-          <div className="flex items-center">
-            <UserCog size={28} />
-            <Heading size={"xs"} className="ml-5 min-w-[7.75rem]">
-              {role.name}
-            </Heading>
-          </div>
+    <div className="flex h-20 items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
+      <div className="flex items-center space-x-2">
+        <UserCog size={28} />
+        <Heading size={"xxs"}>{role.name}</Heading>
+      </div>
 
-          <div className="flex items-center">
-            {role.numberPerDay !== null && role.numberPerDay > 0 && (
-              <>
-                <Paragraph size={"lg"} className="ml-8 text-2xl">
-                  Minimum
-                </Paragraph>
-                <Paragraph size={"lg"} className="ml-2 text-2xl font-bold">
-                  {role.numberPerDay}
-                </Paragraph>
-                <Paragraph size={"lg"} className="ml-2 text-2xl">
-                  per work day
-                </Paragraph>
-              </>
-            )}
+      <div className="flex items-center">
+        {role.numberPerDay !== null && role.numberPerDay > 0 && (
+          <>
+            <Paragraph className="ml-8 ">Minimum</Paragraph>
+            <Paragraph className="ml-2  font-bold">
+              {role.numberPerDay}
+            </Paragraph>
+            <Paragraph className="ml-2 ">per work day</Paragraph>
+          </>
+        )}
+        <div className="space-x-2 pl-2">
+          <Button size={"lg"} variant={"subtle"} onClick={() => setEdit(true)}>
+            Edit
+          </Button>
 
-            <Button
-              size={"lg"}
-              variant={"subtle"}
-              onClick={() => setEdit(true)}
-              className="ml-8 h-14 w-28 text-2xl"
-            >
-              Edit
-            </Button>
+          <Button
+            size={"lg"}
+            variant={"destructive"}
+            onClick={() => setShowModal(true)}
+          >
+            Delete
+          </Button>
+        </div>
+      </div>
 
-            <Button
-              size={"lg"}
-              variant={"destructive"}
-              className="ml-2 h-14 w-36 text-2xl"
-              onClick={() => setShowModal(true)}
-            >
-              Delete
-            </Button>
-          </div>
-        </>
-      )}
       {edit && (
-        <form
-          onSubmit={handleSubmit}
-          className="flex w-full items-center justify-between space-x-2"
+        <ReactModal
+          isOpen={edit}
+          className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
         >
-          <div className="flex items-center space-x-2">
-            <UserCog size={28} />
-            <div>
-              <label className="ml-1">Name</label>
+          <form
+            className="animate-fade mx-auto rounded-xl border border-slate-300 bg-white px-24 pb-6 pt-3 text-left shadow-lg dark:border-slate-600 dark:bg-slate-800"
+            onSubmit={handleSubmit}
+          >
+            <Heading size={"sm"} className="mt-4">
+              Edit Staff Role
+            </Heading>
+            <div className="mt-4">
+              <Label htmlFor="name">Name</Label>
+
               <Input
+                type="text"
+                name="name"
+                placeholder="Name"
                 value={name}
-                className=" w-[26rem] bg-white text-xl font-bold dark:bg-transparent"
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div>
-              <label className="ml-1">Number needed per work day</label>
+
+            <div className="mt-4">
+              <Label htmlFor="numberPerDay">Minimum</Label>
+
               <Input
+                type="number"
+                name="numberPerDay"
+                placeholder="Minimum"
                 value={numberPerDay}
-                className=" w-48 bg-white text-xl font-bold dark:bg-transparent"
+                className="[appearance:textfield]  [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                 onChange={(e) => setNumberPerDay(e.target.value)}
               />
             </div>
-          </div>
-          <div className="space-x-2">
-            <Button size={"lg"} className="h-14 w-28 text-2xl">
-              Save
-            </Button>
 
-            <Button
-              size={"lg"}
-              variant={"subtle"}
-              className="h-14 w-36 text-2xl"
-              onClick={() => setEdit(false)}
-            >
-              Cancel
-            </Button>
-          </div>
-        </form>
+            <div className="mt-4 flex justify-end space-x-2">
+              <Button
+                size={"lg"}
+                variant={"subtle"}
+                onClick={() => setEdit(false)}
+              >
+                Cancel
+              </Button>
+              <Button size={"lg"} type="submit">
+                Update
+              </Button>
+            </div>
+          </form>
+        </ReactModal>
       )}
       {showModal && (
         <FormModal

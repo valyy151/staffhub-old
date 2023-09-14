@@ -108,7 +108,7 @@ export default function DashboardPage() {
         <meta name="Dashboard" content="Manage your schedules" />
       </Head>
       <div className="mb-2 flex items-baseline justify-between">
-        <Heading className="ml-2">
+        <Heading size={"sm"} className="ml-2">
           {workDays &&
             workDays[0] &&
             new Date(workDays[0].date * 1000).toLocaleDateString("en-GB", {
@@ -129,19 +129,19 @@ export default function DashboardPage() {
         <div className="flex space-x-1">
           <Button
             variant={"link"}
-            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
+            className="h-16 w-[4.85vw] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
             onClick={() => setShowCalendar(!showCalendar)}
           >
-            <CalendarIcon size={48} />
+            <CalendarIcon size={42} />
           </Button>
           <Button
             variant={"link"}
             title="Previous Week"
             onClick={handlePrevPage}
             disabled={isFetching}
-            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
+            className="h-16 w-[4.85vw] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
           >
-            {<ChevronLeft size={48} />}
+            {<ChevronLeft size={42} />}
           </Button>
 
           <Button
@@ -149,16 +149,16 @@ export default function DashboardPage() {
             title="Next Week"
             onClick={handleNextPage}
             disabled={isFetching}
-            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
+            className="h-16 w-[4.85vw] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
           >
-            {<ChevronRight size={48} />}
+            {<ChevronRight size={42} />}
           </Button>
         </div>
       </div>
-      <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-800">
+      <div className="flex min-h-[60vh] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-800">
         {workDays?.map((day) => (
           <div
-            className="group flex min-w-[14rem] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
+            className="group flex min-w-[10vw] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
             key={day.id}
             onClick={() => router.push(`/days/${day.id}`)}
           >

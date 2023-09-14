@@ -3,10 +3,12 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Heading from "../ui/Heading";
-import Input from "~/components/ui/Input";
-import { Button } from "~/components/ui/Button";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import ReactModal from "react-modal";
+import { Label } from "@/components/ui/label";
 
 type ShiftModelProps = {
   shiftModel: {
@@ -65,80 +67,74 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
 
   return (
     <div className="flex h-20 items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
-      {!edit && (
-        <>
-          <div className="flex w-full items-center justify-between">
-            <div className="flex space-x-2">
-              <Heading size={"sm"}>{formatTime(shiftModel.start)}</Heading>
-              <Heading size={"sm"}>-</Heading>
-              <Heading size={"sm"}>{formatTime(shiftModel.end)}</Heading>
-            </div>
-            <div>
-              <Heading size={"sm"} className="ml-[2.65rem]">
-                {formatTotal(shiftModel.start, shiftModel.end)}
-              </Heading>
-            </div>
-            <div className="space-x-2">
-              <Button
-                size={"lg"}
-                variant={"subtle"}
-                onClick={() => setEdit(true)}
-                className="ml-4 h-14 w-28 text-2xl"
-              >
-                Edit
-              </Button>
-              <Button
-                size={"lg"}
-                variant={"destructive"}
-                className="h-14 w-36 text-2xl"
-                onClick={() => setShowModal(true)}
-              >
-                Delete
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
+      <div className="flex w-full items-center justify-between">
+        <div className="flex space-x-2">
+          <Heading size={"xs"}>{formatTime(shiftModel.start)}</Heading>
+          <Heading size={"xs"}>-</Heading>
+          <Heading size={"xs"}>{formatTime(shiftModel.end)}</Heading>
+        </div>
+        <div>
+          <Heading size={"xs"} className="mx-12">
+            {formatTotal(shiftModel.start, shiftModel.end)}
+          </Heading>
+        </div>
+        <div className="space-x-2">
+          <Button size={"lg"} variant={"subtle"} onClick={() => setEdit(true)}>
+            Edit
+          </Button>
+          <Button
+            size={"lg"}
+            variant={"destructive"}
+            onClick={() => setShowModal(true)}
+          >
+            Delete
+          </Button>
+        </div>
+      </div>
+
       {edit && (
-        <form
-          onSubmit={handleEdit}
-          className="flex w-full items-center justify-between space-x-2"
+        <ReactModal
+          isOpen={edit}
+          className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
         >
-          <div className="flex items-center space-x-2">
-            <Input
-              type="text"
-              name="start"
-              value={formatTime(start)}
-              onChange={(e) => handleTimeChange(e.target.value, "start")}
-              className="m-0 h-14 w-24 p-0 pl-1 text-3xl"
-            />
+          <form
+            className="animate-fade mx-auto rounded-xl border border-slate-300 bg-white px-24 pb-6 pt-3 text-left shadow-lg dark:border-slate-600 dark:bg-slate-800"
+            onSubmit={handleEdit}
+          >
+            <Heading size={"sm"} className="text-center">
+              Edit Shift Model
+            </Heading>
+            <div className="mt-4 flex flex-col space-y-4">
+              <div>
+                <Label>Start Time</Label>
+                <Input
+                  type="text"
+                  value={formatTime(start)}
+                  onChange={(e) => handleTimeChange(e.target.value, "start")}
+                />
+              </div>
+              <div>
+                <Label>End Time</Label>
+                <Input
+                  type="text"
+                  value={formatTime(end)}
+                  onChange={(e) => handleTimeChange(e.target.value, "end")}
+                />
+              </div>
 
-            <Input
-              type="text"
-              name="end"
-              value={formatTime(end)}
-              onChange={(e) => handleTimeChange(e.target.value, "end")}
-              className="m-0 h-14 w-24 p-0 pl-1 text-3xl"
-            />
-          </div>
-
-          <Heading size={"sm"}>{formatTotal(start, end)}</Heading>
-
-          <div className="space-x-2">
-            <Button size={"lg"} className="h-14 w-28 text-2xl">
-              Save
-            </Button>
-
-            <Button
-              size={"lg"}
-              variant={"subtle"}
-              className="h-14 w-36 text-2xl"
-              onClick={() => setEdit(false)}
-            >
-              Cancel
-            </Button>
-          </div>
-        </form>
+              <div className="flex justify-end space-x-2">
+                <Button
+                  size={"lg"}
+                  variant={"subtle"}
+                  onClick={() => setEdit(false)}
+                >
+                  Cancel
+                </Button>
+                <Button size={"lg"}>Submit</Button>
+              </div>
+            </div>
+          </form>
+        </ReactModal>
       )}
       {showModal && (
         <FormModal

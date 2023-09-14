@@ -2,16 +2,17 @@ import { useState } from "react";
 import { getSession } from "next-auth/react";
 import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { type GetServerSideProps } from "next/types";
 import sentences from "~/data/staffRole.json";
-import Input from "~/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Sidebar from "~/components/Settings/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import StaffRole from "~/components/Settings/StaffRole";
 import InfoModal from "~/components/ui/InfoModal";
+import { Label } from "@/components/ui/label";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -101,19 +102,16 @@ export default function StaffRolesPage() {
         <Sidebar />
       </div>
       <section className="mt-4">
-        <Heading size={"lg"} className="mb-2">
+        <Heading size={"sm"} className="mb-2">
           Add and manage Staff Roles
         </Heading>
         <div className="space-x-1">
-          <Button
-            className="h-14 text-2xl"
-            onClick={() => setShowCreateRole(true)}
-          >
+          <Button size={"lg"} onClick={() => setShowCreateRole(true)}>
             <UserCog className="mr-2" /> New Staff Role
           </Button>
           <Button
+            size={"lg"}
             variant={"subtle"}
-            className="h-14 text-2xl"
             onClick={() => setShowModal(true)}
           >
             <Info className="mr-2" /> What are Staff Roles?
@@ -131,38 +129,37 @@ export default function StaffRolesPage() {
         )}
         {showCreateRole && (
           <form className="mt-4" onSubmit={handleSubmit}>
-            <label className="text-xl">Staff Role</label>
+            <Label>Staff Role</Label>
             <Input
               value={role}
-              className="mb-4 h-14 bg-white text-2xl dark:bg-transparent"
+              className="mb-4"
               placeholder="Enter the role name..."
               onChange={(e) => setRole(e.target.value)}
             />
-            <label className="text-xl">
+            <Label>
               How many staff members with this role do you need in one work day?
               <br />
               (Leave blank if not sure)
-            </label>
+            </Label>
             <Input
               type="number"
               value={number}
               placeholder="Enter the number..."
               onChange={(e) => setNumber(parseInt(e.target.value).toString())}
-              className="h-14 bg-white text-2xl [appearance:textfield] dark:bg-transparent [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              className="[appearance:textfield]  [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
             <div className="mt-4 space-x-2">
-              <Button size={"lg"} className="h-14 text-2xl">
-                <Save size={28} className="mr-2" />
+              <Button size={"lg"}>
+                <Save className="mr-2" />
                 Submit
               </Button>
               <Button
                 size={"lg"}
                 type="button"
                 variant={"subtle"}
-                className="h-14 text-2xl"
                 onClick={() => setShowCreateRole(false)}
               >
-                <ArrowLeft size={28} className="mr-2" /> Back
+                <ArrowLeft className="mr-2" /> Back
               </Button>
             </div>
           </form>
