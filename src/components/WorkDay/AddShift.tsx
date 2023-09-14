@@ -1,8 +1,7 @@
-import Input from "../ui/Input";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Heading from "../ui/Heading";
-import { Button } from "../ui/Button";
+
 import { type WorkDay, api, Employee } from "~/utils/api";
 import SearchEmployees from "./SearchEmployees";
 import { ArrowLeft, Clock8 } from "lucide-react";
@@ -10,6 +9,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Link from "next/link";
 import RolesDropdown from "./RolesDropdown";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 type AddShiftProps = {
   data: WorkDay;
@@ -92,7 +94,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
       <form onSubmit={handleSubmit} className="mt-2 flex flex-col items-center">
         <div className="flex space-x-8">
           <div className="mt-auto flex flex-col">
-            <label className="ml-2 text-xl">Employee</label>
+            <Label>Employee</Label>
 
             <SearchEmployees
               isOpen={openStaff}
@@ -108,11 +110,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             />
 
             <div className="mr-auto mt-2 flex w-full space-x-1">
-              <Button
-                size={"lg"}
-                title="Create shift"
-                className="h-14 w-full text-xl"
-              >
+              <Button size={"lg"} title="Create shift">
                 {<Clock8 className="mr-2" />} Create
               </Button>
 
@@ -121,7 +119,6 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                 size={"lg"}
                 type="button"
                 variant={"subtle"}
-                className="h-14 w-full text-xl"
                 onClick={() => setShowAddShift(false)}
               >
                 {<ArrowLeft className="mr-2" />} Cancel
@@ -131,9 +128,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
           <div className="flex flex-col">
             <div className="mb-auto flex space-x-3">
               <div className="mt-auto flex flex-col">
-                <label htmlFor="start" className="ml-2 text-xl">
-                  Start
-                </label>
+                <Label htmlFor="start">Start</Label>
 
                 <Input
                   type="text"
@@ -146,9 +141,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
               </div>
 
               <div className="mb-auto flex flex-col">
-                <label htmlFor="end" className="ml-2 text-xl">
-                  End
-                </label>
+                <Label htmlFor="end">End</Label>
 
                 <Input
                   name="end"
@@ -161,9 +154,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
               </div>
               {employee.roles?.length > 0 && (
                 <div className="mb-auto flex flex-col">
-                  <label htmlFor="end" className="ml-2 text-xl">
-                    Role
-                  </label>
+                  <Label htmlFor="end">Role</Label>
 
                   <RolesDropdown
                     role={role}
@@ -177,7 +168,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
               )}
             </div>
 
-            <Heading size={"sm"} className="font-normal">
+            <Heading size={"xs"} className="font-normal">
               Total hours:{" "}
               <span className="font-semibold">{formatTotal(start, end)}</span>
             </Heading>

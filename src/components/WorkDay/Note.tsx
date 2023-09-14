@@ -35,12 +35,12 @@ export default function Note({ note }: NoteProps) {
 
   return (
     <div className="my-2 flex flex-col items-start">
-      <div className="flex w-full min-w-[28rem] flex-col rounded-md bg-white py-1 shadow dark:bg-slate-700 ">
-        <Paragraph className="px-2 text-justify font-medium" size={"lg"}>
+      <div className="flex w-full min-w-[28rem] flex-col rounded-md border bg-white py-1 shadow dark:border-slate-700 dark:bg-slate-800 ">
+        <Paragraph className="px-2 text-justify font-medium">
           {note.content}
         </Paragraph>
 
-        <p className="border-b border-slate-300 px-2 pb-2 text-sm font-light dark:border-slate-500">
+        <p className="border-b border-slate-300 px-2 pb-2 text-sm font-light dark:border-slate-600">
           Added{" "}
           {note.createdAt.toLocaleString("en-GB", {
             day: "numeric",
@@ -55,10 +55,10 @@ export default function Note({ note }: NoteProps) {
           size={"sm"}
           variant={"link"}
           title="Delete note"
-          className="w-fit px-2 py-5 text-xl font-semibold text-red-600 focus:ring-0 focus:ring-offset-0 dark:text-red-500"
+          className="w-fit px-2 py-5 font-semibold text-red-600 focus:ring-0 focus:ring-offset-0 dark:text-red-500"
           onClick={() => setShowModal(true)}
         >
-          {<Trash2 className="mr-2 text-red-500" />} Remove
+          {<Trash2 size={18} className="mr-2 text-red-500" />} Remove
         </Button>
       </div>
       {showModal && (

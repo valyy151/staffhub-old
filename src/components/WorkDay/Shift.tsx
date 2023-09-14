@@ -5,11 +5,12 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import Heading from "../ui/Heading";
 import toast from "react-hot-toast";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { Pencil, Trash2 } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import EditModal from "./EditModal";
+import { Label } from "@/components/ui/label";
 
 type Shift = {
   id: string;
@@ -57,30 +58,22 @@ export default function Shift({ shift, index, shiftModels }: ShiftProps) {
   return (
     <div className="flex items-end justify-between border-b border-slate-300 pb-2 dark:border-slate-500">
       <div className="min-w-[9rem]">
-        {index === 0 && (
-          <Heading size={"xxs"} className="font-normal">
-            Role
-          </Heading>
-        )}
+        {index === 0 && <Label>Role</Label>}
 
         {shift.role ? (
-          <Heading size={"xs"} className="font-medium">
+          <Heading size={"xxs"} className="font-medium">
             {shift.role.name}
           </Heading>
         ) : (
-          <Heading size={"xs"} className="font-light italic">
+          <Heading size={"xxs"} className="font-light italic">
             None
           </Heading>
         )}
       </div>
 
       <div className={`ml-12 w-[24rem]`}>
-        {index === 0 && (
-          <Heading size={"xxs"} className="font-normal">
-            Name
-          </Heading>
-        )}
-        <Heading size={"xs"}>
+        {index === 0 && <Label>Name</Label>}
+        <Heading size={"xxs"}>
           <Link
             className="underline-offset-8 hover:text-sky-500 hover:underline"
             href={`/staff/${shift.employeeId}`}
@@ -90,40 +83,31 @@ export default function Shift({ shift, index, shiftModels }: ShiftProps) {
         </Heading>
       </div>
       <div className="">
-        {index === 0 && (
-          <Heading size={"xxs"} className="font-normal">
-            Time
-          </Heading>
-        )}
+        {index === 0 && <Label>Time</Label>}
 
         <div className="">
-          <Heading size={"xs"} className=" font-normal">
+          <Heading size={"xxs"} className=" font-normal">
             {formatTime(shift.start)} - {formatTime(shift.end)}
           </Heading>
         </div>
       </div>
 
       <div className="ml-11 w-36">
-        {index === 0 && (
-          <Heading size={"xxs"} className="font-normal">
-            Total
-          </Heading>
-        )}
-        <Heading size={"xs"}>{formatTotal(shift.start, shift.end)}</Heading>
+        {index === 0 && <Label>Total</Label>}
+        <Heading size={"xxs"}>{formatTotal(shift.start, shift.end)}</Heading>
       </div>
 
       <div className="flex pt-5">
         <Button
           title="Edit Shift"
           onClick={() => setEditMode(true)}
-          className="mr-2 text-2xl"
+          className="mr-2"
         >
           {<Pencil className="mr-2" />} Edit
         </Button>
         <Button
           title="Delete Shift"
           variant={"destructive"}
-          className="text-2xl"
           onClick={() => setShowModal(true)}
         >
           {<Trash2 className="mr-2" />} Delete

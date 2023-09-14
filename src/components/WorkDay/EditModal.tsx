@@ -1,13 +1,15 @@
 import ReactModal from "react-modal";
 import { useState } from "react";
 import RolesDropdown from "./RolesDropdown";
-import { Button } from "../ui/Button";
+
 import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import Input from "../ui/Input";
+
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Heading from "../ui/Heading";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 type Employee = {
   id: string;
@@ -87,7 +89,7 @@ export default function EditModal({
       isOpen={showModal}
       className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
     >
-      <div className="mx-auto min-w-[48rem] max-w-3xl animate-fade rounded-xl border border-slate-300 bg-white px-12 pb-6 text-left shadow-lg dark:border-slate-600 dark:bg-slate-750">
+      <div className="animate-fade mx-auto rounded-xl border border-slate-300 bg-white px-12 pb-6 text-left shadow-lg dark:border-slate-600 dark:bg-slate-800">
         <div className="mt-6 flex flex-col">
           <Heading size={"sm"} className="mb-4">
             {shift.employee.name} -{"  "}
@@ -158,7 +160,7 @@ export default function EditModal({
                         "end"
                       );
                     }}
-                    className="cursor-pointer font-normal underline-offset-8 hover:text-sky-500 hover:underline"
+                    className="cursor-pointer font-medium underline-offset-8 hover:text-sky-500 hover:underline"
                   >
                     {formatTime(shiftModel.start)} -{" "}
                     {formatTime(shiftModel.end)}

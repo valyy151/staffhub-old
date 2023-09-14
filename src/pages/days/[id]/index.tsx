@@ -5,7 +5,7 @@ import Note from "~/components/WorkDay/Note";
 import Spinner from "~/components/ui/Spinner";
 import Heading from "~/components/ui/Heading";
 import Shift from "~/components/WorkDay/Shift";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { Clock8, ScrollText } from "lucide-react";
 import AddNote from "~/components/WorkDay/AddNote";
 import AddShift from "~/components/WorkDay/AddShift";
@@ -141,14 +141,13 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     <main className="flex">
       <div className="mt-4 w-full">
         <div className="flex items-center space-x-8 border-b border-slate-300 pb-4 pl-8 dark:border-slate-500">
-          <Heading size={"lg"}>
+          <Heading size={"sm"}>
             {formatDay(workDay.date)} {formatDateLong(workDay.date)}
           </Heading>
 
           <div className="space-x-1">
             <Button
               size="lg"
-              className="h-14 text-xl"
               onClick={() => {
                 setShowAddShift(true);
                 setShowAddNote(false);
@@ -160,7 +159,6 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
             <Button
               size="lg"
               variant="subtle"
-              className="h-14 text-xl"
               onClick={() => {
                 setShowAddNote(true);
                 setShowAddShift(false);
@@ -173,10 +171,10 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         </div>
 
         <div className="flex w-full">
-          <div className="w-2/3 border-r border-slate-300 px-4 pt-4 dark:border-slate-500">
+          <div className="border-r border-slate-300 px-4 pt-4 dark:border-slate-500">
             {!showAddShift && (
               <>
-                <Heading className="mb-4 font-medium underline underline-offset-8">
+                <Heading size={"xs"} className="mb-2 font-medium">
                   Shifts
                 </Heading>
 
@@ -188,10 +186,10 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
             )}
           </div>
 
-          <div className="w-1/3 px-4 pt-4">
+          <div className="px-4 pt-4">
             {!showAddNote && (
               <>
-                <Heading className="mb-4 pl-1 font-medium underline underline-offset-8">
+                <Heading size={"xs"} className="mb-4 pl-1 font-medium">
                   Notes
                 </Heading>
                 {renderNotes()}

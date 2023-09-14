@@ -47,7 +47,7 @@ export default function SearchEmployees({
                 ?.sort((a, b) => a.name.localeCompare(b.name))
                 .map((employee: Employee) => (
                   <li
-                    className="flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 dark:hover:bg-slate-600"
+                    className="flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 dark:hover:bg-slate-700"
                     key={employee.id}
                     onClick={() => handleSelect(employee)}
                   >
