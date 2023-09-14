@@ -24,7 +24,7 @@ export default function SearchEmployees({
   return (
     <main className="text-md relative mb-2 w-fit">
       <div
-        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-700 dark:shadow-slate-950 "
+        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-800 dark:shadow-slate-950 "
         onClick={() => setIsOpen(!isOpen)}
       >
         <Input
@@ -37,7 +37,7 @@ export default function SearchEmployees({
       </div>
       {isOpen && (
         <div className="animate-slideDown rounded-md">
-          <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-700 dark:text-slate-300">
+          <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-800 dark:text-slate-300 dark:shadow-slate-800">
             <ul
               className={`${
                 employees.length > 8 && "h-[28.5rem] overflow-y-scroll"

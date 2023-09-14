@@ -5,10 +5,10 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import FormModal from "~/components/ui/FormModal";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
 import { type GetServerSideProps } from "next/types";
 import { getSession, useSession } from "next-auth/react";
 import { ArrowLeft, Clock8, UserCog2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -61,45 +61,41 @@ export default function SettingsPage() {
       </Heading>
 
       <Button
-        size="lg"
         variant={"subtle"}
-        className="mt-4 h-14 w-72 text-2xl"
+        className="mt-4 h-14 w-56"
         onClick={() => router.push("/settings/roles")}
       >
-        <UserCog2 size={34} className="mr-2" /> Staff Roles
+        <UserCog2 size={28} className="mr-2" /> Staff Roles
       </Button>
 
       <Button
-        size="lg"
         variant={"subtle"}
-        className="mt-2 h-14 w-72 text-2xl"
+        className="mt-2 h-14 w-56"
         onClick={() => router.push("/settings/shift-models")}
       >
         <Clock8 className="mr-2" /> Shift Models
       </Button>
 
       {/* <Button
-        size="lg"
+       
         variant={"subtle"}
-        className="mt-2 h-14 w-72 text-2xl"
+        className="mt-2 h-14 w-56"
         onClick={() => router.push("/settings/theme")}
       >
         <Palette className="mr-2" /> Theme
       </Button> */}
 
       <Button
-        size="lg"
         variant={"subtle"}
-        className="mt-8 h-14 w-72 text-2xl"
+        className="mt-8 h-14 w-56"
         onClick={() => router.back()}
       >
         <ArrowLeft className="mr-2" /> Go Back
       </Button>
 
       <Button
-        size="lg"
         variant={"danger"}
-        className="mt-2 h-14 w-72 text-2xl"
+        className="mt-2 h-14 w-56"
         onClick={() => setShowModal(true)}
       >
         Delete My Account

@@ -15,12 +15,12 @@ import Heading from "~/components/ui/Heading";
 import groupShifts from "~/utils/groupShifts";
 import Spinner from "~/components/ui/Spinner";
 import { getSession } from "next-auth/react";
-import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
 import { type GetServerSideProps } from "next/types";
 import { type DashboardWorkDay, api } from "~/utils/api";
 import CalendarModal from "~/components/Dashboard/CalendarModal";
 import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
+import { Button } from "@/components/ui/button";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -129,7 +129,7 @@ export default function DashboardPage() {
         <div className="flex space-x-1">
           <Button
             variant={"link"}
-            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
+            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
             onClick={() => setShowCalendar(!showCalendar)}
           >
             <CalendarIcon size={48} />
@@ -139,7 +139,7 @@ export default function DashboardPage() {
             title="Previous Week"
             onClick={handlePrevPage}
             disabled={isFetching}
-            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
+            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
           >
             {<ChevronLeft size={48} />}
           </Button>
@@ -149,13 +149,13 @@ export default function DashboardPage() {
             title="Next Week"
             onClick={handleNextPage}
             disabled={isFetching}
-            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-750 dark:hover:bg-slate-700"
+            className="h-16 w-[6.9rem] rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
           >
             {<ChevronRight size={48} />}
           </Button>
         </div>
       </div>
-      <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-750">
+      <div className="flex min-h-[36rem] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-800">
         {workDays?.map((day) => (
           <div
             className="group flex min-w-[14rem] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"

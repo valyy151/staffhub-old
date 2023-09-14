@@ -28,6 +28,14 @@ export default function Navbar() {
           {status === "authenticated" ? (
             <>
               <Link
+                href={"/dashboard"}
+                className={`${buttonVariants({
+                  variant: "link",
+                })}`}
+              >
+                Dashboard
+              </Link>
+              <Link
                 href={"/staff"}
                 className={`${buttonVariants({
                   variant: "link",
@@ -97,6 +105,14 @@ export default function Navbar() {
             <div className="flex flex-col space-y-2">
               {status === "authenticated" ? (
                 <>
+                  <Link
+                    href={"/dashboard"}
+                    className={`${buttonVariants({
+                      variant: "link",
+                    })}`}
+                  >
+                    Dashboard
+                  </Link>
                   <Link
                     href={"/staff"}
                     className={`${buttonVariants({

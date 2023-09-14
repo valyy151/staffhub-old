@@ -10,15 +10,18 @@ export default function DocumentationPage() {
         <meta name="Documentation" content="How to use StaffHub" />
       </Head>
 
-      <Heading className="my-4 border-b-2 border-slate-300 dark:border-slate-500">
+      <Heading
+        size={"sm"}
+        className="my-4 border-b-2 border-slate-300 dark:border-slate-500"
+      >
         Documentation
       </Heading>
       <section className="sm:ml-4">
-        <Heading size={"sm"} className="mt-2">
+        <Heading size={"xs"} className="mt-2">
           Staff
         </Heading>
 
-        <Paragraph size={"lg"}>
+        <Paragraph>
           First thing to do is to create some{" "}
           <span className="font-semibold">staff members</span> which you can
           manage. On the employees profile page you can set and edit things like{" "}
@@ -29,11 +32,11 @@ export default function DocumentationPage() {
           <span className="font-semibold">shift preferences</span>.
         </Paragraph>
 
-        <Heading size={"sm"} className="mt-8">
+        <Heading size={"xs"} className="mt-8">
           Schedules
         </Heading>
 
-        <Paragraph size={"lg"}>
+        <Paragraph>
           After you have at least{" "}
           <span className="font-semibold">1 staff member</span> , you can create
           a <span className="font-semibold">monthly schedule</span> for that
@@ -49,11 +52,11 @@ export default function DocumentationPage() {
           number <span className="font-semibold">shifts</span> you have planned.
         </Paragraph>
 
-        <Heading size={"sm"} className="mt-8">
+        <Heading size={"xs"} className="mt-8">
           Staff Roles
         </Heading>
 
-        <Paragraph size={"lg"}>
+        <Paragraph>
           You can create different <span className="font-semibold">roles</span>{" "}
           for your staff members. You can also set how many of that role you
           need in one work day. This can be done from the{" "}
@@ -66,11 +69,11 @@ export default function DocumentationPage() {
           many roles you got covered for a specific day.
         </Paragraph>
 
-        <Heading size={"sm"} className="mt-8">
+        <Heading size={"xs"} className="mt-8">
           Work days
         </Heading>
 
-        <Paragraph size={"lg"}>
+        <Paragraph>
           By accessing a specific work day from the{" "}
           <span className="font-semibold">dashboard</span>, you will see details
           of that work day. Here you can add, edit or delete{" "}
@@ -78,11 +81,11 @@ export default function DocumentationPage() {
           <span className="font-semibold">notes</span> for that day.
         </Paragraph>
 
-        <Heading size={"sm"} className="mt-8">
+        <Heading size={"xs"} className="mt-8">
           Shifts
         </Heading>
 
-        <Paragraph size={"lg"}>
+        <Paragraph>
           When creating a shift, the correct format is the{" "}
           <span className="font-semibold">european format</span>. For example:
           You would write <span className="font-semibold">09:00 - 17:00</span>{" "}
@@ -94,11 +97,11 @@ export default function DocumentationPage() {
           <span className="font-semibold">00:00</span> yourself will not work.
         </Paragraph>
 
-        <Heading size={"sm"} className="mt-8">
+        <Heading size={"xs"} className="mt-8">
           Shift Models
         </Heading>
 
-        <Paragraph size={"lg"}>
+        <Paragraph>
           Shift models are a way to describe the different types of shifts
           available that you use most often. For example: 06:00 - 14:00 or 12:00
           - 20:00. You can use this to create schedules faster by selecting a

@@ -4,7 +4,7 @@ import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { Search, UserPlus } from "lucide-react";
-import { type Employee, api } from "~/utils/api";
+import { api } from "~/utils/api";
 import { type GetServerSideProps } from "next/types";
 import Head from "next/head";
 import Link from "next/link";
@@ -62,15 +62,15 @@ export default function EmployeesListPage() {
             content="Manage your staff and their shifts"
           />
         </Head>
-        <Heading size={"sm"} className="mt-6">
+        <Heading size={"xs"} className="mt-6">
           You do not currently have any staff members on your account.
         </Heading>
 
-        <Heading size={"xs"} className="mt-2">
+        <Heading size={"xxs"} className="mt-2">
           Click below if you wish to create an employee.
         </Heading>
 
-        <Link href={"/staff/new"} className={`${buttonVariants()}`}>
+        <Link href={"/staff/new"} className={`${buttonVariants()} mt-4`}>
           <UserPlus size={20} className="mr-2" /> New Employee
         </Link>
       </main>
@@ -96,7 +96,7 @@ export default function EmployeesListPage() {
           <Link href={"/staff/new"} className={`${buttonVariants()}`}>
             <UserPlus size={20} className="mr-2" /> New Employee
           </Link>
-          <div className="flex items-center rounded-md border border-slate-300 bg-white px-2 shadow focus-within:shadow-md focus-within:outline-none focus-within:ring-2 focus-within:ring-slate-400 focus-within:ring-offset-2 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-50 dark:focus-within:ring-slate-400 dark:focus-within:ring-offset-slate-900">
+          <div className="flex items-center rounded-md border border-slate-300 bg-white px-2 shadow focus-within:shadow-md focus-within:outline-none focus-within:ring-2 focus-within:ring-slate-400 focus-within:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50 dark:focus-within:ring-slate-400 dark:focus-within:ring-offset-slate-900">
             <Search />
 
             <Input
@@ -120,7 +120,7 @@ export default function EmployeesListPage() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredData.map((employee: Employee, index: number) => (
+          {filteredData.map((employee) => (
             <TableRow
               key={employee.id}
               onClick={() => router.push(`/staff/${employee.id}`)}
@@ -145,47 +145,6 @@ export default function EmployeesListPage() {
           ))}
         </TableBody>
       </Table>
-
-      {/* <table className="text w-full divide-y-2 text-left text-sm dark:divide-slate-700">
-        <thead>
-          <tr>
-            {headings.map((heading, index) => (
-              <th
-                key={`heading-${index}`}
-                className="whitespace-nowrap px-8 py-4 font-bold"
-              >
-                {heading}
-              </th>
-            ))}
-          </tr>
-        </thead>
-
-        <tbody className="divide-y-2 dark:divide-slate-700">
-          {filteredData.map((employee: Employee, index: number) => (
-            <tr
-              onClick={() => router.push(`/staff/${employee.id}`)}
-              key={`employee-${index}`}
-              className="cursor-pointer duration-75 hover:bg-slate-50 dark:hover:bg-slate-800"
-            >
-              <td className="cursor-pointer whitespace-nowrap px-8 py-4 font-medium">
-                {employee.name}
-              </td>
-
-              <td className="cursor-pointer whitespace-nowrap px-8 py-4">
-                {employee.email}
-              </td>
-
-              <td className="cursor-pointer whitespace-nowrap px-8 py-4">
-                {employee.phoneNumber}
-              </td>
-
-              <td className="cursor-pointer whitespace-nowrap px-8 py-4">
-                {employee.address}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
     </main>
   );
 }
