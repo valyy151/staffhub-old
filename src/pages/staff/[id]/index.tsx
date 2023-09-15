@@ -17,12 +17,14 @@ import toast from "react-hot-toast";
 import Input from "~/components/ui/Input";
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import FormModal from "~/components/ui/FormModal";
 import Paragraph from "~/components/ui/Paragraph";
 import Dropdown from "~/components/Staff/Dropdown";
 import { formatTime } from "~/utils/dateFormatting";
 import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
+import Link from "next/link";
+import { buttonVariants } from "@/components/ui/button";
 
 type EmployeeProfileProps = {
   query: { id: string };
@@ -76,19 +78,19 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
     >
       <div className="relative mb-2 w-fit">
         <div
-          className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-700 dark:shadow-slate-950 "
+          className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-800 dark:shadow-slate-950 "
           onClick={() => setIsOpen(!isOpen)}
         >
           <Input
             readOnly
             type="text"
             placeholder={"Choose an Employee..."}
-            className="group m-0 h-14 cursor-pointer text-xl caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
+            className="group m-0 cursor-pointer text-lg caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
           />
         </div>
         {isOpen && (
           <div className="animate-slideDown rounded-md">
-            <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-700 dark:text-slate-300">
+            <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-800 dark:text-slate-300">
               <ul
                 className={`${
                   employees?.length! > 8 && "h-[28.5rem] overflow-y-scroll"
@@ -98,7 +100,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                   ?.sort((a, b) => a.name.localeCompare(b.name))
                   .map((employee) => (
                     <li
-                      className="flex h-14 cursor-pointer items-center rounded-md px-4 py-2 text-xl hover:bg-gray-100 dark:hover:bg-slate-600"
+                      className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg hover:bg-gray-100 dark:hover:bg-slate-700"
                       key={employee.id}
                       onClick={() => {
                         setIsOpen(false);
@@ -113,20 +115,25 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           </div>
         )}
       </div>
-      <div className="flex flex-col rounded-md border border-slate-300 bg-white shadow-lg dark:border-slate-600 dark:bg-slate-750">
+      <div className="flex flex-col rounded-md border border-slate-300 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
         {/* name and button begin */}
         <div className="flex items-center justify-between border-b border-slate-300 py-4 dark:border-slate-600">
-          <Heading className="pl-4 text-left">{employee.name}</Heading>
+          <Heading size={"sm"} className="pl-4 text-left">
+            {employee.name}
+          </Heading>
 
-          <Button
-            className="ml-auto mr-2 rounded-lg p-8 text-3xl"
-            onClick={() => router.push(`/staff/${employee.id}/schedule`)}
+          <Link
+            href={`/staff/${employee.id}/schedule`}
+            className={`ml-auto mr-2 ${buttonVariants({
+              size: "lg",
+            })}`}
           >
             <Calendar className="mr-4" /> Schedules
-          </Button>
+          </Link>
           <Button
-            className="mr-2 rounded-lg p-8 text-3xl focus:ring-0 focus:ring-offset-0"
-            variant={"subtler"}
+            className="mr-2"
+            size={"lg"}
+            variant={"subtle"}
             onClick={() => setShowDropdown(!showDropdown)}
           >
             <Pencil className="mr-4" /> Manage
@@ -146,8 +153,8 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
         )}
         <div className="flex">
           {/* personal info begin */}
-          <div
-            onClick={() => router.push(`/staff/${employee.id}/personal`)}
+          <Link
+            href={`/staff/${employee.id}/personal`}
             className="min-h-[18rem] w-1/5 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
@@ -174,12 +181,12 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                 {employee.address}
               </Paragraph>
             </div>
-          </div>
+          </Link>
           {/* personal info end */}
 
           {/* roles begin */}
-          <div
-            onClick={() => router.push(`/staff/${employee.id}/roles`)}
+          <Link
+            href={`/staff/${employee.id}/roles`}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
@@ -198,12 +205,12 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                 <Paragraph className="text-left">No roles</Paragraph>
               )}
             </div>
-          </div>
+          </Link>
           {/* roles end */}
 
           {/* sick leave begin */}
-          <div
-            onClick={() => router.push(`/staff/${employee.id}/sick-leave`)}
+          <Link
+            href={`/staff/${employee.id}/sick-leave`}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
@@ -215,12 +222,12 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                 {checkSickLeave(employee.sickLeaves!!)}
               </Paragraph>
             </div>
-          </div>
+          </Link>
           {/* sick leave end */}
 
           {/* vacation begin */}
-          <div
-            onClick={() => router.push(`/staff/${employee.id}/vacation`)}
+          <Link
+            href={`/staff/${employee.id}/vacation`}
             className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300
                  py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
           >
@@ -232,12 +239,12 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                 {checkEmployeeVacation(employee.vacations!!)}
               </Paragraph>
             </div>
-          </div>
+          </Link>
           {/* vacation end */}
 
           {/* preferences begin */}
-          <div
-            onClick={() => router.push(`/staff/${employee.id}/preferences`)}
+          <Link
+            href={`/staff/${employee.id}/preferences`}
             className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:hover:bg-slate-700"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
@@ -273,7 +280,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                 </Paragraph>
               )}
             </div>
-          </div>
+          </Link>
           {/* preferences end */}
         </div>
         {showModal && (
