@@ -3,10 +3,11 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { UserCog } from "lucide-react";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Sidebar from "~/components/Staff/Sidebar";
 import Paragraph from "~/components/ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
+import { Input } from "@/components/ui/input";
 
 type EmployeeRolesPageProps = {
   query: { id: string };
@@ -74,7 +75,7 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
       <Sidebar employee={employee} />
 
       <div className="mt-4 flex flex-col">
-        <Heading>Roles for {employee?.name}</Heading>
+        <Heading size={"sm"}>Roles for {employee?.name}</Heading>
         {employee?.allRoles.length === 0 && (
           <>
             <Paragraph size={"lg"} className="mt-4">
@@ -98,7 +99,7 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
                 key={role.id}
                 className="flex cursor-pointer items-center rounded border border-slate-300 pl-4 hover:shadow dark:border-slate-700 dark:shadow-slate-700"
               >
-                <input
+                <Input
                   id={role.id}
                   type="checkbox"
                   className="h-8 w-8 cursor-pointer"

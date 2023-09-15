@@ -12,10 +12,19 @@ import dynamic from "next/dynamic";
 import "react-calendar/dist/Calendar.css";
 import { Calendar } from "react-calendar";
 import Heading from "~/components/ui/Heading";
-import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Staff/Sidebar";
 import { calculateTotalHours } from "~/utils/calculateHours";
 import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
+import Link from "next/link";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const PDFButton = dynamic(() => import("~/components/PDFButton"), {
   ssr: false,
@@ -88,86 +97,123 @@ export default function SchedulePage({ query }: SchedulePageProps) {
   return (
     <main className="flex">
       <Sidebar employee={employee} />
-      <div className="mt-4 flex justify-end">
+      <div className="mt-4 flex">
         <section>
-          <Heading className="mb-2">Schedules for {employee?.name}</Heading>
-          <div
-            className={`ml-auto h-[41.6rem] w-[56rem] overflow-x-hidden overflow-y-scroll rounded border border-slate-300 bg-white shadow dark:border-slate-500 dark:bg-slate-800`}
-          >
-            <div className="flex min-h-[5.7rem] w-full items-center justify-between border-b-2 border-t border-slate-300 bg-white py-4 dark:border-slate-500 dark:bg-slate-800">
-              <Heading size={"sm"} className="text-md ml-8">
-                {month} ({employee && calculateTotalHours(employee?.workDays)}{" "}
-                hours)
-              </Heading>
-              <PDFButton employee={employee} value={value} month={month} />
-            </div>
+          <Heading size={"xs"} className="mb-4 ml-2 ">
+            {month} - {calculateTotalHours(employee?.workDays)} hours
+          </Heading>
 
-            {employee?.workDays.map((day, index) => (
-              <div
-                key={day.id}
-                onClick={() => router.push(`/days/${day.id}`)}
-                className={`group flex cursor-pointer items-center space-y-4 border-b-2 border-slate-300 dark:border-slate-500 ${
-                  index % 2 === 0
-                    ? "bg-slate-50 dark:bg-slate-700"
-                    : "bg-white dark:bg-slate-800"
-                } py-2`}
-              >
-                <div className="group ml-8 mr-auto flex w-96 flex-col items-start">
-                  <Paragraph
-                    size={"lg"}
-                    className="m-0 group-hover:text-sky-500 dark:group-hover:text-sky-400"
-                  >
-                    {formatDay(day.date)}
-                  </Paragraph>
-                  <Paragraph
-                    size={"lg"}
-                    className="m-0 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400"
-                  >
-                    {formatDateLong(day.date)}
-                  </Paragraph>
-                </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Date</TableHead>
+                <TableHead>Day</TableHead>
+                <TableHead className="text-right">Shift</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {employee?.workDays.map((day, index) => (
+                <TableRow key={day.id}>
+                  <TableCell>
+                    <Link
+                      href={`/days/${day.id}`}
+                      className="cursor-pointer font-medium hover:text-sky-500"
+                    >
+                      {formatDateLong(day.date)}
+                    </Link>
+                  </TableCell>
+                  <TableCell>{formatDay(day.date)}</TableCell>
+                  <TableCell className="text-right">
+                    {!day.shifts[0]?.start && day.vacation && (
+                      <span className="italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
+                        Vacation
+                      </span>
+                    )}
+                    {!day.shifts[0]?.start && day.sickLeave && (
+                      <span className="italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
+                        Sick
+                      </span>
+                    )}
+                    {day.shifts[0]?.start && (
+                      <>
+                        {formatTime(day.shifts[0]?.start)} -{" "}
+                        {formatTime(day.shifts[0]?.end)}{" "}
+                        <span className="font-medium">
+                          [{" "}
+                          {formatTotal(
+                            day.shifts[0]?.start,
+                            day.shifts[0]?.end
+                          )}
+                          ]
+                        </span>{" "}
+                      </>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
 
-                <Paragraph
-                  size={"lg"}
-                  className="m-0 ml-auto mr-8 pb-2 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400"
-                >
-                  {!day.shifts[0]?.start && day.vacation && (
-                    <span className="font-medium italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
-                      Vacation
-                    </span>
-                  )}
-                  {!day.shifts[0]?.start && day.sickLeave && (
-                    <span className="font-medium italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
-                      Sick
-                    </span>
-                  )}
-                  {day.shifts[0]?.start && (
-                    <>
-                      {formatTime(day.shifts[0]?.start)} -{" "}
-                      {formatTime(day.shifts[0]?.end)}{" "}
-                      <span className="font-normal">
-                        [{" "}
-                        {formatTotal(day.shifts[0]?.start, day.shifts[0]?.end)}]
-                      </span>{" "}
-                    </>
-                  )}
+          {/* {employee?.workDays.map((day, index) => (
+            <Link
+              key={day.id}
+              href={`/days/${day.id}`}
+              className={`group flex cursor-pointer items-center space-y-4 border-b-2 border-slate-300 dark:border-slate-500 ${
+                index % 2 === 0
+                  ? "bg-slate-50 dark:bg-slate-700"
+                  : "bg-white dark:bg-slate-800"
+              } py-2`}
+            >
+              <div className="group ml-8 mr-auto flex w-96 flex-col items-start">
+                <Paragraph className="m-0 group-hover:text-sky-500 dark:group-hover:text-sky-400">
+                  {formatDay(day.date)}
+                </Paragraph>
+                <Paragraph className="m-0 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400">
+                  {formatDateLong(day.date)}
                 </Paragraph>
               </div>
-            ))}
-          </div>
+
+              <Paragraph className="m-0 ml-auto mr-8 pb-2 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400">
+                {!day.shifts[0]?.start && day.vacation && (
+                  <span className="font-medium italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
+                    Vacation
+                  </span>
+                )}
+                {!day.shifts[0]?.start && day.sickLeave && (
+                  <span className="font-medium italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
+                    Sick
+                  </span>
+                )}
+                {day.shifts[0]?.start && (
+                  <>
+                    {formatTime(day.shifts[0]?.start)} -{" "}
+                    {formatTime(day.shifts[0]?.end)}{" "}
+                    <span className="font-normal">
+                      [ {formatTotal(day.shifts[0]?.start, day.shifts[0]?.end)}]
+                    </span>{" "}
+                  </>
+                )}
+              </Paragraph>
+            </Link>
+          ))} */}
         </section>
 
-        <div className="ml-4 mr-52 mt-12">
-          <Calendar
-            value={value}
-            view={"month"}
-            maxDetail="year"
-            className="h-fit"
-            next2Label={null}
-            prev2Label={null}
-            activeStartDate={value}
-            onChange={handleMonthChange}
-          />
+        <div></div>
+
+        <div className="relative ml-8">
+          <div className="fixed">
+            <Calendar
+              value={value}
+              view={"month"}
+              maxDetail="year"
+              className="h-fit"
+              next2Label={null}
+              prev2Label={null}
+              activeStartDate={value}
+              onChange={handleMonthChange}
+            />
+            <PDFButton employee={employee} value={value} month={month} />
+          </div>
         </div>
       </div>
     </main>

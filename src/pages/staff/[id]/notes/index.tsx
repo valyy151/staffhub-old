@@ -3,7 +3,7 @@ import { api } from "~/utils/api";
 import toast from "react-hot-toast";
 import Heading from "~/components/ui/Heading";
 import Note from "~/components/Staff/Note";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
@@ -95,10 +95,10 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
       <Sidebar employee={employee} />
 
       <div className="mt-4 flex w-[36rem] flex-col">
-        <Heading>Notes for {employee?.name}</Heading>
+        <Heading size={"sm"}>Notes for {employee?.name}</Heading>
         <Button
           size={"lg"}
-          className="mt-2 h-14 w-fit text-2xl"
+          className="mt-2 w-fit text-xl"
           onClick={() => setShowAddNote(true)}
         >
           <ScrollText size={32} className="mr-2" />
@@ -110,20 +110,25 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
         {showAddNote && (
           <div className="mt-8 flex w-fit flex-col">
             <form onSubmit={handleSubmit} className=" flex flex-col">
-              <Heading size={"sm"} className="mb-3">
+              <Heading size={"xs"} className="mb-3">
                 Add a new note
               </Heading>
 
               <textarea
+                rows={4}
+                cols={40}
                 value={content}
-                rows={5}
                 placeholder=" Add a note..."
-                className="w-[36rem] resize-none rounded border border-slate-400 bg-transparent bg-white px-3 py-2 text-xl placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-transparent dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
+                className="resize-none rounded border border-slate-400 bg-transparent bg-white px-3 py-2 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-transparent dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
                 onChange={(e) => setContent(e.target.value)}
               />
               <div className="mt-3 flex w-full space-x-2">
                 {" "}
-                <Button size={"lg"} title="Add note" className="h-14 text-2xl">
+                <Button
+                  size={"lg"}
+                  title="Add note"
+                  className="mt-2 w-fit text-xl"
+                >
                   <Save size={28} className="mr-2" />
                   Save
                 </Button>
@@ -132,7 +137,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
                   type="button"
                   title="Cancel note creation"
                   variant={"subtle"}
-                  className="h-14 text-2xl"
+                  className="mt-2 w-fit text-xl"
                   onClick={() => setShowAddNote(false)}
                 >
                   <ArrowLeft size={28} className="mr-2" />

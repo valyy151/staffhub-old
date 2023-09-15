@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Paragraph from "~/components/ui/Paragraph";
 import { formatDateLong } from "~/utils/dateFormatting";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import FormModal from "~/components/ui/FormModal";
 import { api } from "~/utils/api";
@@ -48,7 +48,7 @@ export default function SickLeave({ sickLeave }: SickLeaveProps) {
         <Button
           size={"sm"}
           variant={"link"}
-          className="w-16 min-w-0 rounded-full p-5 text-red-500 hover:bg-slate-200 dark:text-red-400"
+          className="w-16 min-w-0 rounded-full p-5 text-red-500 dark:text-red-400"
           onClick={() => {
             setShowModal(true);
           }}

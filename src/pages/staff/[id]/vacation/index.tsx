@@ -1,9 +1,7 @@
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import Input from "~/components/ui/Input";
 import { useEffect, useState } from "react";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
 import Paragraph from "~/components/ui/Paragraph";
 import { howManyDays } from "~/utils/calculateHours";
 import Sidebar from "~/components/Staff/Sidebar";
@@ -13,6 +11,8 @@ import { checkVacations } from "~/utils/checkVacations";
 import AddVacation from "~/components/Staff/AddVacation";
 import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
 import router from "next/router";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type VacationPageProps = {
   query: { id: string };
@@ -104,13 +104,15 @@ export default function VacationPage({ query }: VacationPageProps) {
               <Palmtree size={42} className="ml-1 mr-2 text-rose-400" />{" "}
               Upcoming Vacations
             </Heading>
-            {futureVacations?.map((vacation) => (
-              <Vacation
-                key={vacation.id}
-                vacation={vacation}
-                employee={employee}
-              />
-            ))}
+            {futureVacations
+              ?.sort((a, b) => Number(b.start) - Number(a.start))
+              .map((vacation) => (
+                <Vacation
+                  key={vacation.id}
+                  vacation={vacation}
+                  employee={employee}
+                />
+              ))}
           </>
         ) : (
           <>
@@ -129,13 +131,15 @@ export default function VacationPage({ query }: VacationPageProps) {
               Vacations
             </Heading>
 
-            {pastVacations?.map((vacation) => (
-              <Vacation
-                key={vacation.id}
-                vacation={vacation}
-                employee={employee}
-              />
-            ))}
+            {pastVacations
+              ?.sort((a, b) => Number(b.start) - Number(a.start))
+              .map((vacation) => (
+                <Vacation
+                  key={vacation.id}
+                  vacation={vacation}
+                  employee={employee}
+                />
+              ))}
           </>
         ) : (
           <>
@@ -155,11 +159,11 @@ export default function VacationPage({ query }: VacationPageProps) {
   }
 
   return (
-    <main className="flex ">
+    <main className="flex">
       <Sidebar employee={employee} />
 
       <div>
-        <Heading className="mt-4">
+        <Heading size={"sm"} className="mt-4">
           {employee?.name} - Vacation days remaining: {employee?.vacationDays}
         </Heading>
 
@@ -167,7 +171,7 @@ export default function VacationPage({ query }: VacationPageProps) {
           <Button
             size={"lg"}
             title="Create a new vacation"
-            className="h-14 text-2xl"
+            className="text-xl"
             onClick={() => {
               setShowPlanner(true);
               setShowChangeAmount(false);
@@ -179,7 +183,7 @@ export default function VacationPage({ query }: VacationPageProps) {
           <Button
             size={"lg"}
             variant={"subtle"}
-            className="h-14 text-2xl"
+            className="text-xl"
             title="Change the amount of vacation days"
             onClick={() => {
               setShowPlanner(false);
@@ -205,7 +209,7 @@ export default function VacationPage({ query }: VacationPageProps) {
               className="m-0 h-14 w-fit text-center text-2xl shadow-md"
             />
             <div className="flex w-full space-x-1">
-              <Button size={"lg"} className="mt-2 h-14 text-2xl">
+              <Button size={"lg"} className="mt-2 text-xl ">
                 <Save size={28} className="mr-2" />
                 Save
               </Button>
@@ -214,7 +218,7 @@ export default function VacationPage({ query }: VacationPageProps) {
                 type="button"
                 variant={"subtle"}
                 onClick={() => setShowChangeAmount(false)}
-                className="mt-2 h-14 text-2xl"
+                className="mt-2 text-xl "
               >
                 {" "}
                 <ArrowLeft size={28} className="mr-2" />

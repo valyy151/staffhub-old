@@ -150,13 +150,13 @@ export default function VacationPlanner({
 
   return (
     <main className="flex w-fit flex-col">
-      <Heading className="mt-12 ">
+      <Heading size={"sm"} className="mt-12">
         Days planned:{" "}
         <span className="">{daysPlanned > 0 ? daysPlanned : 0}</span>
       </Heading>
-      <div className="mt-6 flex h-96 space-x-12">
+      <div className="mt-6 flex space-x-12">
         <div>
-          <Heading className="mb-2" size={"sm"}>
+          <Heading className="mb-2" size={"xs"}>
             Start:{" "}
             {start.toLocaleString("en-GB", {
               day: "numeric",
@@ -172,7 +172,7 @@ export default function VacationPlanner({
           />
         </div>
         <div>
-          <Heading className="mb-2" size={"sm"}>
+          <Heading className="mb-2" size={"xs"}>
             End:{" "}
             {end.toLocaleString("en-GB", {
               day: "numeric",
@@ -189,13 +189,9 @@ export default function VacationPlanner({
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex w-full flex-col">
-        <Button
-          size={"lg"}
-          title="Create vacation"
-          className="h-16 w-[22rem] text-3xl"
-        >
-          <Palmtree size={32} className="mr-2" /> Create Vacation
+      <form onSubmit={handleSubmit} className="mt-4 flex w-full flex-col">
+        <Button size={"lg"} title="Create vacation" className="w-fit text-xl">
+          <Palmtree size={32} className="mr-2" /> Submit
         </Button>
         <Button
           size={"lg"}
@@ -203,7 +199,7 @@ export default function VacationPlanner({
           variant={"subtle"}
           title="Cancel vacation creation"
           onClick={() => setShowPlanner(false)}
-          className="mt-2 h-16 w-[22rem] text-3xl"
+          className="mt-2 w-fit text-xl"
         >
           <ArrowLeft size={32} className="mr-2" />
           Cancel

@@ -20,11 +20,11 @@ export default function Sidebar({ employee }: SidebarProps) {
   const path = router.asPath.split("/")[3];
 
   return (
-    <div className="mr-[26rem]">
-      <ul className="fixed h-full w-fit border-r border-slate-500 text-2xl">
+    <div className="mr-[21rem]">
+      <ul className="fixed h-full w-fit border-r border-slate-500 text-lg">
         <li
           onClick={() => router.back()}
-          className="flex w-96 cursor-pointer items-center p-4 hover:bg-slate-150 dark:hover:bg-slate-750"
+          className="flex w-80 cursor-pointer items-center p-4 hover:bg-slate-200 dark:hover:bg-slate-800"
         >
           <ArrowLeft className="mr-2" /> Back
         </li>
@@ -32,10 +32,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/staff/${employee?.id}/personal`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 ${
+          className={`flex w-80 cursor-pointer items-center p-4 ${
             path === "personal"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
           }`}
         >
           <User2 className="mr-2" /> Personal Info
@@ -44,10 +44,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/staff/${employee?.id}/roles`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 ${
+          className={`flex w-80 cursor-pointer items-center p-4 ${
             path === "roles"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
           }`}
         >
           <UserCog className="mr-2" /> Roles
@@ -56,10 +56,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/staff/${employee?.id}/notes`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 ${
+          className={`flex w-80 cursor-pointer items-center p-4 ${
             path === "notes"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
           }`}
         >
           <ScrollText className="mr-2" /> Notes
@@ -68,10 +68,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/staff/${employee?.id}/sick-leave`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 ${
+          className={`flex w-80 cursor-pointer items-center p-4 ${
             path === "sick-leave"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
           }`}
         >
           <HeartPulse className="mr-2" /> SickLeave
@@ -80,10 +80,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/staff/${employee?.id}/vacation`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 ${
+          className={`flex w-80 cursor-pointer items-center p-4 ${
             path === "vacation"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
           }`}
         >
           <Palmtree className="mr-2" /> Vacation
@@ -92,10 +92,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/staff/${employee?.id}/schedule`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 ${
+          className={`flex w-80 cursor-pointer items-center p-4 ${
             path === "schedule"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
           }`}
         >
           <CalendarSearch className="mr-2" /> Monthly Schedules
@@ -104,10 +104,10 @@ export default function Sidebar({ employee }: SidebarProps) {
           onClick={() =>
             employee?.id && router.push(`/staff/${employee?.id}/preferences`)
           }
-          className={`flex w-96 cursor-pointer items-center p-4 ${
+          className={`flex w-80 cursor-pointer items-center p-4 ${
             path === "preferences"
               ? "bg-slate-200 text-sky-600 dark:bg-slate-700 dark:text-sky-400"
-              : "hover:bg-slate-150 dark:hover:bg-slate-750"
+              : "hover:bg-slate-100 dark:hover:bg-slate-800"
           }`}
         >
           <Sticker className="mr-2" /> Schedule Preferences

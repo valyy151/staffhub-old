@@ -2,29 +2,32 @@ import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import router from "next/router";
 import toast from "react-hot-toast";
-import Input from "~/components/ui/Input";
+
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
+
 import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
 import { formatTime } from "~/utils/dateFormatting";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
-type schedulePreferencesProps = {
+type SchedulePreferencesProps = {
   query: { id: string };
 };
 
-schedulePreferencesPage.getInitialProps = ({
+SchedulePreferencesPage.getInitialProps = ({
   query,
-}: schedulePreferencesProps) => {
+}: SchedulePreferencesProps) => {
   return { query };
 };
 
-export default function schedulePreferencesPage({
+export default function SchedulePreferencesPage({
   query,
-}: schedulePreferencesProps) {
+}: SchedulePreferencesProps) {
   const [hoursPerMonth, setHoursPerMonth] = useState<string>("");
   const [showAddPreference, setShowAddPreference] = useState<boolean>(false);
 
@@ -94,31 +97,30 @@ export default function schedulePreferencesPage({
     <main className="flex">
       <Sidebar employee={employee} />
       <div className="mt-4 flex flex-col">
-        <Heading>Schedule preferences for {employee?.name}</Heading>
+        <Heading size={"xs"}>Schedule preferences for {employee?.name}</Heading>
         <Button
           size={"lg"}
-          className="mt-2 h-14 w-fit text-2xl"
           onClick={() => setShowAddPreference(true)}
+          className="mt-2 w-fit"
         >
-          <Sticker size={32} className="mr-2" />
+          <Sticker className="mr-2" />
           Edit Schedule Preferences
         </Button>
 
         {showAddPreference ? (
           <form onSubmit={createPreference} className="mt-8 flex-col">
-            <Heading size={"xs"} className="mb-3">
+            <Heading size={"xxs"} className="mb-3">
               How many hours per month would this employee like to work?
             </Heading>
             <div>
               <Input
                 type="text"
                 value={hoursPerMonth}
-                className="mt-4 h-14 text-lg"
                 placeholder="Enter hours per month  "
                 onChange={(e) => setHoursPerMonth(e.target.value)}
               />
             </div>
-            <Heading size={"xs"} className="my-2">
+            <Heading size={"xxs"} className="my-2">
               Which shifts does {employee.name} prefer?
             </Heading>
             <div className="my-4 space-y-2">
@@ -129,18 +131,18 @@ export default function schedulePreferencesPage({
                     <div key={shiftModel.id} className="my-2">
                       <input
                         type="checkbox"
-                        className="h-8 w-8 cursor-pointer"
+                        className="h-5 w-5 cursor-pointer"
                         id={shiftModel.id}
                         name={shiftModel.id}
                         value={shiftModel.id}
                       />
-                      <label
+                      <Label
                         htmlFor={shiftModel.id}
-                        className="ml-2 cursor-pointer text-3xl"
+                        className="ml-2 cursor-pointer text-xl"
                       >
                         {formatTime(shiftModel.start)} -{" "}
                         {formatTime(shiftModel.end)}
-                      </label>
+                      </Label>
                     </div>
                   ))
               ) : (
@@ -152,39 +154,36 @@ export default function schedulePreferencesPage({
               )}
             </div>
             <div className="mt-2 flex w-full space-x-1">
-              <Button
-                className="h-14 w-full text-2xl"
-                title="Add shift preference"
-              >
-                <Save size={36} className="mr-2" /> Save
+              <Button size={"lg"} title="Add shift preference">
+                <Save className="mr-2" /> Save
               </Button>
               <Button
+                size={"lg"}
                 onClick={() => setShowAddPreference(false)}
-                className="h-14 w-full text-2xl"
                 title="Cancel shift preference creation"
                 variant={"subtle"}
                 type="button"
               >
-                <ArrowLeft size={36} className="mr-2" /> Cancel
+                <ArrowLeft className="mr-2" /> Cancel
               </Button>
             </div>
           </form>
         ) : (
           <div className="mt-8 flex-col">
-            <Heading size={"xs"} className="mb-3">
+            <Heading size={"xxs"} className="mb-3">
               How many hours per month would this employee like to work?
             </Heading>
             <div className="mt-6">
               {employee?.schedulePreference?.hoursPerMonth === 0 ||
               !employee?.schedulePreference?.hoursPerMonth ? (
-                <Paragraph size={"lg"}>No preference has been set.</Paragraph>
+                <Paragraph>No preference has been set.</Paragraph>
               ) : (
-                <Paragraph size={"lg"}>
+                <Paragraph>
                   {employee?.schedulePreference?.hoursPerMonth}h
                 </Paragraph>
               )}
             </div>
-            <Heading size={"xs"} className="mb-2 mt-6">
+            <Heading size={"xxs"} className="mb-2 mt-6">
               Which shifts does {employee.name} prefer?
             </Heading>
             <div className="mb-4 mt-6 space-y-2">
@@ -193,14 +192,14 @@ export default function schedulePreferencesPage({
                   .sort((a, b) => a.start - b.start)
                   .map((shiftModel) => (
                     <div key={shiftModel.id} className="my-2">
-                      <Paragraph size="lg">
+                      <Paragraph>
                         {formatTime(shiftModel.start)} -{" "}
                         {formatTime(shiftModel.end)}
                       </Paragraph>
                     </div>
                   ))
               ) : (
-                <Paragraph size={"lg"}>No preference has been set.</Paragraph>
+                <Paragraph>No preference has been set.</Paragraph>
               )}
             </div>
           </div>

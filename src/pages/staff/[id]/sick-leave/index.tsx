@@ -2,7 +2,7 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import { HeartPulse } from "lucide-react";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Paragraph from "~/components/ui/Paragraph";
 import Sidebar from "~/components/Staff/Sidebar";
 import { howManyDays } from "~/utils/calculateHours";
@@ -55,7 +55,7 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
             <SickLeave sickLeave={currentSickLeave} />
           </>
         ) : (
-          <Heading size={"sm"} className="mb-3 mt-16 flex items-center">
+          <Heading size={"xs"} className="mb-3 mt-16 flex items-center">
             <HeartPulse size={42} className="ml-1 mr-2 text-green-400" />
             Currently not on sick leave
           </Heading>
@@ -92,12 +92,12 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
   return (
     <main className="flex">
       <Sidebar employee={employee} />
-      <div>
-        <Heading className="mt-4">Sick leaves for {employee?.name}</Heading>
+      <div className="mt-4">
+        <Heading size={"sm"}>Sick leaves for {employee?.name}</Heading>
         <Button
           size={"lg"}
           title="Create a new sick leave"
-          className="mt-2 h-14 text-2xl"
+          className="mt-2 text-xl"
           onClick={() => {
             setShowPlanner(true);
           }}

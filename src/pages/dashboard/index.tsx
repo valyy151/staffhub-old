@@ -21,6 +21,7 @@ import { type DashboardWorkDay, api } from "~/utils/api";
 import CalendarModal from "~/components/Dashboard/CalendarModal";
 import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -157,10 +158,10 @@ export default function DashboardPage() {
       </div>
       <div className="flex min-h-[60vh] rounded border border-slate-300 bg-white shadow dark:border-slate-600 dark:bg-slate-800">
         {workDays?.map((day) => (
-          <div
+          <Link
             className="group flex min-w-[10vw] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
             key={day.id}
-            onClick={() => router.push(`/days/${day.id}`)}
+            href={`/days/${day.id}`}
           >
             <div className="w-full text-center">
               <Heading
@@ -212,7 +213,7 @@ export default function DashboardPage() {
                 <Scroll className="ml-2 h-6 w-6" />
               )}
             </Paragraph>
-          </div>
+          </Link>
         ))}
       </div>
       <div className="mt-8 flex justify-center">

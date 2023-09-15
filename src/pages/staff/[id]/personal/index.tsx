@@ -1,13 +1,14 @@
-import { use, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import { Save } from "lucide-react";
 import toast from "react-hot-toast";
-import Input from "~/components/ui/Input";
+import { Input } from "@/components/ui/input";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import Sidebar from "~/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import router from "next/router";
+import { Label } from "@/components/ui/label";
 
 type EmployeePersonalProps = {
   query: { id: string };
@@ -74,7 +75,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
     <main className="flex">
       <Sidebar employee={employee} />
       <div className="mt-4 flex flex-col">
-        <Heading>
+        <Heading size={"sm"}>
           {employee.name.endsWith("s")
             ? `${employee.name}'`
             : `${employee.name}'s`}{" "}
@@ -82,58 +83,50 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
         </Heading>
 
         <form onSubmit={handleSubmit} className="mt-8 w-4/5">
-          <label className="text-xl" htmlFor="name">
-            Name
-          </label>
+          <Label htmlFor="name">Name</Label>
           <Input
             id="name"
             type="text"
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
+            className="mb-2 h-14 bg-white text-lg dark:bg-transparent"
           />
-          <label className="text-xl" htmlFor="email">
-            Email
-          </label>
+          <Label htmlFor="email">Email</Label>
           <Input
             id="email"
             type="text"
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
+            className="mb-2 h-14 bg-white text-lg dark:bg-transparent"
           />
 
-          <label className="text-xl" htmlFor="address">
-            Address
-          </label>
+          <Label htmlFor="address">Address</Label>
           <Input
             type="text"
             id="address"
             name="address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
+            className="mb-2 h-14 bg-white text-lg dark:bg-transparent"
           />
 
-          <label className="text-xl" htmlFor="phone">
-            Phone Number
-          </label>
+          <Label htmlFor="phone">Phone Number</Label>
           <Input
             type="text"
             id="phone"
             name="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="mb-2 h-16 bg-white text-xl dark:bg-transparent"
+            className="mb-2 h-14 bg-white text-lg dark:bg-transparent"
           />
           <Button
             size={"lg"}
             title="Update information"
-            className="mt-4 h-16 w-full text-3xl"
+            className="mt-4 text-xl"
           >
-            Save changes {<Save size={36} className="ml-2" />}
+            Save changes {<Save className="ml-2" />}
           </Button>
         </form>
       </div>

@@ -293,7 +293,7 @@
 .react-calendar__navigation__prev-button,
 .react-calendar__navigation__next2-button,
 .react-calendar__navigation__prev2-button {
-  @apply cursor-pointer bg-white dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 !important;
+  @apply cursor-pointer bg-white text-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 !important;
 }
 
 .react-calendar__tile--now {

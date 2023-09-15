@@ -4,10 +4,10 @@ import { ArrowLeft, HeartPulse } from "lucide-react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 import { Value } from "react-calendar/dist/cjs/shared/types";
+import { Button } from "@/components/ui/button";
 
 type AddSickLeaveProps = {
   employee: EmployeeProfile;
@@ -88,14 +88,14 @@ export default function AddSickLeave({
   }
 
   return (
-    <main className="flex w-[36rem] flex-col">
-      <Heading className="mt-12 ">
+    <main className="flex flex-col">
+      <Heading size={"sm"} className="mt-12 ">
         Days planned:{" "}
         <span className="">{daysPlanned > 0 ? daysPlanned : 0}</span>
       </Heading>
-      <div className="mt-6 flex h-96 space-x-12">
+      <div className="mt-6 flex space-x-12">
         <div>
-          <Heading className="mb-2" size={"sm"}>
+          <Heading className="mb-2" size={"xs"}>
             Start:{" "}
             {start.toLocaleString("en-GB", {
               day: "numeric",
@@ -111,7 +111,7 @@ export default function AddSickLeave({
           />
         </div>
         <div>
-          <Heading className="mb-2" size={"sm"}>
+          <Heading className="mb-2" size={"xs"}>
             End:{" "}
             {end.toLocaleString("en-GB", {
               day: "numeric",
@@ -128,11 +128,11 @@ export default function AddSickLeave({
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="flex w-full flex-col">
+      <form onSubmit={handleSubmit} className="mt-2 flex w-full flex-col">
         <Button
           size={"lg"}
           title="Create sick leave"
-          className="mt-2 h-16 w-[22rem] text-3xl"
+          className="mt-2 w-fit text-xl"
         >
           <HeartPulse size={32} className="mr-2" /> Submit
         </Button>
@@ -143,7 +143,7 @@ export default function AddSickLeave({
           variant={"subtle"}
           title="Cancel sick leave creation"
           onClick={() => setShowPlanner(false)}
-          className="mt-2 h-16 w-[22rem] text-3xl"
+          className="mt-2 w-fit text-xl"
         >
           <ArrowLeft size={32} className="mr-2" />
           Cancel

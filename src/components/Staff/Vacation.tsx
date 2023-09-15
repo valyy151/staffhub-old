@@ -2,12 +2,12 @@ import { useState } from "react";
 import { type Vacation } from "@prisma/client";
 import Paragraph from "~/components/ui/Paragraph";
 import { formatDateLong } from "~/utils/dateFormatting";
-import { Button } from "~/components/ui/Button";
 import { Trash2 } from "lucide-react";
 import FormModal from "~/components/ui/FormModal";
 import { type EmployeeProfile, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import { Button } from "@/components/ui/button";
 
 type VacationProps = {
   employee: EmployeeProfile;
@@ -71,7 +71,7 @@ export default function Vacation({ vacation, employee }: VacationProps) {
         <Button
           size={"sm"}
           variant={"link"}
-          className="w-16 min-w-0 rounded-full p-5 text-red-500 hover:bg-slate-200 dark:text-red-400"
+          className="w-16 min-w-0 rounded-full p-5 text-red-500 dark:text-red-400"
           onClick={() => {
             setShowModal(true);
           }}
