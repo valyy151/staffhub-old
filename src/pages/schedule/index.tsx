@@ -20,6 +20,7 @@ import router from "next/router";
 import ReactModal from "react-modal";
 import { Button } from "@/components/ui/button";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -268,43 +269,56 @@ export default function NewSchedulePage() {
                 </div>
               )}
               <div className="flex flex-col pt-2">
-                <Heading size={"xs"}>Select a shift</Heading>
-                <div className="flex">
-                  {shiftModels?.map((item) => (
-                    <Heading
-                      size={"xxs"}
-                      key={item.id}
-                      onClick={() => {
-                        shift ===
-                        `${formatTime(item.start)} - ${
-                          formatTime(item.end) == "00:00"
-                            ? "24:00"
-                            : formatTime(item.end)
-                        }`
-                          ? setShift("")
-                          : setShift(
-                              `${formatTime(item.start)} - ${
-                                formatTime(item.end) == "00:00"
-                                  ? "24:00"
-                                  : formatTime(item.end)
-                              }`
-                            );
-                      }}
-                      className={`m-1 cursor-pointer text-left font-medium hover:text-sky-400 ${
-                        shift ===
-                        `${formatTime(item.start)} - ${
-                          formatTime(item.end) == "00:00"
-                            ? "24:00"
-                            : formatTime(item.end)
-                        }`
-                          ? "text-sky-400 underline underline-offset-8"
-                          : ""
-                      }`}
-                    >
-                      [{formatTime(item.start)} - {formatTime(item.end)}]
-                    </Heading>
-                  ))}
-                </div>
+                {shiftModels?.length! > 0 ? (
+                  <>
+                    <Heading size={"xs"}>Select a shift</Heading>
+                    <div className="flex">
+                      {shiftModels?.map((item) => (
+                        <Heading
+                          size={"xxs"}
+                          key={item.id}
+                          onClick={() => {
+                            shift ===
+                            `${formatTime(item.start)} - ${
+                              formatTime(item.end) == "00:00"
+                                ? "24:00"
+                                : formatTime(item.end)
+                            }`
+                              ? setShift("")
+                              : setShift(
+                                  `${formatTime(item.start)} - ${
+                                    formatTime(item.end) == "00:00"
+                                      ? "24:00"
+                                      : formatTime(item.end)
+                                  }`
+                                );
+                          }}
+                          className={`m-1 cursor-pointer text-left font-medium hover:text-sky-400 ${
+                            shift ===
+                            `${formatTime(item.start)} - ${
+                              formatTime(item.end) == "00:00"
+                                ? "24:00"
+                                : formatTime(item.end)
+                            }`
+                              ? "text-sky-400 underline underline-offset-8"
+                              : ""
+                          }`}
+                        >
+                          [{formatTime(item.start)} - {formatTime(item.end)}]
+                        </Heading>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Heading
+                    size={"xxs"}
+                    className="mr-4 text-left font-normal underline-offset-8 hover:text-sky-500 hover:underline"
+                  >
+                    <Link href={"/settings/shift-models"}>
+                      No shift models set
+                    </Link>
+                  </Heading>
+                )}
               </div>
               {employee.schedulePreference?.hoursPerMonth! > 0 && (
                 <>
