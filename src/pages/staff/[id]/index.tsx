@@ -14,7 +14,7 @@ import router from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import Input from "~/components/ui/Input";
+
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
 import { Button } from "@/components/ui/button";
@@ -25,6 +25,7 @@ import { formatTime } from "~/utils/dateFormatting";
 import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type EmployeeProfileProps = {
   query: { id: string };

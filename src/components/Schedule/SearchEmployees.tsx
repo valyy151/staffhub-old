@@ -1,4 +1,4 @@
-import Input from "../ui/Input";
+import { Input } from "@/components/ui/input";
 import { type Employee } from "~/utils/api";
 
 type SearchEmployeesProps = {

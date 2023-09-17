@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "~/utils/tailwindMerge";
+import { cn } from "@/lib/utils";
 import { type VariantProps, cva } from "class-variance-authority";
 
 export const paragraphVariants = cva(

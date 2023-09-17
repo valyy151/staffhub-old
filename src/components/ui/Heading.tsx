@@ -1,4 +1,4 @@
-import { cn } from "~/utils/tailwindMerge";
+import { cn } from "@/lib/utils";
 import React, { forwardRef, type HTMLAttributes } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 

@@ -2,7 +2,6 @@ import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-
 import Paragraph from "../ui/Paragraph";
 import { type WorkDayNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
