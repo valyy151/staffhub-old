@@ -122,9 +122,11 @@ export default function StaffRolesPage() {
             <Heading className="mt-4 border-b border-slate-300 py-1 dark:border-slate-500">
               My Staff Roles
             </Heading>
-            {data.map((role) => (
-              <StaffRole role={role} key={role.id} />
-            ))}
+            {data
+              .sort((a, b) => a.numberPerDay! - b.numberPerDay!)
+              .map((role) => (
+                <StaffRole role={role} key={role.id} />
+              ))}
           </div>
         )}
         {showCreateRole && (

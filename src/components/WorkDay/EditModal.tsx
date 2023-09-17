@@ -10,6 +10,7 @@ import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Heading from "../ui/Heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 type Employee = {
   id: string;
@@ -101,9 +102,9 @@ export default function EditModal({
             })}
           </Heading>
           <div className="flex w-fit items-center space-x-2">
-            {shift.employee.roles.length > 1 && (
+            {shift.employee.roles.length > 0 && (
               <div>
-                <label className="ml-2">Role</label>
+                <Label className="ml-2">Role</Label>
                 <RolesDropdown
                   role={role}
                   setRole={setRole}
@@ -114,27 +115,27 @@ export default function EditModal({
               </div>
             )}
             <div>
-              <label className="ml-2">Start</label>
+              <Label className="ml-2">Start</Label>
               <Input
                 value={formatTime(start)}
-                className="h-14 w-36 text-2xl"
+                className=" w-36 text-2xl"
                 onChange={(e) => {
                   handleTimeChange(e.target.value, "start");
                 }}
               />
             </div>
             <div>
-              <label className="ml-2">End</label>
+              <Label className="ml-2">End</Label>
               <Input
                 value={formatTime(end)}
-                className="h-14 w-36 text-2xl"
+                className=" w-36 text-2xl"
                 onChange={(e) => {
                   handleTimeChange(e.target.value, "end");
                 }}
               />
             </div>
             <div>
-              <label className="ml-2">Total</label>
+              <Label className="ml-2">Total</Label>
               <Heading
                 size={"xs"}
                 className="h-14 w-16 border-none px-4 py-3 text-2xl disabled:cursor-default"

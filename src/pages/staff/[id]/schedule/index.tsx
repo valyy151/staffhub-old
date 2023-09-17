@@ -116,7 +116,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                 <TableRow key={day.id}>
                   <TableCell>
                     <Link
-                      href={`/days/${day.id}`}
+                      href={`/days/${day.id}/shifts`}
                       className="cursor-pointer font-medium hover:text-sky-500"
                     >
                       {formatDateLong(day.date)}

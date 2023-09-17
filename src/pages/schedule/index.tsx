@@ -273,38 +273,38 @@ export default function NewSchedulePage() {
                   <>
                     <Heading size={"xs"}>Select a shift</Heading>
                     <div className="flex">
-                      {shiftModels?.map((item) => (
+                      {shiftModels?.map((model) => (
                         <Heading
                           size={"xxs"}
-                          key={item.id}
+                          key={model.id}
                           onClick={() => {
                             shift ===
-                            `${formatTime(item.start)} - ${
-                              formatTime(item.end) == "00:00"
+                            `${formatTime(model.start)} - ${
+                              formatTime(model.end) == "00:00"
                                 ? "24:00"
-                                : formatTime(item.end)
+                                : formatTime(model.end)
                             }`
                               ? setShift("")
                               : setShift(
-                                  `${formatTime(item.start)} - ${
-                                    formatTime(item.end) == "00:00"
+                                  `${formatTime(model.start)} - ${
+                                    formatTime(model.end) == "00:00"
                                       ? "24:00"
-                                      : formatTime(item.end)
+                                      : formatTime(model.end)
                                   }`
                                 );
                           }}
                           className={`m-1 cursor-pointer text-left font-medium hover:text-sky-400 ${
                             shift ===
-                            `${formatTime(item.start)} - ${
-                              formatTime(item.end) == "00:00"
+                            `${formatTime(model.start)} - ${
+                              formatTime(model.end) == "00:00"
                                 ? "24:00"
-                                : formatTime(item.end)
+                                : formatTime(model.end)
                             }`
                               ? "text-sky-400 underline underline-offset-8"
                               : ""
                           }`}
                         >
-                          [{formatTime(item.start)} - {formatTime(item.end)}]
+                          [{formatTime(model.start)} - {formatTime(model.end)}]
                         </Heading>
                       ))}
                     </div>

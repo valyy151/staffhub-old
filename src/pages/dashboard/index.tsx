@@ -161,7 +161,7 @@ export default function DashboardPage() {
           <Link
             className="group flex min-w-[10vw] cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-slate-700"
             key={day.id}
-            href={`/days/${day.id}`}
+            href={`/days/${day.id}/shifts`}
           >
             <div className="w-full text-center">
               <Heading

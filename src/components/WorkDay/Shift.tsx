@@ -1,38 +1,38 @@
 import Link from "next/link";
-import Input from "../ui/Input";
 import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import Heading from "../ui/Heading";
 import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { Pencil, Trash2 } from "lucide-react";
+import { ClipboardEdit, MoreVertical, Trash2 } from "lucide-react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import EditModal from "./EditModal";
-import { Label } from "@/components/ui/label";
-
-type Shift = {
-  id: string;
-  end: number;
-  date: number;
-  start: number;
-  userId: string;
-  employeeId: string;
-  roleId: string | null;
-} & {
-  role: { name: string; id: string } | null;
-  employee: { name: string; roles: { name: string; id: string }[] };
-};
+import { TableCell, TableRow } from "@/components/ui/table";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
+import { PopoverContent } from "@/components/ui/popover";
 
 type ShiftProps = {
-  shift: Shift;
-  index: number;
-  date: number | undefined;
-  shiftModels: { start: number; end: number }[];
+  shift: {
+    id: string;
+    end: number;
+    date: number;
+    start: number;
+    userId: string;
+    employeeId: string;
+    roleId: string | null;
+  } & {
+    role: { name: string; id: string } | null;
+    employee: { name: string; roles: { name: string; id: string }[] };
+  };
+
+  shiftModels: {
+    end: number;
+    start: number;
+  }[];
 };
 
-export default function Shift({ shift, index, shiftModels }: ShiftProps) {
+export default function Shift({ shift, shiftModels }: ShiftProps) {
   const [showModal, setShowModal] = useState(false);
 
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -56,82 +56,70 @@ export default function Shift({ shift, index, shiftModels }: ShiftProps) {
   }
 
   return (
-    <div className="flex items-end justify-between border-b border-slate-300 pb-2 dark:border-slate-500">
-      <div className="min-w-[9rem]">
-        {index === 0 && <Label>Role</Label>}
-
-        {shift.role ? (
-          <Heading size={"xxs"} className="font-medium">
-            {shift.role.name}
-          </Heading>
-        ) : (
-          <Heading size={"xxs"} className="font-light italic">
-            None
-          </Heading>
-        )}
-      </div>
-
-      <div className={`ml-12 w-[24rem]`}>
-        {index === 0 && <Label>Name</Label>}
-        <Heading size={"xxs"}>
+    <>
+      <TableRow className="dark:border-slate-700">
+        <TableCell>
           <Link
-            className="underline-offset-8 hover:text-sky-500 hover:underline"
             href={`/staff/${shift.employeeId}`}
+            className="underline-offset-4 hover:underline"
           >
-            {shift?.employee.name}
+            {shift.employee.name}
           </Link>
-        </Heading>
-      </div>
-      <div className="">
-        {index === 0 && <Label>Time</Label>}
+        </TableCell>
+        <TableCell>
+          {formatTime(shift.start)} - {formatTime(shift.end)}
+        </TableCell>
+        <TableCell>{shift.role ? shift.role.name : "-"}</TableCell>
+        <TableCell className="text-right">
+          {formatTotal(shift.start, shift.end)}
+        </TableCell>
+        <TableCell>
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                className="rounded bg-transparent px-2 py-1 text-black hover:bg-gray-200 active:bg-gray-300 dark:text-gray-300 dark:hover:bg-gray-600 dark:active:bg-gray-500"
+                type="button"
+              >
+                <MoreVertical size={16} />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-40 bg-white dark:bg-gray-800">
+              <button
+                onClick={() => setEditMode(true)}
+                className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 text-gray-500 hover:bg-gray-200 active:bg-gray-300 dark:text-gray-400 dark:hover:bg-gray-600 dark:active:bg-gray-500"
+              >
+                <ClipboardEdit size={16} />
+                <span className="text-sm font-medium">Edit</span>
+              </button>
 
-        <div className="">
-          <Heading size={"xxs"} className=" font-normal">
-            {formatTime(shift.start)} - {formatTime(shift.end)}
-          </Heading>
-        </div>
-      </div>
-
-      <div className="ml-11 w-36">
-        {index === 0 && <Label>Total</Label>}
-        <Heading size={"xxs"}>{formatTotal(shift.start, shift.end)}</Heading>
-      </div>
-
-      <div className="flex pt-5">
-        <Button
-          title="Edit Shift"
-          onClick={() => setEditMode(true)}
-          className="mr-2"
-        >
-          {<Pencil className="mr-2" />} Edit
-        </Button>
-        <Button
-          title="Delete Shift"
-          variant={"destructive"}
-          onClick={() => setShowModal(true)}
-        >
-          {<Trash2 className="mr-2" />} Delete
-        </Button>
-      </div>
-
+              <button
+                onClick={() => setShowModal(true)}
+                className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 text-gray-500 hover:bg-gray-200 active:bg-gray-300 dark:text-gray-400 dark:hover:bg-gray-600 dark:active:bg-gray-500"
+              >
+                <Trash2 size={16} />
+                <span className="text-sm font-medium">Delete</span>
+              </button>
+            </PopoverContent>
+          </Popover>
+        </TableCell>
+      </TableRow>
       {editMode && (
         <EditModal
           shift={shift}
           showModal={editMode}
-          shiftModels={shiftModels}
           setEditMode={setEditMode}
+          shiftModels={shiftModels}
         />
       )}
-
       {showModal && (
         <FormModal
-          submit={deleteShift}
+          heading="Delete Shift?"
           showModal={showModal}
-          heading={"Delete shift?"}
           cancel={() => setShowModal(false)}
-          text={"Are you sure you want to delete this shift?"}
+          submit={deleteShift}
+          text="Are you sure you want to delete this shift?"
         />
       )}
-    </div>
+    </>
   );
 }
