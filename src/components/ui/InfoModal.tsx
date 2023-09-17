@@ -1,9 +1,9 @@
 import { X } from "lucide-react";
 import Heading from "../ui/Heading";
 import ReactModal from "react-modal";
-import { Button } from "../ui/Button";
 import { type MouseEventHandler } from "react";
 import Paragraph from "~/components/ui/Paragraph";
+import { Button } from "@/components/ui/button";
 
 type ModalProps = {
   heading: string;

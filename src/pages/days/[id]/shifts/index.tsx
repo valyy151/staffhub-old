@@ -1,18 +1,11 @@
 import router from "next/router";
 import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
-import Note from "~/components/WorkDay/Note";
 import Spinner from "~/components/ui/Spinner";
 import Heading from "~/components/ui/Heading";
 import Shift from "~/components/WorkDay/Shift";
-import AddNote from "~/components/WorkDay/AddNote";
 import AddShift from "~/components/WorkDay/AddShift";
-import {
-  formatDateLong,
-  formatDay,
-  formatTime,
-  formatTotal,
-} from "~/utils/dateFormatting";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -20,21 +13,9 @@ import {
   TableRow,
   TableHead,
   TableBody,
-  TableCell,
 } from "@/components/ui/table";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@/components/ui/popover";
-import {
-  ClipboardEdit,
-  ClipboardList,
-  Clock,
-  MoreVertical,
-  Trash2,
-  UserCog,
-} from "lucide-react";
+
+import { ClipboardList, Clock, UserCog } from "lucide-react";
 import Link from "next/link";
 
 type WorkDayPageProps = {
@@ -131,8 +112,11 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         </nav>
       </aside>
       <main className="flex-grow p-6">
+        <h1 className="pb-1 text-xl font-semibold">
+          {formatDay(workDay.date)}, {formatDateLong(workDay.date)}
+        </h1>
         <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-lg font-medium">Shifts</h1>
+          <h2 className="text-lg font-medium">Shifts</h2>
           <Button onClick={() => setShowAddShift(true)}>
             <Clock className="mr-2" size={16} />
             New Shift

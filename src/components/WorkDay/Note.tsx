@@ -2,11 +2,12 @@ import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import toast from "react-hot-toast";
-import { Button } from "../ui/Button";
+
 import Paragraph from "../ui/Paragraph";
 import { type WorkDayNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type NoteProps = {
   note: WorkDayNote;

@@ -4,7 +4,7 @@ import { Palmtree, ArrowLeft } from "lucide-react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Heading from "~/components/ui/Heading";
-import { Button } from "~/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 

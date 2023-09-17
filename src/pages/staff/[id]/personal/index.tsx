@@ -90,7 +90,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             name="name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="mb-2 h-14 bg-white text-lg dark:bg-transparent"
+            className="mb-2 bg-white text-lg dark:bg-transparent"
           />
           <Label htmlFor="email">Email</Label>
           <Input
@@ -99,7 +99,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mb-2 h-14 bg-white text-lg dark:bg-transparent"
+            className="mb-2 bg-white text-lg dark:bg-transparent"
           />
 
           <Label htmlFor="address">Address</Label>
@@ -109,7 +109,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             name="address"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="mb-2 h-14 bg-white text-lg dark:bg-transparent"
+            className="mb-2 bg-white text-lg dark:bg-transparent"
           />
 
           <Label htmlFor="phone">Phone Number</Label>
@@ -119,7 +119,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             name="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="mb-2 h-14 bg-white text-lg dark:bg-transparent"
+            className="mb-2 bg-white text-lg dark:bg-transparent"
           />
           <Button
             size={"lg"}

@@ -2,10 +2,11 @@ import FormModal from "../ui/FormModal";
 import { api } from "~/utils/api";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Button } from "../ui/Button";
+
 import Paragraph from "../ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 type NoteProps = {
   note: { id: string; content: string; createdAt: Date };

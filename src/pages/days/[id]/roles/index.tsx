@@ -130,8 +130,11 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         </nav>
       </aside>
       <main className="flex-grow p-6">
+        <h1 className="pb-1 text-xl font-semibold">
+          {formatDay(workDay.date)}, {formatDateLong(workDay.date)}
+        </h1>
         <div className="mb-4 flex items-center justify-between">
-          <h1 className="text-lg font-medium">Roles</h1>
+          <h2 className="text-lg font-medium">Roles</h2>
           <Link href={`/settings/roles`} className={buttonVariants()}>
             <UserCog className="mr-2" size={16} />
             New Role
