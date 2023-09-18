@@ -93,20 +93,19 @@ export default function EmployeesListPage() {
           </Heading>
         </div>
         <div className="flex items-center space-x-2">
-          <Link href={"/staff/new"} className={`${buttonVariants()}`}>
-            <UserPlus size={20} className="mr-2" /> New Employee
+          <Link href={"/staff/new"} className={`${buttonVariants()} w-64`}>
+            <UserPlus className="mr-2" /> New Employee
           </Link>
-          <div className="flex items-center rounded-md border border-slate-300 bg-white px-2 shadow focus-within:shadow-md focus-within:outline-none focus-within:ring-2 focus-within:ring-slate-400 focus-within:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50 dark:focus-within:ring-slate-400 dark:focus-within:ring-offset-slate-900">
-            <Search />
+     
 
             <Input
               type="text"
               value={searchText}
               placeholder="Search..."
-              className="truncate border-none focus:outline-none focus:ring-0 focus:ring-offset-0"
+              className="truncate"
               onChange={(e) => setSearchText(e.target.value)}
             />
-          </div>
+    
         </div>
       </div>
 
