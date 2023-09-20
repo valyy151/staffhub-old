@@ -107,7 +107,7 @@ export default function AddShift({
         >
           <div className="flex space-x-8">
             <div className="mt-auto flex flex-col">
-              <Label>Employee</Label>
+              <Label className="mb-1">Employee</Label>
 
               <SearchEmployees
                 isOpen={openStaff}
@@ -141,7 +141,9 @@ export default function AddShift({
             <div className="flex flex-col">
               <div className="mb-auto flex space-x-3">
                 <div className="mt-auto flex flex-col">
-                  <Label htmlFor="start">Start</Label>
+                  <Label className="mb-1" htmlFor="start">
+                    Start
+                  </Label>
 
                   <Input
                     type="text"
@@ -154,7 +156,9 @@ export default function AddShift({
                 </div>
 
                 <div className="mb-auto flex flex-col">
-                  <Label htmlFor="end">End</Label>
+                  <Label className="mb-1" htmlFor="end">
+                    End
+                  </Label>
 
                   <Input
                     name="end"
@@ -167,7 +171,9 @@ export default function AddShift({
                 </div>
                 {employee.roles?.length > 0 && (
                   <div className="mb-auto flex flex-col">
-                    <Label htmlFor="end">Role</Label>
+                    <Label className="mb-1" htmlFor="end">
+                      Role
+                    </Label>
 
                     <RolesDropdown
                       role={role}

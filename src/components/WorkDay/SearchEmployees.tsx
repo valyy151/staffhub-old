@@ -90,7 +90,7 @@ export default function SearchEmployees({
           type="text"
           value={employee.name}
           placeholder={"Choose an Employee..."}
-          className="text-md group m-0 cursor-pointer caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
+          className="text-md group m-0 cursor-pointer caret-transparent focus:border-background dark:placeholder:text-slate-400  dark:focus:border-background"
         />
       </div>
       {isOpen && (
