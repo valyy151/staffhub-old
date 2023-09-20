@@ -231,11 +231,7 @@ export default function VacationPage({ query }: VacationPageProps) {
           <AddVacation
             employee={employee}
             setAmount={setAmount}
-            daysPlanned={daysPlanned}
-            daysRemaining={daysRemaining}
-            setDaysPlanned={setDaysPlanned}
             setShowPlanner={setShowPlanner}
-            setDaysRemaining={setDaysRemaining}
           />
         )}
 

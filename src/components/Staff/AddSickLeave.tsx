@@ -1,13 +1,14 @@
 import { type EmployeeProfile, api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { ArrowLeft, HeartPulse } from "lucide-react";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Heading from "~/components/ui/Heading";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
-import { Value } from "react-calendar/dist/cjs/shared/types";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { addDays, differenceInDays } from "date-fns";
+import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+import { DateRange } from "react-day-picker";
 
 type AddSickLeaveProps = {
   employee: EmployeeProfile;
@@ -18,43 +19,10 @@ export default function AddSickLeave({
   employee,
   setShowPlanner,
 }: AddSickLeaveProps) {
-  const [end, setEnd] = useState<Value & Date>(new Date());
-  const [start, setStart] = useState<Value & Date>(new Date());
-  const [daysPlanned, setDaysPlanned] = useState<number>(0);
-
-  const handleStartChange = (date: any) => {
-    const newStart = date;
-    const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    const newTotalDays =
-      Math.ceil((end.getTime() - newStart?.getTime()) / millisecondsPerDay) + 1;
-    setStart(date);
-    setDaysPlanned(newTotalDays);
-  };
-
-  const handleEndChange = (date: any) => {
-    setEnd(date);
-    const newEnd = date;
-    const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    const newTotalDays =
-      Math.ceil((newEnd?.getTime() - start.getTime()) / millisecondsPerDay) + 1;
-    setDaysPlanned(newTotalDays);
-  };
-
-  useEffect(() => {
-    function calculateTotalDays() {
-      const millisecondsPerDay = 24 * 60 * 60 * 1000;
-      const totalDays =
-        Math.ceil((end.getTime() - start.getTime()) / millisecondsPerDay) + 1;
-
-      if (totalDays > 0) {
-        setDaysPlanned(totalDays);
-      } else {
-        setDaysPlanned(0);
-      }
-    }
-
-    calculateTotalDays();
-  }, [start, end]);
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 5),
+  });
 
   const queryClient = useQueryClient();
 
@@ -72,13 +40,13 @@ export default function AddSickLeave({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!start || !end) {
+    if (!date?.from || !date.to) {
       return toast.error("Please select a start and end date.");
     }
 
     createSickLeave.mutate({
-      end: end.getTime(),
-      start: start.getTime(),
+      end: date.to.getTime(),
+      start: date.from.getTime(),
       employeeId: employee.id!,
     });
   }
@@ -89,44 +57,16 @@ export default function AddSickLeave({
 
   return (
     <main className="flex flex-col">
-      <Heading size={"sm"} className="mt-12 ">
+      <Heading size={"xs"} className="mb-1 mt-6 ">
         Days planned:{" "}
-        <span className="">{daysPlanned > 0 ? daysPlanned : 0}</span>
+        <span>
+          {differenceInDays(date?.to!, date?.from!) + 1 > 0
+            ? differenceInDays(date?.to!, date?.from!) + 1
+            : 0}
+        </span>
       </Heading>
-      <div className="mt-6 flex space-x-12">
-        <div>
-          <Heading className="mb-2" size={"xs"}>
-            Start:{" "}
-            {start.toLocaleString("en-GB", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </Heading>
-          <Calendar
-            next2Label={null}
-            prev2Label={null}
-            value={start}
-            onChange={handleStartChange}
-          />
-        </div>
-        <div>
-          <Heading className="mb-2" size={"xs"}>
-            End:{" "}
-            {end.toLocaleString("en-GB", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </Heading>
-          <Calendar
-            next2Label={null}
-            prev2Label={null}
-            value={end}
-            onChange={handleEndChange}
-          />
-        </div>
-      </div>
+
+      <DatePickerWithRange date={date} setDate={setDate} />
 
       <form onSubmit={handleSubmit} className="mt-2 flex w-full flex-col">
         <Button

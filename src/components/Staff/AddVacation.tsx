@@ -1,118 +1,32 @@
 import { type EmployeeProfile, api } from "~/utils/api";
 import toast from "react-hot-toast";
 import { Palmtree, ArrowLeft } from "lucide-react";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import Heading from "~/components/ui/Heading";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+import { addDays, differenceInDays } from "date-fns";
+import { DateRange } from "react-day-picker";
 
 type VacationPlannerProps = {
-  daysPlanned: number;
   employee: EmployeeProfile;
-  daysRemaining: number | undefined;
   setAmount: (amount: number) => void;
-  setDaysPlanned: (daysPlanned: number) => void;
   setShowPlanner: (showPlanner: boolean) => void;
-  setDaysRemaining: (daysRemaining: number | undefined) => void;
 };
 
 export default function VacationPlanner({
   employee,
-  setDaysPlanned,
-  daysRemaining,
-  daysPlanned,
-  setDaysRemaining,
   setShowPlanner,
 }: VacationPlannerProps) {
-  const [end, setEnd] = useState(new Date());
-  const [start, setStart] = useState(new Date());
+  const [date, setDate] = useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 5),
+  });
 
   if (!employee) {
     return null;
-  }
-
-  function calculateTotalDays() {
-    if (!employee.vacationDays) {
-      return null;
-    }
-
-    const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    const totalDays =
-      Math.ceil((end.getTime() - start.getTime()) / millisecondsPerDay) + 1;
-
-    if (
-      daysRemaining &&
-      totalDays > 0 &&
-      daysRemaining <= employee.vacationDays
-    ) {
-      setDaysPlanned(totalDays);
-      setDaysRemaining(employee?.vacationDays - totalDays);
-    } else {
-      setDaysPlanned(0);
-      setDaysRemaining(employee?.vacationDays);
-    }
-  }
-
-  useEffect(() => {
-    calculateTotalDays();
-  }, [start, end]);
-
-  function handleStartChange(date: any) {
-    if (!employee.vacationDays) {
-      return null;
-    }
-
-    const newStart = date;
-    const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    const newTotalDays =
-      Math.ceil((end.getTime() - newStart.getTime()) / millisecondsPerDay) + 1;
-
-    if (employee?.vacationDays - newTotalDays < 0) {
-      return toast.error("You can't plan that many days.");
-    }
-
-    setStart(newStart);
-
-    if (
-      daysRemaining &&
-      newTotalDays > 0 &&
-      daysRemaining < employee?.vacationDays
-    ) {
-      setDaysPlanned(newTotalDays);
-      setDaysRemaining(employee?.vacationDays - newTotalDays);
-    }
-  }
-
-  function handleEndChange(date: any) {
-    if (!employee.vacationDays) {
-      return null;
-    }
-
-    const newEnd = date;
-    const millisecondsPerDay = 24 * 60 * 60 * 1000;
-    const newTotalDays =
-      Math.ceil((newEnd.getTime() - start.getTime()) / millisecondsPerDay) + 1;
-
-    if (newEnd < start) {
-      return toast.error("End date must be after start date.");
-    }
-
-    if (employee?.vacationDays - newTotalDays < 0) {
-      return toast.error("You can't plan that many days.");
-    }
-
-    setEnd(newEnd);
-
-    if (
-      daysRemaining &&
-      newTotalDays > 0 &&
-      daysRemaining < employee?.vacationDays
-    ) {
-      setDaysPlanned(newTotalDays);
-      setDaysRemaining(employee?.vacationDays - newTotalDays);
-    }
   }
 
   const queryClient = useQueryClient();
@@ -131,63 +45,30 @@ export default function VacationPlanner({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!start || !end) {
+    if (!date?.from || !date?.to) {
       return toast("Please select a start and end date.");
     }
 
-    if (daysPlanned <= 0) {
-      return toast("Please select a valid date range.");
-    }
-
     createVacation.mutate({
-      daysPlanned,
-      end: end.getTime(),
-      start: start.getTime(),
+      end: date.to.getTime(),
       employeeId: employee.id!,
+      start: date.from.getTime(),
       vacationDays: employee.vacationDays!,
+      daysPlanned: differenceInDays(date?.to!, date?.from!) + 1,
     });
   }
 
   return (
     <main className="flex w-fit flex-col">
-      <Heading size={"sm"} className="mt-12">
-        Days planned:{" "}
-        <span className="">{daysPlanned > 0 ? daysPlanned : 0}</span>
+      <Heading size={"xs"} className="mb-1 mt-6">
+        Days planned:
+        <span>
+          {differenceInDays(date?.to!, date?.from!) + 1 > 0
+            ? differenceInDays(date?.to!, date?.from!) + 1
+            : 0}
+        </span>
       </Heading>
-      <div className="mt-6 flex space-x-12">
-        <div>
-          <Heading className="mb-2" size={"xs"}>
-            Start:{" "}
-            {start.toLocaleString("en-GB", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </Heading>
-          <Calendar
-            value={start}
-            onChange={handleStartChange}
-            next2Label={null}
-            prev2Label={null}
-          />
-        </div>
-        <div>
-          <Heading className="mb-2" size={"xs"}>
-            End:{" "}
-            {end.toLocaleString("en-GB", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </Heading>
-          <Calendar
-            value={end}
-            onChange={handleEndChange}
-            next2Label={null}
-            prev2Label={null}
-          />
-        </div>
-      </div>
+      <DatePickerWithRange date={date} setDate={setDate} />
 
       <form onSubmit={handleSubmit} className="mt-4 flex w-full flex-col">
         <Button size={"lg"} title="Create vacation" className="w-fit text-xl">
