@@ -1,8 +1,7 @@
 import FormModal from "../ui/FormModal";
 import { api } from "~/utils/api";
 import { useState } from "react";
-import toast from "react-hot-toast";
-
+import { useToast } from "@/components/ui/use-toast";
 import Paragraph from "../ui/Paragraph";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
@@ -15,17 +14,24 @@ type NoteProps = {
 export default function Note({ note }: NoteProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const deleteNoteMutation = api.employeeNote.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
       void queryClient.invalidateQueries();
-      toast.success("Note deleted successfully.");
+      toast({
+        title: "Note deleted successfully.",
+      });
     },
 
     onError: () => {
-      toast.error("There was a problem deleting the note.");
+      toast({
+        title: "There was a problem deleting the note.",
+        variant: "destructive",
+      });
     },
   });
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "~/utils/api";
 import { Save } from "lucide-react";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import Heading from "~/components/ui/Heading";
 import { Button } from "@/components/ui/button";
@@ -42,12 +42,14 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
     employee.phoneNumber && setPhone(employee.phoneNumber);
   }, [employee]);
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const updatePersonalInfo = api.employee?.update.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Personal info updated successfully.");
+      toast({ title: "Personal information updated successfully." });
     },
   });
 
@@ -55,7 +57,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
     e.preventDefault();
 
     if (!name || !email || !address || !phone) {
-      return toast("Please fill out all the fields.");
+      return toast({ title: "Please fill out all fields." });
     }
 
     updatePersonalInfo.mutate({

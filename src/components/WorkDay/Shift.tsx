@@ -2,7 +2,7 @@ import Link from "next/link";
 import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { ClipboardEdit, MoreVertical, Trash2 } from "lucide-react";
@@ -37,16 +37,23 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
 
   const [editMode, setEditMode] = useState<boolean>(false);
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const deleteShiftMutation = api.shift.delete.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Shift deleted successfully.");
+      toast({
+        title: "Shift deleted successfully.",
+      });
     },
 
     onError: () => {
-      toast.error("There was a problem deleting the shift.");
+      toast({
+        title: "There was a problem deleting the shift.",
+        variant: "destructive",
+      });
     },
   });
 

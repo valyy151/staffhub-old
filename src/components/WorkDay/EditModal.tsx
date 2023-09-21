@@ -4,19 +4,13 @@ import RolesDropdown from "./RolesDropdown";
 
 import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Heading from "../ui/Heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-
-type Employee = {
-  id: string;
-  name: string;
-  roles: { name: string; id: string }[];
-};
 
 type Shift = {
   id: string;
@@ -62,15 +56,22 @@ export default function EditModal({
 
     field === "start" ? setStart(newUnixTime) : setEnd(newUnixTime);
   }
+
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const updateShiftMutation = api.shift.update.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Shift updated successfully.");
+      toast({
+        title: "Shift updated successfully.",
+      });
     },
 
     onError: () => {
-      toast.error("There was a problem updating the shift.");
+      toast({
+        title: "There was a problem updating the shift.",
+        variant: "destructive",
+      });
     },
   });
 

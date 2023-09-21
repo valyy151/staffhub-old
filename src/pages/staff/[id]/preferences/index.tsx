@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import router from "next/router";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 import Heading from "~/components/ui/Heading";
 
@@ -40,6 +40,8 @@ export default function SchedulePreferencesPage({
     router.push("/");
   }
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -62,10 +64,13 @@ export default function SchedulePreferencesPage({
       onSuccess: () => {
         setShowAddPreference(false);
         void queryClient.invalidateQueries();
-        toast.success("Schedule preference updated successfully.");
+        toast({ title: "Schedule preference updated successfully." });
       },
       onError: () => {
-        toast.error("There was an error updating the schedule preference.");
+        toast({
+          title: "There was a problem updating the schedule preference.",
+          variant: "destructive",
+        });
       },
     });
 

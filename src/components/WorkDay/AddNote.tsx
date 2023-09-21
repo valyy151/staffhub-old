@@ -1,6 +1,6 @@
 import { ArrowLeft, Save } from "lucide-react";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Heading from "../ui/Heading";
 import { type WorkDay, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
@@ -20,6 +20,8 @@ export default function AddNote({
 }: AddNoteProps) {
   const [content, setContent] = useState<string>("");
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const createNote = api.workDayNote.create.useMutation({
@@ -27,11 +29,16 @@ export default function AddNote({
       setContent("");
       setShowAddNote(false);
       void queryClient.invalidateQueries();
-      toast.success("Note created successfully.");
+      toast({
+        title: "Note created successfully.",
+      });
     },
 
     onError: () => {
-      toast.error("There was an error creating the note.");
+      toast({
+        title: "There was a problem creating the note.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -39,7 +46,9 @@ export default function AddNote({
     e.preventDefault();
 
     if (!content) {
-      return toast("Please fill the note content.");
+      return toast({
+        title: "Please enter a note.",
+      });
     }
 
     createNote.mutate({
@@ -64,7 +73,7 @@ export default function AddNote({
             cols={40}
             value={content}
             placeholder=" Add a note..."
-            className="resize-none rounded-lg border border-slate-400 bg-transparent px-3 py-2 placeholder:text-slate-500 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-transparent dark:text-slate-50 dark:placeholder:text-slate-400 "
+            className="resize-none rounded-lg border border-slate-400 bg-transparent px-3 py-2 placeholder:text-slate-500 focus:border-black focus:ring-black disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-transparent dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-300 dark:focus:ring-slate-300"
             onChange={(e) => setContent(e.target.value)}
           />
           <div className="mt-3 flex w-full space-x-2">

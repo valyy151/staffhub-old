@@ -13,7 +13,7 @@ import {
 import router from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 import Heading from "~/components/ui/Heading";
 import Spinner from "~/components/ui/Spinner";
@@ -46,6 +46,8 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
     router.push("/");
   }
 
+  const { toast } = useToast();
+
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -54,7 +56,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
   const deleteEmployee = api.employee.delete.useMutation({
     onSuccess: () => {
-      toast.success("Employee deleted successfully.");
+      toast({ title: "Employee deleted successfully." });
       router.push("/staff");
     },
   });

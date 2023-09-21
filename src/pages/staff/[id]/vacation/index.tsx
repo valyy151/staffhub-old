@@ -1,5 +1,5 @@
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { useEffect, useState } from "react";
 import Heading from "~/components/ui/Heading";
 import Paragraph from "~/components/ui/Paragraph";
@@ -24,9 +24,8 @@ VacationPage.getInitialProps = ({ query }: VacationPageProps) => {
 
 export default function VacationPage({ query }: VacationPageProps) {
   const [amount, setAmount] = useState<number>(0);
-  const [daysPlanned, setDaysPlanned] = useState<number>(0);
   const [showPlanner, setShowPlanner] = useState<boolean>(false);
-  const [daysRemaining, setDaysRemaining] = useState<number | undefined>(0);
+  const [, setDaysRemaining] = useState<number | undefined>(0);
   const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
 
   const { data: employee, failureReason } = api.employee.findOne.useQuery({
@@ -42,16 +41,21 @@ export default function VacationPage({ query }: VacationPageProps) {
     setDaysRemaining(employee?.vacationDays);
   }, [employee?.vacationDays]);
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const updateAmountMutation = api.vacation.updateAmountOfDays.useMutation({
     onSuccess: () => {
       setShowChangeAmount(false);
       void queryClient.invalidateQueries();
-      toast.success("Vacation days updated successfully.");
+      toast({ title: "Vacation days updated successfully." });
     },
     onError: () => {
-      toast.error("There was an error updating the vacation days.");
+      toast({
+        title: "There was a problem updating the vacation days.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -59,7 +63,7 @@ export default function VacationPage({ query }: VacationPageProps) {
     e.preventDefault();
 
     if (!amount) {
-      return toast("Please fill the amount of vacation days.");
+      return toast({ title: "Please enter a number." });
     }
 
     if (!employee?.id) {

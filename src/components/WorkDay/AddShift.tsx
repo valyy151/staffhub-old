@@ -1,5 +1,5 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Heading from "../ui/Heading";
 
 import { type WorkDay, api, Employee } from "~/utils/api";
@@ -59,16 +59,23 @@ export default function AddShift({
 
   const { data: employees } = api.employee.find.useQuery();
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const createShift = api.shift.create.useMutation({
     onSuccess: () => {
       setShowAddShift(false);
       void queryClient.invalidateQueries();
-      toast.success("Shift created successfully.");
+      toast({
+        title: "Shift created successfully.",
+      });
     },
     onError: () => {
-      toast.error("There was an error creating the shift.");
+      toast({
+        title: "There was a problem creating the shift.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -76,7 +83,9 @@ export default function AddShift({
     e.preventDefault();
 
     if (!end || !start) {
-      return toast("Please fill the start and end time.");
+      return toast({
+        title: "Please select a start and end time.",
+      });
     }
 
     createShift.mutate({

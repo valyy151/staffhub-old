@@ -1,18 +1,20 @@
 import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+
 import Paragraph from "../ui/Paragraph";
 import { type WorkDayNote } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 
 type NoteProps = {
   note: WorkDayNote;
 };
 
 export default function Note({ note }: NoteProps) {
+  const { toast } = useToast();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
@@ -21,11 +23,16 @@ export default function Note({ note }: NoteProps) {
     onSuccess: () => {
       setShowModal(false);
       void queryClient.invalidateQueries();
-      toast.success("Note deleted successfully.");
+      toast({
+        title: "Note deleted successfully.",
+      });
     },
 
     onError: () => {
-      toast.error("There was a problem deleting the note.");
+      toast({
+        title: "There was a problem deleting the note.",
+        variant: "destructive",
+      });
     },
   });
 

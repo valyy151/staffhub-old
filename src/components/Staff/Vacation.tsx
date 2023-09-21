@@ -6,7 +6,7 @@ import { Trash2 } from "lucide-react";
 import FormModal from "~/components/ui/FormModal";
 import { type EmployeeProfile, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 
 type VacationProps = {
@@ -29,15 +29,22 @@ export default function Vacation({ vacation, employee }: VacationProps) {
 
   const [totalDays] = useState<number>(calculateTotalDays());
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const deleteVacation = api.vacation.delete.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Vacation deleted successfully.");
+      toast({
+        title: "Vacation deleted successfully.",
+      });
     },
     onError: () => {
-      toast.error("There was an error deleting the vacation.");
+      toast({
+        title: "There was a problem deleting the vacation.",
+        variant: "destructive",
+      });
     },
   });
 

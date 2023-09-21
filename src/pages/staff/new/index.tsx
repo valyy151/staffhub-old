@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { Save } from "lucide-react";
 import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
@@ -41,11 +41,13 @@ export default function NewEmployeePage() {
   const [address, setAddress] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
 
+  const { toast } = useToast();
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     if (!name || !email || !address || !phoneNumber) {
-      return toast("Please fill out all the fields.");
+      return toast({ title: "Please fill out all fields." });
     }
 
     createEmployee.mutate({ name, email, address, phoneNumber });
@@ -57,7 +59,7 @@ export default function NewEmployeePage() {
     },
 
     onError: () => {
-      toast.error("There was an error creating the employee.");
+      toast({ title: "There was a problem creating the employee." });
     },
   });
 

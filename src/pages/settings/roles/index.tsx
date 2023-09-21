@@ -7,7 +7,7 @@ import { type GetServerSideProps } from "next/types";
 import sentences from "~/data/staffRole.json";
 import { Input } from "@/components/ui/input";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Sidebar from "~/components/Settings/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import StaffRole from "~/components/Settings/StaffRole";
@@ -38,13 +38,17 @@ export default function StaffRolesPage() {
   const [showModal, setShowModal] = useState(false);
   const [showCreateRole, setShowCreateRole] = useState(false);
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const { data } = api.staffRole.find.useQuery();
 
   const createStaffRole = api.staffRole.create.useMutation({
     onSuccess: ({ name }) => {
-      toast.success(`Role ${name} Created`);
+      toast({
+        title: `Staff Role ${name} created successfully.`,
+      });
       setRole("");
       setNumber("");
       setShowCreateRole(false);
@@ -52,7 +56,10 @@ export default function StaffRolesPage() {
     },
 
     onError: () => {
-      toast.error("Failed to create Staff Role");
+      toast({
+        title: "There was a problem creating the staff role.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -60,7 +67,9 @@ export default function StaffRolesPage() {
     e.preventDefault();
 
     if (!role) {
-      return toast.error("Please enter a role name");
+      return toast({
+        title: "Please enter a role name.",
+      });
     }
 
     createStaffRole.mutate({

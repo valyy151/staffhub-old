@@ -1,5 +1,5 @@
 import { type EmployeeProfile, api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { Palmtree, ArrowLeft } from "lucide-react";
 import "react-calendar/dist/Calendar.css";
 import Heading from "~/components/ui/Heading";
@@ -29,16 +29,23 @@ export default function VacationPlanner({
     return null;
   }
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const createVacation = api.vacation.create.useMutation({
     onSuccess: () => {
       setShowPlanner(false);
       void queryClient.invalidateQueries();
-      toast.success("Vacation created successfully.");
+      toast({
+        title: "Vacation created successfully.",
+      });
     },
     onError: () => {
-      toast.error("There was an error creating the vacation.");
+      toast({
+        title: "There was a problem creating the vacation.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -46,7 +53,9 @@ export default function VacationPlanner({
     e.preventDefault();
 
     if (!date?.from || !date?.to) {
-      return toast("Please select a start and end date.");
+      return toast({
+        title: "Please select a start and end date.",
+      });
     }
 
     createVacation.mutate({

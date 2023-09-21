@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Heading from "~/components/ui/Heading";
 import Note from "~/components/Staff/Note";
 import { Button } from "@/components/ui/button";
@@ -30,6 +30,8 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
     router.push("/");
   }
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const createNote = api.employeeNote.create.useMutation({
@@ -37,10 +39,13 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
       setContent("");
       setShowAddNote(false);
       void queryClient.invalidateQueries();
-      toast.success("Note created successfully.");
+      toast({ title: "Note created successfully." });
     },
     onError: () => {
-      toast.error("There was an error creating the note.");
+      toast({
+        title: "There was a problem creating the note.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -48,7 +53,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
     e.preventDefault();
 
     if (!content) {
-      return toast("Please fill the note content.");
+      return toast({ title: "Please enter a note." });
     }
 
     createNote.mutate({
@@ -119,7 +124,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
                 cols={40}
                 value={content}
                 placeholder=" Add a note..."
-                className="resize-none rounded border border-slate-400 bg-transparent bg-white px-3 py-2 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-transparent dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
+                className="resize-none rounded-lg border border-slate-400 bg-transparent px-3 py-2 placeholder:text-slate-500 focus:border-black focus:ring-black disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-600 dark:bg-transparent dark:text-slate-50 dark:placeholder:text-slate-400 dark:focus:border-slate-300 dark:focus:ring-slate-300"
                 onChange={(e) => setContent(e.target.value)}
               />
               <div className="mt-3 flex w-full space-x-2">

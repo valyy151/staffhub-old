@@ -4,9 +4,9 @@ import Providers from "~/providers";
 import { type AppType } from "next/app";
 import Navbar from "~/components/Navbar";
 import { type Session } from "next-auth";
-import { Toaster } from "react-hot-toast";
 import NextNProgress from "nextjs-progressbar";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "@/components/ui/toaster";
 
 const StaffHub: AppType<{ session: Session | null }> = ({
   Component,
@@ -24,7 +24,7 @@ const StaffHub: AppType<{ session: Session | null }> = ({
           }}
         />
         <Component {...pageProps} />
-        <Toaster position="bottom-center" />
+        <Toaster />
       </SessionProvider>
     </Providers>
   );

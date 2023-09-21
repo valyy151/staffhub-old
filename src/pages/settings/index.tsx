@@ -2,7 +2,7 @@ import Head from "next/head";
 import router from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import FormModal from "~/components/ui/FormModal";
 import Heading from "~/components/ui/Heading";
 import { type GetServerSideProps } from "next/types";
@@ -31,11 +31,13 @@ export default function SettingsPage() {
   const { data } = useSession();
   const [showModal, setShowModal] = useState(false);
 
+  const { toast } = useToast();
+
   const deleteUser = api.user.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
-      toast.success("Your account has successfully been deleted.", {
-        className: "text-center text-xl",
+      toast({
+        title: "Account deleted successfully.",
       });
 
       setTimeout(() => {
@@ -44,8 +46,9 @@ export default function SettingsPage() {
     },
 
     onError: () => {
-      toast.error("There was an error deleting your account.", {
-        className: "text-center text-xl",
+      toast({
+        title: "There was a problem deleting your account.",
+        variant: "destructive",
       });
     },
   });

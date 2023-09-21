@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Employee, api } from "~/utils/api";
@@ -69,24 +69,23 @@ export default function NewSchedulePage() {
 
   const { data: shiftModels } = api.shiftModel.find.useQuery();
 
+  const { toast } = useToast();
+
   const createShift = api.shift.createMany.useMutation({
     onSuccess: () => {
-      toast.success("Schedule created!");
+      toast({
+        title: "Schedule created successfully.",
+      });
     },
     onError: () => {
-      toast.error("Something went wrong.");
-      InfoModal;
+      toast({
+        title: "There was a problem creating the schedule.",
+        variant: "destructive",
+      });
     },
   });
 
-  const createDay = api.workDay.createMany.useMutation({
-    onSuccess: () => {
-      toast.success("Yearly work days created!");
-    },
-    onError: () => {
-      toast.error("Something went wrong with creating work days.");
-    },
-  });
+  const createDay = api.workDay.createMany.useMutation();
 
   const { refetch } = api.workDay.yearExists.useQuery(
     {
@@ -104,7 +103,9 @@ export default function NewSchedulePage() {
 
   function createSchedule() {
     if (!employee.id) {
-      return toast("Please select an employee.");
+      return toast({
+        title: "Please select an employee.",
+      });
     }
 
     refetch().then(({ data }) => {
@@ -117,8 +118,8 @@ export default function NewSchedulePage() {
       );
 
       if (filteredSchedule.length === 0) {
-        return toast("Please write at least one shift.", {
-          className: "text-xl",
+        return toast({
+          title: "Please select a shift.",
         });
       }
 

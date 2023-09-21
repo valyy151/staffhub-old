@@ -1,7 +1,6 @@
 import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
 import Heading from "../ui/Heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import ReactModal from "react-modal";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
 
 type ShiftModelProps = {
   shiftModel: {
@@ -20,6 +20,7 @@ type ShiftModelProps = {
 };
 
 export default function ShiftModel({ shiftModel }: ShiftModelProps) {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [edit, setEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -31,22 +32,32 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
     onSuccess: () => {
       setEdit(false);
       queryClient.invalidateQueries();
-      toast.success("Shift model updated successfully.");
+      toast({
+        title: "Shift model updated successfully.",
+      });
     },
 
     onError: () => {
-      toast.error("There was a problem updating the shift model.");
+      toast({
+        title: "There was a problem updating the shift model.",
+        variant: "destructive",
+      });
     },
   });
 
   const deleteShiftModel = api.shiftModel.delete.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.success("Shift model deleted successfully.");
+      toast({
+        title: "Shift model deleted successfully.",
+      });
     },
 
     onError: () => {
-      toast.error("There was a problem deleting the shift model.");
+      toast({
+        title: "There was a problem deleting the shift model.",
+        variant: "destructive",
+      });
     },
   });
 

@@ -1,7 +1,7 @@
 import FormModal from "../ui/FormModal";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { UserCog } from "lucide-react";
 import { type StaffRole } from "~/utils/api";
 import Heading from "~/components/ui/Heading";
@@ -18,6 +18,7 @@ type StaffRoleProps = {
 };
 
 export default function StaffRole({ role }: StaffRoleProps) {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [edit, setEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -29,25 +30,35 @@ export default function StaffRole({ role }: StaffRoleProps) {
 
   const deleteStaffRole = api.staffRole.delete.useMutation({
     onSuccess: () => {
-      toast.success("Staff Role Deleted");
+      toast({
+        title: "Staff Role deleted successfully.",
+      });
       setShowModal(false);
       queryClient.invalidateQueries();
     },
 
     onError: () => {
-      toast.error("Failed to delete Staff Role");
+      toast({
+        title: "There was a problem deleting the staff role.",
+        variant: "destructive",
+      });
     },
   });
 
   const updateStaffRole = api.staffRole.update.useMutation({
     onSuccess: () => {
-      toast.success("Staff Role Updated");
+      toast({
+        title: "Staff Role updated successfully.",
+      });
       setEdit(false);
       queryClient.invalidateQueries();
     },
 
     onError: () => {
-      toast.error("Failed to update Staff Role");
+      toast({
+        title: "There was a problem updating the staff role.",
+        variant: "destructive",
+      });
     },
   });
 

@@ -6,7 +6,7 @@ import { Trash2 } from "lucide-react";
 import FormModal from "~/components/ui/FormModal";
 import { api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 type SickLeaveProps = {
   sickLeave: { id: string; start: bigint; end: bigint };
@@ -15,15 +15,22 @@ type SickLeaveProps = {
 export default function SickLeave({ sickLeave }: SickLeaveProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const deleteSickLeave = api.sickLeave.delete.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
-      toast.success("Sick leave deleted successfully.");
+      toast({
+        title: "Sick leave deleted successfully.",
+      });
     },
     onError: () => {
-      toast.error("There was an error deleting the sick leave.");
+      toast({
+        title: "There was a problem deleting the sick leave.",
+        variant: "destructive",
+      });
     },
   });
 

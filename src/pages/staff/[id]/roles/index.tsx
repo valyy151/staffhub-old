@@ -1,6 +1,6 @@
 import router from "next/router";
 import { api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { UserCog } from "lucide-react";
 import Heading from "~/components/ui/Heading";
 import { Button } from "@/components/ui/button";
@@ -27,27 +27,35 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
     router.push("/");
   }
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const assignRole = api.staffRole.assignToEmployee.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.success(`Role assigned successfuly`);
+      toast({ title: "Role assigned successfully." });
     },
 
     onError: () => {
-      toast.error(`Failed to assign role`);
+      toast({
+        title: "There was a problem assigning the role.",
+        variant: "destructive",
+      });
     },
   });
 
   const removeRole = api.staffRole.removeFromEmployee.useMutation({
     onSuccess: () => {
       queryClient.invalidateQueries();
-      toast.success(`Role removed successfuly `);
+      toast({ title: "Role removed successfully." });
     },
 
     onError: () => {
-      toast.error(`Failed to remove role`);
+      toast({
+        title: "There was a problem removing the role.",
+        variant: "destructive",
+      });
     },
   });
 

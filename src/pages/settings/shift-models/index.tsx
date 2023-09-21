@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
-import { toast } from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { Input } from "@/components/ui/input";
 import { getSession } from "next-auth/react";
 import Heading from "~/components/ui/Heading";
@@ -36,6 +36,8 @@ export default function ShiftModelsPage() {
   const [showModal, setShowModal] = useState(false);
   const [showCreateModel, setShowCreateModel] = useState(false);
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const { data } = api.shiftModel.find.useQuery();
@@ -54,11 +56,14 @@ export default function ShiftModelsPage() {
       setStart(0);
       setShowCreateModel(false);
       queryClient.invalidateQueries();
-      toast.success("Shift model created");
+      toast({ title: "Shift model created successfully." });
     },
 
     onError: () => {
-      toast.error("Error creating shift model");
+      toast({
+        title: "There was a problem creating the shift model.",
+        variant: "destructive",
+      });
     },
   });
 

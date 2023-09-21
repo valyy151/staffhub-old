@@ -1,5 +1,5 @@
 import { type EmployeeProfile, api } from "~/utils/api";
-import toast from "react-hot-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { ArrowLeft, HeartPulse } from "lucide-react";
 import "react-calendar/dist/Calendar.css";
 import Heading from "~/components/ui/Heading";
@@ -24,16 +24,23 @@ export default function AddSickLeave({
     to: addDays(new Date(), 5),
   });
 
+  const { toast } = useToast();
+
   const queryClient = useQueryClient();
 
   const createSickLeave = api.sickLeave.create.useMutation({
     onSuccess: () => {
       setShowPlanner(false);
       void queryClient.invalidateQueries();
-      toast.success("Sick leave created successfully.");
+      toast({
+        title: "Sick leave created successfully.",
+      });
     },
     onError: () => {
-      toast.error("There was an error creating the sick leave.");
+      toast({
+        title: "There was a problem creating the sick leave.",
+        variant: "destructive",
+      });
     },
   });
 
@@ -41,7 +48,9 @@ export default function AddSickLeave({
     e.preventDefault();
 
     if (!date?.from || !date.to) {
-      return toast.error("Please select a start and end date.");
+      return toast({
+        title: "Please select a date range.",
+      });
     }
 
     createSickLeave.mutate({
