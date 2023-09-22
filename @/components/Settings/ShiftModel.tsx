@@ -1,7 +1,7 @@
-import FormModal from "../ui/FormModal";
+import FormModal from "../ui/form-modal";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import Heading from "../ui/Heading";
+import Heading from "../ui/heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";

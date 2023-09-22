@@ -1,15 +1,15 @@
-import FormModal from "../ui/FormModal";
+import FormModal from "../ui/form-modal";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useToast } from "@/components/ui/use-toast";
 import { UserCog } from "lucide-react";
 import { type StaffRole } from "~/utils/api";
-import Heading from "~/components/ui/Heading";
+import Heading from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
-import Paragraph from "~/components/ui/Paragraph";
+import Paragraph from "@/components/ui/paragraph";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
-import EditModal from "../WorkDay/EditModal";
+
 import ReactModal from "react-modal";
 import { Label } from "@/components/ui/label";
 

@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { getSession } from "next-auth/react";
-import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
-import Heading from "~/components/ui/Heading";
+import Heading from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
 import { type GetServerSideProps } from "next/types";
 import sentences from "~/data/staffRole.json";
 import { Input } from "@/components/ui/input";
 import { api } from "~/utils/api";
 import { useToast } from "@/components/ui/use-toast";
-import Sidebar from "~/components/Settings/Sidebar";
+import Sidebar from "@/components/Settings/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
-import StaffRole from "~/components/Settings/StaffRole";
-import InfoModal from "~/components/ui/InfoModal";
+import InfoModal from "@/components/ui/info-modal";
 import { Label } from "@/components/ui/label";
+import StaffRole from "@/components/Settings/StaffRole";
+import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);

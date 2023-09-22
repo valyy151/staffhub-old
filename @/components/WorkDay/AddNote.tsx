@@ -1,7 +1,7 @@
 import { ArrowLeft, Save } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import Heading from "../ui/Heading";
+import Heading from "../ui/heading";
 import { type WorkDay, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";

@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
 
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
-import Heading from "../ui/Heading";
+import Heading from "../ui/heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";

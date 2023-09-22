@@ -1,5 +1,5 @@
 import Link from "next/link";
-import FormModal from "../ui/FormModal";
+import FormModal from "../ui/form-modal";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useToast } from "@/components/ui/use-toast";

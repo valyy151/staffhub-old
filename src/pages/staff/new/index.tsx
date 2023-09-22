@@ -3,7 +3,7 @@ import { api } from "~/utils/api";
 import { useToast } from "@/components/ui/use-toast";
 import { Save } from "lucide-react";
 import { getSession } from "next-auth/react";
-import Heading from "~/components/ui/Heading";
+import Heading from "@/components/ui/heading";
 import { type GetServerSideProps } from "next/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

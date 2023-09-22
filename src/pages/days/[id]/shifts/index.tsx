@@ -1,10 +1,10 @@
 import router from "next/router";
 import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
-import Spinner from "~/components/ui/Spinner";
-import Heading from "~/components/ui/Heading";
-import Shift from "~/components/WorkDay/Shift";
-import AddShift from "~/components/WorkDay/AddShift";
+import Spinner from "@/components/ui/spinner";
+import Heading from "@/components/ui/heading";
+import Shift from "@/components/WorkDay/Shift";
+import AddShift from "@/components/WorkDay/AddShift";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 import { Button } from "@/components/ui/button";
 import {

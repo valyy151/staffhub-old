@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { useToast } from "@/components/ui/use-toast";
-import Heading from "~/components/ui/Heading";
-import Note from "~/components/Staff/Note";
+import Heading from "@/components/ui/heading";
+import Note from "@/components/Staff/Note";
 import { Button } from "@/components/ui/button";
-import Paragraph from "~/components/ui/Paragraph";
-import Sidebar from "~/components/Staff/Sidebar";
+import Paragraph from "@/components/ui/paragraph";
+import Sidebar from "@/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, ScrollText } from "lucide-react";
 import router from "next/router";

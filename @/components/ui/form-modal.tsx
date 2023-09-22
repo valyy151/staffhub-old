@@ -1,7 +1,7 @@
-import Heading from "./Heading";
+import Heading from "./heading";
 import ReactModal from "react-modal";
 import { type MouseEventHandler } from "react";
-import Paragraph from "./Paragraph";
+import Paragraph from "./paragraph";
 import { Button } from "@/components/ui/button";
 
 type ModalProps = {

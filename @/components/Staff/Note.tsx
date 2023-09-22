@@ -1,25 +1,24 @@
-import FormModal from "../ui/FormModal";
-import { useState } from "react";
+import FormModal from "../ui/form-modal";
 import { api } from "~/utils/api";
-
-import Paragraph from "../ui/Paragraph";
-import { type WorkDayNote } from "@prisma/client";
+import { useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import Paragraph from "../ui/paragraph";
 import { useQueryClient } from "@tanstack/react-query";
 import { Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 
 type NoteProps = {
-  note: WorkDayNote;
+  note: { id: string; content: string; createdAt: Date };
 };
 
 export default function Note({ note }: NoteProps) {
-  const { toast } = useToast();
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const queryClient = useQueryClient();
 
-  const deleteNoteMutation = api.workDayNote.delete.useMutation({
+  const deleteNoteMutation = api.employeeNote.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
       void queryClient.invalidateQueries();
@@ -37,7 +36,9 @@ export default function Note({ note }: NoteProps) {
   });
 
   function deleteNote() {
-    deleteNoteMutation.mutate({ noteId: note.id });
+    deleteNoteMutation.mutate({
+      noteId: note.id,
+    });
   }
 
   return (

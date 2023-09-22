@@ -15,12 +15,12 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import { useToast } from "@/components/ui/use-toast";
 
-import Heading from "~/components/ui/Heading";
-import Spinner from "~/components/ui/Spinner";
+import Heading from "@/components/ui/heading";
+import Spinner from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
-import FormModal from "~/components/ui/FormModal";
-import Paragraph from "~/components/ui/Paragraph";
-import Dropdown from "~/components/Staff/Dropdown";
+import FormModal from "@/components/ui/form-modal";
+import Paragraph from "@/components/ui/paragraph";
+import Dropdown from "@/components/Staff/Dropdown";
 import { formatTime } from "~/utils/dateFormatting";
 import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
 import Link from "next/link";

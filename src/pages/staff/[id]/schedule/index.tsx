@@ -11,8 +11,8 @@ import { EmployeeProfile, api } from "~/utils/api";
 import dynamic from "next/dynamic";
 import "react-calendar/dist/Calendar.css";
 import { Calendar } from "react-calendar";
-import Heading from "~/components/ui/Heading";
-import Sidebar from "~/components/Staff/Sidebar";
+import Heading from "@/components/ui/heading";
+import Sidebar from "@/components/Staff/Sidebar";
 import { calculateTotalHours } from "~/utils/calculateHours";
 import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
 import Link from "next/link";
@@ -26,7 +26,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const PDFButton = dynamic(() => import("~/components/PDFButton"), {
+const PDFButton = dynamic(() => import("@/components/PDFButton"), {
   ssr: false,
 });
 
@@ -112,7 +112,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {employee?.workDays.map((day, index) => (
+              {employee?.workDays.map((day) => (
                 <TableRow key={day.id}>
                   <TableCell>
                     <Link
@@ -153,52 +153,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
               ))}
             </TableBody>
           </Table>
-
-          {/* {employee?.workDays.map((day, index) => (
-            <Link
-              key={day.id}
-              href={`/days/${day.id}`}
-              className={`group flex cursor-pointer items-center space-y-4 border-b-2 border-slate-300 dark:border-slate-500 ${
-                index % 2 === 0
-                  ? "bg-slate-50 dark:bg-slate-700"
-                  : "bg-white dark:bg-slate-800"
-              } py-2`}
-            >
-              <div className="group ml-8 mr-auto flex w-96 flex-col items-start">
-                <Paragraph className="m-0 group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                  {formatDay(day.date)}
-                </Paragraph>
-                <Paragraph className="m-0 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                  {formatDateLong(day.date)}
-                </Paragraph>
-              </div>
-
-              <Paragraph className="m-0 ml-auto mr-8 pb-2 font-bold group-hover:text-sky-500 dark:group-hover:text-sky-400">
-                {!day.shifts[0]?.start && day.vacation && (
-                  <span className="font-medium italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
-                    Vacation
-                  </span>
-                )}
-                {!day.shifts[0]?.start && day.sickLeave && (
-                  <span className="font-medium italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
-                    Sick
-                  </span>
-                )}
-                {day.shifts[0]?.start && (
-                  <>
-                    {formatTime(day.shifts[0]?.start)} -{" "}
-                    {formatTime(day.shifts[0]?.end)}{" "}
-                    <span className="font-normal">
-                      [ {formatTotal(day.shifts[0]?.start, day.shifts[0]?.end)}]
-                    </span>{" "}
-                  </>
-                )}
-              </Paragraph>
-            </Link>
-          ))} */}
         </section>
-
-        <div></div>
 
         <div className="relative ml-8">
           <div className="fixed">

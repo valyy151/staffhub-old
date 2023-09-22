@@ -11,17 +11,21 @@ import {
 import router from "next/router";
 import { useEffect, useState } from "react";
 import { CalendarPlus } from "lucide-react";
-import Heading from "~/components/ui/Heading";
+
 import groupShifts from "~/utils/groupShifts";
-import Spinner from "~/components/ui/Spinner";
+
 import { getSession } from "next-auth/react";
-import Paragraph from "~/components/ui/Paragraph";
+
 import { type GetServerSideProps } from "next/types";
 import { type DashboardWorkDay, api } from "~/utils/api";
-import CalendarModal from "~/components/Dashboard/CalendarModal";
+
 import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Heading from "@/components/ui/heading";
+import Spinner from "@/components/ui/spinner";
+import Paragraph from "@/components/ui/paragraph";
+import CalendarModal from "@/components/Dashboard/CalendarModal";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);

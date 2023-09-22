@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import ReactModal from "react-modal";
-import Heading from "../ui/Heading";
+import Heading from "../ui/heading";
 
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";

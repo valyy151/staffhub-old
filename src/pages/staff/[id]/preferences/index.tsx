@@ -3,10 +3,10 @@ import { api } from "~/utils/api";
 import router from "next/router";
 import { useToast } from "@/components/ui/use-toast";
 
-import Heading from "~/components/ui/Heading";
+import Heading from "@/components/ui/heading";
 
-import Paragraph from "~/components/ui/Paragraph";
-import Sidebar from "~/components/Staff/Sidebar";
+import Paragraph from "@/components/ui/paragraph";
+import Sidebar from "@/components/Staff/Sidebar";
 import { useQueryClient } from "@tanstack/react-query";
 import { ArrowLeft, Save, Sticker } from "lucide-react";
 import { formatTime } from "~/utils/dateFormatting";

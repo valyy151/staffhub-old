@@ -2,13 +2,13 @@ import Link from "next/link";
 import router from "next/router";
 import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
-import Note from "~/components/WorkDay/Note";
-import Spinner from "~/components/ui/Spinner";
 import { Button } from "@/components/ui/button";
-import AddNote from "~/components/WorkDay/AddNote";
 
 import { ClipboardList, Clock, UserCog } from "lucide-react";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
+import Spinner from "@/components/ui/spinner";
+import Note from "@/components/WorkDay/Note";
+import AddNote from "@/components/WorkDay/AddNote";
 
 type WorkDayPageProps = {
   query: { id: string };

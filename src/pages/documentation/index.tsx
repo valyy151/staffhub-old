@@ -1,6 +1,6 @@
 import Head from "next/head";
-import Heading from "~/components/ui/Heading";
-import Paragraph from "~/components/ui/Paragraph";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
 
 export default function DocumentationPage() {
   return (

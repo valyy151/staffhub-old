@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import Heading from "../ui/Heading";
+import Heading from "../ui/heading";
 
 import { type WorkDay, api, Employee } from "~/utils/api";
 import SearchEmployees from "./SearchEmployees";

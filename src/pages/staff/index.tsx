@@ -1,9 +1,9 @@
 import { useState } from "react";
 import router from "next/router";
 import { getSession } from "next-auth/react";
-import Heading from "~/components/ui/Heading";
-import Spinner from "~/components/ui/Spinner";
-import { Search, UserPlus } from "lucide-react";
+import Heading from "@/components/ui/heading";
+import Spinner from "@/components/ui/spinner";
+import { UserPlus } from "lucide-react";
 import { api } from "~/utils/api";
 import { type GetServerSideProps } from "next/types";
 import Head from "next/head";
@@ -96,16 +96,14 @@ export default function EmployeesListPage() {
           <Link href={"/staff/new"} className={`${buttonVariants()} w-64`}>
             <UserPlus className="mr-2" /> New Employee
           </Link>
-     
 
-            <Input
-              type="text"
-              value={searchText}
-              placeholder="Search..."
-              className="truncate"
-              onChange={(e) => setSearchText(e.target.value)}
-            />
-    
+          <Input
+            type="text"
+            value={searchText}
+            placeholder="Search..."
+            className="truncate"
+            onChange={(e) => setSearchText(e.target.value)}
+          />
         </div>
       </div>
 

@@ -1,23 +1,19 @@
-import Link from "next/link";
-import Head from "next/head";
-import router from "next/router";
-import Heading from "~/components/ui/Heading";
-import Spinner from "~/components/ui/Spinner";
-
-import { signIn, useSession } from "next-auth/react";
-import { Button, buttonVariants } from "@/components/ui/button";
 import {
-  CalendarClock,
   Cog,
-  FileSearch,
+  Users,
   Forward,
   Palmtree,
-  Share,
-  Users,
+  FileSearch,
+  CalendarClock,
 } from "lucide-react";
+import Link from "next/link";
+import Head from "next/head";
+import Spinner from "@/components/ui/spinner";
+import { signIn, useSession } from "next-auth/react";
+import { Button, buttonVariants } from "@/components/ui/button";
 
 export default function Home() {
-  const { data, status } = useSession();
+  const { status } = useSession();
 
   if (status === "loading") {
     return (
@@ -29,9 +25,9 @@ export default function Home() {
             content="StaffHub is a web application that helps you manage your staff and their shifts."
           />
         </Head>
-        <Heading className="mb-6" size={"lg"}>
+        <h1 className="mb-6 bg-gradient-to-r from-black to-gray-400 bg-clip-text text-3xl font-bold tracking-tighter text-transparent dark:from-white dark:to-gray-500 sm:text-5xl xl:text-6xl/none">
           StaffHub
-        </Heading>
+        </h1>
         <Spinner noMargin />
       </main>
     );

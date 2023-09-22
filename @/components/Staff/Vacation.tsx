@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { type Vacation } from "@prisma/client";
-import Paragraph from "~/components/ui/Paragraph";
+import Paragraph from "@/components/ui/paragraph";
 import { formatDateLong } from "~/utils/dateFormatting";
 import { Trash2 } from "lucide-react";
-import FormModal from "~/components/ui/FormModal";
+import FormModal from "@/components/ui/form-modal";
 import { type EmployeeProfile, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";

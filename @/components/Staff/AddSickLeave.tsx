@@ -2,7 +2,7 @@ import { type EmployeeProfile, api } from "~/utils/api";
 import { useToast } from "@/components/ui/use-toast";
 import { ArrowLeft, HeartPulse } from "lucide-react";
 import "react-calendar/dist/Calendar.css";
-import Heading from "~/components/ui/Heading";
+import Heading from "@/components/ui/heading";
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";

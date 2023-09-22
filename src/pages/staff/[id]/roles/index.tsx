@@ -2,10 +2,10 @@ import router from "next/router";
 import { api } from "~/utils/api";
 import { useToast } from "@/components/ui/use-toast";
 import { UserCog } from "lucide-react";
-import Heading from "~/components/ui/Heading";
+import Heading from "@/components/ui/heading";
 import { Button } from "@/components/ui/button";
-import Sidebar from "~/components/Staff/Sidebar";
-import Paragraph from "~/components/ui/Paragraph";
+import Sidebar from "@/components/Staff/Sidebar";
+import Paragraph from "@/components/ui/paragraph";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 
