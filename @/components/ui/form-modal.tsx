@@ -1,8 +1,15 @@
-import Heading from "./heading";
-import ReactModal from "react-modal";
 import { type MouseEventHandler } from "react";
-import Paragraph from "./paragraph";
-import { Button } from "@/components/ui/button";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type ModalProps = {
   text: string;
@@ -12,32 +19,19 @@ type ModalProps = {
   submit: MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function FormModal({
-  text,
-  submit,
-  cancel,
-  heading,
-  showModal,
-}: ModalProps) {
+export default function FormModal({ text, submit, cancel }: ModalProps) {
   return (
-    <ReactModal
-      isOpen={showModal}
-      className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
-    >
-      <div className="animate-fade mx-auto min-w-[26rem] max-w-3xl rounded-xl border border-slate-300 bg-white px-12 pb-6 text-left shadow-lg dark:border-slate-700 dark:bg-slate-800">
-        <Heading size={"xs"} className="mb-2 mt-8">
-          {heading}
-        </Heading>
-        <Paragraph className="font-normal">{text}</Paragraph>
-        <div className="mt-6 flex h-full justify-end space-x-2">
-          <Button size={"lg"} onClick={cancel}>
-            No
-          </Button>
-          <Button size={"lg"} variant="danger" onClick={submit}>
-            Yes
-          </Button>
-        </div>
-      </div>
-    </ReactModal>
+    <AlertDialog open>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>{text}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={cancel}>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={submit}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

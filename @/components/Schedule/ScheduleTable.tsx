@@ -102,7 +102,7 @@ export default function ScheduleTable({
   return (
     <Table>
       <TableHeader>
-        <TableRow>
+        <TableRow className="hover:bg-inherit">
           <TableHead>Date</TableHead>
           <TableHead>Start</TableHead>
           <TableHead>End</TableHead>

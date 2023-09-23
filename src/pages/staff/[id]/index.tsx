@@ -1,12 +1,16 @@
 import {
   Calendar,
+  Check,
+  ChevronsUpDown,
   HeartPulse,
   Mail,
   MapPin,
+  MoreVertical,
   Palmtree,
-  Pencil,
   Phone,
+  Scroll,
   Sticker,
+  Trash2,
   User,
   UserCog,
 } from "lucide-react";
@@ -20,12 +24,21 @@ import Spinner from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
 import FormModal from "@/components/ui/form-modal";
 import Paragraph from "@/components/ui/paragraph";
-import Dropdown from "@/components/Staff/Dropdown";
 import { formatTime } from "~/utils/dateFormatting";
 import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import SelectEmployees from "../../../../@/components/Schedule/SearchEmployees";
 
 type EmployeeProfileProps = {
   query: { id: string };
@@ -50,9 +63,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [showDropdown] = useState<boolean>(false);
 
   const deleteEmployee = api.employee.delete.useMutation({
     onSuccess: () => {
@@ -72,51 +83,9 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
   }
 
   return (
-    <main
-      onClick={() => {
-        isOpen && setIsOpen(false);
-        showDropdown && setShowDropdown(false);
-      }}
-      className="flex flex-col px-12 pb-80 pt-24"
-    >
+    <main className="flex flex-col px-12 pb-80 pt-24">
       <div className="relative mb-2 w-fit">
-        <div
-          className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-800 dark:shadow-slate-950 "
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <Input
-            readOnly
-            type="text"
-            placeholder={"Choose an Employee..."}
-            className="group m-0 cursor-pointer text-lg caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
-          />
-        </div>
-        {isOpen && (
-          <div className="animate-slideDown rounded-md">
-            <div className="absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-800 dark:text-slate-300">
-              <ul
-                className={`${
-                  employees?.length! > 8 && "h-[28.5rem] overflow-y-scroll"
-                } p-1`}
-              >
-                {employees
-                  ?.sort((a, b) => a.name.localeCompare(b.name))
-                  .map((employee) => (
-                    <li
-                      className="flex cursor-pointer items-center rounded-md px-3 py-2 text-lg hover:bg-gray-100 dark:hover:bg-slate-700"
-                      key={employee.id}
-                      onClick={() => {
-                        setIsOpen(false);
-                        router.push(`/staff/${employee.id}`);
-                      }}
-                    >
-                      {employee.name}
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          </div>
-        )}
+        <SelectEmployees links employees={employees} />
       </div>
       <div className="flex flex-col rounded-md border border-slate-300 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
         {/* name and button begin */}
@@ -133,27 +102,96 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           >
             <Calendar className="mr-4" /> Schedules
           </Link>
-          <Button
-            className="mr-2"
-            size={"lg"}
-            variant={"subtle"}
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
-            <Pencil className="mr-4" /> Manage
-          </Button>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost">
+                <MoreVertical />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>View More</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link
+                  href={`/staff/${employee.id}/schedule`}
+                  className="flex w-full items-center"
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  <span>Monthly Schedules</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link
+                  href={`/staff/${employee.id}/notes`}
+                  className="flex w-full items-center"
+                >
+                  <Scroll className="mr-2 h-4 w-4" />
+                  <span>Notes</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  href={`/staff/${employee.id}/roles`}
+                  className="flex w-full items-center"
+                >
+                  <UserCog className="mr-2 h-4 w-4" />
+                  <span>Roles</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  href={`/staff/${employee.id}/preferences`}
+                  className="flex w-full items-center"
+                >
+                  <Sticker className="mr-2 h-4 w-4" />
+                  Schedule Preferences
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link
+                  href={`/staff/${employee.id}/vacation`}
+                  className="flex w-full items-center"
+                >
+                  <Palmtree className="mr-2 h-4 w-4" />
+                  <span>Vacation</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Link
+                  href={`/staff/${employee.id}/sick-leave`}
+                  className="flex w-full items-center"
+                >
+                  <HeartPulse className="mr-2 h-4 w-4" />
+                  <span>Sick Leave</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link
+                  href={`/staff/${employee.id}/personal`}
+                  className="flex w-full items-center"
+                >
+                  <User className="mr-2 h-4 w-4" />
+                  <span>Personal Info</span>
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => setShowModal(true)}
+                className="cursor-pointer"
+              >
+                <Trash2 className="mr-2 h-4 w-4" />
+                <span>Delete Employee</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         {/* name and button end */}
 
-        {showDropdown && (
-          <div className="relative">
-            <Dropdown
-              showDelete={true}
-              employee={employee}
-              setShowModal={setShowModal}
-              setShowDropdown={setShowDropdown}
-            />
-          </div>
-        )}
+        {showDropdown && <div className="relative"></div>}
         <div className="flex">
           {/* personal info begin */}
           <Link
@@ -290,9 +328,10 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           <FormModal
             showModal={showModal}
             submit={handleDelete}
-            heading={"Delete employee?"}
             cancel={() => setShowModal(false)}
-            text={"Are you sure you want to delete this employee?"}
+            text={
+              "This action cannot be undone. This will permanently delete this employee and remove all his associated data from our servers."
+            }
           />
         )}
       </div>

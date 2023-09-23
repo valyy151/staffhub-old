@@ -109,7 +109,7 @@ export default function EmployeesListPage() {
 
       <Table className="mt-2">
         <TableHeader>
-          <TableRow>
+          <TableRow className="hover:bg-inherit">
             <TableHead>Name</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phone Number</TableHead>

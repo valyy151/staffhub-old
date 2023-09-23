@@ -13,7 +13,6 @@ import { type GetServerSideProps } from "next/types";
 import { CalendarIcon, CalendarPlus, Info, UserPlus, X } from "lucide-react";
 import ScheduleTable from "@/components/Schedule/ScheduleTable";
 import { formatMonth, formatTime } from "~/utils/dateFormatting";
-import SearchEmployees from "@/components/Schedule/SearchEmployees";
 import { generateYearArray, updateMonthData } from "~/utils/yearArray";
 import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
 import router from "next/router";
@@ -21,6 +20,7 @@ import ReactModal from "react-modal";
 import { Button } from "@/components/ui/button";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
 import Link from "next/link";
+import SelectEmployees from "@/components/Schedule/SearchEmployees";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -235,11 +235,9 @@ export default function NewSchedulePage() {
 
           <div className="relative ml-12">
             <div className="fixed">
-              <SearchEmployees
-                isOpen={isOpen}
+              <SelectEmployees
                 employees={data}
                 employee={employee}
-                setIsOpen={setIsOpen}
                 setEmployee={setEmployee}
               />
               {employee.name && (
