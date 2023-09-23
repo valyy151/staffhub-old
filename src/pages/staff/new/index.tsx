@@ -1,22 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
-import { useToast } from "@/components/ui/use-toast";
-import { Save } from "lucide-react";
 import { getSession } from "next-auth/react";
-import Heading from "@/components/ui/heading";
-import { type GetServerSideProps } from "next/types";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-
-export function InputWithLabel() {
-  return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
-      <Label htmlFor="email">Email</Label>
-      <Input type="email" id="email" placeholder="Email" />
-    </div>
-  );
-}
+import { useToast } from "@/components/ui/use-toast";
+import { type GetServerSideProps } from "next/types";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -36,7 +42,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 export default function NewEmployeePage() {
-  const [name, setName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+
+  const [role, setRole] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [address, setAddress] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -46,12 +55,18 @@ export default function NewEmployeePage() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!name || !email || !address || !phoneNumber) {
-      return toast({ title: "Please fill out all fields." });
+    if (!firstName || !lastName || !email) {
+      return toast({ title: "Please fill out all the fields." });
     }
 
-    createEmployee.mutate({ name, email, address, phoneNumber });
+    createEmployee.mutate({
+      role,
+      email,
+      name: firstName + " " + lastName,
+    });
   }
+
+  const { data: roles } = api.staffRole.find.useQuery();
 
   const createEmployee = api.employee.create.useMutation({
     onSuccess: () => {
@@ -64,54 +79,76 @@ export default function NewEmployeePage() {
   });
 
   return (
-    <div className="px-2">
-      <form onSubmit={handleSubmit} className="mx-auto mt-12 w-[23rem]">
-        <Heading size={"sm"} className="mb-4">
-          Create an Employee
-        </Heading>
-        <Label htmlFor="name">Name</Label>
-        <Input
-          id="name"
-          type="text"
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Enter the name of your employee"
-        />
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="text"
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter the email of your employee"
-        />
+    <form onSubmit={handleSubmit} className="mb-10 mt-20 flex-grow">
+      <Card className="mx-auto max-w-2xl">
+        <CardHeader>
+          <CardTitle>Create a New Employee</CardTitle>
+          <CardDescription>
+            Fill out the form below to create a new employee.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="first-name">First name</Label>
+                <Input
+                  id="first-name"
+                  placeholder="John"
+                  required
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="last-name">Last name</Label>
+                <Input
+                  id="last-name"
+                  placeholder="Doe"
+                  required
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                placeholder="johndoe@example.com"
+                required
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
 
-        <Label htmlFor="address">Address</Label>
-        <Input
-          type="text"
-          id="address"
-          name="address"
-          value={address}
-          placeholder="Enter the address of your employee"
-          onChange={(e) => setAddress(e.target.value)}
-        />
-
-        <Label htmlFor="phone">Phone Number</Label>
-        <Input
-          type="text"
-          id="phone"
-          name="phone"
-          value={phoneNumber}
-          placeholder="Enter the phone number of your employee"
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-
-        <Button title="Update information" className="mt-2">
-          Save changes {<Save className="ml-2" />}
-        </Button>
-      </form>
-    </div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Role</Label>
+              <Select onValueChange={(value) => setRole(value)}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Role</SelectLabel>
+                    {roles?.map((role) => (
+                      <SelectItem key={role.id} value={role.id}>
+                        {role.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <Button className="w-full" type="submit">
+            Create User
+          </Button>
+        </CardFooter>
+      </Card>
+    </form>
   );
 }

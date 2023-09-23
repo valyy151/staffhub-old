@@ -7,21 +7,25 @@ export const employeeRouter = createTRPCRouter({
       z.object({
         name: z.string(),
         email: z.string(),
-        address: z.string(),
-        phoneNumber: z.string(),
+        role: z.string().optional(),
+        address: z.string().optional(),
+        phoneNumber: z.string().optional(),
       })
     )
-    .mutation(async ({ input: { name, email, address, phoneNumber }, ctx }) => {
-      return await ctx.prisma.employee.create({
-        data: {
-          name,
-          email,
-          address,
-          phoneNumber,
-          userId: ctx.session.user.id,
-        },
-      });
-    }),
+    .mutation(
+      async ({ input: { name, role, email, address, phoneNumber }, ctx }) => {
+        return await ctx.prisma.employee.create({
+          data: {
+            name,
+            email,
+            address: address || "",
+            userId: ctx.session.user.id,
+            phoneNumber: phoneNumber || "",
+            roles: { connect: { id: role } },
+          },
+        });
+      }
+    ),
 
   update: protectedProcedure
     .input(
