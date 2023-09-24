@@ -244,7 +244,7 @@ export default function NewSchedulePage() {
                 <div className="mt-2 flex flex-col items-baseline">
                   <Heading size={"xs"}>Shift Preferences</Heading>
                   <div className="flex">
-                    {employee.schedulePreference?.shiftModels.length! > 1 ? (
+                    {employee.schedulePreference?.shiftModels.length! > 0 ? (
                       employee.schedulePreference?.shiftModels
                         ?.sort((a, b) => a.start - b.start)
                         .map((item) => (
@@ -268,7 +268,7 @@ export default function NewSchedulePage() {
                 </div>
               )}
               <div className="flex flex-col pt-2">
-                {shiftModels?.length! > 0 ? (
+                {shiftModels?.length! > 0 && (
                   <>
                     <Heading size={"xs"}>Select a shift</Heading>
                     <div className="flex">
@@ -308,15 +308,6 @@ export default function NewSchedulePage() {
                       ))}
                     </div>
                   </>
-                ) : (
-                  <Heading
-                    size={"xxs"}
-                    className="mr-4 text-left font-normal underline-offset-8 hover:text-sky-500 hover:underline"
-                  >
-                    <Link href={"/settings/shift-models"}>
-                      No shift models set
-                    </Link>
-                  </Heading>
                 )}
               </div>
               {employee.schedulePreference?.hoursPerMonth! > 0 && (
