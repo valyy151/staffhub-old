@@ -1,7 +1,5 @@
 import {
   Calendar,
-  Check,
-  ChevronsUpDown,
   HeartPulse,
   Mail,
   MapPin,
@@ -37,8 +35,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-import SelectEmployees from "../../../../@/components/Schedule/SearchEmployees";
+import SelectEmployees from "../../../../@/components/Schedule/SelectEmployee";
 
 type EmployeeProfileProps = {
   query: { id: string };

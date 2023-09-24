@@ -25,7 +25,9 @@ export const dashboardRouter = createTRPCRouter({
       );
 
       const workDaysPromise = ctx.prisma.workDay.findMany({
-        where: { date: { gte: startOfWeek.getTime() / 1000 } },
+        where: {
+          date: { gte: startOfWeek.getTime() / 1000 },
+        },
         take: 7,
         orderBy: { date: "asc" },
       });
@@ -42,7 +44,6 @@ export const dashboardRouter = createTRPCRouter({
           userId: ctx.session.user.id,
           date: { gte: startOfWeek.getTime() / 1000 },
         },
-        take: 7,
         orderBy: { date: "asc" },
       });
 

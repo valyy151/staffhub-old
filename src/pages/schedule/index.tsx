@@ -20,7 +20,7 @@ import ReactModal from "react-modal";
 import { Button } from "@/components/ui/button";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
 import Link from "next/link";
-import SelectEmployees from "@/components/Schedule/SearchEmployees";
+import SelectEmployee from "@/components/Schedule/SelectEmployee";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -235,7 +235,7 @@ export default function NewSchedulePage() {
 
           <div className="relative ml-12">
             <div className="fixed">
-              <SelectEmployees
+              <SelectEmployee
                 employees={data}
                 employee={employee}
                 setEmployee={setEmployee}
@@ -398,7 +398,6 @@ export default function NewSchedulePage() {
       {showModal && (
         <InfoModal
           text={sentences}
-          showModal={showModal}
           close={() => setShowModal(false)}
           heading="How do I write a schedule?"
         />

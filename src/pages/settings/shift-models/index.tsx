@@ -194,7 +194,6 @@ export default function ShiftModelsPage() {
 
       {showModal && (
         <InfoModal
-          showModal={showModal}
           text={sentences}
           heading={"What are Shift Models?"}
           close={() => setShowModal(false)}

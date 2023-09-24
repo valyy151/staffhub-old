@@ -25,7 +25,7 @@ type Props = {
   setEmployee?: (employee: Employee) => void;
 };
 
-export default function SelectEmployees({
+export default function SelectEmployee({
   links,
   employee,
   employees,
@@ -52,27 +52,29 @@ export default function SelectEmployees({
           <CommandInput placeholder="Search employees..." />
           <CommandEmpty>No employees found.</CommandEmpty>
           <CommandGroup>
-            {employees?.map((employee) => (
-              <CommandItem
-                key={employee?.id}
-                onSelect={(value) => {
-                  setValue(value);
-                  setEmployee && setEmployee(employee);
-                  links && router.push(`/staff/${employee.id}`);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === employee.name.toLowerCase()
-                      ? "opacity-100"
-                      : "opacity-0"
-                  )}
-                />
-                {employee?.name}
-              </CommandItem>
-            ))}
+            {employees
+              ?.sort((a, b) => a.name.localeCompare(b.name))
+              .map((employee) => (
+                <CommandItem
+                  key={employee?.id}
+                  onSelect={(value) => {
+                    setValue(value);
+                    setEmployee && setEmployee(employee);
+                    links && router.push(`/staff/${employee.id}`);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === employee.name.toLowerCase()
+                        ? "opacity-100"
+                        : "opacity-0"
+                    )}
+                  />
+                  {employee?.name}
+                </CommandItem>
+              ))}
           </CommandGroup>
         </Command>
       </PopoverContent>
