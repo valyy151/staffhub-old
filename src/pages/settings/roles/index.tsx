@@ -180,7 +180,6 @@ export default function StaffRolesPage() {
       {showModal && (
         <InfoModal
           text={sentences}
-          showModal={showModal}
           heading="What are Staff Roles?"
           close={() => setShowModal(false)}
         />
