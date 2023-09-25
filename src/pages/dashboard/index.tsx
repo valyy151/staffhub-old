@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { X, User, Scroll, ScrollText } from "lucide-react";
+import { X, User, Scroll, ScrollText, CalendarOff } from "lucide-react";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import { CalendarPlus } from "lucide-react";
@@ -210,23 +210,30 @@ export default function DashboardPage() {
                       </Paragraph>
                     </div>
                     <div className="mt-4 flex w-full flex-col items-center">
-                      {groupShifts(day.shifts).map((groupedShift, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center"
-                          title={`${day.shifts.length} ${
-                            day.shifts.length === 1 ? "shift" : "shifts"
-                          } `}
-                        >
-                          <div className="mr-3 flex">
-                            {`${groupedShift.count}`}{" "}
-                            <User className="font-normal" />
-                          </div>
-                          {`${formatTime(groupedShift.start)} - ${formatTime(
-                            groupedShift.end
-                          )}`}
-                        </div>
-                      ))}
+                      {groupShifts(day.shifts).length > 0 ? (
+                        groupShifts(day.shifts).map((groupedShift) => (
+                          <Paragraph
+                            className="flex items-center"
+                            title={`${day.shifts.length} ${
+                              day.shifts.length === 1 ? "shift" : "shifts"
+                            } `}
+                            key={`${groupedShift.start}-${groupedShift.end}`}
+                          >
+                            <div className="mr-3 flex">
+                              {`${groupedShift.count}`}{" "}
+                              <User className="font-normal" />
+                            </div>
+                            {`${formatTime(groupedShift.start)} - ${formatTime(
+                              groupedShift.end
+                            )}`}
+                          </Paragraph>
+                        ))
+                      ) : (
+                        <Paragraph className="flex items-center">
+                          <CalendarOff className="mr-2" />
+                          No Shifts
+                        </Paragraph>
+                      )}
                     </div>
 
                     <Paragraph
