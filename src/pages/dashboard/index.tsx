@@ -189,12 +189,11 @@ export default function DashboardPage() {
 
             <div className="flex min-h-[24rem] rounded-lg border-b border-t  ">
               {workDays?.map((day, index) => {
-                console.log(day);
                 return (
                   <Link
                     key={day.id}
                     href={`/days/${day.id}/shifts`}
-                    className={`group flex w-full cursor-pointer flex-col items-center border-x   transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800 ${
+                    className={`group flex w-full cursor-pointer flex-col items-center border-x   transition-colors duration-150 hover:bg-primary-foreground ${
                       index === 0 && "rounded-s-lg"
                     } ${index === 6 && "rounded-e-lg"}`}
                   >

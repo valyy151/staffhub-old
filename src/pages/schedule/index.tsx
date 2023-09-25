@@ -19,7 +19,13 @@ import router from "next/router";
 import ReactModal from "react-modal";
 import { Button } from "@/components/ui/button";
 import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
-import Link from "next/link";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import SelectEmployee from "@/components/Schedule/SelectEmployee";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -179,7 +185,11 @@ export default function NewSchedulePage() {
           <div>
             {employee.name && schedule ? (
               <div className="mb-4 flex justify-between">
-                <Heading size={"xs"}>
+                <Heading
+                  size={"xs"}
+                  onClick={() => setShowCalendar(true)}
+                  className="cursor-pointer underline-offset-8 hover:underline"
+                >
                   {value.toLocaleDateString("en-GB", {
                     month: "long",
                     year: "numeric",
@@ -213,7 +223,11 @@ export default function NewSchedulePage() {
               </div>
             ) : (
               <div className="mb-4 flex justify-between">
-                <Heading size={"xs"}>
+                <Heading
+                  size={"xs"}
+                  onClick={() => setShowCalendar(true)}
+                  className="cursor-pointer underline-offset-8 hover:underline"
+                >
                   {value.toLocaleDateString("en-GB", {
                     month: "long",
                     year: "numeric",
@@ -342,37 +356,51 @@ export default function NewSchedulePage() {
         </div>
       </section>
 
-      <div
-        onClick={() => setShowCalendar(true)}
-        className="fixed bottom-4 right-4 cursor-pointer rounded-full bg-primary p-4 active:scale-95"
-      >
-        <CalendarIcon size={48} className="text-secondary" />
-      </div>
       {showCalendar && (
-        <ReactModal
-          isOpen={showCalendar}
-          className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
-        >
-          <div className="animate-fade dark:bg-gray-750 mx-auto min-w-[26rem] max-w-3xl rounded-xl border  bg-background px-2 pb-6  pt-2 text-left shadow-lg">
-            <div className="flex">
-              <div className="ml-auto">
-                {" "}
-                <Button
-                  variant={"ghost"}
-                  onClick={() => setShowCalendar(false)}
-                  className="hover:bg-transparent dark:hover:bg-transparent"
-                >
-                  <X size={30} />
-                </Button>
-              </div>
-            </div>
+        // <ReactModal
+        //   isOpen={showCalendar}
+        //   className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
+        // >
+        //   <div className="animate-fade dark:bg-gray-750 mx-auto min-w-[26rem] max-w-3xl rounded-xl border  bg-background px-2 pb-6  pt-2 text-left shadow-lg">
+        //     <div className="flex">
+        //       <div className="ml-auto">
+        //         {" "}
+        //         <Button
+        //           variant={"ghost"}
+        //           onClick={() => setShowCalendar(false)}
+        //           className="hover:bg-transparent dark:hover:bg-transparent"
+        //         >
+        //           <X size={30} />
+        //         </Button>
+        //       </div>
+        //     </div>
 
-            <div className="flex flex-col px-8 py-2">
-              <Heading size={"xs"} className="mb-1 ml-1">
-                Choose a month
-              </Heading>
+        //     <div className="flex flex-col px-8 py-2">
+        //       <Heading size={"xs"} className="mb-1 ml-1">
+        //         Choose a month
+        //       </Heading>
+        //       <Calendar
+        //         view="month"
+        //         maxDetail="year"
+        //         next2Label={null}
+        //         prev2Label={null}
+        //         onChange={(value: any) => {
+        //           setValue(value);
+        //           handleMonthChange(value);
+        //           setShowCalendar(false);
+        //         }}
+        //       />
+        //     </div>
+        //   </div>
+        // </ReactModal>
+        <Dialog open onOpenChange={() => setShowCalendar(false)}>
+          <DialogContent className="mx-auto flex flex-col">
+            <div className="mx-auto">
+              <DialogHeader>
+                <DialogTitle className="text-xl">Choose a Month</DialogTitle>
+              </DialogHeader>
+
               <Calendar
-                view="month"
                 maxDetail="year"
                 next2Label={null}
                 prev2Label={null}
@@ -383,8 +411,8 @@ export default function NewSchedulePage() {
                 }}
               />
             </div>
-          </div>
-        </ReactModal>
+          </DialogContent>
+        </Dialog>
       )}
       {showModal && (
         <InfoModal

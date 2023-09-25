@@ -33,7 +33,6 @@ export default function CalendarModal({
       <div className="animate-fade dark:bg-gray-750 mx-auto min-w-[26rem] max-w-3xl rounded-xl border   bg-background px-2 pb-6 pt-2 text-left shadow-lg">
         <div className="flex">
           <div className="ml-auto">
-            {" "}
             <Button
               variant={"ghost"}
               onClick={close}
