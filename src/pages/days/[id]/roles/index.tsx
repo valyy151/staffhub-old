@@ -116,9 +116,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         {/* Table that has the name of the roles as the headers and all the employees are sorted in the column of the role that they have */}
         <Table>
           <TableHeader>
-            <TableRow className="dark:border-slate-700">
-              {checkRoles()}
-            </TableRow>
+            <TableRow className="">{checkRoles()}</TableRow>
           </TableHeader>
         </Table>
       </main>

@@ -77,7 +77,7 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
   }
 
   return (
-    <div className="flex h-20 items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
+    <div className="flex h-20 items-center justify-between border-b   py-2">
       <div className="flex w-full items-center justify-between">
         <div className="flex space-x-2">
           <Heading size={"xs"}>{formatTime(shiftModel.start)}</Heading>
@@ -109,7 +109,7 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
           className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
         >
           <form
-            className="animate-fade mx-auto rounded-xl border border-slate-300 bg-white px-24 pb-6 pt-3 text-left shadow-lg dark:border-slate-600 dark:bg-slate-800"
+            className="animate-fade mx-auto rounded-xl border bg-background px-24 pb-6 pt-3 text-left shadow-lg"
             onSubmit={handleEdit}
           >
             <Heading size={"sm"} className="text-center">

@@ -84,7 +84,7 @@ export default function ShiftModelsPage() {
         <div role="status" className="ml-64 mt-16">
           <svg
             aria-hidden="true"
-            className="mr-2 h-8 w-8 animate-spin fill-slate-800 text-gray-300 dark:fill-slate-200 dark:text-gray-600"
+            className="mr-2 h-8 w-8 animate-spin fill-gray-800 text-gray-300 dark:fill-gray-200 dark:text-gray-600"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -125,9 +125,7 @@ export default function ShiftModelsPage() {
         </div>
         {!showCreateModel && data.length > 0 && (
           <div>
-            <Heading className="mt-4 border-b border-slate-300 py-1 dark:border-slate-500">
-              My Shift Models
-            </Heading>
+            <Heading className="mt-4 border-b   py-1">My Shift Models</Heading>
             {data
               .sort((a, b) => a.start - b.start)
               .map((shiftModel) => (

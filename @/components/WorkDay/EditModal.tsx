@@ -91,7 +91,7 @@ export default function EditModal({
       isOpen={showModal}
       className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
     >
-      <div className="animate-fade mx-auto rounded-xl border border-slate-300 bg-white px-12 pb-6 text-left shadow-lg dark:border-slate-600 dark:bg-slate-800">
+      <div className="animate-fade mx-auto rounded-xl border  px-12 pb-6 text-left shadow-lg">
         <div className="mt-6 flex flex-col">
           <Heading size={"sm"} className="mb-4">
             {shift.employee.name} -{"  "}

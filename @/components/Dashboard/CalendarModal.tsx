@@ -30,7 +30,7 @@ export default function CalendarModal({
       isOpen={showModal}
       className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
     >
-      <div className="animate-fade dark:bg-slate-750 mx-auto min-w-[26rem] max-w-3xl rounded-xl border border-slate-300 bg-white px-2 pb-6 pt-2  text-left shadow-lg dark:border-slate-700 dark:bg-slate-800">
+      <div className="animate-fade dark:bg-gray-750 mx-auto min-w-[26rem] max-w-3xl rounded-xl border   bg-background px-2 pb-6 pt-2 text-left shadow-lg">
         <div className="flex">
           <div className="ml-auto">
             {" "}

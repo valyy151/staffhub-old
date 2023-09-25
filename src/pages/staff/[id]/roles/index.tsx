@@ -105,7 +105,7 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
             .map((role) => (
               <div
                 key={role.id}
-                className="flex cursor-pointer items-center rounded border border-slate-300 pl-4 hover:shadow dark:border-slate-700 dark:shadow-slate-700"
+                className="flex cursor-pointer items-center rounded border   pl-4 hover:shadow dark:shadow-gray-700"
               >
                 <Input
                   id={role.id}

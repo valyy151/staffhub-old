@@ -12,7 +12,7 @@ export default function ThemeSwitcher() {
   }, []);
 
   if (!mounted) {
-    return null;
+    return <div className="w-12"></div>;
   }
 
   const currentTheme = theme === "system" ? systemTheme : theme;
@@ -20,19 +20,19 @@ export default function ThemeSwitcher() {
     <>
       {currentTheme === "dark" ? (
         <Button
-          variant={"link"}
+          variant={"ghost"}
           onClick={() => setTheme("light")}
-          className="focus:ring-0 focus:ring-offset-0"
+          className="focus:ring-0 focus:ring-offset-0 active:bg-inherit"
         >
-          <Sun size={22} className="text-slate-900 dark:text-slate-300" />
+          <Sun size={18} className="text-gray-900 dark:text-gray-300" />
         </Button>
       ) : (
         <Button
-          variant={"link"}
+          variant={"ghost"}
           onClick={() => setTheme("dark")}
-          className="focus:ring-0 focus:ring-offset-0"
+          className="focus:ring-0 focus:ring-offset-0 active:bg-inherit"
         >
-          <Moon size={22} className="text-slate-900 dark:text-slate-300" />
+          <Moon size={18} className="text-gray-900 dark:text-gray-300" />
         </Button>
       )}
     </>

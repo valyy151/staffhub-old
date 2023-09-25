@@ -200,10 +200,7 @@ export default function VacationPage({ query }: VacationPageProps) {
         </div>
 
         {showChangeAmount && (
-          <form
-            onSubmit={updateAmount}
-            className="mt-8 flex flex-col dark:border-slate-700"
-          >
+          <form onSubmit={updateAmount} className="mt-8 flex flex-col ">
             <Heading size={"xs"}>Change the amount of vacation days</Heading>
 
             <Input

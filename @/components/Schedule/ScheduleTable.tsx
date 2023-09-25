@@ -145,7 +145,7 @@ export default function ScheduleTable({
                     className={`w-fit ${
                       shift &&
                       !vacationDays.includes(item.date) &&
-                      "hover:ring-0.5 w-fit cursor-pointer ring-slate-800 dark:ring-slate-50"
+                      "hover:ring-0.5 w-fit cursor-pointer ring-gray-800 dark:ring-gray-50"
                     }`}
                   />
                 </TableCell>
@@ -168,7 +168,7 @@ export default function ScheduleTable({
                     className={`w-fit ${
                       shift &&
                       !vacationDays.includes(item.date) &&
-                      "hover:ring-0.5 w-fit cursor-pointer ring-slate-800 dark:ring-slate-50"
+                      "hover:ring-0.5 w-fit cursor-pointer ring-gray-800 dark:ring-gray-50"
                     }`}
                     type="text"
                   />

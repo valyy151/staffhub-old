@@ -73,7 +73,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
   }
 
   return (
-    <div className="flex h-20 items-center justify-between border-b border-slate-300 py-2 dark:border-slate-500">
+    <div className="flex h-20 items-center justify-between border-b   py-2">
       <div className="flex items-center space-x-2">
         <UserCog size={28} />
         <Heading size={"xxs"}>{role.name}</Heading>
@@ -110,7 +110,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
           className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
         >
           <form
-            className="animate-fade mx-auto rounded-xl border border-slate-300 bg-white px-24 pb-6 pt-3 text-left shadow-lg dark:border-slate-600 dark:bg-slate-800"
+            className="animate-fade mx-auto rounded-xl border bg-background px-24 pb-6 pt-3 text-left shadow-lg"
             onSubmit={handleSubmit}
           >
             <Heading size={"sm"} className="mt-4">

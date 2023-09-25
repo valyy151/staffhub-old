@@ -54,28 +54,12 @@ export default function SettingsPage() {
   });
 
   return (
-    <main className="flex flex-col items-center">
+    <main className="mx-auto flex w-fit flex-col items-center">
       <Head>
         <title>Settings | StaffHub</title>
         <meta name="Settings" content="Manage your account" />
       </Head>
       <Heading className="mt-4">{data?.user.name}</Heading>
-
-      <Button
-        variant={"subtle"}
-        className="mt-4 h-14 w-56"
-        onClick={() => router.push("/settings/roles")}
-      >
-        <UserCog2 size={28} className="mr-2" /> Staff Roles
-      </Button>
-
-      <Button
-        variant={"subtle"}
-        className="mt-2 h-14 w-56"
-        onClick={() => router.push("/settings/shift-models")}
-      >
-        <Clock8 className="mr-2" /> Shift Models
-      </Button>
 
       {/* <Button
        
@@ -87,17 +71,9 @@ export default function SettingsPage() {
       </Button> */}
 
       <Button
-        variant={"subtle"}
-        className="mt-8 h-14 w-56"
-        onClick={() => router.back()}
-      >
-        <ArrowLeft className="mr-2" /> Go Back
-      </Button>
-
-      <Button
         variant={"danger"}
-        className="mt-2 h-14 w-56"
         onClick={() => setShowModal(true)}
+        className="mt-2 w-full"
       >
         Delete My Account
       </Button>

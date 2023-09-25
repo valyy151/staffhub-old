@@ -1,11 +1,43 @@
-import Link from "next/link.js";
 import ThemeSwitcher from "./ThemeSwitcher";
-
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useState } from "react";
-import { AlignJustify } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { buttonVariants } from "@/components/ui/button";
+
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
+import React from "react";
+
+const links: { title: string; href: string; description: string }[] = [
+  {
+    title: "Staff Roles",
+    href: "/settings/roles",
+    description: "Manage the roles that your staff can have.",
+  },
+  {
+    title: "Shift Models",
+    href: "/settings/shift-models",
+    description: "Manage the shift models that your staff can have.",
+  },
+  {
+    title: "Account",
+    href: "/settings",
+    description: "Manage your account settings.",
+  },
+  {
+    title: "Sign Out",
+    href: "/api/auth/signout",
+    description: "Sign out of your account.",
+  },
+];
 
 export default function Navbar() {
   const { status } = useSession();
@@ -16,165 +48,121 @@ export default function Navbar() {
   }
 
   return (
-    <div className="sticky top-0 z-50 flex items-center justify-between border-b border-slate-300 bg-slate-50 py-2 shadow-sm backdrop-blur-sm dark:border-slate-700 dark:bg-slate-800">
-      <div className="container flex justify-between">
-        <div className="hidden items-center justify-center space-x-4 sm:flex">
-          <Link href="/" className={`${buttonVariants({ variant: "link" })}`}>
-            StaffHub
-          </Link>
-          <ThemeSwitcher />
-        </div>
-        <div className="hidden space-x-1 sm:flex">
-          {status === "authenticated" ? (
+    <nav className="flex border-b  py-2">
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              href={"/"}
+              className={navigationMenuTriggerStyle()}
+            >
+              StaffHub
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+
+          <NavigationMenuItem>
+            <ThemeSwitcher />
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+
+      <NavigationMenu>
+        <NavigationMenuList>
+          {status === "authenticated" && (
             <>
-              <Link
-                href={"/dashboard"}
-                className={`${buttonVariants({
-                  variant: "link",
-                })}`}
-              >
-                Dashboard
-              </Link>
-              <Link
-                href={"/staff"}
-                className={`${buttonVariants({
-                  variant: "link",
-                })}`}
-              >
-                My Staff
-              </Link>
-              <Link
-                href={"/schedule"}
-                className={`${buttonVariants({
-                  variant: "link",
-                })}`}
-              >
-                New Schedule
-              </Link>
-              <Link
-                target="_blank"
-                href={"https://staffhub-docs.vercel.app/"}
-                className={`${buttonVariants({
-                  variant: "link",
-                })}`}
-              >
-                Getting Started
-              </Link>
-              <Link
-                href={"/settings"}
-                className={`${buttonVariants({
-                  variant: "link",
-                })}`}
-              >
-                Settings
-              </Link>
-              <Button variant={"destructive"} onClick={() => signOut()}>
-                Sign out
-              </Button>
-            </>
-          ) : (
-            <>
-              <Link
-                target="_blank"
-                href={"https://staffhub-docs.vercel.app/"}
-                className={`${buttonVariants({
-                  variant: "link",
-                })}`}
-              >
-                Getting Started
-              </Link>
-              <Button variant={"default"} onClick={() => signIn("google")}>
-                Sign in
-              </Button>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href={"/dashboard"}
+                  className={navigationMenuTriggerStyle()}
+                >
+                  Dashboard
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href={"/staff"}
+                  className={navigationMenuTriggerStyle()}
+                >
+                  Staff
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href={"/schedule"}
+                  className={navigationMenuTriggerStyle()}
+                >
+                  Schedule
+                </NavigationMenuLink>
+              </NavigationMenuItem>
             </>
           )}
-        </div>
-        {/* Mobile begin */}
-        <div className="ml-4 sm:hidden">
-          <ThemeSwitcher />
-        </div>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              target="_blank"
+              className={navigationMenuTriggerStyle()}
+              href="https://staffhub-docs.vercel.app"
+            >
+              Getting Started
+            </NavigationMenuLink>
+          </NavigationMenuItem>
 
-        <Button
-          variant={"link"}
-          className="ml-auto mr-4 sm:hidden"
-          onClick={() => setShowMenu(!showMenu)}
-        >
-          <AlignJustify size={30} />
-        </Button>
+          {status === "authenticated" ? (
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>Settings</NavigationMenuTrigger>
 
-        {showMenu && (
-          <div className="absolute right-0 top-20 z-50 w-64 rounded border border-slate-300 bg-white p-4 shadow-lg dark:border-slate-700 dark:bg-slate-900">
-            <div className="flex flex-col space-y-2">
-              {status === "authenticated" ? (
-                <>
-                  <Link
-                    href={"/dashboard"}
-                    className={`${buttonVariants({
-                      variant: "link",
-                    })}`}
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    href={"/staff"}
-                    className={`${buttonVariants({
-                      variant: "link",
-                    })}`}
-                  >
-                    My Staff
-                  </Link>
-                  <Link
-                    href={"/schedule"}
-                    className={`${buttonVariants({
-                      variant: "link",
-                    })}`}
-                  >
-                    New Schedule
-                  </Link>
-                  <Link
-                    target="_blank"
-                    href={"https://staffhub-docs.vercel.app/"}
-                    className={`${buttonVariants({
-                      variant: "link",
-                    })}`}
-                  >
-                    Getting Started
-                  </Link>
-                  <Link
-                    href={"/settings"}
-                    className={`${buttonVariants({
-                      variant: "link",
-                    })}`}
-                  >
-                    Settings
-                  </Link>
-
-                  <Button variant={"destructive"} onClick={() => signOut()}>
-                    Sign out
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    target="_blank"
-                    href={"https://staffhub-docs.vercel.app/"}
-                    className={`${buttonVariants({
-                      variant: "link",
-                    })}`}
-                  >
-                    Getting Started
-                  </Link>
-                  <Button variant={"default"} onClick={() => signIn("google")}>
-                    Sign in
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Mobile end */}
-      </div>
-    </div>
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                  {links.map((link) => (
+                    <ListItem
+                      key={link.title}
+                      title={link.title}
+                      href={link.href}
+                    >
+                      {link.description}
+                    </ListItem>
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          ) : (
+            <NavigationMenuItem>
+              <Button
+                variant={"ghost"}
+                className={navigationMenuTriggerStyle()}
+                onClick={() => signIn("google")}
+              >
+                Sign In
+              </Button>
+            </NavigationMenuItem>
+          )}
+        </NavigationMenuList>
+      </NavigationMenu>
+    </nav>
   );
 }
+
+const ListItem = React.forwardRef<
+  React.ElementRef<"a">,
+  React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+  return (
+    <li>
+      <NavigationMenuLink asChild>
+        <a
+          ref={ref}
+          className={cn(
+            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+            className
+          )}
+          {...props}
+        >
+          <div className="text-sm font-medium leading-none">{title}</div>
+          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+            {children}
+          </p>
+        </a>
+      </NavigationMenuLink>
+    </li>
+  );
+});
+ListItem.displayName = "ListItem";

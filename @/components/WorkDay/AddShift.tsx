@@ -102,7 +102,7 @@ export default function AddShift({
       isOpen={showAddShift}
       className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
     >
-      <div className="flex flex-col items-start rounded-lg bg-white p-8 dark:bg-slate-800">
+      <div className="flex flex-col items-start rounded-lg bg-background p-8">
         <Heading size={"sm"}>
           Add a new shift {employee.name && "for"}{" "}
           <Link href={`/staff/${employee.id}`} className="hover:text-sky-500">

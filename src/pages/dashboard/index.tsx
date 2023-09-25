@@ -113,11 +113,9 @@ export default function DashboardPage() {
         <meta name="Dashboard" content="Manage your schedules" />
       </Head>
       <div className="flex flex-1 overflow-hidden">
-        <aside className="w-64 overflow-auto border-r border-gray-300 dark:border-gray-700">
+        <aside className="w-64 overflow-auto border-r ">
           <nav className="flex flex-col gap-4 p-4">
-            <h2 className="text-lg font-semibold text-zinc-500 dark:text-zinc-400">
-              Filters
-            </h2>
+            <h2 className="text-lg font-semibold">Filters</h2>
             <div className="space-y-4">
               <Select
                 open={showCalendar}
@@ -148,7 +146,7 @@ export default function DashboardPage() {
                   title="Previous Week"
                   onClick={handlePrevPage}
                   disabled={isFetching}
-                  className="rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
+                  className="rounded-lg border   bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
                 >
                   Prev Week
                 </Button>
@@ -158,7 +156,7 @@ export default function DashboardPage() {
                   title="Next Week"
                   onClick={handleNextPage}
                   disabled={isFetching}
-                  className="rounded-lg border border-slate-300 bg-white hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:hover:bg-slate-700"
+                  className="rounded-lg border   bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
                 >
                   Next Week
                 </Button>
@@ -189,14 +187,14 @@ export default function DashboardPage() {
                 })}{" "}
             </Heading>
 
-            <div className="flex min-h-[24rem] rounded-lg border-b border-t border-slate-300 dark:border-slate-600">
+            <div className="flex min-h-[24rem] rounded-lg border-b border-t  ">
               {workDays?.map((day, index) => {
                 console.log(day);
                 return (
                   <Link
                     key={day.id}
                     href={`/days/${day.id}/shifts`}
-                    className={`group flex w-full cursor-pointer flex-col items-center border-x border-slate-300 transition-colors duration-150 hover:bg-slate-50 dark:border-slate-600 dark:hover:bg-gray-800 ${
+                    className={`group flex w-full cursor-pointer flex-col items-center border-x   transition-colors duration-150 hover:bg-gray-50 dark:hover:bg-gray-800 ${
                       index === 0 && "rounded-s-lg"
                     } ${index === 6 && "rounded-e-lg"}`}
                   >
@@ -207,7 +205,7 @@ export default function DashboardPage() {
                       >
                         {formatDay(day.date)}
                       </Heading>
-                      <Paragraph className="w-full cursor-pointer border-b-2 border-slate-300 py-2 text-center group-hover:text-sky-500 dark:border-slate-600 dark:group-hover:text-sky-400">
+                      <Paragraph className="w-full cursor-pointer border-b-2   py-2 text-center group-hover:text-sky-500 dark:group-hover:text-sky-400">
                         {day && formatDate(day.date)}
                       </Paragraph>
                     </div>

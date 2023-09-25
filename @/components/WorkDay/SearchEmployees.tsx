@@ -79,7 +79,7 @@ export default function SearchEmployees({
   return (
     <main className="relative w-full">
       <div
-        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-800 dark:shadow-slate-950 "
+        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-gray-800 dark:shadow-gray-950 "
         onClick={() => {
           setIsOpen(!isOpen);
           setOpenRoles(false);
@@ -90,12 +90,12 @@ export default function SearchEmployees({
           type="text"
           value={employee.name}
           placeholder={"Choose an Employee..."}
-          className="text-md group m-0 cursor-pointer caret-transparent focus:border-background dark:placeholder:text-slate-400  dark:focus:border-background"
+          className="text-md group m-0 cursor-pointer caret-transparent focus:border-background dark:placeholder:text-gray-400  dark:focus:border-background"
         />
       </div>
       {isOpen && (
         <div
-          className={`animate-slideDown absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-800 dark:text-slate-300`}
+          className={`animate-slideDown absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-gray-800 dark:text-gray-300`}
         >
           <ul
             className={`${
@@ -108,7 +108,7 @@ export default function SearchEmployees({
               ?.sort((a, b) => a.name.localeCompare(b.name))
               .map((employee) => (
                 <li
-                  className="flex cursor-pointer items-center rounded-md px-2 py-2 text-lg hover:bg-gray-100 dark:hover:bg-slate-700"
+                  className="flex cursor-pointer items-center rounded-md px-2 py-2 text-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   key={employee.id}
                   onClick={() => handleSelect(employee)}
                 >

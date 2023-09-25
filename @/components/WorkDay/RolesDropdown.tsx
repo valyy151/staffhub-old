@@ -24,7 +24,7 @@ export default function RolesDropdown({
   return (
     <main className="relative w-full">
       <div
-        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-slate-800 dark:shadow-slate-950 "
+        className="group cursor-pointer rounded bg-white shadow hover:shadow-md dark:bg-gray-800 dark:shadow-gray-950 "
         onClick={() => {
           setIsOpen(!isOpen);
           setOpenStaff && setOpenStaff(false);
@@ -35,12 +35,12 @@ export default function RolesDropdown({
           type="text"
           value={role.name}
           placeholder={"Choose a Role..."}
-          className="text-md group m-0 cursor-pointer caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-slate-400"
+          className="text-md group m-0 cursor-pointer caret-transparent ring-offset-0 focus:ring-0 focus:ring-offset-0 dark:placeholder:text-gray-400"
         />
       </div>
       {isOpen && (
         <div
-          className={`animate-slideDown absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-slate-800 dark:text-slate-300`}
+          className={`animate-slideDown absolute z-10 mt-1 w-full rounded-md bg-white shadow-md dark:bg-gray-800 dark:text-gray-300`}
         >
           <ul
             className={`${
@@ -49,7 +49,7 @@ export default function RolesDropdown({
           >
             {roles.map((role) => (
               <li
-                className="flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 dark:hover:bg-slate-700"
+                className="flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
                 key={role.id}
                 onClick={() => handleSelect(role)}
               >

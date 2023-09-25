@@ -125,12 +125,12 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                   <TableCell>{formatDay(day.date)}</TableCell>
                   <TableCell className="text-right">
                     {!day.shifts[0]?.start && day.vacation && (
-                      <span className="italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
+                      <span className="italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
                         Vacation
                       </span>
                     )}
                     {!day.shifts[0]?.start && day.sickLeave && (
-                      <span className="italic group-hover:text-slate-800 dark:group-hover:text-slate-300">
+                      <span className="italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
                         Sick
                       </span>
                     )}

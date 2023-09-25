@@ -64,7 +64,7 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
 
   return (
     <>
-      <TableRow className="dark:border-slate-700">
+      <TableRow className="">
         <TableCell>
           <Link
             href={`/staff/${shift.employeeId}`}

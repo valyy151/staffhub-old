@@ -84,9 +84,9 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
       <div className="relative mb-2 w-fit">
         <SelectEmployees links employees={employees} />
       </div>
-      <div className="flex flex-col rounded-md border border-slate-300 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
+      <div className="flex flex-col rounded-md border ">
         {/* name and button begin */}
-        <div className="flex items-center justify-between border-b border-slate-300 py-4 dark:border-slate-600">
+        <div className="flex items-center justify-between border-b   py-4">
           <Heading size={"sm"} className="pl-4 text-left">
             {employee.name}
           </Heading>
@@ -188,25 +188,24 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
         </div>
         {/* name and button end */}
 
-        {showDropdown && <div className="relative"></div>}
         <div className="flex">
           {/* personal info begin */}
           <Link
             href={`/staff/${employee.id}/personal`}
-            className="min-h-[18rem] w-1/5 cursor-pointer border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
+            className="min-h-[18rem] w-1/5 cursor-pointer border-r  py-4 pl-2 transition-colors duration-150 hover:bg-accent"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Personal Info
               <User size={26} className="ml-2" />
             </Heading>
 
-            <div className="flex items-center border-slate-400 py-2">
+            <div className="flex items-center  py-2">
               <Paragraph className="flex items-center">
                 <Mail className="mr-4" /> {employee.email}
               </Paragraph>
             </div>
 
-            <div className="flex items-center border-slate-400 py-1">
+            <div className="flex items-center  py-1">
               <Paragraph className="flex items-center">
                 <Phone className="mr-4" />
                 {employee.phoneNumber}
@@ -225,7 +224,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* roles begin */}
           <Link
             href={`/staff/${employee.id}/roles`}
-            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
+            className="flex w-1/5 cursor-pointer flex-col border-r   py-4 pl-2 transition-colors duration-150 hover:bg-accent"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Roles
@@ -249,7 +248,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* sick leave begin */}
           <Link
             href={`/staff/${employee.id}/sick-leave`}
-            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
+            className="flex w-1/5 cursor-pointer flex-col border-r   py-4 pl-2 transition-colors duration-150 hover:bg-accent"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Sick Leave
@@ -266,8 +265,8 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* vacation begin */}
           <Link
             href={`/staff/${employee.id}/vacation`}
-            className="flex w-1/5 cursor-pointer flex-col border-r border-slate-300
-                 py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:border-slate-600 dark:hover:bg-slate-700"
+            className="flex w-1/5 cursor-pointer flex-col border-r 
+                  py-4 pl-2 transition-colors duration-150 hover:bg-accent"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Vacation <Palmtree size={26} className="ml-2" />
@@ -283,7 +282,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
           {/* preferences begin */}
           <Link
             href={`/staff/${employee.id}/preferences`}
-            className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-slate-100 dark:hover:bg-slate-700"
+            className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-accent"
           >
             <Heading size={"xs"} className="mb-2 flex items-center">
               Schedule Preferences <Sticker size={26} className="ml-2" />

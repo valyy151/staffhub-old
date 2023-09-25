@@ -48,10 +48,10 @@ export default function Home() {
           <div className="grid items-center gap-6">
             <div className="flex flex-col justify-center space-y-8 text-center">
               <div className="space-y-2">
-                <h1 className="bg-gradient-to-r from-black to-gray-400 bg-clip-text text-3xl font-bold tracking-tighter text-transparent dark:from-white dark:to-gray-500 sm:text-5xl xl:text-6xl/none">
+                <h1 className="bg-gradient-to-r from-primary to-primary/25 bg-clip-text text-3xl font-bold tracking-tighter text-transparent sm:text-5xl xl:text-6xl/none">
                   Simplify Administration, Maximize Results
                 </h1>
-                <p className="mx-auto max-w-[600px]  md:text-xl">
+                <p className="mx-auto max-w-[600px] bg-gradient-to-r from-primary to-primary/50 bg-clip-text text-transparent md:text-xl">
                   Designed to enhance your productivity and streamline your
                   workflow.
                 </p>
@@ -62,8 +62,10 @@ export default function Home() {
                     <div className="p-2">
                       <Users />
                     </div>
-                    <h2 className="text-xl font-bold ">Staff Overview</h2>
-                    <p className="">
+                    <h2 className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-xl font-bold text-transparent">
+                      Staff Overview
+                    </h2>
+                    <p className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-transparent">
                       All your staff in one place. See their shifts,
                       availability, and contact information.
                     </p>
@@ -72,8 +74,10 @@ export default function Home() {
                     <div className="p-2">
                       <CalendarClock />
                     </div>
-                    <h2 className="text-xl font-bold ">Schedule Planing</h2>
-                    <p className="">
+                    <h2 className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-xl font-bold text-transparent">
+                      Schedule Planing
+                    </h2>
+                    <p className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-transparent">
                       Create and share schedules with your staff. Easily add or
                       remove shifts.
                     </p>
@@ -82,8 +86,10 @@ export default function Home() {
                     <div className=" p-2">
                       <Forward />
                     </div>
-                    <h2 className="text-xl font-bold ">Share Documents</h2>
-                    <p className="">
+                    <h2 className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-xl font-bold text-transparent">
+                      Share Documents
+                    </h2>
+                    <p className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-transparent">
                       Share schedules and documents with your team easily.
                     </p>
                   </div>
@@ -91,10 +97,10 @@ export default function Home() {
                     <div className="p-2">
                       <Palmtree />
                     </div>
-                    <h2 className="text-xl font-bold ">
+                    <h2 className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-xl font-bold text-transparent">
                       Vacation and Sick Days
                     </h2>
-                    <p className="">
+                    <p className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-transparent">
                       Plan vacations for your staff and keep track of their sick
                       days.
                     </p>
@@ -103,10 +109,10 @@ export default function Home() {
                     <div className="p-2">
                       <FileSearch />
                     </div>
-                    <h2 className="text-xl font-bold ">
+                    <h2 className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-xl font-bold text-transparent">
                       Keep Track of Everything
                     </h2>
-                    <p className="">
+                    <p className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-transparent">
                       Keep track of your staff's hours, notes, overtime, and
                       more.
                     </p>
@@ -115,10 +121,10 @@ export default function Home() {
                     <div className="p-2">
                       <Cog />
                     </div>
-                    <h2 className="text-xl font-bold ">
+                    <h2 className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-xl font-bold text-transparent">
                       Advanced Customization
                     </h2>
-                    <p className="">
+                    <p className="bg-gradient-to-r from-primary to-primary/75 bg-clip-text text-transparent">
                       Every business is different. Customize StaffHub to fit
                       your needs.
                     </p>

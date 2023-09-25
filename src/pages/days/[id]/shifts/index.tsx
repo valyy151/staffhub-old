@@ -125,7 +125,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
         <Table>
           <TableHeader>
-            <TableRow className="dark:border-slate-700">
+            <TableRow className="">
               <TableHead>Employee</TableHead>
               <TableHead>Time</TableHead>
               <TableHead>Role</TableHead>

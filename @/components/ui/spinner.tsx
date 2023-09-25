@@ -9,7 +9,7 @@ interface SpinnerProps
 }
 
 const spinnerVariants = cva(
-  "dark:text-slate-400 text-slate-600 flex flex-col items-center",
+  "dark:text-gray-400 text-gray-600 flex flex-col items-center",
   {
     variants: {},
     defaultVariants: { size: "default" },
@@ -29,7 +29,7 @@ const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
         <div role="status">
           <svg
             aria-hidden="true"
-            className="mr-2 h-8 w-8 animate-spin fill-slate-800 text-gray-300 dark:fill-slate-200 dark:text-gray-600"
+            className="mr-2 h-8 w-8 animate-spin fill-gray-800 text-gray-300 dark:fill-gray-200 dark:text-gray-600"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

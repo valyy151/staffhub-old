@@ -121,7 +121,7 @@ export default function EmployeesListPage() {
             <TableRow
               key={employee.id}
               onClick={() => router.push(`/staff/${employee.id}`)}
-              className="cursor-pointer duration-75 hover:bg-slate-50 dark:hover:bg-slate-800"
+              className="cursor-pointer duration-75 hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               <TableCell className="cursor-pointer whitespace-nowrap font-medium">
                 {employee.name}
