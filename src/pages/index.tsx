@@ -142,13 +142,14 @@ export default function Home() {
               Dashboard
             </Link>
             <Link
-              href={"/documentation"}
+              target="_blank"
+              href={"https://staffhub-docs.vercel.app/"}
               className={buttonVariants({
                 size: "lg",
                 variant: "subtle",
               })}
             >
-              Documentation
+              Getting Started
             </Link>
           </div>
         </>
@@ -160,7 +161,8 @@ export default function Home() {
             Get Started
           </Button>
           <Link
-            href={"/documentation"}
+            target="_blank"
+            href={"https://staffhub-docs.vercel.app"}
             className={buttonVariants({
               size: "lg",
               variant: "subtle",

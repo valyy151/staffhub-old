@@ -41,6 +41,8 @@
     "next-themes": "^0.2.1",
     "nextjs-progressbar": "^0.0.16",
     "nextjs-toploader": "^1.4.2",
+    "nextra": "^2.13.0",
+    "nextra-theme-docs": "^2.13.0",
     "react": "18.2.0",
     "react-calendar": "^4.6.0",
     "react-day-picker": "^8.8.2",

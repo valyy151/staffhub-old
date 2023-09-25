@@ -52,12 +52,13 @@ export default function Navbar() {
                 New Schedule
               </Link>
               <Link
-                href={"/documentation"}
+                target="_blank"
+                href={"https://staffhub-docs.vercel.app/"}
                 className={`${buttonVariants({
                   variant: "link",
                 })}`}
               >
-                Documentation
+                Getting Started
               </Link>
               <Link
                 href={"/settings"}
@@ -74,12 +75,13 @@ export default function Navbar() {
           ) : (
             <>
               <Link
-                href={"/documentation"}
+                target="_blank"
+                href={"https://staffhub-docs.vercel.app/"}
                 className={`${buttonVariants({
                   variant: "link",
                 })}`}
               >
-                Documentation
+                Getting Started
               </Link>
               <Button variant={"default"} onClick={() => signIn("google")}>
                 Sign in
@@ -130,12 +132,13 @@ export default function Navbar() {
                     New Schedule
                   </Link>
                   <Link
-                    href={"/documentation"}
+                    target="_blank"
+                    href={"https://staffhub-docs.vercel.app/"}
                     className={`${buttonVariants({
                       variant: "link",
                     })}`}
                   >
-                    Documentation
+                    Getting Started
                   </Link>
                   <Link
                     href={"/settings"}
@@ -153,12 +156,13 @@ export default function Navbar() {
               ) : (
                 <>
                   <Link
-                    href={"/documentation"}
+                    target="_blank"
+                    href={"https://staffhub-docs.vercel.app/"}
                     className={`${buttonVariants({
                       variant: "link",
                     })}`}
                   >
-                    Documentation
+                    Getting Started
                   </Link>
                   <Button variant={"default"} onClick={() => signIn("google")}>
                     Sign in
