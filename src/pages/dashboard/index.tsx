@@ -209,24 +209,33 @@ export default function DashboardPage() {
                       </Paragraph>
                     </div>
                     <div className="mt-4 flex w-full flex-col items-center">
-                      {groupShifts(day.shifts).length > 0 ? (
-                        groupShifts(day.shifts).map((groupedShift) => (
-                          <Paragraph
-                            className="flex items-center"
-                            title={`${day.shifts.length} ${
-                              day.shifts.length === 1 ? "shift" : "shifts"
-                            } `}
-                            key={`${groupedShift.start}-${groupedShift.end}`}
-                          >
-                            <div className="mr-3 flex">
-                              {`${groupedShift.count}`}{" "}
-                              <User className="font-normal" />
-                            </div>
-                            {`${formatTime(groupedShift.start)} - ${formatTime(
-                              groupedShift.end
-                            )}`}
-                          </Paragraph>
-                        ))
+                      {day.shifts.length > 0 ? (
+                        day.shifts
+                          .sort((a, b) => a.start - b.start)
+                          .map((shift) => {
+                            return (
+                              <div
+                                title={shift.employee.name}
+                                key={shift.id}
+                                className="w-full"
+                              >
+                                <p className="text-md flex items-center">
+                                  <User className="ml-1" />
+                                  <span className="text-left">
+                                    {" "}
+                                    {shift.employee.name.split(" ")[0]}
+                                  </span>
+                                  <span className="ml-auto">
+                                    {formatTime(shift.start)}
+                                  </span>
+                                  -
+                                  <span className="mr-2">
+                                    {formatTime(shift.end)}
+                                  </span>
+                                </p>
+                              </div>
+                            );
+                          })
                       ) : (
                         <Paragraph className="flex items-center">
                           <CalendarOff className="mr-2" />
@@ -235,15 +244,14 @@ export default function DashboardPage() {
                       )}
                     </div>
 
-                    <Paragraph
-                      size={"lg"}
+                    <div
                       title={`${day.notes.length} ${
                         day.notes.length === 1 ? "note" : "notes"
                       }`}
                       className="mt-auto flex items-center pb-2 text-2xl duration-150 hover:text-sky-400"
                     >
-                      <Link
-                        href={`/days/${day.id}/notes`}
+                      <div
+                        onClick={() => router.push(`/days/${day.id}/notes`)}
                         className="flex items-center"
                       >
                         {day.notes.length}
@@ -252,8 +260,8 @@ export default function DashboardPage() {
                         ) : (
                           <Scroll className="ml-2 h-6 w-6" />
                         )}
-                      </Link>
-                    </Paragraph>
+                      </div>
+                    </div>
                   </Link>
                 );
               })}

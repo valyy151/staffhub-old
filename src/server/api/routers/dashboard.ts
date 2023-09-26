@@ -44,6 +44,18 @@ export const dashboardRouter = createTRPCRouter({
           userId: ctx.session.user.id,
           date: { gte: startOfWeek.getTime() / 1000 },
         },
+        select: {
+          employee: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          date: true,
+          id: true,
+          start: true,
+          end: true,
+        },
         orderBy: { date: "asc" },
       });
 

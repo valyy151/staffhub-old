@@ -79,23 +79,25 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
   return (
     <div className="flex">
-      <aside className="sticky top-0 h-screen w-56 bg-gray-100 p-4 text-gray-800 dark:bg-gray-800">
+      <aside className="sticky top-0 h-screen w-56 border-r p-4">
         <nav className="space-y-2">
           <Link
             href={`/days/${workDay.id}/shifts`}
-            className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 text-gray-500 hover:bg-gray-200 active:bg-gray-300  dark:text-gray-400 dark:hover:bg-gray-700"
+            className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 hover:bg-accent"
           >
             <Clock />
             <span className="text-sm font-medium">Shifts</span>
           </Link>
           <Link
             href={`/days/${workDay.id}/notes`}
-            className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 text-gray-500 hover:bg-gray-200 active:bg-gray-300  dark:text-gray-400 dark:hover:bg-gray-700"
+            className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 hover:bg-accent"
           >
             <ClipboardList />
-            <span className="text-sm font-medium">Notes</span>
+            <span className="text-sm font-medium">
+              Notes{workDay.notes.length > 0 && ` (${workDay.notes.length})`}
+            </span>
           </Link>
-          <button className="flex w-full items-center space-x-2 rounded-lg bg-gray-200 px-2 py-2 text-gray-800 active:bg-gray-300 dark:bg-gray-700 dark:text-gray-200">
+          <button className="flex w-full items-center space-x-2 rounded-lg bg-accent px-2 py-2">
             <UserCog />
             <span className="text-sm font-medium">Roles</span>
           </button>
