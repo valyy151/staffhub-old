@@ -9,6 +9,15 @@ import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import ReactModal from "react-modal";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 
 type ShiftModelProps = {
   shiftModel: {
@@ -61,11 +70,6 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
     },
   });
 
-  function handleEdit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    editShiftModel.mutate({ id: shiftModel.id, start, end });
-  }
-
   function handleTimeChange(newTime: string, field: "start" | "end") {
     const [hour, minute]: string[] = newTime.split(":");
     const newDate: any = new Date(shiftModel.start * 1000);
@@ -104,17 +108,11 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
       </div>
 
       {edit && (
-        <ReactModal
-          isOpen={edit}
-          className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
-        >
-          <form
-            className="animate-fade mx-auto rounded-xl border bg-background px-24 pb-6 pt-3 text-left shadow-lg"
-            onSubmit={handleEdit}
-          >
-            <Heading size={"sm"} className="text-center">
-              Edit Shift Model
-            </Heading>
+        <AlertDialog open>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle> Edit Shift Model</AlertDialogTitle>
+            </AlertDialogHeader>
             <div className="mt-4 flex flex-col space-y-4">
               <div>
                 <Label>Start Time</Label>
@@ -132,20 +130,21 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
                   onChange={(e) => handleTimeChange(e.target.value, "end")}
                 />
               </div>
-
-              <div className="flex justify-end space-x-2">
-                <Button
-                  size={"lg"}
-                  variant={"subtle"}
-                  onClick={() => setEdit(false)}
-                >
-                  Cancel
-                </Button>
-                <Button size={"lg"}>Submit</Button>
-              </div>
             </div>
-          </form>
-        </ReactModal>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setEdit(false)}>
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() =>
+                  editShiftModel.mutate({ id: shiftModel.id, start, end })
+                }
+              >
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       )}
       {showModal && (
         <FormModal

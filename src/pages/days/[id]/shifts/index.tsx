@@ -145,11 +145,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         </Table>
       </main>
       {showAddShift && (
-        <AddShift
-          data={workDay}
-          showAddShift={showAddShift}
-          setShowAddShift={setShowAddShift}
-        />
+        <AddShift data={workDay} setShowAddShift={setShowAddShift} />
       )}
     </div>
   );

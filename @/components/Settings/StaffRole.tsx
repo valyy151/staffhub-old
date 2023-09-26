@@ -12,6 +12,15 @@ import { Input } from "@/components/ui/input";
 
 import ReactModal from "react-modal";
 import { Label } from "@/components/ui/label";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 
 type StaffRoleProps = {
   role: StaffRole;
@@ -62,9 +71,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
     },
   });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
+  function handleSubmit() {
     updateStaffRole.mutate({
       name,
       staffRoleId: role.id,
@@ -105,17 +112,12 @@ export default function StaffRole({ role }: StaffRoleProps) {
       </div>
 
       {edit && (
-        <ReactModal
-          isOpen={edit}
-          className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
-        >
-          <form
-            className="animate-fade mx-auto rounded-xl border bg-background px-24 pb-6 pt-3 text-left shadow-lg"
-            onSubmit={handleSubmit}
-          >
-            <Heading size={"sm"} className="mt-4">
-              Edit Staff Role
-            </Heading>
+        <AlertDialog open>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle> Edit Staff Role</AlertDialogTitle>
+            </AlertDialogHeader>
+
             <div className="mt-4">
               <Label htmlFor="name">Name</Label>
 
@@ -129,7 +131,7 @@ export default function StaffRole({ role }: StaffRoleProps) {
             </div>
 
             <div className="mt-4">
-              <Label htmlFor="numberPerDay">Minimum</Label>
+              <Label htmlFor="numberPerDay">Minimum per day</Label>
 
               <Input
                 type="number"
@@ -141,20 +143,16 @@ export default function StaffRole({ role }: StaffRoleProps) {
               />
             </div>
 
-            <div className="mt-4 flex justify-end space-x-2">
-              <Button
-                size={"lg"}
-                variant={"subtle"}
-                onClick={() => setEdit(false)}
-              >
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={() => setEdit(false)}>
                 Cancel
-              </Button>
-              <Button size={"lg"} type="submit">
-                Update
-              </Button>
-            </div>
-          </form>
-        </ReactModal>
+              </AlertDialogCancel>
+              <AlertDialogAction onClick={handleSubmit}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       )}
       {showModal && (
         <FormModal

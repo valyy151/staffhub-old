@@ -11,6 +11,24 @@ import Heading from "../ui/heading";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type Shift = {
   id: string;
@@ -27,14 +45,12 @@ type Shift = {
 
 type ModalProps = {
   shift: Shift;
-  showModal: boolean;
   setEditMode: (editMode: boolean) => void;
   shiftModels: { start: number; end: number }[];
 };
 
 export default function EditModal({
   shift,
-  showModal,
   shiftModels,
   setEditMode,
 }: ModalProps) {
@@ -87,13 +103,105 @@ export default function EditModal({
   }
 
   return (
-    <ReactModal
-      isOpen={showModal}
-      className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
-    >
-      <div className="animate-fade mx-auto rounded-xl border  px-12 pb-6 text-left shadow-lg">
-        <div className="mt-6 flex flex-col">
-          <Heading size={"sm"} className="mb-4">
+    // <Dialog open onOpenChange={() => setEditMode(false)}>
+    //   <DialogContent>
+    //     <DialogHeader>
+    //       <DialogTitle className="text-xl">
+    //         {shift.employee.name} -{"  "}
+    //         {new Date(shift.date * 1000).toLocaleDateString("en-GB", {
+    //           weekday: "long",
+    //           year: "numeric",
+    //           month: "long",
+    //           day: "numeric",
+    //         })}
+    //       </DialogTitle>
+    //     </DialogHeader>
+    //     <div className="flex w-fit items-center space-x-2">
+    //       {shift.employee.roles.length > 0 && (
+    //         <div>
+    //           <Label className="ml-2">Role</Label>
+    //           <RolesDropdown
+    //             role={role}
+    //             setRole={setRole}
+    //             isOpen={openRoles}
+    //             setIsOpen={setOpenRoles}
+    //             roles={shift.employee.roles}
+    //           />
+    //         </div>
+    //       )}
+    //       <div>
+    //         <Label className="ml-2">Start</Label>
+    //         <Input
+    //           value={formatTime(start)}
+    //           className=" w-36 text-2xl"
+    //           onChange={(e) => {
+    //             handleTimeChange(e.target.value, "start");
+    //           }}
+    //         />
+    //       </div>
+    //       <div>
+    //         <Label className="ml-2">End</Label>
+    //         <Input
+    //           value={formatTime(end)}
+    //           className=" w-36 text-2xl"
+    //           onChange={(e) => {
+    //             handleTimeChange(e.target.value, "end");
+    //           }}
+    //         />
+    //       </div>
+    //       <div>
+    //         <Label className="ml-2">Total</Label>
+    //         <Heading
+    //           size={"xs"}
+    //           className="h-14 w-16 border-none px-4 py-3 text-2xl disabled:cursor-default"
+    //         >
+    //           {formatTotal(start, end)}
+    //         </Heading>
+    //       </div>
+    //     </div>
+    //     <div className="mt-4">
+    //       <Heading size={"sm"}>Choose a shift:</Heading>
+    //       <div className="mt-1 flex space-x-8">
+    //         {shiftModels
+    //           .sort((a, b) => a.start - b.start)
+    //           .map((shiftModel) => (
+    //             <Heading
+    //               size={"xs"}
+    //               onClick={() => {
+    //                 handleTimeChange(formatTime(shiftModel.start)!!, "start");
+    //                 handleTimeChange(
+    //                   formatTime(shiftModel.end) === "00:00"
+    //                     ? "24:00"
+    //                     : formatTime(shiftModel.end)!!,
+    //                   "end"
+    //                 );
+    //               }}
+    //               className="cursor-pointer font-medium underline-offset-8 hover:text-sky-500 hover:underline"
+    //             >
+    //               {formatTime(shiftModel.start)} - {formatTime(shiftModel.end)}
+    //             </Heading>
+    //           ))}
+    //       </div>
+    //     </div>
+    //     <div className="ml-auto mt-4 flex space-x-2">
+    //       <Button
+    //         size={"lg"}
+    //         variant={"subtle"}
+    //         className="text-xl"
+    //         onClick={() => setEditMode(false)}
+    //       >
+    //         Cancel
+    //       </Button>
+    //       <Button size={"lg"} onClick={updateShift} className="text-xl">
+    //         Save
+    //       </Button>
+    //     </div>
+    //   </DialogContent>
+    // </Dialog>
+    <AlertDialog open>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
             {shift.employee.name} -{"  "}
             {new Date(shift.date * 1000).toLocaleDateString("en-GB", {
               weekday: "long",
@@ -101,25 +209,15 @@ export default function EditModal({
               month: "long",
               day: "numeric",
             })}
-          </Heading>
-          <div className="flex w-fit items-center space-x-2">
-            {shift.employee.roles.length > 0 && (
-              <div>
-                <Label className="ml-2">Role</Label>
-                <RolesDropdown
-                  role={role}
-                  setRole={setRole}
-                  isOpen={openRoles}
-                  setIsOpen={setOpenRoles}
-                  roles={shift.employee.roles}
-                />
-              </div>
-            )}
+          </AlertDialogTitle>
+        </AlertDialogHeader>
+        <div className="flex w-fit flex-col">
+          <div className="flex space-x-1">
             <div>
               <Label className="ml-2">Start</Label>
               <Input
                 value={formatTime(start)}
-                className=" w-36 text-2xl"
+                className="w-36 text-2xl"
                 onChange={(e) => {
                   handleTimeChange(e.target.value, "start");
                 }}
@@ -129,62 +227,66 @@ export default function EditModal({
               <Label className="ml-2">End</Label>
               <Input
                 value={formatTime(end)}
-                className=" w-36 text-2xl"
+                className="w-36 text-2xl"
                 onChange={(e) => {
                   handleTimeChange(e.target.value, "end");
                 }}
               />
             </div>
             <div>
-              <Label className="ml-2">Total</Label>
+              <Label className="ml-4">Total</Label>
               <Heading
                 size={"xs"}
-                className="h-14 w-16 border-none px-4 py-3 text-2xl disabled:cursor-default"
+                className="h-14 w-16 border-none px-4 py-1 text-2xl disabled:cursor-default"
               >
                 {formatTotal(start, end)}
               </Heading>
             </div>
           </div>
-          <div className="mt-4">
-            <Heading size={"sm"}>Choose a shift:</Heading>
-            <div className="mt-1 flex space-x-8">
-              {shiftModels
-                .sort((a, b) => a.start - b.start)
-                .map((shiftModel) => (
-                  <Heading
-                    size={"xs"}
-                    onClick={() => {
-                      handleTimeChange(formatTime(shiftModel.start)!!, "start");
-                      handleTimeChange(
-                        formatTime(shiftModel.end) === "00:00"
-                          ? "24:00"
-                          : formatTime(shiftModel.end)!!,
-                        "end"
-                      );
-                    }}
-                    className="cursor-pointer font-medium underline-offset-8 hover:text-sky-500 hover:underline"
-                  >
-                    {formatTime(shiftModel.start)} -{" "}
-                    {formatTime(shiftModel.end)}
-                  </Heading>
-                ))}
+          {shift.employee.roles.length > 0 && (
+            <div>
+              <Label className="ml-2">Role</Label>
+              <RolesDropdown
+                role={role}
+                setRole={setRole}
+                isOpen={openRoles}
+                setIsOpen={setOpenRoles}
+                roles={shift.employee.roles}
+              />
             </div>
-          </div>
-          <div className="ml-auto mt-4 flex space-x-2">
-            <Button
-              size={"lg"}
-              variant={"subtle"}
-              className="text-xl"
-              onClick={() => setEditMode(false)}
-            >
-              Cancel
-            </Button>
-            <Button size={"lg"} onClick={updateShift} className="text-xl">
-              Save
-            </Button>
+          )}
+        </div>
+        <div className="mt-4">
+          <Heading size={"xs"}>Choose a shift:</Heading>
+          <div className="mt-1 flex space-x-8">
+            {shiftModels
+              .sort((a, b) => a.start - b.start)
+              .map((shiftModel) => (
+                <Heading
+                  size={"xxs"}
+                  onClick={() => {
+                    handleTimeChange(formatTime(shiftModel.start)!!, "start");
+                    handleTimeChange(
+                      formatTime(shiftModel.end) === "00:00"
+                        ? "24:00"
+                        : formatTime(shiftModel.end)!!,
+                      "end"
+                    );
+                  }}
+                  className="cursor-pointer font-medium underline-offset-8 hover:text-sky-500 hover:underline"
+                >
+                  {formatTime(shiftModel.start)} - {formatTime(shiftModel.end)}
+                </Heading>
+              ))}
           </div>
         </div>
-      </div>
-    </ReactModal>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setEditMode(false)}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={updateShift}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

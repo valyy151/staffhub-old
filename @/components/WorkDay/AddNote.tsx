@@ -6,6 +6,15 @@ import { type WorkDay, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import ReactModal from "react-modal";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "../ui/alert-dialog";
 
 type AddNoteProps = {
   data: WorkDay;
@@ -58,43 +67,26 @@ export default function AddNote({
   }
 
   return (
-    <ReactModal
-      isOpen={showAddNote}
-      className="fixed inset-0 flex items-center justify-center bg-[rgba(16,17,30,0.7)]"
-    >
-      <div className="flex flex-col items-start rounded-lg bg-background p-8">
-        <form onSubmit={handleSubmit} className="flex flex-col">
-          <Heading size={"sm"} className="mb-3">
-            Add a new note
-          </Heading>
-
-          <textarea
-            rows={4}
-            cols={40}
-            value={content}
-            placeholder=" Add a note..."
-            className="dark:focus: resize-none rounded-lg border   bg-transparent px-3 py-2 placeholder:text-gray-500 focus:border-black focus:ring-black disabled:cursor-not-allowed disabled:opacity-50 dark:bg-transparent dark:text-gray-50 dark:placeholder:text-gray-400 dark:focus:ring-gray-300"
-            onChange={(e) => setContent(e.target.value)}
-          />
-          <div className="mt-3 flex w-full space-x-2">
-            {" "}
-            <Button size={"lg"} title="Add note">
-              <Save size={28} className="mr-2" />
-              Save
-            </Button>
-            <Button
-              size={"lg"}
-              type="button"
-              title="Cancel note creation"
-              variant={"subtle"}
-              onClick={() => setShowAddNote(false)}
-            >
-              <ArrowLeft size={28} className="mr-2" />
-              Cancel
-            </Button>
-          </div>
-        </form>
-      </div>
-    </ReactModal>
+    <AlertDialog open>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle> Add a Note</AlertDialogTitle>
+        </AlertDialogHeader>
+        <textarea
+          rows={4}
+          cols={40}
+          value={content}
+          placeholder=" Add a note..."
+          className="dark:focus: resize-none rounded-lg border   bg-transparent px-3 py-2 placeholder:text-gray-500 focus:border-black focus:ring-black disabled:cursor-not-allowed disabled:opacity-50 dark:bg-transparent dark:text-gray-50 dark:placeholder:text-gray-400 dark:focus:ring-gray-300"
+          onChange={(e) => setContent(e.target.value)}
+        />
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setShowAddNote(false)}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleSubmit}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

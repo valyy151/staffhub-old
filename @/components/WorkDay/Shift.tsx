@@ -113,7 +113,6 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
       {editMode && (
         <EditModal
           shift={shift}
-          showModal={editMode}
           setEditMode={setEditMode}
           shiftModels={shiftModels}
         />

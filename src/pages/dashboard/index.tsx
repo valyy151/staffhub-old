@@ -199,8 +199,8 @@ export default function DashboardPage() {
                   >
                     <div className="w-full text-center">
                       <Heading
-                        className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-500 dark:group-hover:text-sky-400"
                         size={"xs"}
+                        className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-500 dark:group-hover:text-sky-400"
                       >
                         {formatDay(day.date)}
                       </Heading>
@@ -228,7 +228,7 @@ export default function DashboardPage() {
                                   <span className="ml-auto">
                                     {formatTime(shift.start)}
                                   </span>
-                                  -
+                                  <span className="mx-0.5">-</span>
                                   <span className="mr-2">
                                     {formatTime(shift.end)}
                                   </span>
