@@ -25,7 +25,7 @@ export default function Home() {
             content="StaffHub is a web application that helps you manage your staff and their shifts."
           />
         </Head>
-        <h1 className="mb-6 bg-gradient-to-r from-black to-gray-500 bg-clip-text text-3xl font-bold tracking-tighter text-transparent dark:from-white dark:to-gray-500 sm:text-5xl xl:text-6xl/none">
+        <h1 className="mb-6 bg-gradient-to-r from-black to-gray-500 bg-clip-text text-5xl font-bold tracking-tighter text-transparent dark:from-white dark:to-gray-500">
           StaffHub
         </h1>
         <Spinner noMargin />
