@@ -1,12 +1,13 @@
-import { useState } from "react";
-import Paragraph from "@/components/ui/paragraph";
-import { formatDateLong } from "~/utils/dateFormatting";
-import { Button } from "@/components/ui/button";
-import { Trash2 } from "lucide-react";
-import FormModal from "@/components/ui/form-modal";
-import { api } from "~/utils/api";
-import { useQueryClient } from "@tanstack/react-query";
-import { useToast } from "@/components/ui/use-toast";
+import { Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { api } from '~/utils/api';
+import { formatDateLong } from '~/utils/dateFormatting';
+
+import { Button } from '@/components/ui/button';
+import FormModal from '@/components/ui/form-modal';
+import Paragraph from '@/components/ui/paragraph';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type SickLeaveProps = {
   sickLeave: { id: string; start: bigint; end: bigint };

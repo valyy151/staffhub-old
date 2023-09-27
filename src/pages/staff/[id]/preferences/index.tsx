@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
-import { api } from "~/utils/api";
-import router from "next/router";
-import { useToast } from "@/components/ui/use-toast";
+import { ArrowLeft, Save, Sticker } from 'lucide-react';
+import Link from 'next/link';
+import router from 'next/router';
+import { useEffect, useState } from 'react';
+import { api } from '~/utils/api';
+import { formatTime } from '~/utils/dateFormatting';
 
-import Heading from "@/components/ui/heading";
-
-import Paragraph from "@/components/ui/paragraph";
-import Sidebar from "@/components/Staff/Sidebar";
-import { useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Save, Sticker } from "lucide-react";
-import { formatTime } from "~/utils/dateFormatting";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import Sidebar from '@/components/Staff/Sidebar';
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import Paragraph from '@/components/ui/paragraph';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type SchedulePreferencesProps = {
   query: { id: string };

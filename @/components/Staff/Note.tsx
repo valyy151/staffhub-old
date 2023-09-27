@@ -1,11 +1,13 @@
-import FormModal from "../ui/form-modal";
-import { api } from "~/utils/api";
-import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import Paragraph from "../ui/paragraph";
-import { useQueryClient } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { api } from '~/utils/api';
+
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
+
+import FormModal from '../ui/form-modal';
+import Paragraph from '../ui/paragraph';
 
 type NoteProps = {
   note: { id: string; content: string; createdAt: Date };

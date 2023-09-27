@@ -1,11 +1,8 @@
-import { it, expect } from "vitest";
+import { expect, it } from 'vitest';
+
 import {
-  formatDay,
-  formatTime,
-  formatTotal,
-  formatMonth,
-  getMonthBoundaryTimestamps,
-} from "../dateFormatting";
+    formatDay, formatMonth, formatTime, formatTotal, getMonthBoundaryTimestamps
+} from '../dateFormatting';
 
 it("should return start and end of month", () => {
   const [start, end] = getMonthBoundaryTimestamps(new Date("2021-01-31"));

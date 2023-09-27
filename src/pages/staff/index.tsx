@@ -1,14 +1,16 @@
-import { useState } from "react";
-import router from "next/router";
-import { getSession } from "next-auth/react";
-import Heading from "@/components/ui/heading";
-import Spinner from "@/components/ui/spinner";
 import { UserPlus } from "lucide-react";
-import { api } from "~/utils/api";
-import { type GetServerSideProps } from "next/types";
+import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
+import router from "next/router";
+import { GetServerSideProps } from "next/types";
+import { useState } from "react";
+import { api } from "~/utils/api";
+
 import { buttonVariants } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import Spinner from "@/components/ui/spinner";
 import {
   Table,
   TableBody,
@@ -17,7 +19,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);

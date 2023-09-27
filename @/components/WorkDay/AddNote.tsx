@@ -1,11 +1,9 @@
-import { ArrowLeft, Save } from "lucide-react";
 import { useState } from "react";
+import { api, WorkDay } from "~/utils/api";
+
 import { useToast } from "@/components/ui/use-toast";
-import Heading from "../ui/heading";
-import { type WorkDay, api } from "~/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
-import ReactModal from "react-modal";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,15 +16,10 @@ import {
 
 type AddNoteProps = {
   data: WorkDay;
-  showAddNote: boolean;
   setShowAddNote: (showAddnote: boolean) => void;
 };
 
-export default function AddNote({
-  data,
-  showAddNote,
-  setShowAddNote,
-}: AddNoteProps) {
+export default function AddNote({ data, setShowAddNote }: AddNoteProps) {
   const [content, setContent] = useState<string>("");
 
   const { toast } = useToast();

@@ -1,6 +1,7 @@
-import * as React from "react";
-import { cn } from "@/lib/utils";
-import { type VariantProps, cva } from "class-variance-authority";
+import { cva, VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+
+import { cn } from '@/lib/utils';
 
 export const paragraphVariants = cva(
   "max-w-prose text-gray-950 dark:text-gray-200",

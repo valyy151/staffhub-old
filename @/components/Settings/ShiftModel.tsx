@@ -1,23 +1,19 @@
-import FormModal from "../ui/form-modal";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import Heading from "../ui/heading";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useQueryClient } from "@tanstack/react-query";
-import { formatTime, formatTotal } from "~/utils/dateFormatting";
-import ReactModal from "react-modal";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
+import { useState } from 'react';
+import { api } from '~/utils/api';
+import { formatTime, formatTotal } from '~/utils/dateFormatting';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
+
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "../ui/alert-dialog";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
+    AlertDialogHeader, AlertDialogTitle
+} from '../ui/alert-dialog';
+import FormModal from '../ui/form-modal';
+import Heading from '../ui/heading';
 
 type ShiftModelProps = {
   shiftModel: {
@@ -94,12 +90,12 @@ export default function ShiftModel({ shiftModel }: ShiftModelProps) {
           </Heading>
         </div>
         <div className="space-x-2">
-          <Button size={"lg"} variant={"subtle"} onClick={() => setEdit(true)}>
+          <Button size={"lg"} onClick={() => setEdit(true)}>
             Edit
           </Button>
           <Button
             size={"lg"}
-            variant={"destructive"}
+            variant={"subtle"}
             onClick={() => setShowModal(true)}
           >
             Delete

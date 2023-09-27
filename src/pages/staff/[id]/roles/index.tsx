@@ -1,13 +1,14 @@
-import router from "next/router";
-import { api } from "~/utils/api";
-import { useToast } from "@/components/ui/use-toast";
-import { UserCog } from "lucide-react";
-import Heading from "@/components/ui/heading";
-import { Button } from "@/components/ui/button";
-import Sidebar from "@/components/Staff/Sidebar";
-import Paragraph from "@/components/ui/paragraph";
-import { useQueryClient } from "@tanstack/react-query";
-import { Input } from "@/components/ui/input";
+import { UserCog } from 'lucide-react';
+import router from 'next/router';
+import { api } from '~/utils/api';
+
+import Sidebar from '@/components/Staff/Sidebar';
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import { Input } from '@/components/ui/input';
+import Paragraph from '@/components/ui/paragraph';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type EmployeeRolesPageProps = {
   query: { id: string };

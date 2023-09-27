@@ -1,6 +1,6 @@
-import { useRouter } from "next/router";
-import { User2, ArrowLeft, ScrollText } from "lucide-react";
-import Link from "next/link";
+import { ScrollText, User2 } from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function Sidebar() {
   const router = useRouter();

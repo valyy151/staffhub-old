@@ -1,18 +1,19 @@
-import router from "next/router";
-import { api } from "~/utils/api";
-import { useToast } from "@/components/ui/use-toast";
-import { useEffect, useState } from "react";
-import Heading from "@/components/ui/heading";
-import Paragraph from "@/components/ui/paragraph";
-import { howManyDays } from "~/utils/calculateHours";
-import Sidebar from "@/components/Staff/Sidebar";
-import { useQueryClient } from "@tanstack/react-query";
-import Vacation from "@/components/Staff/Vacation";
-import { checkVacations } from "~/utils/checkVacations";
-import AddVacation from "@/components/Staff/AddVacation";
-import { ArrowLeft, FileDigit, Palmtree, Save } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { ArrowLeft, FileDigit, Palmtree, Save } from 'lucide-react';
+import router from 'next/router';
+import { useEffect, useState } from 'react';
+import { api } from '~/utils/api';
+import { howManyDays } from '~/utils/calculateHours';
+import { checkVacations } from '~/utils/checkVacations';
+
+import AddVacation from '@/components/Staff/AddVacation';
+import Sidebar from '@/components/Staff/Sidebar';
+import Vacation from '@/components/Staff/Vacation';
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import { Input } from '@/components/ui/input';
+import Paragraph from '@/components/ui/paragraph';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type VacationPageProps = {
   query: { id: string };

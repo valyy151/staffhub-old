@@ -5,16 +5,15 @@ import {
   formatTotal,
 } from "~/utils/dateFormatting";
 
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
 
 type Data = {
   date: number;

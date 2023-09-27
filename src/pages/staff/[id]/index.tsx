@@ -12,21 +12,14 @@ import {
   User,
   UserCog,
 } from "lucide-react";
+import Link from "next/link";
 import router from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
-import { useToast } from "@/components/ui/use-toast";
-
-import Heading from "@/components/ui/heading";
-import Spinner from "@/components/ui/spinner";
-import { Button } from "@/components/ui/button";
-import FormModal from "@/components/ui/form-modal";
-import Paragraph from "@/components/ui/paragraph";
-import { formatTime } from "~/utils/dateFormatting";
 import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
-import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
+import { formatTime } from "~/utils/dateFormatting";
 
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,6 +28,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import FormModal from "@/components/ui/form-modal";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import Spinner from "@/components/ui/spinner";
+import { useToast } from "@/components/ui/use-toast";
+
 import SelectEmployees from "../../../../@/components/Schedule/SelectEmployee";
 
 type EmployeeProfileProps = {
@@ -59,8 +58,6 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
   const { toast } = useToast();
 
   const [showModal, setShowModal] = useState<boolean>(false);
-
-  const [showDropdown] = useState<boolean>(false);
 
   const deleteEmployee = api.employee.delete.useMutation({
     onSuccess: () => {

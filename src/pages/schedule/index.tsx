@@ -1,32 +1,27 @@
-import Head from "next/head";
-import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
-import { Employee, api } from "~/utils/api";
-import { getSession } from "next-auth/react";
-import sentences from "~/data/schedule.json";
-import Heading from "@/components/ui/heading";
-import Spinner from "@/components/ui/spinner";
-import InfoModal from "@/components/ui/info-modal";
-import { type GetServerSideProps } from "next/types";
-import { CalendarIcon, CalendarPlus, Info, UserPlus, X } from "lucide-react";
-import ScheduleTable from "@/components/Schedule/ScheduleTable";
-import { formatMonth, formatTime } from "~/utils/dateFormatting";
-import { generateYearArray, updateMonthData } from "~/utils/yearArray";
-import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
-import router from "next/router";
-import ReactModal from "react-modal";
-import { Button } from "@/components/ui/button";
-import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import SelectEmployee from "@/components/Schedule/SelectEmployee";
+import 'react-calendar/dist/Calendar.css';
+
+import { CalendarPlus, Info, UserPlus } from 'lucide-react';
+import { getSession } from 'next-auth/react';
+import Head from 'next/head';
+import router from 'next/router';
+import { GetServerSideProps } from 'next/types';
+import { useState } from 'react';
+import Calendar from 'react-calendar';
+import sentences from '~/data/schedule.json';
+import { api, Employee } from '~/utils/api';
+import { calculateTotalMonthlyHours } from '~/utils/calculateHours';
+import { findSickLeaveDays, findVacationDays } from '~/utils/checkAbsence';
+import { formatMonth, formatTime } from '~/utils/dateFormatting';
+import { generateYearArray, updateMonthData } from '~/utils/yearArray';
+
+import ScheduleTable from '@/components/Schedule/ScheduleTable';
+import SelectEmployee from '@/components/Schedule/SelectEmployee';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import Heading from '@/components/ui/heading';
+import InfoModal from '@/components/ui/info-modal';
+import Spinner from '@/components/ui/spinner';
+import { useToast } from '@/components/ui/use-toast';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);

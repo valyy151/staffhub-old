@@ -1,22 +1,21 @@
-import router from "next/router";
-import { api } from "~/utils/api";
-import { useEffect, useState } from "react";
-import Spinner from "@/components/ui/spinner";
-import Heading from "@/components/ui/heading";
-import Shift from "@/components/WorkDay/Shift";
-import AddShift from "@/components/WorkDay/AddShift";
-import { formatDateLong, formatDay } from "~/utils/dateFormatting";
-import { Button } from "@/components/ui/button";
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-} from "@/components/ui/table";
-
 import { ClipboardList, Clock, UserCog } from "lucide-react";
 import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
+
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import AddShift from "@/components/WorkDay/AddShift";
+import Shift from "@/components/WorkDay/Shift";
 
 type WorkDayPageProps = {
   query: { id: string };
@@ -51,41 +50,41 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
     return null;
   }
 
-  function checkRoles() {
-    const roles: JSX.Element[] = [];
+  // function checkRoles() {
+  //   const roles: JSX.Element[] = [];
 
-    workDay?.roles.forEach((role) => {
-      const minRequired = role.numberPerDay;
+  //   workDay?.roles.forEach((role) => {
+  //     const minRequired = role.numberPerDay;
 
-      const shifts = workDay?.shifts.filter(
-        (shift) => shift.roleId === role.id
-      );
+  //     const shifts = workDay?.shifts.filter(
+  //       (shift) => shift.roleId === role.id
+  //     );
 
-      const employees = shifts?.map((shift) => shift.employeeId);
-      const uniqueEmployees = [...new Set(employees)];
+  //     const employees = shifts?.map((shift) => shift.employeeId);
+  //     const uniqueEmployees = [...new Set(employees)];
 
-      return roles.push(
-        <div className="flex flex-col ">
-          <Heading
-            size={"xxs"}
-            className={`font-medium ${
-              uniqueEmployees.length < minRequired!!
-                ? "text-red-500"
-                : "text-green-500"
-            }`}
-          >
-            {uniqueEmployees.length} / {minRequired} {role.name}s
-          </Heading>
-        </div>
-      );
-    });
+  //     return roles.push(
+  //       <div className="flex flex-col ">
+  //         <Heading
+  //           size={"xxs"}
+  //           className={`font-medium ${
+  //             uniqueEmployees.length < minRequired!!
+  //               ? "text-red-500"
+  //               : "text-green-500"
+  //           }`}
+  //         >
+  //           {uniqueEmployees.length} / {minRequired} {role.name}s
+  //         </Heading>
+  //       </div>
+  //     );
+  //   });
 
-    if (roles.length === 0) {
-      return;
-    }
+  //   if (roles.length === 0) {
+  //     return;
+  //   }
 
-    return roles;
-  }
+  //   return roles;
+  // }
 
   return (
     <div className="flex">

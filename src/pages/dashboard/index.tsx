@@ -1,30 +1,21 @@
-import Head from "next/head";
-import { X, User, Scroll, ScrollText, CalendarOff } from "lucide-react";
-import router from "next/router";
-import { useEffect, useState } from "react";
-import { CalendarPlus } from "lucide-react";
+import 'react-calendar/dist/Calendar.css';
 
-import groupShifts from "~/utils/groupShifts";
+import { CalendarOff, CalendarPlus, Scroll, ScrollText, User } from 'lucide-react';
+import { getSession } from 'next-auth/react';
+import Head from 'next/head';
+import Link from 'next/link';
+import router from 'next/router';
+import { GetServerSideProps } from 'next/types';
+import { useEffect, useState } from 'react';
+import Calendar from 'react-calendar';
+import { api, DashboardWorkDay } from '~/utils/api';
+import { formatDate, formatDay, formatTime } from '~/utils/dateFormatting';
 
-import { getSession } from "next-auth/react";
-
-import { type GetServerSideProps } from "next/types";
-import { type DashboardWorkDay, api } from "~/utils/api";
-
-import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import Heading from "@/components/ui/heading";
-import Spinner from "@/components/ui/spinner";
-import Paragraph from "@/components/ui/paragraph";
-import "react-calendar/dist/Calendar.css";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-} from "@/components/ui/select";
-import Calendar from "react-calendar";
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import Paragraph from '@/components/ui/paragraph';
+import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);

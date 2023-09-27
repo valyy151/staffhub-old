@@ -1,17 +1,14 @@
-import { useEffect, useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import Heading from "../ui/heading";
-
-import { type WorkDay, api, Employee } from "~/utils/api";
-import SearchEmployees from "./SearchEmployees";
-import { ArrowLeft, Clock8 } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
-import { formatTime, formatTotal } from "~/utils/dateFormatting";
 import Link from "next/link";
-import RolesDropdown from "./RolesDropdown";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
+import { api, Employee, WorkDay } from "~/utils/api";
+import { formatTime, formatTotal } from "~/utils/dateFormatting";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+
+import SelectEmployee from "../Schedule/SelectEmployee";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,7 +18,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
-import SelectEmployee from "../Schedule/SelectEmployee";
+import Heading from "../ui/heading";
+import RolesDropdown from "./RolesDropdown";
 
 type AddShiftProps = {
   data: WorkDay;
@@ -29,7 +27,7 @@ type AddShiftProps = {
 };
 
 export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
-  const [openStaff, setOpenStaff] = useState<boolean>(false);
+  const [, setOpenStaff] = useState<boolean>(false);
   const [openRoles, setOpenRoles] = useState<boolean>(false);
 
   const [employee, setEmployee] = useState<Employee>({} as Employee);

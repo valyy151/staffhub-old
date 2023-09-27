@@ -1,14 +1,14 @@
+import { ClipboardList, Clock, UserCog } from "lucide-react";
 import Link from "next/link";
 import router from "next/router";
-import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
-
-import { ClipboardList, Clock, UserCog } from "lucide-react";
+import { api } from "~/utils/api";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
+
+import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner";
-import Note from "@/components/WorkDay/Note";
 import AddNote from "@/components/WorkDay/AddNote";
+import Note from "@/components/WorkDay/Note";
 
 type WorkDayPageProps = {
   query: { id: string };
@@ -86,11 +86,7 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         ))}
       </main>
       {showAddNote && (
-        <AddNote
-          data={workDay}
-          showAddNote={showAddNote}
-          setShowAddNote={setShowAddNote}
-        />
+        <AddNote data={workDay} setShowAddNote={setShowAddNote} />
       )}
     </div>
   );

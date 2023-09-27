@@ -1,17 +1,15 @@
-import FormModal from "../ui/form-modal";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { useToast } from "@/components/ui/use-toast";
 import { UserCog } from "lucide-react";
-import { type StaffRole } from "~/utils/api";
-import Heading from "@/components/ui/heading";
-import { Button } from "@/components/ui/button";
-import Paragraph from "@/components/ui/paragraph";
-import { useQueryClient } from "@tanstack/react-query";
-import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { api, StaffRole } from "~/utils/api";
 
-import ReactModal from "react-modal";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,6 +19,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "../ui/alert-dialog";
+import FormModal from "../ui/form-modal";
 
 type StaffRoleProps = {
   role: StaffRole;
@@ -97,13 +96,13 @@ export default function StaffRole({ role }: StaffRoleProps) {
           </>
         )}
         <div className="space-x-2 pl-2">
-          <Button size={"lg"} variant={"subtle"} onClick={() => setEdit(true)}>
+          <Button size={"lg"} onClick={() => setEdit(true)}>
             Edit
           </Button>
 
           <Button
             size={"lg"}
-            variant={"destructive"}
+            variant={"subtle"}
             onClick={() => setShowModal(true)}
           >
             Delete

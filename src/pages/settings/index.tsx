@@ -1,14 +1,13 @@
-import Head from "next/head";
-import router from "next/router";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { useToast } from "@/components/ui/use-toast";
-import FormModal from "@/components/ui/form-modal";
-import Heading from "@/components/ui/heading";
-import { type GetServerSideProps } from "next/types";
-import { getSession, useSession } from "next-auth/react";
-import { ArrowLeft, Clock8, UserCog2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { getSession, useSession } from 'next-auth/react';
+import Head from 'next/head';
+import { GetServerSideProps } from 'next/types';
+import { useState } from 'react';
+import { api } from '~/utils/api';
+
+import { Button } from '@/components/ui/button';
+import FormModal from '@/components/ui/form-modal';
+import Heading from '@/components/ui/heading';
+import { useToast } from '@/components/ui/use-toast';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);

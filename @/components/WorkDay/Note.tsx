@@ -1,13 +1,14 @@
-import FormModal from "../ui/form-modal";
-import { useState } from "react";
-import { api } from "~/utils/api";
+import { Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { api } from '~/utils/api';
 
-import Paragraph from "../ui/paragraph";
-import { type WorkDayNote } from "@prisma/client";
-import { useQueryClient } from "@tanstack/react-query";
-import { Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
+import { WorkDayNote } from '@prisma/client';
+import { useQueryClient } from '@tanstack/react-query';
+
+import FormModal from '../ui/form-modal';
+import Paragraph from '../ui/paragraph';
 
 type NoteProps = {
   note: WorkDayNote;

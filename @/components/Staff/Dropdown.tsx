@@ -1,15 +1,6 @@
-import {
-  User2,
-  Trash2,
-  Sticker,
-  Calendar,
-  Palmtree,
-  ScrollText,
-  UserCog,
-} from "lucide-react";
-
-import router from "next/router";
-import { type EmployeeProfile } from "~/utils/api";
+import { Calendar, Palmtree, ScrollText, Sticker, Trash2, User2, UserCog } from 'lucide-react';
+import router from 'next/router';
+import { EmployeeProfile } from '~/utils/api';
 
 type DropdownProps = {
   showDelete?: boolean;

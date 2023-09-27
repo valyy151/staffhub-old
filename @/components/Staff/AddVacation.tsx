@@ -1,14 +1,16 @@
-import { type EmployeeProfile, api } from "~/utils/api";
-import { useToast } from "@/components/ui/use-toast";
-import { Palmtree, ArrowLeft } from "lucide-react";
 import "react-calendar/dist/Calendar.css";
-import Heading from "@/components/ui/heading";
-import { Button } from "@/components/ui/button";
-import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
-import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+
 import { addDays, differenceInDays } from "date-fns";
+import { ArrowLeft, Palmtree } from "lucide-react";
+import { useState } from "react";
 import { DateRange } from "react-day-picker";
+import { api, EmployeeProfile } from "~/utils/api";
+
+import { Button } from "@/components/ui/button";
+import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+import Heading from "@/components/ui/heading";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type VacationPlannerProps = {
   employee: EmployeeProfile;

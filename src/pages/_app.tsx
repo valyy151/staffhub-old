@@ -1,11 +1,13 @@
 import "~/styles/globals.css";
-import { api } from "~/utils/api";
-import Providers from "~/providers";
-import { type AppType } from "next/app";
-import Navbar from "@/components/Navbar";
-import { type Session } from "next-auth";
-import NextNProgress from "nextjs-progressbar";
+
+import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
+import { AppType } from "next/app";
+import NextNProgress from "nextjs-progressbar";
+import Providers from "~/providers";
+import { api } from "~/utils/api";
+
+import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 
 const StaffHub: AppType<{ session: Session | null }> = ({

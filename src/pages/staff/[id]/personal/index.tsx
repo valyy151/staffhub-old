@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
-import { api } from "~/utils/api";
-import { Save } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
-import { Input } from "@/components/ui/input";
-import Heading from "@/components/ui/heading";
-import { Button } from "@/components/ui/button";
-import Sidebar from "@/components/Staff/Sidebar";
-import { useQueryClient } from "@tanstack/react-query";
-import router from "next/router";
-import { Label } from "@/components/ui/label";
+import { Save } from 'lucide-react';
+import router from 'next/router';
+import { useEffect, useState } from 'react';
+import { api } from '~/utils/api';
+
+import Sidebar from '@/components/Staff/Sidebar';
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type EmployeePersonalProps = {
   query: { id: string };

@@ -1,9 +1,9 @@
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
-import { createTw } from "react-pdf-tailwind";
-import { EmployeeProfile } from "~/utils/api";
+import { createTw } from 'react-pdf-tailwind';
+import { EmployeeProfile } from '~/utils/api';
+import { calculateTotalHours } from '~/utils/calculateHours';
+import { formatDate, formatTime, formatTotal } from '~/utils/dateFormatting';
 
-import { calculateTotalHours } from "~/utils/calculateHours";
-import { formatDate, formatTime, formatTotal } from "~/utils/dateFormatting";
+import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 
 const tw = createTw({
   theme: {
