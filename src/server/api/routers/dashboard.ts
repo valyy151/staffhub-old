@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const dashboardRouter = createTRPCRouter({
   find: protectedProcedure
@@ -55,6 +55,7 @@ export const dashboardRouter = createTRPCRouter({
           id: true,
           start: true,
           end: true,
+          absent: true,
         },
         orderBy: { date: "asc" },
       });

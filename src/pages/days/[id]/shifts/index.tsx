@@ -130,8 +130,8 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
               <TableHead>Employee</TableHead>
               <TableHead>Time</TableHead>
               <TableHead>Role</TableHead>
-              <TableHead className="text-right">Hours</TableHead>
-              <TableHead />
+              <TableHead>Hours</TableHead>
+              <TableHead className="text-right">Absent</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

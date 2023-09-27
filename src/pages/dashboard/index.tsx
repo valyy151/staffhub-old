@@ -1,21 +1,32 @@
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 
-import { CalendarOff, CalendarPlus, Scroll, ScrollText, User } from 'lucide-react';
-import { getSession } from 'next-auth/react';
-import Head from 'next/head';
-import Link from 'next/link';
-import router from 'next/router';
-import { GetServerSideProps } from 'next/types';
-import { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
-import { api, DashboardWorkDay } from '~/utils/api';
-import { formatDate, formatDay, formatTime } from '~/utils/dateFormatting';
+import {
+  CalendarOff,
+  CalendarPlus,
+  Scroll,
+  ScrollText,
+  User,
+} from "lucide-react";
+import { getSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import router from "next/router";
+import { GetServerSideProps } from "next/types";
+import { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import { api, DashboardWorkDay } from "~/utils/api";
+import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
-import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Spinner from '@/components/ui/spinner';
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Spinner from "@/components/ui/spinner";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -47,14 +58,6 @@ export default function DashboardPage() {
 
   const { data: firstAndLastDays } =
     api.dashboard.findFirstAndLastDay.useQuery();
-
-  function handlePrevPage(): void {
-    setSkip(skip - 1);
-  }
-
-  function handleNextPage(): void {
-    setSkip(skip + 1);
-  }
 
   useEffect(() => {
     if (data) {
@@ -134,8 +137,8 @@ export default function DashboardPage() {
                 <Button
                   variant={"ghost"}
                   title="Previous Week"
-                  onClick={handlePrevPage}
                   disabled={isFetching}
+                  onClick={() => setSkip(skip - 1)}
                   className="rounded-lg border   bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
                 >
                   Prev Week
@@ -144,8 +147,8 @@ export default function DashboardPage() {
                 <Button
                   variant={"ghost"}
                   title="Next Week"
-                  onClick={handleNextPage}
                   disabled={isFetching}
+                  onClick={() => setSkip(skip + 1)}
                   className="rounded-lg border   bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
                 >
                   Next Week
@@ -205,14 +208,21 @@ export default function DashboardPage() {
                           .map((shift) => {
                             return (
                               <div
-                                title={shift.employee.name}
                                 key={shift.id}
+                                title={shift.employee.name}
                                 className="w-full"
                               >
                                 <p className="text-md flex items-center">
-                                  <User className="ml-1" />
-                                  <span className="text-left">
-                                    {" "}
+                                  <User
+                                    className={`ml-1 ${
+                                      shift.absent && "text-red-500"
+                                    }`}
+                                  />
+                                  <span
+                                    className={`text-left ${
+                                      shift.absent && "text-red-500"
+                                    }`}
+                                  >
                                     {shift.employee.name.split(" ")[0]}
                                   </span>
                                   <span className="ml-auto">

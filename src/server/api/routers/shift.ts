@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const shiftRouter = createTRPCRouter({
   create: protectedProcedure
@@ -84,8 +84,22 @@ export const shiftRouter = createTRPCRouter({
     )
     .mutation(async ({ input: { shift, shiftId }, ctx }) => {
       return await ctx.prisma.shift.update({
-        where: { id: shiftId },
-        data: { userId: ctx.session.user.id, ...shift },
+        where: { id: shiftId, userId: ctx.session.user.id },
+        data: { ...shift },
+      });
+    }),
+
+  updateAbsence: protectedProcedure
+    .input(
+      z.object({
+        shiftId: z.string(),
+        absent: z.boolean(),
+      })
+    )
+    .mutation(async ({ input: { shiftId, absent }, ctx }) => {
+      return await ctx.prisma.shift.update({
+        where: { id: shiftId, userId: ctx.session.user.id },
+        data: { absent },
       });
     }),
 

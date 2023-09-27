@@ -1,14 +1,6 @@
 {
-  "name": "staffhub",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "build": "next build",
-    "dev": "next dev",
-    "test": "vitest",
-    "postinstall": "prisma generate",
-    "lint": "next lint",
-    "start": "next start"
+  "ct3aMetadata": {
+    "initVersion": "7.15.0"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
@@ -75,7 +67,15 @@
     "tailwindcss": "^3.3.3",
     "typescript": "^5.2.2"
   },
-  "ct3aMetadata": {
-    "initVersion": "7.15.0"
-  }
+  "name": "staffhub",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "start": "next start",
+    "test": "vitest"
+  },
+  "version": "0.1.0"
 }

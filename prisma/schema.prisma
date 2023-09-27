@@ -167,6 +167,7 @@ model Shift {
     userId     String
     date       Int
     roleId     String?
+    absent     Boolean    @default(false)
     role       StaffRole? @relation(fields: [roleId], references: [id], onDelete: SetNull)
     user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
     employee   Employee   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
