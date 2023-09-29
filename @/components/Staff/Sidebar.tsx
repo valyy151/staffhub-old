@@ -1,15 +1,9 @@
 import {
-  CalendarSearch,
-  ClipboardList,
-  Clock,
-  HeartPulse,
-  Palmtree,
-  Sticker,
-  UserCog,
-} from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { EmployeeProfile } from "~/utils/api";
+    CalendarSearch, ClipboardList, HeartPulse, Palmtree, Sticker, User2, UserCog
+} from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { EmployeeProfile } from '~/utils/api';
 
 type SidebarProps = {
   employee?: EmployeeProfile;
@@ -28,7 +22,7 @@ export default function Sidebar({ employee }: SidebarProps) {
             path === "personal" && "bg-secondary"
           }`}
         >
-          <Clock />
+          <User2 />
           <span className="text-sm font-medium">Personal Info</span>
         </Link>
         <Link

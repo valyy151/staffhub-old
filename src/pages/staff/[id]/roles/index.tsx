@@ -1,32 +1,22 @@
-import { UserCog } from "lucide-react";
-import router from "next/router";
-import { api } from "~/utils/api";
+import { UserCog } from 'lucide-react';
+import Link from 'next/link';
+import router from 'next/router';
+import { useEffect, useState } from 'react';
+import { api } from '~/utils/api';
 
-import Sidebar from "@/components/Staff/Sidebar";
-import { Button } from "@/components/ui/button";
-import Heading from "@/components/ui/heading";
-import Paragraph from "@/components/ui/paragraph";
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import Sidebar from '@/components/Staff/Sidebar';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
+    AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import Paragraph from '@/components/ui/paragraph';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type EmployeeRolesPageProps = {
   query: { id: string };

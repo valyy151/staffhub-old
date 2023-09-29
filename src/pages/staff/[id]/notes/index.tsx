@@ -1,10 +1,14 @@
-import { ArrowLeft, Save, ScrollText } from 'lucide-react';
+import { ScrollText } from 'lucide-react';
 import router from 'next/router';
 import { useState } from 'react';
 import { api } from '~/utils/api';
 
 import Note from '@/components/Staff/Note';
 import Sidebar from '@/components/Staff/Sidebar';
+import {
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
+    AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import Heading from '@/components/ui/heading';
 import Paragraph from '@/components/ui/paragraph';
@@ -50,9 +54,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
     },
   });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
+  function handleSubmit() {
     if (!content) {
       return toast({ title: "Please enter a note." });
     }
@@ -70,7 +72,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
 
     if (employee?.notes?.length === 0) {
       return (
-        <Paragraph size={"lg"} className="mt-8">
+        <Paragraph className="mt-8">
           There are no notes for {employee.name}.
         </Paragraph>
       );
@@ -78,7 +80,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
 
     return (
       <>
-        <Paragraph size={"lg"} className="mr-auto mt-8">
+        <Paragraph className="mr-auto mt-8">
           There {employee?.notes?.length === 1 ? "is" : "are"}{" "}
           {employee?.notes?.length}{" "}
           {employee?.notes?.length === 1 ? "note" : "notes"} for{" "}
@@ -102,24 +104,19 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
 
       <div className="mt-4 flex w-[36rem] flex-col">
         <Heading size={"sm"}>Notes for {employee?.name}</Heading>
-        <Button
-          size={"lg"}
-          className="mt-2 w-fit text-xl"
-          onClick={() => setShowAddNote(true)}
-        >
-          <ScrollText size={32} className="mr-2" />
+        <Button className="mt-2 w-fit" onClick={() => setShowAddNote(true)}>
+          <ScrollText className="mr-2" />
           New Note
         </Button>
 
         {renderNotes()}
 
         {showAddNote && (
-          <div className="mt-8 flex w-fit flex-col">
-            <form onSubmit={handleSubmit} className=" flex flex-col">
-              <Heading size={"xs"} className="mb-3">
-                Add a new note
-              </Heading>
-
+          <AlertDialog open={showAddNote}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle> Add a Note</AlertDialogTitle>
+              </AlertDialogHeader>
               <textarea
                 rows={4}
                 cols={40}
@@ -128,30 +125,16 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
                 className="dark:focus: resize-none rounded-lg border   bg-transparent px-3 py-2 placeholder:text-gray-500 focus:border-black focus:ring-black disabled:cursor-not-allowed disabled:opacity-50 dark:bg-transparent dark:text-gray-50 dark:placeholder:text-gray-400 dark:focus:ring-gray-300"
                 onChange={(e) => setContent(e.target.value)}
               />
-              <div className="mt-3 flex w-full space-x-2">
-                {" "}
-                <Button
-                  size={"lg"}
-                  title="Add note"
-                  className="mt-2 w-fit text-xl"
-                >
-                  <Save size={28} className="mr-2" />
-                  Save
-                </Button>
-                <Button
-                  size={"lg"}
-                  type="button"
-                  title="Cancel note creation"
-                  variant={"subtle"}
-                  className="mt-2 w-fit text-xl"
-                  onClick={() => setShowAddNote(false)}
-                >
-                  <ArrowLeft size={28} className="mr-2" />
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setShowAddNote(false)}>
                   Cancel
-                </Button>
-              </div>
-            </form>
-          </div>
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={handleSubmit}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
       </div>
     </main>

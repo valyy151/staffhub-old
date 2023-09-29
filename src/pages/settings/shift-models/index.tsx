@@ -1,20 +1,20 @@
-import { ArrowLeft, Info, Save, UserCog } from "lucide-react";
-import { getSession } from "next-auth/react";
-import { GetServerSideProps } from "next/types";
-import { useState } from "react";
-import sentences from "~/data/shiftModel.json";
-import { api } from "~/utils/api";
-import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import { ArrowLeft, Info, Save, UserCog } from 'lucide-react';
+import { getSession } from 'next-auth/react';
+import { GetServerSideProps } from 'next/types';
+import { useState } from 'react';
+import sentences from '~/data/shiftModel.json';
+import { api } from '~/utils/api';
+import { formatTime, formatTotal } from '~/utils/dateFormatting';
 
-import ShiftModel from "@/components/Settings/ShiftModel";
-import Sidebar from "@/components/Settings/Sidebar";
-import { Button } from "@/components/ui/button";
-import Heading from "@/components/ui/heading";
-import InfoModal from "@/components/ui/info-modal";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import ShiftModel from '@/components/Settings/ShiftModel';
+import Sidebar from '@/components/Settings/Sidebar';
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import InfoModal from '@/components/ui/info-modal';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);

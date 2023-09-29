@@ -1,18 +1,13 @@
-import { useState } from "react";
-import { api, WorkDay } from "~/utils/api";
+import { useState } from 'react';
+import { api, WorkDay } from '~/utils/api';
 
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "../ui/alert-dialog";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
+    AlertDialogHeader, AlertDialogTitle
+} from '../ui/alert-dialog';
 
 type AddNoteProps = {
   data: WorkDay;

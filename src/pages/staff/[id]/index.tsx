@@ -1,40 +1,26 @@
 import {
-  Calendar,
-  HeartPulse,
-  Mail,
-  MapPin,
-  MoreVertical,
-  Palmtree,
-  Phone,
-  Scroll,
-  Sticker,
-  Trash2,
-  User,
-  UserCog,
-} from "lucide-react";
-import Link from "next/link";
-import router from "next/router";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
-import { formatTime } from "~/utils/dateFormatting";
+    Calendar, HeartPulse, Mail, MapPin, MoreVertical, Palmtree, Phone, Scroll, Sticker, Trash2,
+    User, UserCog
+} from 'lucide-react';
+import Link from 'next/link';
+import router from 'next/router';
+import { useState } from 'react';
+import { api } from '~/utils/api';
+import { checkEmployeeVacation, checkSickLeave } from '~/utils/checkAbsence';
+import { formatTime } from '~/utils/dateFormatting';
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import FormModal from "@/components/ui/form-modal";
-import Heading from "@/components/ui/heading";
-import Paragraph from "@/components/ui/paragraph";
-import Spinner from "@/components/ui/spinner";
-import { useToast } from "@/components/ui/use-toast";
+    DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import FormModal from '@/components/ui/form-modal';
+import Heading from '@/components/ui/heading';
+import Paragraph from '@/components/ui/paragraph';
+import Spinner from '@/components/ui/spinner';
+import { useToast } from '@/components/ui/use-toast';
 
-import SelectEmployees from "../../../../@/components/Schedule/SelectEmployee";
+import SelectEmployees from '../../../../@/components/Schedule/SelectEmployee';
 
 type EmployeeProfileProps = {
   query: { id: string };

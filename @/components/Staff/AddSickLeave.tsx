@@ -1,16 +1,16 @@
-import "react-calendar/dist/Calendar.css";
+import 'react-calendar/dist/Calendar.css';
 
-import { addDays, differenceInDays } from "date-fns";
-import { ArrowLeft, HeartPulse } from "lucide-react";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
-import { api, EmployeeProfile } from "~/utils/api";
+import { addDays, differenceInDays } from 'date-fns';
+import { ArrowLeft, HeartPulse } from 'lucide-react';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { api, EmployeeProfile } from '~/utils/api';
 
-import { Button } from "@/components/ui/button";
-import { DatePickerWithRange } from "@/components/ui/date-range-picker";
-import Heading from "@/components/ui/heading";
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import { Button } from '@/components/ui/button';
+import { DatePickerWithRange } from '@/components/ui/date-range-picker';
+import Heading from '@/components/ui/heading';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type AddSickLeaveProps = {
   employee: EmployeeProfile;

@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { z } from 'zod';
+import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
 
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
@@ -141,7 +141,7 @@ export const employeeRouter = createTRPCRouter({
                 end: true,
               },
               orderBy: {
-                start: "asc",
+                end: "desc",
               },
             },
             sickLeaves: {
@@ -151,7 +151,7 @@ export const employeeRouter = createTRPCRouter({
                 end: true,
               },
               orderBy: {
-                start: "asc",
+                end: "desc",
               },
             },
             phoneNumber: true,

@@ -1,19 +1,9 @@
-import {
-  formatDateLong,
-  formatDay,
-  formatTime,
-  formatTotal,
-} from "~/utils/dateFormatting";
+import { formatDateLong, formatDay, formatTime, formatTotal } from '~/utils/dateFormatting';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
 
 type Data = {
   date: number;
@@ -101,12 +91,10 @@ export default function ScheduleTable({
   return (
     <Table>
       <TableHeader>
-        <TableRow className="hover:bg-inherit">
-          <TableHead>Date</TableHead>
-          <TableHead>Start</TableHead>
-          <TableHead>End</TableHead>
-          <TableHead className="text-right">Total</TableHead>
-        </TableRow>
+        <TableHead>Date</TableHead>
+        <TableHead>Start</TableHead>
+        <TableHead>End</TableHead>
+        <TableHead className="text-right">Total</TableHead>
       </TableHeader>
       <TableBody>
         {data.map((item, index) => (

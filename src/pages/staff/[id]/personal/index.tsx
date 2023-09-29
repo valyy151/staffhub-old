@@ -1,13 +1,17 @@
-import { Save } from 'lucide-react';
 import router from 'next/router';
 import { useEffect, useState } from 'react';
 import { api } from '~/utils/api';
 
 import Sidebar from '@/components/Staff/Sidebar';
+import {
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import Heading from '@/components/ui/heading';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Table, TableBody, TableCell, TableHead, TableHeader } from '@/components/ui/table';
 import { useToast } from '@/components/ui/use-toast';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -24,50 +28,59 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
     id: query.id,
   });
 
-  if (failureReason?.data?.httpStatus === 401) {
-    router.push("/");
-  }
-
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [phone, setPhone] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-
-  useEffect(() => {
-    if (!employee) {
-      return;
-    }
-    employee.name && setName(employee.name);
-    employee.email && setEmail(employee.email);
-    employee.address && setAddress(employee.address);
-    employee.phoneNumber && setPhone(employee.phoneNumber);
-  }, [employee]);
+  const queryClient = useQueryClient();
 
   const { toast } = useToast();
 
-  const queryClient = useQueryClient();
-
-  const updatePersonalInfo = api.employee?.update.useMutation({
+  const updateEmpoyee = api.employee.update.useMutation({
     onSuccess: () => {
-      void queryClient.invalidateQueries();
-      toast({ title: "Personal information updated successfully." });
+      toast({
+        title: "Employee updated.",
+        description: "The employee's information has been updated.",
+      });
+      setEdit(false);
+      queryClient.invalidateQueries();
+    },
+
+    onError: () => {
+      toast({
+        title: "An error occurred.",
+        description: "The employee's information could not be updated.",
+      });
     },
   });
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    if (!name || !email || !address || !phone) {
-      return toast({ title: "Please fill out all fields." });
-    }
-
-    updatePersonalInfo.mutate({
-      name,
+    updateEmpoyee.mutate({
       email,
       address,
       phoneNumber: phone,
-      employeeId: query.id,
+      employeeId: employee?.id!,
+      name: firstName + " " + lastName,
     });
+  }
+
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [firstName, setFirstName] = useState<string>("");
+
+  useEffect(() => {
+    if (employee) {
+      setEmail(employee.email!);
+      setAddress(employee.address!);
+      setPhone(employee.phoneNumber!);
+      setLastName(employee.name?.split(" ")[1]!);
+      setFirstName(employee.name?.split(" ")[0]!);
+    }
+  }, [employee]);
+
+  const [edit, setEdit] = useState<boolean>(false);
+
+  if (failureReason?.data?.httpStatus === 401) {
+    router.push("/");
   }
 
   if (!employee || !employee.name) {
@@ -83,56 +96,103 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
             ? `${employee.name}'`
             : `${employee.name}'s`}{" "}
           Personal Information
-        </Heading>
-
-        <form onSubmit={handleSubmit} className="mt-8 w-4/5">
-          <Label htmlFor="name">Name</Label>
-          <Input
-            id="name"
-            type="text"
-            name="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="mb-2 bg-white text-lg dark:bg-transparent"
-          />
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            type="text"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="mb-2 bg-white text-lg dark:bg-transparent"
-          />
-
-          <Label htmlFor="address">Address</Label>
-          <Input
-            type="text"
-            id="address"
-            name="address"
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            className="mb-2 bg-white text-lg dark:bg-transparent"
-          />
-
-          <Label htmlFor="phone">Phone Number</Label>
-          <Input
-            type="text"
-            id="phone"
-            name="phone"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            className="mb-2 bg-white text-lg dark:bg-transparent"
-          />
-          <Button
-            size={"lg"}
-            title="Update information"
-            className="mt-4 text-xl"
-          >
-            Save changes {<Save className="ml-2" />}
-          </Button>
-        </form>
+        </Heading>{" "}
+        <Table className="mt-4 border text-lg">
+          <TableHeader className="border">
+            <TableHead className="border-r">Name</TableHead>
+            <TableHead className="border-r">Phone</TableHead>
+            <TableHead className="border-r">Email</TableHead>
+            <TableHead className="text-right">Address</TableHead>
+          </TableHeader>
+          <TableBody>
+            <TableCell className="border-r">{employee.name}</TableCell>
+            <TableCell className="border-r">{employee.phoneNumber}</TableCell>
+            <TableCell className="border-r">{employee.email}</TableCell>
+            <TableCell className="text-right">{employee.address}</TableCell>
+          </TableBody>
+        </Table>
+        <Button className="mt-2 w-fit" onClick={() => setEdit(true)}>
+          Edit Info
+        </Button>
       </div>
+
+      {edit && (
+        <AlertDialog open>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Edit Employee Information</AlertDialogTitle>
+              <AlertDialogDescription>
+                Edit the employee's information below.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-2">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="first-name">First name</Label>
+                    <Input
+                      id="first-name"
+                      placeholder="John"
+                      required
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="last-name">Last name</Label>
+                    <Input
+                      id="last-name"
+                      placeholder="Doe"
+                      required
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    placeholder="johndoe@example.com"
+                    required
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone">Phone</Label>
+                  <Input
+                    id="phone"
+                    placeholder="555-555-5555"
+                    required
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="address">Address</Label>
+                  <Input
+                    id="address"
+                    placeholder="1234 Main St"
+                    required
+                    type="text"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+              </div>
+              <AlertDialogFooter className="mt-4">
+                <AlertDialogCancel type="button" onClick={() => setEdit(false)}>
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction type="submit">Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </form>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </main>
   );
 }

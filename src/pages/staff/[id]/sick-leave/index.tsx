@@ -1,16 +1,16 @@
-import { HeartPulse } from "lucide-react";
-import router from "next/router";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { howManyDays } from "~/utils/calculateHours";
-import { checkSickLeaves } from "~/utils/checkSickLeaves";
+import { HeartPulse } from 'lucide-react';
+import router from 'next/router';
+import { useState } from 'react';
+import { api } from '~/utils/api';
+import { howManyDays } from '~/utils/calculateHours';
+import { checkSickLeaves } from '~/utils/checkSickLeaves';
 
-import AddSickLeave from "@/components/Staff/AddSickLeave";
-import SickLeave from "@/components/Staff/SickLeave";
-import Sidebar from "@/components/Staff/Sidebar";
-import { Button } from "@/components/ui/button";
-import Heading from "@/components/ui/heading";
-import Paragraph from "@/components/ui/paragraph";
+import AddSickLeave from '@/components/Staff/AddSickLeave';
+import SickLeave from '@/components/Staff/SickLeave';
+import Sidebar from '@/components/Staff/Sidebar';
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import Paragraph from '@/components/ui/paragraph';
 
 type SickLeavePageProps = {
   query: { id: string };

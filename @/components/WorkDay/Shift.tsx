@@ -1,24 +1,18 @@
-import {
-  ClipboardEdit,
-  MoreVertical,
-  Trash2,
-  UserCheck,
-  UserX2,
-} from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import { ClipboardEdit, MoreVertical, Trash2, UserCheck, UserX2 } from 'lucide-react';
+import Link from 'next/link';
+import { useState } from 'react';
+import { api } from '~/utils/api';
+import { formatTime, formatTotal } from '~/utils/dateFormatting';
 
-import { Button } from "@/components/ui/button";
-import { PopoverContent } from "@/components/ui/popover";
-import { TableCell, TableRow } from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
-import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
-import { useQueryClient } from "@tanstack/react-query";
+import { Button } from '@/components/ui/button';
+import { PopoverContent } from '@/components/ui/popover';
+import { TableCell, TableRow } from '@/components/ui/table';
+import { useToast } from '@/components/ui/use-toast';
+import { Popover, PopoverTrigger } from '@radix-ui/react-popover';
+import { useQueryClient } from '@tanstack/react-query';
 
-import FormModal from "../ui/form-modal";
-import EditModal from "./EditModal";
+import FormModal from '../ui/form-modal';
+import EditModal from './EditModal';
 
 type ShiftProps = {
   shift: {
