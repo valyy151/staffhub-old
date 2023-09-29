@@ -1,14 +1,32 @@
-import { UserCog } from 'lucide-react';
-import router from 'next/router';
-import { api } from '~/utils/api';
+import { UserCog } from "lucide-react";
+import router from "next/router";
+import { api } from "~/utils/api";
 
-import Sidebar from '@/components/Staff/Sidebar';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import { Input } from '@/components/ui/input';
-import Paragraph from '@/components/ui/paragraph';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+import Sidebar from "@/components/Staff/Sidebar";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type EmployeeRolesPageProps = {
   query: { id: string };
@@ -28,104 +46,153 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
     router.push("/");
   }
 
+  const [showAddRole, setShowAddRole] = useState<boolean>(false);
+
   const { toast } = useToast();
 
   const queryClient = useQueryClient();
 
-  const assignRole = api.staffRole.assignToEmployee.useMutation({
+  const assignRoles = api.staffRole.assignToEmployee.useMutation({
     onSuccess: () => {
+      toast({
+        title: "Roles assigned.",
+        description: "The roles have been assigned to the employee.",
+      });
+      setShowAddRole(false);
       queryClient.invalidateQueries();
-      toast({ title: "Role assigned successfully." });
     },
 
     onError: () => {
       toast({
-        title: "There was a problem assigning the role.",
-        variant: "destructive",
+        title: "An error occurred.",
+        description: "Unable to assign roles to the employee.",
       });
     },
   });
 
-  const removeRole = api.staffRole.removeFromEmployee.useMutation({
-    onSuccess: () => {
-      queryClient.invalidateQueries();
-      toast({ title: "Role removed successfully." });
-    },
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-    onError: () => {
-      toast({
-        title: "There was a problem removing the role.",
-        variant: "destructive",
-      });
-    },
-  });
+    assignRoles.mutate({
+      roleIds: checkedRoles,
+      employeeId: employee?.id!,
+    });
+  }
+
+  const [checkedRoles, setCheckedRoles] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (employee?.roles) {
+      setCheckedRoles(employee.roles.map((role) => role.id));
+    }
+  }, [employee]);
+
+  const handleCheck = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    role: string
+  ) => {
+    if (e.target.checked) {
+      setCheckedRoles((prev) => [...prev, role]);
+    } else {
+      setCheckedRoles((prev) => prev.filter((r) => r !== role));
+    }
+  };
 
   if (!employee) {
     return <Sidebar />;
   }
 
-  function handleChange(
-    e: React.ChangeEvent<HTMLInputElement>,
-    roleId: string
-  ) {
-    if (!employee?.id) {
-      return;
-    }
-
-    if (e.target.checked) {
-      assignRole.mutate({ employeeId: employee?.id, staffRoleId: roleId });
-    } else {
-      removeRole.mutate({ employeeId: employee?.id, staffRoleId: roleId });
-    }
+  if (employee.allRoles.length === 0) {
+    return (
+      <>
+        <Paragraph size={"lg"} className="mt-4">
+          You have not created any roles to assign to this employee.
+        </Paragraph>
+        <Button
+          onClick={() => router.push("/settings/roles")}
+          className="mt-4 h-14 w-fit text-2xl"
+        >
+          <UserCog size={30} className="mr-2" /> Create a role
+        </Button>
+      </>
+    );
   }
 
   return (
     <main className="flex">
       <Sidebar employee={employee} />
-
-      <div className="mt-4 flex flex-col">
-        <Heading size={"sm"}>Roles for {employee?.name}</Heading>
-        {employee?.allRoles.length === 0 && (
-          <>
-            <Paragraph size={"lg"} className="mt-4">
-              You have not created any roles to assign to this employee.
-            </Paragraph>
-            <Button
-              size={"lg"}
-              onClick={() => router.push("/settings/roles")}
-              className="mt-4 h-14 w-fit text-2xl"
-            >
-              <UserCog size={30} className="mr-2" /> Create a role
-            </Button>
-          </>
+      <div className="mt-4">
+        <Heading size="sm">Assign roles to {employee?.name}</Heading>
+        <Button className="mt-2" onClick={() => setShowAddRole(true)}>
+          <UserCog className="mr-2" />
+          Assign Roles
+        </Button>
+        <Heading size={"xs"} className="mt-4">
+          {employee?.name} has the following roles:
+        </Heading>
+        {employee?.roles!.length > 0 ? (
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Role</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {employee?.roles?.map((role) => (
+                <TableRow key={role.id}>
+                  <TableCell>
+                    <Link
+                      href={"/settings/roles"}
+                      className="underline-offset-[5px] hover:underline"
+                    >
+                      {role.name}
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        ) : (
+          <Paragraph className="mt-2">No roles assigned.</Paragraph>
         )}
-
-        <div className="mt-4 grid grid-cols-2 gap-4">
-          {employee?.allRoles
-            .sort((a, b) => a.name.localeCompare(b.name))
-            .map((role) => (
-              <div
-                key={role.id}
-                className="flex cursor-pointer items-center rounded border   pl-4 hover:shadow dark:shadow-gray-700"
-              >
-                <Input
-                  id={role.id}
-                  type="checkbox"
-                  className="h-8 w-8 cursor-pointer"
-                  name="bordered-checkbox cursor-pointer"
-                  onChange={(e) => handleChange(e, role.id)}
-                  checked={employee?.roles!!.some((r) => r.id === role.id)}
-                />
-                <label
-                  htmlFor={role.id}
-                  className="ml-2 w-full cursor-pointer py-4 text-2xl"
-                >
-                  {role.name}
-                </label>
-              </div>
-            ))}
-        </div>
       </div>
+
+      {showAddRole && (
+        <AlertDialog open>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Assign roles to {employee?.name}
+              </AlertDialogTitle>
+            </AlertDialogHeader>
+            <form onSubmit={handleSubmit}>
+              {employee?.allRoles.map((role) => (
+                <div key={role.id} className="my-1">
+                  <input
+                    id={role.id}
+                    type="checkbox"
+                    value={role.id}
+                    name={role.name}
+                    className="mr-2"
+                    checked={checkedRoles?.includes(role.id)}
+                    onChange={(e) => handleCheck(e, role.id)}
+                  />
+                  <label htmlFor={role.id}>{role.name}</label>
+                </div>
+              ))}
+              <AlertDialogFooter>
+                <AlertDialogCancel
+                  type="button"
+                  onClick={() => setShowAddRole(false)}
+                >
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction type="submit">Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </form>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </main>
   );
 }

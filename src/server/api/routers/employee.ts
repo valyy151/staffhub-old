@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
@@ -119,12 +119,18 @@ export const employeeRouter = createTRPCRouter({
                 id: true,
                 name: true,
               },
+              orderBy: {
+                name: "asc",
+              },
             },
             notes: {
               select: {
                 id: true,
                 content: true,
                 createdAt: true,
+              },
+              orderBy: {
+                createdAt: "desc",
               },
             },
             address: true,
@@ -134,12 +140,18 @@ export const employeeRouter = createTRPCRouter({
                 start: true,
                 end: true,
               },
+              orderBy: {
+                start: "asc",
+              },
             },
             sickLeaves: {
               select: {
                 id: true,
                 start: true,
                 end: true,
+              },
+              orderBy: {
+                start: "asc",
               },
             },
             phoneNumber: true,
@@ -190,6 +202,9 @@ export const employeeRouter = createTRPCRouter({
           allRolesPromise = ctx.prisma.staffRole.findMany({
             where: { userId: ctx.session.user.id },
             select: { id: true, name: true },
+            orderBy: {
+              name: "asc",
+            },
           });
         } else {
           allRolesPromise = Promise.resolve([]);
@@ -202,6 +217,9 @@ export const employeeRouter = createTRPCRouter({
               id: true,
               start: true,
               end: true,
+            },
+            orderBy: {
+              start: "asc",
             },
           });
         } else {

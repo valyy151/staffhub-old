@@ -1,9 +1,15 @@
 import {
-    CalendarSearch, ClipboardList, Clock, HeartPulse, Palmtree, Sticker, UserCog
-} from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { EmployeeProfile } from '~/utils/api';
+  CalendarSearch,
+  ClipboardList,
+  Clock,
+  HeartPulse,
+  Palmtree,
+  Sticker,
+  UserCog,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { EmployeeProfile } from "~/utils/api";
 
 type SidebarProps = {
   employee?: EmployeeProfile;
@@ -14,7 +20,7 @@ export default function Sidebar({ employee }: SidebarProps) {
   const path = router.asPath.split("/")[3];
 
   return (
-    <aside className="sticky top-0 mr-4 h-screen border-r p-4">
+    <aside className="sticky top-0 mr-4 h-screen w-60 border-r p-4">
       <nav className="space-y-2">
         <Link
           href={`/staff/${employee?.id!}/personal`}

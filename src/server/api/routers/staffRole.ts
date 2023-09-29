@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const staffRoleRouter = createTRPCRouter({
   create: protectedProcedure
@@ -18,6 +18,9 @@ export const staffRoleRouter = createTRPCRouter({
     return await ctx.prisma.staffRole.findMany({
       where: {
         userId: ctx.session.user.id,
+      },
+      orderBy: {
+        name: "asc",
       },
     });
   }),
@@ -53,34 +56,20 @@ export const staffRoleRouter = createTRPCRouter({
     }),
 
   assignToEmployee: protectedProcedure
-    .input(z.object({ employeeId: z.string(), staffRoleId: z.string() }))
-    .mutation(async ({ input: { employeeId, staffRoleId }, ctx }) => {
+    .input(
+      z.object({
+        employeeId: z.string(),
+        roleIds: z.array(z.string()),
+      })
+    )
+    .mutation(async ({ input: { employeeId, roleIds }, ctx }) => {
       return await ctx.prisma.employee.update({
         where: {
           id: employeeId,
         },
         data: {
           roles: {
-            connect: {
-              id: staffRoleId,
-            },
-          },
-        },
-      });
-    }),
-
-  removeFromEmployee: protectedProcedure
-    .input(z.object({ employeeId: z.string(), staffRoleId: z.string() }))
-    .mutation(async ({ input: { employeeId, staffRoleId }, ctx }) => {
-      return await ctx.prisma.employee.update({
-        where: {
-          id: employeeId,
-        },
-        data: {
-          roles: {
-            disconnect: {
-              id: staffRoleId,
-            },
+            set: roleIds.map((id) => ({ id })),
           },
         },
       });

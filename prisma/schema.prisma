@@ -184,6 +184,7 @@ model StaffRole {
     name         String
     userId       String
     shifts       Shift[]
+    color        String?
     employees    Employee[]
     user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 

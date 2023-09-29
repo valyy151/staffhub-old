@@ -49,6 +49,7 @@ export const dashboardRouter = createTRPCRouter({
             select: {
               id: true,
               name: true,
+              sickLeaves: true,
             },
           },
           date: true,
