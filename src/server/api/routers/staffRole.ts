@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const staffRoleRouter = createTRPCRouter({
   create: protectedProcedure
@@ -37,6 +37,7 @@ export const staffRoleRouter = createTRPCRouter({
       return await ctx.prisma.staffRole.update({
         where: {
           id: staffRoleId,
+          userId: ctx.session.user.id,
         },
         data: {
           name,
@@ -49,9 +50,7 @@ export const staffRoleRouter = createTRPCRouter({
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input: { id }, ctx }) => {
       return await ctx.prisma.staffRole.delete({
-        where: {
-          id,
-        },
+        where: { id, userId: ctx.session.user.id },
       });
     }),
 
@@ -66,6 +65,7 @@ export const staffRoleRouter = createTRPCRouter({
       return await ctx.prisma.employee.update({
         where: {
           id: employeeId,
+          userId: ctx.session.user.id,
         },
         data: {
           roles: {

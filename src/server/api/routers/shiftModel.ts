@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const shiftModelRouter = createTRPCRouter({
   create: protectedProcedure
@@ -24,6 +24,9 @@ export const shiftModelRouter = createTRPCRouter({
       where: {
         userId: ctx.session.user.id,
       },
+      orderBy: {
+        start: "asc",
+      },
     });
   }),
 
@@ -37,13 +40,8 @@ export const shiftModelRouter = createTRPCRouter({
     )
     .mutation(async ({ input: { id, end, start }, ctx }) => {
       return await ctx.prisma.shiftModel.update({
-        where: {
-          id,
-        },
-        data: {
-          end,
-          start,
-        },
+        where: { id, userId: ctx.session.user.id },
+        data: { end, start },
       });
     }),
 
@@ -55,9 +53,7 @@ export const shiftModelRouter = createTRPCRouter({
     )
     .mutation(async ({ input: { id }, ctx }) => {
       return await ctx.prisma.shiftModel.delete({
-        where: {
-          id,
-        },
+        where: { id, userId: ctx.session.user.id },
       });
     }),
 });

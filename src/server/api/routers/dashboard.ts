@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const dashboardRouter = createTRPCRouter({
   find: protectedProcedure
@@ -35,7 +35,10 @@ export const dashboardRouter = createTRPCRouter({
       const notesPromise = workDaysPromise.then((workDays) => {
         const workDaysIds = workDays.map((workDay) => workDay.id);
         return ctx.prisma.workDayNote.findMany({
-          where: { workDayId: { in: workDaysIds } },
+          where: {
+            userId: ctx.session.user.id,
+            workDayId: { in: workDaysIds },
+          },
         });
       });
 

@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const shiftRouter = createTRPCRouter({
   create: protectedProcedure
@@ -68,6 +68,7 @@ export const shiftRouter = createTRPCRouter({
   find: protectedProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.shift.findMany({
       where: { userId: ctx.session.user.id },
+      orderBy: { start: "asc" },
     });
   }),
 
@@ -111,7 +112,7 @@ export const shiftRouter = createTRPCRouter({
     )
     .mutation(async ({ input: { shiftId }, ctx }) => {
       return await ctx.prisma.shift.delete({
-        where: { id: shiftId },
+        where: { id: shiftId, userId: ctx.session.user.id },
       });
     }),
 });

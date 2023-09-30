@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const vacationRouter = createTRPCRouter({
   create: protectedProcedure
@@ -18,7 +18,7 @@ export const vacationRouter = createTRPCRouter({
         ctx,
       }) => {
         await ctx.prisma.employee.update({
-          where: { id: employeeId },
+          where: { id: employeeId, userId: ctx.session.user.id },
           data: {
             vacationDays: vacationDays - daysPlanned,
           },
@@ -49,13 +49,13 @@ export const vacationRouter = createTRPCRouter({
         ctx,
       }) => {
         await ctx.prisma.employee.update({
-          where: { id: employeeId },
+          where: { id: employeeId, userId: ctx.session.user.id },
           data: {
             vacationDays: vacationDays + totalDays,
           },
         });
         return await ctx.prisma.vacation.delete({
-          where: { id: vacationId },
+          where: { id: vacationId, userId: ctx.session.user.id },
         });
       }
     ),
@@ -69,7 +69,7 @@ export const vacationRouter = createTRPCRouter({
     )
     .mutation(async ({ input: { vacationDays, employeeId }, ctx }) => {
       await ctx.prisma.employee.update({
-        where: { id: employeeId },
+        where: { id: employeeId, userId: ctx.session.user.id },
         data: {
           vacationDays: vacationDays,
         },

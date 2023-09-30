@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const employeeNoteRouter = createTRPCRouter({
   create: protectedProcedure
@@ -18,7 +18,7 @@ export const employeeNoteRouter = createTRPCRouter({
     .input(z.object({ noteId: z.string(), content: z.string() }))
     .mutation(async ({ input: { noteId, content }, ctx }) => {
       return await ctx.prisma.employeeNote.update({
-        where: { id: noteId },
+        where: { id: noteId, userId: ctx.session.user.id },
         data: { content },
       });
     }),
@@ -27,7 +27,7 @@ export const employeeNoteRouter = createTRPCRouter({
     .input(z.object({ noteId: z.string() }))
     .mutation(async ({ input: { noteId }, ctx }) => {
       return await ctx.prisma.employeeNote.delete({
-        where: { id: noteId },
+        where: { id: noteId, userId: ctx.session.user.id },
       });
     }),
 });

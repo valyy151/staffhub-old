@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const employeeRouter = createTRPCRouter({
   create: protectedProcedure
@@ -43,7 +43,7 @@ export const employeeRouter = createTRPCRouter({
         ctx,
       }) => {
         return await ctx.prisma.employee.update({
-          where: { id: employeeId },
+          where: { id: employeeId, userId: ctx.session.user.id },
           data: { name, email, address, phoneNumber },
         });
       }
@@ -53,7 +53,7 @@ export const employeeRouter = createTRPCRouter({
     .input(z.object({ employeeId: z.string() }))
     .mutation(async ({ input: { employeeId }, ctx }) => {
       return await ctx.prisma.employee.delete({
-        where: { id: employeeId },
+        where: { id: employeeId, userId: ctx.session.user.id },
       });
     }),
 
@@ -112,7 +112,7 @@ export const employeeRouter = createTRPCRouter({
         ctx,
       }) => {
         const employeePromise = ctx.prisma.employee.findUnique({
-          where: { id },
+          where: { id, userId: ctx.session.user.id },
           select: {
             id: true,
             name: true,
@@ -187,6 +187,7 @@ export const employeeRouter = createTRPCRouter({
           shiftsPromise = ctx.prisma.shift.findMany({
             where: {
               employeeId: id,
+              userId: ctx.session.user.id,
               date: { lte: endOfMonth, gte: startOfMonth },
             },
           });

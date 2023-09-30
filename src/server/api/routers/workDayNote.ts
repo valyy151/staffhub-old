@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const workDayNoteRouter = createTRPCRouter({
   create: protectedProcedure
@@ -18,7 +18,7 @@ export const workDayNoteRouter = createTRPCRouter({
     .input(z.object({ noteId: z.string() }))
     .mutation(async ({ input: { noteId }, ctx }) => {
       return await ctx.prisma.workDayNote.delete({
-        where: { id: noteId },
+        where: { id: noteId, userId: ctx.session.user.id },
       });
     }),
 });

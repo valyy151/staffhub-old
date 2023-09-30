@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const schedulePreferenceRouter = createTRPCRouter({
   createOrUpdate: protectedProcedure
@@ -13,11 +13,11 @@ export const schedulePreferenceRouter = createTRPCRouter({
     .mutation(
       async ({ input: { employeeId, hoursPerMonth, shiftModelIds }, ctx }) => {
         const existing = await ctx.prisma.schedulePreference.findFirst({
-          where: { employeeId },
+          where: { employeeId, userId: ctx.session.user.id },
         });
         if (existing) {
           return await ctx.prisma.schedulePreference.update({
-            where: { id: existing.id },
+            where: { id: existing.id, userId: ctx.session.user.id },
             data: {
               hoursPerMonth: hoursPerMonth,
               shiftModels: {
@@ -44,7 +44,7 @@ export const schedulePreferenceRouter = createTRPCRouter({
     .input(z.object({ schedulePreferenceId: z.string() }))
     .mutation(async ({ input: { schedulePreferenceId }, ctx }) => {
       return await ctx.prisma.schedulePreference.delete({
-        where: { id: schedulePreferenceId },
+        where: { id: schedulePreferenceId, userId: ctx.session.user.id },
       });
     }),
 
@@ -53,8 +53,8 @@ export const schedulePreferenceRouter = createTRPCRouter({
       where: { userId: ctx.session.user.id },
       select: {
         id: true,
-        hoursPerMonth: true,
         shiftModels: true,
+        hoursPerMonth: true,
       },
     });
   }),

@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const sickLeaveRouter = createTRPCRouter({
   create: protectedProcedure
@@ -39,7 +39,7 @@ export const sickLeaveRouter = createTRPCRouter({
     .input(z.string())
     .mutation(async ({ input: sickLeaveId, ctx }) => {
       return await ctx.prisma.sickLeave.delete({
-        where: { id: sickLeaveId },
+        where: { id: sickLeaveId, userId: ctx.session.user.id },
       });
     }),
 });
