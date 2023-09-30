@@ -1,9 +1,19 @@
-import { formatDateLong, formatDay, formatTime, formatTotal } from '~/utils/dateFormatting';
-
-import { Input } from '@/components/ui/input';
 import {
-    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
-} from '@/components/ui/table';
+  formatDateLong,
+  formatDay,
+  formatTime,
+  formatTotal,
+} from "~/utils/dateFormatting";
+
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type Data = {
   date: number;
@@ -89,8 +99,8 @@ export default function ScheduleTable({
     setData(newData);
   }
   return (
-    <Table>
-      <TableHeader>
+    <Table className="border">
+      <TableHeader className="border">
         <TableHead>Date</TableHead>
         <TableHead>Start</TableHead>
         <TableHead>End</TableHead>
@@ -98,7 +108,7 @@ export default function ScheduleTable({
       </TableHeader>
       <TableBody>
         {data.map((item, index) => (
-          <TableRow key={index}>
+          <TableRow key={index} className="hover:bg-inherit">
             <TableCell className="flex pt-6">
               <span> {formatDay(item.date)}</span>
               <span className="ml-auto">{formatDateLong(item.date)}</span>

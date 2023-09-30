@@ -1,19 +1,16 @@
-import { ArrowLeft, FileDigit, Palmtree, Save } from 'lucide-react';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { howManyDays } from '~/utils/calculateHours';
-import { checkVacations } from '~/utils/checkVacations';
-
-import AddVacation from '@/components/Staff/AddVacation';
-import Sidebar from '@/components/Staff/Sidebar';
-import Vacation from '@/components/Staff/Vacation';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import { Input } from '@/components/ui/input';
-import Paragraph from '@/components/ui/paragraph';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+import router from "next/router";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import Heading from "@/components/ui/heading";
+import { Button } from "@/components/ui/button";
+import Sidebar from "@/components/Staff/Sidebar";
+import Paragraph from "@/components/ui/paragraph";
+import Vacation from "@/components/Staff/Vacation";
+import { FileDigit, Palmtree } from "lucide-react";
+import { howManyDays } from "~/utils/calculateHours";
+import { checkVacations } from "~/utils/checkVacations";
+import AddVacation from "@/components/Staff/AddVacation";
+import ChangeVacationDays from "@/components/Staff/ChangeVacationDays";
 
 type VacationPageProps = {
   query: { id: string };
@@ -24,9 +21,7 @@ VacationPage.getInitialProps = ({ query }: VacationPageProps) => {
 };
 
 export default function VacationPage({ query }: VacationPageProps) {
-  const [amount, setAmount] = useState<number>(0);
   const [showPlanner, setShowPlanner] = useState<boolean>(false);
-  const [, setDaysRemaining] = useState<number | undefined>(0);
   const [showChangeAmount, setShowChangeAmount] = useState<boolean>(false);
 
   const { data: employee, failureReason } = api.employee.findOne.useQuery({
@@ -35,46 +30,6 @@ export default function VacationPage({ query }: VacationPageProps) {
 
   if (failureReason?.data?.httpStatus === 401) {
     router.push("/");
-  }
-
-  useEffect(() => {
-    setAmount(employee?.vacationDays || 0);
-    setDaysRemaining(employee?.vacationDays);
-  }, [employee?.vacationDays]);
-
-  const { toast } = useToast();
-
-  const queryClient = useQueryClient();
-
-  const updateAmountMutation = api.vacation.updateAmountOfDays.useMutation({
-    onSuccess: () => {
-      setShowChangeAmount(false);
-      void queryClient.invalidateQueries();
-      toast({ title: "Vacation days updated successfully." });
-    },
-    onError: () => {
-      toast({
-        title: "There was a problem updating the vacation days.",
-        variant: "destructive",
-      });
-    },
-  });
-
-  function updateAmount(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!amount) {
-      return toast({ title: "Please enter a number." });
-    }
-
-    if (!employee?.id) {
-      return null;
-    }
-
-    updateAmountMutation.mutate({
-      vacationDays: amount,
-      employeeId: employee.id,
-    });
   }
 
   function renderVacations() {
@@ -91,7 +46,7 @@ export default function VacationPage({ query }: VacationPageProps) {
         {currentVacation && (
           <>
             {" "}
-            <Heading size={"sm"} className="mb-3 mt-16 flex items-center">
+            <Heading size={"xxs"} className="mb-3 mt-16 flex items-center">
               <Palmtree size={42} className="ml-1 mr-2 text-green-400" />
               Currently on vacation -
               <span className="ml-2">
@@ -105,7 +60,7 @@ export default function VacationPage({ query }: VacationPageProps) {
 
         {futureVacations && futureVacations.length > 0 ? (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+            <Heading size={"xxs"} className="mb-3 mt-12 flex items-center">
               <Palmtree size={42} className="ml-1 mr-2 text-rose-400" />{" "}
               Upcoming Vacations
             </Heading>
@@ -121,17 +76,19 @@ export default function VacationPage({ query }: VacationPageProps) {
           </>
         ) : (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+            <Heading size={"xxs"} className="mb-3 mt-12 flex items-center">
               <Palmtree size={42} className="ml-1 mr-2 text-rose-400" />{" "}
               Upcoming Vacations
             </Heading>
-            <Paragraph className="ml-14 mt-4">No upcoming vacations</Paragraph>
+            <Paragraph size={"sm"} className="ml-14 mt-4">
+              No upcoming vacations
+            </Paragraph>
           </>
         )}
 
         {pastVacations && pastVacations.length > 0 ? (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+            <Heading size={"xxs"} className="mb-3 mt-12 flex items-center">
               <Palmtree size={42} className="ml-1 mr-2 text-gray-400" /> Past
               Vacations
             </Heading>
@@ -148,11 +105,13 @@ export default function VacationPage({ query }: VacationPageProps) {
           </>
         ) : (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+            <Heading size={"xxs"} className="mb-3 mt-12 flex items-center">
               <Palmtree size={42} className="ml-1 mr-2 text-gray-400" /> Past
               Vacations
             </Heading>
-            <Paragraph className="ml-14 mt-4">No past vacations</Paragraph>
+            <Paragraph size={"sm"} className="ml-14 mt-4">
+              No past vacations
+            </Paragraph>
           </>
         )}
       </div>
@@ -174,67 +133,36 @@ export default function VacationPage({ query }: VacationPageProps) {
 
         <div className="mt-2 flex space-x-2">
           <Button
-            size={"lg"}
             title="Create a new vacation"
-            className="text-xl"
             onClick={() => {
               setShowPlanner(true);
               setShowChangeAmount(false);
             }}
           >
-            <Palmtree size={32} className="mr-2" />
+            <Palmtree className="mr-2" />
             New Vacation
           </Button>
           <Button
-            size={"lg"}
             variant={"subtle"}
-            className="text-xl"
             title="Change the amount of vacation days"
             onClick={() => {
               setShowPlanner(false);
               setShowChangeAmount(true);
             }}
           >
-            <FileDigit size={32} className="mr-2" />
+            <FileDigit className="mr-2" />
             Change remaining days
           </Button>
         </div>
 
         {showChangeAmount && (
-          <form onSubmit={updateAmount} className="mt-8 flex flex-col ">
-            <Heading size={"xs"}>Change the amount of vacation days</Heading>
-
-            <Input
-              type="text"
-              value={amount}
-              onChange={(e) => setAmount(Number(e.target.value))}
-              className="m-0 h-14 w-fit text-center text-2xl shadow-md"
-            />
-            <div className="flex w-full space-x-1">
-              <Button size={"lg"} className="mt-2 text-xl ">
-                <Save size={28} className="mr-2" />
-                Save
-              </Button>
-              <Button
-                size={"lg"}
-                type="button"
-                variant={"subtle"}
-                onClick={() => setShowChangeAmount(false)}
-                className="mt-2 text-xl "
-              >
-                {" "}
-                <ArrowLeft size={28} className="mr-2" />
-                Cancel
-              </Button>
-            </div>
-          </form>
+          <ChangeVacationDays
+            employee={employee}
+            setShowChangeAmount={setShowChangeAmount}
+          />
         )}
         {showPlanner && (
-          <AddVacation
-            employee={employee}
-            setAmount={setAmount}
-            setShowPlanner={setShowPlanner}
-          />
+          <AddVacation employee={employee} setShowPlanner={setShowPlanner} />
         )}
 
         {!showChangeAmount && !showPlanner && renderVacations()}

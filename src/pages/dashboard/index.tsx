@@ -1,21 +1,32 @@
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 
-import { CalendarOff, CalendarPlus, Scroll, ScrollText, User } from 'lucide-react';
-import { getSession } from 'next-auth/react';
-import Head from 'next/head';
-import Link from 'next/link';
-import router from 'next/router';
-import { GetServerSideProps } from 'next/types';
-import { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
-import { api, DashboardWorkDay } from '~/utils/api';
-import { formatDate, formatDay, formatTime } from '~/utils/dateFormatting';
+import {
+  CalendarOff,
+  CalendarPlus,
+  Scroll,
+  ScrollText,
+  User,
+} from "lucide-react";
+import { getSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import router from "next/router";
+import { GetServerSideProps } from "next/types";
+import { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import { api, DashboardWorkDay } from "~/utils/api";
+import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
-import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Spinner from '@/components/ui/spinner';
+import { Button, buttonVariants } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Spinner from "@/components/ui/spinner";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -65,21 +76,17 @@ export default function DashboardPage() {
           <title>Dashboard | StaffHub</title>
           <meta name="Dashboard" content="Manage your schedules" />
         </Head>
-        <Heading className="mt-6" size={"sm"}>
+        <Heading className="mt-6" size={"xs"}>
           You do not currently have any created schedules.
         </Heading>
 
-        <Heading size={"xs"} className="mt-2">
+        <Heading size={"xxs"} className="mt-2">
           Click below if you wish to create a schedule.
         </Heading>
 
-        <Button
-          size={"lg"}
-          className="mt-4 h-14 text-2xl"
-          onClick={() => router.push("/schedule")}
-        >
-          <CalendarPlus size={30} className="mr-2" /> New Schedule
-        </Button>
+        <Link className={`mt-4 ${buttonVariants()}`} href={"/schedule"}>
+          <CalendarPlus className="mr-2" /> New Schedule
+        </Link>
       </main>
     );
   }

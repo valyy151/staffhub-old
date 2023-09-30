@@ -1,16 +1,16 @@
-import { HeartPulse } from 'lucide-react';
-import router from 'next/router';
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { howManyDays } from '~/utils/calculateHours';
-import { checkSickLeaves } from '~/utils/checkSickLeaves';
+import { HeartPulse } from "lucide-react";
+import router from "next/router";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import { howManyDays } from "~/utils/calculateHours";
+import { checkSickLeaves } from "~/utils/checkSickLeaves";
 
-import AddSickLeave from '@/components/Staff/AddSickLeave';
-import SickLeave from '@/components/Staff/SickLeave';
-import Sidebar from '@/components/Staff/Sidebar';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
+import AddSickLeave from "@/components/Staff/AddSickLeave";
+import SickLeave from "@/components/Staff/SickLeave";
+import Sidebar from "@/components/Staff/Sidebar";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
 
 type SickLeavePageProps = {
   query: { id: string };
@@ -45,7 +45,7 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
         {currentSickLeave ? (
           <>
             {" "}
-            <Heading size={"sm"} className="mb-3 mt-16 flex items-center">
+            <Heading size={"xxs"} className="mb-3 mt-16 flex items-center">
               <HeartPulse size={42} className="ml-1 mr-2 text-rose-400" />
               Currently on sick leave -
               <span className="ml-2">
@@ -56,7 +56,7 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
             <SickLeave sickLeave={currentSickLeave} />
           </>
         ) : (
-          <Heading size={"xs"} className="mb-3 mt-16 flex items-center">
+          <Heading size={"xxs"} className="mb-3 mt-16 flex items-center">
             <HeartPulse size={42} className="ml-1 mr-2 text-green-400" />
             Currently not on sick leave
           </Heading>
@@ -64,7 +64,7 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
 
         {pastSickLeaves && pastSickLeaves.length > 0 ? (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+            <Heading size={"xxs"} className="mb-3 mt-12 flex items-center">
               <HeartPulse size={42} className="ml-1 mr-2 text-gray-400" /> Past
               Sick Leaves
             </Heading>
@@ -75,11 +75,13 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
           </>
         ) : (
           <>
-            <Heading size={"xs"} className="mb-3 mt-12 flex items-center">
+            <Heading size={"xxs"} className="mb-3 mt-12 flex items-center">
               <HeartPulse size={42} className="ml-1 mr-2 text-gray-400" /> Past
               Sick Leaves
             </Heading>
-            <Paragraph className="ml-14 mt-4">No past sick leaves</Paragraph>
+            <Paragraph size={"sm"} className="ml-14 mt-4">
+              No past sick leaves
+            </Paragraph>
           </>
         )}
       </div>
@@ -96,20 +98,19 @@ export default function SickLeavePage({ query }: SickLeavePageProps) {
       <div className="mt-4">
         <Heading size={"sm"}>Sick leaves for {employee?.name}</Heading>
         <Button
-          size={"lg"}
           title="Create a new sick leave"
-          className="mt-2 text-xl"
+          className="mt-2"
           onClick={() => {
             setShowPlanner(true);
           }}
         >
-          <HeartPulse size={32} className="mr-2" />
+          <HeartPulse className="mr-2" />
           New Sick Leave
         </Button>
         {showPlanner && (
           <AddSickLeave employee={employee} setShowPlanner={setShowPlanner} />
         )}
-        {!showPlanner && renderSickLeaves()}
+        {renderSickLeaves()}
       </div>
     </main>
   );

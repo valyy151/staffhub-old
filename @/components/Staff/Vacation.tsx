@@ -63,9 +63,9 @@ export default function Vacation({ vacation, employee }: VacationProps) {
   }
 
   return (
-    <div className="my-2 flex w-fit items-center justify-center rounded-md bg-white px-3 py-1 shadow dark:bg-gray-700">
-      <div className="flex items-center space-x-6">
-        <Paragraph className="w-[36rem] min-w-[16rem] rounded-md bg-white px-2 py-2 text-left dark:bg-gray-700">
+    <div className="my-2 flex w-full items-center justify-center rounded-md border border-foreground/25 px-3 py-1">
+      <div className="flex w-full items-center space-x-6">
+        <Paragraph className="w-full rounded px-2 py-2 text-left">
           From{" "}
           <span className="font-bold">
             {formatDateLong(Number(vacation.start) / 1000)}.{" "}
@@ -79,7 +79,7 @@ export default function Vacation({ vacation, employee }: VacationProps) {
         <Button
           size={"sm"}
           variant={"link"}
-          className="w-16 min-w-0 rounded-full p-5 text-red-500 dark:text-red-400"
+          className="rounded-full p-5 text-red-500 dark:text-red-400"
           onClick={() => {
             setShowModal(true);
           }}

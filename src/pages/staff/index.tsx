@@ -1,19 +1,24 @@
-import { UserPlus } from 'lucide-react';
-import { getSession } from 'next-auth/react';
-import Head from 'next/head';
-import Link from 'next/link';
-import router from 'next/router';
-import { GetServerSideProps } from 'next/types';
-import { useState } from 'react';
-import { api } from '~/utils/api';
+import { UserPlus } from "lucide-react";
+import { getSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import router from "next/router";
+import { GetServerSideProps } from "next/types";
+import { useState } from "react";
+import { api } from "~/utils/api";
 
-import { buttonVariants } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import { Input } from '@/components/ui/input';
-import Spinner from '@/components/ui/spinner';
+import { buttonVariants } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import Spinner from "@/components/ui/spinner";
 import {
-    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
-} from '@/components/ui/table';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -41,12 +46,10 @@ export default function EmployeesListPage() {
     return <Spinner />;
   }
 
-  const filteredData = data
-    .filter((employee) => {
-      const values = Object.values(employee).join("").toLowerCase();
-      return values.includes(searchText.toLowerCase());
-    })
-    .sort((a, b) => a.name.localeCompare(b.name));
+  const filteredData = data.filter((employee) => {
+    const values = Object.values(employee).join("").toLowerCase();
+    return values.includes(searchText.toLowerCase());
+  });
 
   if (data.length === 0) {
     return (
@@ -67,7 +70,7 @@ export default function EmployeesListPage() {
         </Heading>
 
         <Link href={"/staff/new"} className={`${buttonVariants()} mt-4`}>
-          <UserPlus size={20} className="mr-2" /> New Employee
+          <UserPlus className="mr-2" /> New Employee
         </Link>
       </main>
     );
@@ -104,7 +107,7 @@ export default function EmployeesListPage() {
       </div>
 
       <Table className="mt-2">
-        <TableHeader>
+        <TableHeader className="border-b">
           <TableHead>Name</TableHead>
           <TableHead>Phone</TableHead>
           <TableHead>Email</TableHead>

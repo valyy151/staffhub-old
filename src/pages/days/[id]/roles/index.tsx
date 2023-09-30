@@ -1,14 +1,14 @@
-import { ClipboardList, Clock, UserCog } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay } from '~/utils/dateFormatting';
+import { ClipboardList, Clock, UserCog } from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-import { buttonVariants } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
-import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import AddShift from '@/components/WorkDay/AddShift';
+import { buttonVariants } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import AddShift from "@/components/WorkDay/AddShift";
 
 type WorkDayPageProps = {
   query: { id: string };
@@ -116,10 +116,9 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
           </Link>
         </div>
 
-        {/* Table that has the name of the roles as the headers and all the employees are sorted in the column of the role that they have */}
         <Table>
           <TableHeader>
-            <TableRow className="">{checkRoles()}</TableRow>
+            <TableRow>{checkRoles()}</TableRow>
           </TableHeader>
         </Table>
       </main>

@@ -1,27 +1,33 @@
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 
-import { CalendarPlus, Info, UserPlus } from 'lucide-react';
-import { getSession } from 'next-auth/react';
-import Head from 'next/head';
-import router from 'next/router';
-import { GetServerSideProps } from 'next/types';
-import { useState } from 'react';
-import Calendar from 'react-calendar';
-import sentences from '~/data/schedule.json';
-import { api, Employee } from '~/utils/api';
-import { calculateTotalMonthlyHours } from '~/utils/calculateHours';
-import { findSickLeaveDays, findVacationDays } from '~/utils/checkAbsence';
-import { formatMonth, formatTime } from '~/utils/dateFormatting';
-import { generateYearArray, updateMonthData } from '~/utils/yearArray';
+import { CalendarPlus, Info, UserPlus } from "lucide-react";
+import { getSession } from "next-auth/react";
+import Head from "next/head";
+import router from "next/router";
+import { GetServerSideProps } from "next/types";
+import { useState } from "react";
+import Calendar from "react-calendar";
+import sentences from "~/data/schedule.json";
+import { api, Employee } from "~/utils/api";
+import { calculateTotalMonthlyHours } from "~/utils/calculateHours";
+import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
+import { formatMonth, formatTime } from "~/utils/dateFormatting";
+import { generateYearArray, updateMonthData } from "~/utils/yearArray";
 
-import ScheduleTable from '@/components/Schedule/ScheduleTable';
-import SelectEmployee from '@/components/Schedule/SelectEmployee';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import Heading from '@/components/ui/heading';
-import InfoModal from '@/components/ui/info-modal';
-import Spinner from '@/components/ui/spinner';
-import { useToast } from '@/components/ui/use-toast';
+import ScheduleTable from "@/components/Schedule/ScheduleTable";
+import SelectEmployee from "@/components/Schedule/SelectEmployee";
+import { Button, buttonVariants } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import Heading from "@/components/ui/heading";
+import InfoModal from "@/components/ui/info-modal";
+import Spinner from "@/components/ui/spinner";
+import { useToast } from "@/components/ui/use-toast";
+import Link from "next/link";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -152,13 +158,9 @@ export default function NewSchedulePage() {
         <Heading size={"xxs"} className="mt-2">
           Click below if you wish to create an employee.
         </Heading>
-        <Button
-          size={"lg"}
-          className="mt-4"
-          onClick={() => router.push("/staff/new")}
-        >
+        <Link href={"/staff/new"} className={`mt-4 ${buttonVariants()}`}>
           <UserPlus className="mr-2" /> New Employee
-        </Button>
+        </Link>
       </main>
     );
   }
@@ -252,7 +254,7 @@ export default function NewSchedulePage() {
               {employee.name && (
                 <div className="mt-2 flex flex-col items-baseline">
                   <Heading size={"xs"}>Shift Preferences</Heading>
-                  <div className="flex">
+                  <div className="flex flex-col">
                     {employee.schedulePreference?.shiftModels.length! > 0 ? (
                       employee.schedulePreference?.shiftModels
                         ?.sort((a, b) => a.start - b.start)
@@ -260,9 +262,9 @@ export default function NewSchedulePage() {
                           <Heading
                             size={"xxs"}
                             key={item.id}
-                            className="mx-2 my-1 font-normal"
+                            className=" my-0.5 font-normal"
                           >
-                            {formatTime(item.start)} - {formatTime(item.end)}
+                            ({formatTime(item.start)} - {formatTime(item.end)})
                           </Heading>
                         ))
                     ) : (
@@ -280,7 +282,7 @@ export default function NewSchedulePage() {
                 {shiftModels?.length! > 0 && (
                   <>
                     <Heading size={"xs"}>Select a shift</Heading>
-                    <div className="flex">
+                    <div className="flex flex-col">
                       {shiftModels?.map((model) => (
                         <Heading
                           size={"xxs"}
@@ -301,14 +303,14 @@ export default function NewSchedulePage() {
                                   }`
                                 );
                           }}
-                          className={`m-1 cursor-pointer text-left font-medium hover:text-sky-400 ${
+                          className={` my-0.5 cursor-pointer text-left font-medium ${
                             shift ===
                             `${formatTime(model.start)} - ${
                               formatTime(model.end) == "00:00"
                                 ? "24:00"
                                 : formatTime(model.end)
                             }`
-                              ? "text-sky-400 underline underline-offset-8"
+                              ? "text-sky-500"
                               : ""
                           }`}
                         >
@@ -319,21 +321,17 @@ export default function NewSchedulePage() {
                   </>
                 )}
               </div>
-              {employee.schedulePreference?.hoursPerMonth! > 0 && (
-                <>
-                  <Heading size={"xs"}>Hours per month</Heading>
-                  <Heading size={"xxs"} className="font-normal">
-                    <span>
-                      {calculateTotalMonthlyHours(
-                        schedule,
-                        vacationDays.length
-                      )}
-                    </span>{" "}
-                    / {employee.schedulePreference?.hoursPerMonth} hours per
-                    month
-                  </Heading>
-                </>
-              )}
+
+              <Heading size={"xs"} className="mt-2">
+                Hours per month
+              </Heading>
+              <Heading size={"xxs"} className=" font-normal">
+                <span>
+                  {calculateTotalMonthlyHours(schedule, vacationDays.length)}
+                </span>{" "}
+                / {employee.schedulePreference?.hoursPerMonth} hours per month
+              </Heading>
+
               <div className="flex w-fit flex-col space-y-1 pt-4">
                 <Button title="Create schedule" onClick={createSchedule}>
                   <CalendarPlus className="mr-2" /> Submit

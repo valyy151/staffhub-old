@@ -1,22 +1,31 @@
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 
-import dynamic from 'next/dynamic';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { Calendar } from 'react-calendar';
-import { api, EmployeeProfile } from '~/utils/api';
-import { calculateTotalHours } from '~/utils/calculateHours';
-import { findSickLeaveDays, findVacationDays } from '~/utils/checkAbsence';
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { Calendar } from "react-calendar";
+import { api, EmployeeProfile } from "~/utils/api";
+import { calculateTotalHours } from "~/utils/calculateHours";
+import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
 import {
-    formatDateLong, formatDay, formatTime, formatTotal, getMonthBoundaryTimestamps
-} from '~/utils/dateFormatting';
+  formatDateLong,
+  formatDay,
+  formatTime,
+  formatTotal,
+  getMonthBoundaryTimestamps,
+} from "~/utils/dateFormatting";
 
-import Sidebar from '@/components/Staff/Sidebar';
-import Heading from '@/components/ui/heading';
+import Sidebar from "@/components/Staff/Sidebar";
+import Heading from "@/components/ui/heading";
 import {
-    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
-} from '@/components/ui/table';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const PDFButton = dynamic(() => import("@/components/PDFButton"), {
   ssr: false,
@@ -95,18 +104,18 @@ export default function SchedulePage({ query }: SchedulePageProps) {
             {month} - {calculateTotalHours(employee?.workDays)} hours
           </Heading>
 
-          <Table>
+          <Table className="min-w-[35vw] grow border">
             <TableHeader>
               <TableRow>
-                <TableHead>Date</TableHead>
-                <TableHead>Day</TableHead>
+                <TableHead className="border-r">Date</TableHead>
+                <TableHead className="border-r">Day</TableHead>
                 <TableHead className="text-right">Shift</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {employee?.workDays.map((day) => (
                 <TableRow key={day.id}>
-                  <TableCell>
+                  <TableCell className="border-r">
                     <Link
                       href={`/days/${day.id}/shifts`}
                       className="cursor-pointer font-medium hover:text-sky-500"
@@ -114,7 +123,9 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                       {formatDateLong(day.date)}
                     </Link>
                   </TableCell>
-                  <TableCell>{formatDay(day.date)}</TableCell>
+                  <TableCell className="border-r">
+                    {formatDay(day.date)}
+                  </TableCell>
                   <TableCell className="text-right">
                     {!day.shifts[0]?.start && day.vacation && (
                       <span className="italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
@@ -147,7 +158,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
           </Table>
         </section>
 
-        <div className="relative ml-8">
+        <div className="relative ml-8 mt-12">
           <div className="fixed">
             <Calendar
               value={value}

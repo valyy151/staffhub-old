@@ -1,11 +1,11 @@
-import { Download } from 'lucide-react';
-import { EmployeeProfile } from '~/utils/api';
-import { formatMonth } from '~/utils/dateFormatting';
+import { Download } from "lucide-react";
+import { EmployeeProfile } from "~/utils/api";
+import { formatMonth } from "~/utils/dateFormatting";
 
-import { Button } from '@/components/ui/button';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { Button } from "@/components/ui/button";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
-import { MonthlyRoster } from './SchedulePDF';
+import { MonthlyRoster } from "./SchedulePDF";
 
 type PDFButtonProps = {
   value: Date;
@@ -15,7 +15,7 @@ type PDFButtonProps = {
 
 export default function PDFButton({ employee, value, month }: PDFButtonProps) {
   return (
-    <Button size={"lg"} className="mt-2 text-xl">
+    <Button className="mt-2">
       <Download className="mr-2" />
       <PDFDownloadLink
         document={<MonthlyRoster employee={employee} month={month} />}

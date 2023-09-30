@@ -1,16 +1,23 @@
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 
-import { addDays, differenceInDays } from 'date-fns';
-import { ArrowLeft, HeartPulse } from 'lucide-react';
-import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { api, EmployeeProfile } from '~/utils/api';
+import { addDays, differenceInDays } from "date-fns";
+import { useState } from "react";
+import { DateRange } from "react-day-picker";
+import { api, EmployeeProfile } from "~/utils/api";
 
-import { Button } from '@/components/ui/button';
-import { DatePickerWithRange } from '@/components/ui/date-range-picker';
-import Heading from '@/components/ui/heading';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type AddSickLeaveProps = {
   employee: EmployeeProfile;
@@ -67,39 +74,28 @@ export default function AddSickLeave({
   }
 
   return (
-    <main className="flex flex-col">
-      <Heading size={"xs"} className="mb-1 mt-6 ">
-        Days planned:{" "}
-        <span>
-          {differenceInDays(date?.to!, date?.from!) + 1 > 0
-            ? differenceInDays(date?.to!, date?.from!) + 1
-            : 0}
-        </span>
-      </Heading>
+    <AlertDialog open>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>New Sick Leave</AlertDialogTitle>
+          <AlertDialogDescription>
+            Days planned:{" "}
+            <span>
+              {differenceInDays(date?.to!, date?.from!) + 1 > 0
+                ? differenceInDays(date?.to!, date?.from!) + 1
+                : 0}
+            </span>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <DatePickerWithRange date={date} setDate={setDate} />
 
-      <DatePickerWithRange date={date} setDate={setDate} />
-
-      <form onSubmit={handleSubmit} className="mt-2 flex w-full flex-col">
-        <Button
-          size={"lg"}
-          title="Create sick leave"
-          className="mt-2 w-fit text-xl"
-        >
-          <HeartPulse size={32} className="mr-2" /> Submit
-        </Button>
-
-        <Button
-          size={"lg"}
-          type="button"
-          variant={"subtle"}
-          title="Cancel sick leave creation"
-          onClick={() => setShowPlanner(false)}
-          className="mt-2 w-fit text-xl"
-        >
-          <ArrowLeft size={32} className="mr-2" />
-          Cancel
-        </Button>
-      </form>
-    </main>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setShowPlanner(false)}>
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleSubmit}>Continue</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

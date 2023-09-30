@@ -1,18 +1,28 @@
-import { ArrowLeft, Save, Sticker } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatTime } from '~/utils/dateFormatting';
+import { Sticker } from "lucide-react";
 
-import Sidebar from '@/components/Staff/Sidebar';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Paragraph from '@/components/ui/paragraph';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatTime } from "~/utils/dateFormatting";
+
+import Sidebar from "@/components/Staff/Sidebar";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 type SchedulePreferencesProps = {
   query: { id: string };
@@ -101,114 +111,84 @@ export default function SchedulePreferencesPage({
     <main className="flex">
       <Sidebar employee={employee} />
       <div className="mt-4 flex flex-col">
-        <Heading size={"xs"}>Schedule preferences for {employee?.name}</Heading>
+        <Heading size={"sm"}>Schedule preferences for {employee?.name}</Heading>
         <Button
-          size={"lg"}
           onClick={() => setShowAddPreference(true)}
           className="mt-2 w-fit"
         >
           <Sticker className="mr-2" />
           Edit Schedule Preferences
         </Button>
-
-        {showAddPreference ? (
-          <form onSubmit={createPreference} className="mt-8 flex-col">
-            <Heading size={"xxs"} className="mb-3">
-              How many hours per month would this employee like to work?
-            </Heading>
-            <div>
-              <Input
-                type="text"
-                value={hoursPerMonth}
-                placeholder="Enter hours per month  "
-                onChange={(e) => setHoursPerMonth(e.target.value)}
-              />
-            </div>
-            <Heading size={"xxs"} className="my-2">
-              Which shifts does {employee.name} prefer?
-            </Heading>
-            <div className="my-4 space-y-2">
-              {employee?.shiftModels.length > 1 ? (
-                employee?.shiftModels
-                  ?.sort((a, b) => a.start - b.start)
-                  .map((shiftModel) => (
-                    <div key={shiftModel.id} className="my-2">
-                      <input
-                        type="checkbox"
-                        className="h-5 w-5 cursor-pointer"
-                        id={shiftModel.id}
-                        name={shiftModel.id}
-                        value={shiftModel.id}
-                      />
-                      <Label
-                        htmlFor={shiftModel.id}
-                        className="ml-2 cursor-pointer text-xl"
-                      >
-                        {formatTime(shiftModel.start)} -{" "}
-                        {formatTime(shiftModel.end)}
-                      </Label>
-                    </div>
-                  ))
-              ) : (
-                <Link href="/settings/shift-models">
-                  <Paragraph className="underline-offset-8 hover:text-sky-600 hover:underline dark:hover:text-sky-300">
-                    No shifts models have been created.
-                  </Paragraph>
-                </Link>
-              )}
-            </div>
-            <div className="mt-2 flex w-full space-x-1">
-              <Button size={"lg"} title="Add shift preference">
-                <Save className="mr-2" /> Save
-              </Button>
-              <Button
-                size={"lg"}
-                onClick={() => setShowAddPreference(false)}
-                title="Cancel shift preference creation"
-                variant={"subtle"}
-                type="button"
-              >
-                <ArrowLeft className="mr-2" /> Cancel
-              </Button>
-            </div>
-          </form>
-        ) : (
-          <div className="mt-8 flex-col">
-            <Heading size={"xxs"} className="mb-3">
-              How many hours per month would this employee like to work?
-            </Heading>
-            <div className="mt-6">
-              {employee?.schedulePreference?.hoursPerMonth === 0 ||
-              !employee?.schedulePreference?.hoursPerMonth ? (
-                <Paragraph>No preference has been set.</Paragraph>
-              ) : (
-                <Paragraph>
-                  {employee?.schedulePreference?.hoursPerMonth}h
-                </Paragraph>
-              )}
-            </div>
-            <Heading size={"xxs"} className="mb-2 mt-6">
-              Which shifts does {employee.name} prefer?
-            </Heading>
-            <div className="mb-4 mt-6 space-y-2">
-              {employee?.schedulePreference?.shiftModels.length! > 0 ? (
-                employee?.schedulePreference?.shiftModels
-                  .sort((a, b) => a.start - b.start)
-                  .map((shiftModel) => (
-                    <div key={shiftModel.id} className="my-2">
-                      <Paragraph>
-                        {formatTime(shiftModel.start)} -{" "}
-                        {formatTime(shiftModel.end)}
-                      </Paragraph>
-                    </div>
-                  ))
-              ) : (
-                <Paragraph>No preference has been set.</Paragraph>
-              )}
-            </div>
-          </div>
-        )}
+        <div className="mt-4">
+          <Heading size={"xxs"}>
+            Shift Models preffered by {employee?.name}:
+          </Heading>
+          {employee?.schedulePreference?.shiftModels.map((shiftModel) => (
+            <Paragraph key={shiftModel.id}>
+              ({formatTime(shiftModel.start)} - {formatTime(shiftModel.end)})
+            </Paragraph>
+          ))}
+        </div>
+        <div className="mt-4">
+          <Heading size={"xxs"}>Hours per month assigned:</Heading>
+          {employee?.schedulePreference?.hoursPerMonth! > 0 ? (
+            <Paragraph>
+              {employee?.schedulePreference?.hoursPerMonth} hours
+            </Paragraph>
+          ) : (
+            <Paragraph>Not assigned</Paragraph>
+          )}
+        </div>
       </div>
+
+      {showAddPreference && (
+        <AlertDialog open>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Edit schedule preferences for {employee?.name}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Select the shift models and the amount of work hours per month.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <form onSubmit={createPreference}>
+              <div className="flex w-fit flex-col space-y-2">
+                {employee?.shiftModels.map((shiftModel) => (
+                  <Label key={shiftModel.id} className="cursor-pointer">
+                    <input
+                      type="checkbox"
+                      id={shiftModel.id}
+                      value={shiftModel.id}
+                      className="my-0.5 mr-2 cursor-pointer focus:ring-0 focus:ring-offset-0"
+                    />
+                    {formatTime(shiftModel.start)} -{" "}
+                    {formatTime(shiftModel.end)}
+                  </Label>
+                ))}
+              </div>
+              <div className="mt-4 flex flex-col">
+                <Label>
+                  Hours per month:
+                  <Input
+                    type="number"
+                    value={hoursPerMonth}
+                    onChange={(e) => setHoursPerMonth(e.target.value)}
+                    // hide the up/down arrows
+                    className="mt-1 w-fit [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  />
+                </Label>
+              </div>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setShowAddPreference(false)}>
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction type="submit">Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </form>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </main>
   );
 }
