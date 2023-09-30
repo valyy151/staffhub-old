@@ -1,8 +1,8 @@
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 export default function ThemeSwitcher() {
   const [mounted, setMounted] = useState(false);
@@ -13,7 +13,7 @@ export default function ThemeSwitcher() {
   }, []);
 
   if (!mounted) {
-    return <div className="w-12"></div>;
+    return <div className="w-[50px]"></div>;
   }
 
   const currentTheme = theme === "system" ? systemTheme : theme;

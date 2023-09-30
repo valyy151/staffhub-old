@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: ["class"],
   content: ["@/components/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -94,16 +95,16 @@ module.exports = {
         },
       },
       animation: {
-        scaleIn: "scaleIn 200ms ease",
-        scaleOut: "scaleOut 200ms ease",
         fadeIn: "fadeIn 200ms ease",
         fadeOut: "fadeOut 200ms ease",
-        enterFromLeft: "enterFromLeft 250ms ease",
-        enterFromRight: "enterFromRight 250ms ease",
+        scaleIn: "scaleIn 200ms ease",
+        scaleOut: "scaleOut 200ms ease",
         exitToLeft: "exitToLeft 250ms ease",
         exitToRight: "exitToRight 250ms ease",
-        accordionDown: "accordion-down 0.2s ease-out",
+        enterFromLeft: "enterFromLeft 250ms ease",
         accordionUp: "accordion-up 0.2s ease-out",
+        enterFromRight: "enterFromRight 250ms ease",
+        accordionDown: "accordion-down 0.2s ease-out",
       },
     },
   },

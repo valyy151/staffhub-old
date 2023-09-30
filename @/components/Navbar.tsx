@@ -1,14 +1,19 @@
-import { signIn, useSession } from 'next-auth/react';
-import React from 'react';
+import { signIn, useSession } from "next-auth/react";
+import React from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
-    NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink,
-    NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle
-} from '@/components/ui/navigation-menu';
-import { cn } from '@/lib/utils';
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
-import ThemeSwitcher from './ThemeSwitcher';
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const links: { title: string; href: string; description: string }[] = [
   {
@@ -41,7 +46,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="flex border-b  py-2">
+    <nav className="flex border-b py-2">
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>

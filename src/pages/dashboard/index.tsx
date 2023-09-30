@@ -1,32 +1,21 @@
-import "react-calendar/dist/Calendar.css";
+import 'react-calendar/dist/Calendar.css';
 
-import {
-  CalendarOff,
-  CalendarPlus,
-  Scroll,
-  ScrollText,
-  User,
-} from "lucide-react";
-import { getSession } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
-import router from "next/router";
-import { GetServerSideProps } from "next/types";
-import { useEffect, useState } from "react";
-import Calendar from "react-calendar";
-import { api, DashboardWorkDay } from "~/utils/api";
-import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
+import { CalendarOff, CalendarPlus, Scroll, ScrollText, User } from 'lucide-react';
+import { getSession } from 'next-auth/react';
+import Head from 'next/head';
+import Link from 'next/link';
+import router from 'next/router';
+import { GetServerSideProps } from 'next/types';
+import { useEffect, useState } from 'react';
+import Calendar from 'react-calendar';
+import { api, DashboardWorkDay } from '~/utils/api';
+import { formatDate, formatDay, formatTime } from '~/utils/dateFormatting';
 
-import { Button, buttonVariants } from "@/components/ui/button";
-import Heading from "@/components/ui/heading";
-import Paragraph from "@/components/ui/paragraph";
-import {
-  Select,
-  SelectContent,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import Spinner from "@/components/ui/spinner";
+import { Button, buttonVariants } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import Paragraph from '@/components/ui/paragraph';
+import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
+import Spinner from '@/components/ui/spinner';
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -182,7 +171,7 @@ export default function DashboardPage() {
                   <Link
                     key={day.id}
                     href={`/days/${day.id}/shifts`}
-                    className={`group flex w-full cursor-pointer flex-col items-center border-x   transition-colors duration-150 hover:bg-primary-foreground ${
+                    className={`group flex w-full cursor-pointer flex-col items-center border-x transition-colors duration-150 ${
                       index === 0 && "rounded-s-lg"
                     } ${index === 6 && "rounded-e-lg"}`}
                   >

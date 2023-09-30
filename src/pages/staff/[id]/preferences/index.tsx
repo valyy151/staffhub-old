@@ -1,28 +1,21 @@
-import { Sticker } from "lucide-react";
+import { Sticker } from 'lucide-react';
+import router from 'next/router';
+import { useEffect, useState } from 'react';
+import { api } from '~/utils/api';
+import { formatTime } from '~/utils/dateFormatting';
 
-import router from "next/router";
-import { useEffect, useState } from "react";
-import { api } from "~/utils/api";
-import { formatTime } from "~/utils/dateFormatting";
-
-import Sidebar from "@/components/Staff/Sidebar";
-import { Button } from "@/components/ui/button";
-import Heading from "@/components/ui/heading";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import Paragraph from "@/components/ui/paragraph";
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import Sidebar from '@/components/Staff/Sidebar';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import Heading from '@/components/ui/heading';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import Paragraph from '@/components/ui/paragraph';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type SchedulePreferencesProps = {
   query: { id: string };

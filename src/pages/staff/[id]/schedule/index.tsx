@@ -1,31 +1,22 @@
-import "react-calendar/dist/Calendar.css";
+import 'react-calendar/dist/Calendar.css';
 
-import dynamic from "next/dynamic";
-import Link from "next/link";
-import router from "next/router";
-import { useEffect, useState } from "react";
-import { Calendar } from "react-calendar";
-import { api, EmployeeProfile } from "~/utils/api";
-import { calculateTotalHours } from "~/utils/calculateHours";
-import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
+import dynamic from 'next/dynamic';
+import Link from 'next/link';
+import router from 'next/router';
+import { useEffect, useState } from 'react';
+import { Calendar } from 'react-calendar';
+import { api, EmployeeProfile } from '~/utils/api';
+import { calculateTotalHours } from '~/utils/calculateHours';
+import { findSickLeaveDays, findVacationDays } from '~/utils/checkAbsence';
 import {
-  formatDateLong,
-  formatDay,
-  formatTime,
-  formatTotal,
-  getMonthBoundaryTimestamps,
-} from "~/utils/dateFormatting";
+    formatDateLong, formatDay, formatTime, formatTotal, getMonthBoundaryTimestamps
+} from '~/utils/dateFormatting';
 
-import Sidebar from "@/components/Staff/Sidebar";
-import Heading from "@/components/ui/heading";
+import Sidebar from '@/components/Staff/Sidebar';
+import Heading from '@/components/ui/heading';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
 
 const PDFButton = dynamic(() => import("@/components/PDFButton"), {
   ssr: false,
