@@ -59,7 +59,7 @@ export const dashboardRouter = createTRPCRouter({
           id: true,
           start: true,
           end: true,
-          absent: true,
+          absence: true,
         },
         orderBy: { date: "asc" },
       });

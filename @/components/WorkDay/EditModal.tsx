@@ -1,18 +1,23 @@
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { formatTime, formatTotal } from '~/utils/dateFormatting';
+import { useState } from "react";
+import { api } from "~/utils/api";
+import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
-    AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
-import Heading from '../ui/heading';
-import RolesDropdown from './RolesDropdown';
+import Heading from "../ui/heading";
+import RolesDropdown from "./RolesDropdown";
 
 type Shift = {
   id: string;
@@ -59,6 +64,23 @@ export default function EditModal({
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
+
+  const updateAbsenceMutation = api.shift.updateAbsence.useMutation({
+    onSuccess: () => {
+      void queryClient.invalidateQueries();
+      toast({
+        title: "Absence updated successfully.",
+      });
+    },
+
+    onError: () => {
+      toast({
+        title: "There was a problem updating the absence.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const updateShiftMutation = api.shift.update.useMutation({
     onSuccess: () => {
       void queryClient.invalidateQueries();
@@ -87,101 +109,6 @@ export default function EditModal({
   }
 
   return (
-    // <Dialog open onOpenChange={() => setEditMode(false)}>
-    //   <DialogContent>
-    //     <DialogHeader>
-    //       <DialogTitle className="text-xl">
-    //         {shift.employee.name} -{"  "}
-    //         {new Date(shift.date * 1000).toLocaleDateString("en-GB", {
-    //           weekday: "long",
-    //           year: "numeric",
-    //           month: "long",
-    //           day: "numeric",
-    //         })}
-    //       </DialogTitle>
-    //     </DialogHeader>
-    //     <div className="flex w-fit items-center space-x-2">
-    //       {shift.employee.roles.length > 0 && (
-    //         <div>
-    //           <Label className="ml-2">Role</Label>
-    //           <RolesDropdown
-    //             role={role}
-    //             setRole={setRole}
-    //             isOpen={openRoles}
-    //             setIsOpen={setOpenRoles}
-    //             roles={shift.employee.roles}
-    //           />
-    //         </div>
-    //       )}
-    //       <div>
-    //         <Label className="ml-2">Start</Label>
-    //         <Input
-    //           value={formatTime(start)}
-    //           className=" w-36 text-2xl"
-    //           onChange={(e) => {
-    //             handleTimeChange(e.target.value, "start");
-    //           }}
-    //         />
-    //       </div>
-    //       <div>
-    //         <Label className="ml-2">End</Label>
-    //         <Input
-    //           value={formatTime(end)}
-    //           className=" w-36 text-2xl"
-    //           onChange={(e) => {
-    //             handleTimeChange(e.target.value, "end");
-    //           }}
-    //         />
-    //       </div>
-    //       <div>
-    //         <Label className="ml-2">Total</Label>
-    //         <Heading
-    //           size={"xs"}
-    //           className="h-14 w-16 border-none px-4 py-3 text-2xl disabled:cursor-default"
-    //         >
-    //           {formatTotal(start, end)}
-    //         </Heading>
-    //       </div>
-    //     </div>
-    //     <div className="mt-4">
-    //       <Heading size={"sm"}>Choose a shift:</Heading>
-    //       <div className="mt-1 flex space-x-8">
-    //         {shiftModels
-    //           .sort((a, b) => a.start - b.start)
-    //           .map((shiftModel) => (
-    //             <Heading
-    //               size={"xs"}
-    //               onClick={() => {
-    //                 handleTimeChange(formatTime(shiftModel.start)!!, "start");
-    //                 handleTimeChange(
-    //                   formatTime(shiftModel.end) === "00:00"
-    //                     ? "24:00"
-    //                     : formatTime(shiftModel.end)!!,
-    //                   "end"
-    //                 );
-    //               }}
-    //               className="cursor-pointer font-medium underline-offset-8 hover:text-sky-500 hover:underline"
-    //             >
-    //               {formatTime(shiftModel.start)} - {formatTime(shiftModel.end)}
-    //             </Heading>
-    //           ))}
-    //       </div>
-    //     </div>
-    //     <div className="ml-auto mt-4 flex space-x-2">
-    //       <Button
-    //         size={"lg"}
-    //         variant={"subtle"}
-    //         className="text-xl"
-    //         onClick={() => setEditMode(false)}
-    //       >
-    //         Cancel
-    //       </Button>
-    //       <Button size={"lg"} onClick={updateShift} className="text-xl">
-    //         Save
-    //       </Button>
-    //     </div>
-    //   </DialogContent>
-    // </Dialog>
     <AlertDialog open>
       <AlertDialogContent>
         <AlertDialogHeader>

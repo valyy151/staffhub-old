@@ -113,8 +113,13 @@ export default function Navbar() {
                   {links.map((link) => (
                     <ListItem
                       key={link.title}
-                      title={link.title}
                       href={link.href}
+                      title={link.title}
+                      className={
+                        link.href === "/api/auth/signout"
+                          ? "hover:text-rose-500"
+                          : ""
+                      }
                     >
                       {link.description}
                     </ListItem>

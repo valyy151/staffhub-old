@@ -1,15 +1,20 @@
-import { ClipboardList, Clock, UserCog } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay } from '~/utils/dateFormatting';
+import { ClipboardList, Clock, UserCog } from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
-import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import AddShift from '@/components/WorkDay/AddShift';
-import Shift from '@/components/WorkDay/Shift';
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+} from "@/components/ui/table";
+import AddShift from "@/components/WorkDay/AddShift";
+import Shift from "@/components/WorkDay/Shift";
 
 type WorkDayPageProps = {
   query: { id: string };
@@ -120,13 +125,11 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
 
         <Table>
           <TableHeader>
-            <TableRow className="">
-              <TableHead>Employee</TableHead>
-              <TableHead>Time</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Hours</TableHead>
-              <TableHead className="text-right">Absent</TableHead>
-            </TableRow>
+            <TableHead>Employee</TableHead>
+            <TableHead>Time</TableHead>
+            <TableHead>Role</TableHead>
+            <TableHead>Hours</TableHead>
+            <TableHead className="text-right">Absence</TableHead>
           </TableHeader>
           <TableBody>
             {workDay.shifts

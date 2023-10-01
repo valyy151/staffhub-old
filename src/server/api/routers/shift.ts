@@ -94,13 +94,12 @@ export const shiftRouter = createTRPCRouter({
     .input(
       z.object({
         shiftId: z.string(),
-        absent: z.boolean(),
       })
     )
-    .mutation(async ({ input: { shiftId, absent }, ctx }) => {
+    .mutation(async ({ input: { shiftId }, ctx }) => {
       return await ctx.prisma.shift.update({
         where: { id: shiftId, userId: ctx.session.user.id },
-        data: { absent },
+        data: {},
       });
     }),
 

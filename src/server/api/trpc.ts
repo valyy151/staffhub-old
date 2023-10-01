@@ -7,14 +7,14 @@
  * need to use are documented accordingly near the end.
  */
 
-import { Session } from 'next-auth';
-import superjson from 'superjson';
-import { ZodError } from 'zod';
-import { getServerAuthSession } from '~/server/auth';
-import { prisma } from '~/server/db';
+import { Session } from "next-auth";
+import superjson from "superjson";
+import { ZodError } from "zod";
+import { getServerAuthSession } from "~/server/auth";
+import { prisma } from "~/server/db";
 
-import { initTRPC, TRPCError } from '@trpc/server';
-import { CreateNextContextOptions } from '@trpc/server/adapters/next';
+import { initTRPC, TRPCError } from "@trpc/server";
+import { CreateNextContextOptions } from "@trpc/server/adapters/next";
 
 /**
  * 1. CONTEXT

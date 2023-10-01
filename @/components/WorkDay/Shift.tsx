@@ -1,18 +1,18 @@
-import { ClipboardEdit, MoreVertical, Trash2, UserCheck, UserX2 } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { formatTime, formatTotal } from '~/utils/dateFormatting';
+import { ClipboardEdit, MoreVertical, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
-import { Button } from '@/components/ui/button';
-import { PopoverContent } from '@/components/ui/popover';
-import { TableCell, TableRow } from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
-import { Popover, PopoverTrigger } from '@radix-ui/react-popover';
-import { useQueryClient } from '@tanstack/react-query';
+import { Button } from "@/components/ui/button";
+import { PopoverContent } from "@/components/ui/popover";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { useToast } from "@/components/ui/use-toast";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
+import { useQueryClient } from "@tanstack/react-query";
 
-import FormModal from '../ui/form-modal';
-import EditModal from './EditModal';
+import FormModal from "../ui/form-modal";
+import EditModal from "./EditModal";
 
 type ShiftProps = {
   shift: {
@@ -20,7 +20,7 @@ type ShiftProps = {
     end: number;
     date: number;
     start: number;
-    absent: boolean;
+    absence: { id: string; reason: string; ended: boolean } | null;
     userId: string;
     employeeId: string;
     roleId: string | null;
@@ -43,22 +43,6 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
   const { toast } = useToast();
 
   const queryClient = useQueryClient();
-
-  const updateAbsenceMutation = api.shift.updateAbsence.useMutation({
-    onSuccess: () => {
-      void queryClient.invalidateQueries();
-      toast({
-        title: "Absence updated successfully.",
-      });
-    },
-
-    onError: () => {
-      toast({
-        title: "There was a problem updating the absence.",
-        variant: "destructive",
-      });
-    },
-  });
 
   const deleteShiftMutation = api.shift.delete.useMutation({
     onSuccess: () => {
@@ -98,11 +82,7 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
         <TableCell>{shift.role?.name}</TableCell>
         <TableCell>{formatTotal(shift.start, shift.end)}</TableCell>
         <TableCell className="text-right">
-          {shift.absent ? (
-            <span className="text-red-500">Yes</span>
-          ) : (
-            <span className="text-green-500">No</span>
-          )}
+          {shift.absence && "Absent"}
         </TableCell>
 
         <TableCell>
@@ -116,34 +96,6 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-40 bg-white dark:bg-gray-800">
-              {shift.absent ? (
-                <button
-                  onClick={() =>
-                    updateAbsenceMutation.mutate({
-                      absent: false,
-                      shiftId: shift.id,
-                    })
-                  }
-                  className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 text-gray-500 hover:bg-gray-200 active:bg-gray-300 dark:text-gray-400 dark:hover:bg-gray-600 dark:active:bg-gray-500"
-                >
-                  <UserCheck size={16} />
-                  <span className="text-sm font-medium">Present</span>
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    updateAbsenceMutation.mutate({
-                      absent: true,
-                      shiftId: shift.id,
-                    });
-                  }}
-                  className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 text-gray-500 hover:bg-gray-200 active:bg-gray-300 dark:text-gray-400 dark:hover:bg-gray-600 dark:active:bg-gray-500"
-                >
-                  <UserX2 size={16} />
-                  <span className="text-sm font-medium">Absent</span>
-                </button>
-              )}
-
               <button
                 onClick={() => setEditMode(true)}
                 className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 text-gray-500 hover:bg-gray-200 active:bg-gray-300 dark:text-gray-400 dark:hover:bg-gray-600 dark:active:bg-gray-500"

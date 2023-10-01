@@ -64,6 +64,7 @@ export const workDayRouter = createTRPCRouter({
             role: {
               select: { id: true, name: true },
             },
+            absence: true,
           },
         });
       });

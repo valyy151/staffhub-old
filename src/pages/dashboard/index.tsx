@@ -1,21 +1,32 @@
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 
-import { CalendarOff, CalendarPlus, Scroll, ScrollText, User } from 'lucide-react';
-import { getSession } from 'next-auth/react';
-import Head from 'next/head';
-import Link from 'next/link';
-import router from 'next/router';
-import { GetServerSideProps } from 'next/types';
-import { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
-import { api, DashboardWorkDay } from '~/utils/api';
-import { formatDate, formatDay, formatTime } from '~/utils/dateFormatting';
+import {
+  CalendarOff,
+  CalendarPlus,
+  Scroll,
+  ScrollText,
+  User,
+} from "lucide-react";
+import { getSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import router from "next/router";
+import { GetServerSideProps } from "next/types";
+import { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import { api, DashboardWorkDay } from "~/utils/api";
+import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 
-import { Button, buttonVariants } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
-import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Spinner from '@/components/ui/spinner';
+import { Button, buttonVariants } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Spinner from "@/components/ui/spinner";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -198,16 +209,8 @@ export default function DashboardPage() {
                                 className="w-full"
                               >
                                 <p className="text-md flex items-center">
-                                  <User
-                                    className={`ml-1 ${
-                                      shift.absent && "text-red-500"
-                                    }`}
-                                  />
-                                  <span
-                                    className={`text-left ${
-                                      shift.absent && "text-red-500"
-                                    }`}
-                                  >
+                                  <User className={`ml-1`} />
+                                  <span className={`text-left`}>
                                     {shift.employee.name.split(" ")[0]}
                                   </span>
                                   <span className="ml-auto">

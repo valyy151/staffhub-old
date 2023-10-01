@@ -11,7 +11,7 @@ export const sickLeaveRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input: { start, end, employeeId }, ctx }) => {
-      await ctx.prisma.shift.updateMany({
+      const shifts = await ctx.prisma.shift.findMany({
         where: {
           date: {
             lte: end / 1000,
@@ -20,9 +20,16 @@ export const sickLeaveRouter = createTRPCRouter({
           employeeId,
           userId: ctx.session.user.id,
         },
-        data: {
-          absent: true,
-        },
+      });
+
+      const shiftIds = shifts.map((shift) => shift.id);
+
+      await ctx.prisma.absence.createMany({
+        data: shiftIds.map((shiftId) => ({
+          shiftId,
+          reason: "Sick Leave",
+          userId: ctx.session.user.id,
+        })),
       });
 
       return await ctx.prisma.sickLeave.create({

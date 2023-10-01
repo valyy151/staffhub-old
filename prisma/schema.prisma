@@ -50,11 +50,12 @@ model User {
     shifts              Shift[]
     accounts            Account[]
     sessions            Session[]
+    absences            Absence[]
     employees           Employee[]
     vacations           Vacation[]
-    shiftModels         ShiftModel[]
-    sickLeaves          SickLeave[]
     staffRoles          StaffRole[]
+    sickLeaves          SickLeave[]
+    shiftModels         ShiftModel[]
     workDayNotes        WorkDayNote[]
     employeeNotes       EmployeeNote[]
     schedulePreferences SchedulePreference[]
@@ -167,7 +168,8 @@ model Shift {
     userId     String
     date       Int
     roleId     String?
-    absent     Boolean    @default(false)
+    absenceId  String?
+    absence    Absence?
     role       StaffRole? @relation(fields: [roleId], references: [id], onDelete: SetNull)
     user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
     employee   Employee   @relation(fields: [employeeId], references: [id], onDelete: Cascade)
@@ -176,6 +178,18 @@ model Shift {
     @@index([userId])
     @@index([roleId])
     @@index([employeeId])
+}
+
+model Absence {
+    id      String  @id @default(cuid())
+    userId  String
+    reason  String
+    shiftId String  @unique
+    ended   Boolean @default(false)
+    shift   Shift   @relation(fields: [shiftId], references: [id])
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model StaffRole {
