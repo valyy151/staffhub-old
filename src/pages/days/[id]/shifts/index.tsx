@@ -91,7 +91,9 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
         <nav className="space-y-2">
           <button className="flex w-full items-center space-x-2 rounded-lg bg-accent px-2 py-2">
             <Clock />
-            <span className="text-sm font-medium">Shifts</span>
+            <span className="text-sm font-medium">
+              Shifts {workDay.shifts.length > 0 && `(${workDay.shifts.length})`}
+            </span>
           </button>
           <Link
             href={`/days/${workDay.id}/notes`}

@@ -1,14 +1,14 @@
-import { ClipboardList, Clock, UserCog } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay } from '~/utils/dateFormatting';
+import { ClipboardList, Clock, UserCog } from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-import { buttonVariants } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
-import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import AddShift from '@/components/WorkDay/AddShift';
+import { buttonVariants } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import AddShift from "@/components/WorkDay/AddShift";
 
 type WorkDayPageProps = {
   query: { id: string };
@@ -87,7 +87,9 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
             className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 hover:bg-accent"
           >
             <Clock />
-            <span className="text-sm font-medium">Shifts</span>
+            <span className="text-sm font-medium">
+              Shifts {workDay.shifts.length > 0 && `(${workDay.shifts.length})`}
+            </span>
           </Link>
           <Link
             href={`/days/${workDay.id}/notes`}

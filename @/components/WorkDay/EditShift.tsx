@@ -46,7 +46,6 @@ export default function EditShift({
   const [end, setEnd] = useState<number>(shift.end);
   const [start, setStart] = useState<number>(shift.start);
 
-  const [openRoles, setOpenRoles] = useState<boolean>(false);
   const [role, setRole] = useState<{ name: string; id: string }>({
     name: "",
     id: "",
@@ -107,7 +106,14 @@ export default function EditShift({
           </AlertDialogTitle>
         </AlertDialogHeader>
         <div className="flex w-fit flex-col">
-          <div className="flex space-x-1">
+          {shift.employee.roles.length > 0 && (
+            <RolesDropdown
+              role={role}
+              setRole={setRole}
+              roles={shift.employee.roles}
+            />
+          )}
+          <div className="mt-4 flex space-x-1">
             <div>
               <Label className="ml-2">Start</Label>
               <Input
@@ -163,18 +169,7 @@ export default function EditShift({
               ))}
           </div>
         </div>
-        {shift.employee.roles.length > 0 && (
-          <div>
-            <Label className="ml-2">Role</Label>
-            <RolesDropdown
-              role={role}
-              setRole={setRole}
-              isOpen={openRoles}
-              setIsOpen={setOpenRoles}
-              roles={shift.employee.roles}
-            />
-          </div>
-        )}
+
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => setEditMode(false)}>
             Cancel

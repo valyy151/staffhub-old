@@ -1,9 +1,15 @@
 import {
-    CalendarSearch, ClipboardList, HeartPulse, Palmtree, Sticker, User2, UserCog
-} from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { EmployeeProfile } from '~/utils/api';
+  CalendarSearch,
+  ClipboardList,
+  HeartPulse,
+  Palmtree,
+  Sticker,
+  User2,
+  UserCog,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { EmployeeProfile } from "~/utils/api";
 
 type SidebarProps = {
   employee?: EmployeeProfile;
@@ -16,6 +22,15 @@ export default function Sidebar({ employee }: SidebarProps) {
   return (
     <aside className="sticky top-0 mr-4 h-screen w-60 border-r p-4">
       <nav className="space-y-2">
+        {/* <Link
+          href={`/staff/${employee?.id}`}
+          className={`flex w-full items-center space-x-2 rounded-lg px-2 py-2 hover:bg-accent ${
+            path === undefined && "bg-secondary"
+          }`}
+        >
+          <User2 />
+          <span className="text-sm font-medium">Overview</span>
+        </Link> */}
         <Link
           href={`/staff/${employee?.id}/personal`}
           className={`flex w-full items-center space-x-2 rounded-lg px-2 py-2 hover:bg-accent ${

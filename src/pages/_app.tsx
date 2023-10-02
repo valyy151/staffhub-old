@@ -6,7 +6,6 @@ import { AppType } from "next/app";
 import NextNProgress from "nextjs-progressbar";
 import Providers from "~/providers";
 import { api } from "~/utils/api";
-
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 

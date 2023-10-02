@@ -1,62 +1,77 @@
-import { Input } from '@/components/ui/input';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Check, ChevronsUpDown } from "lucide-react";
+import React from "react";
 
 type RolesDropdownProps = {
-  isOpen: boolean;
   role: { name: string; id: string };
-  setIsOpen: (isOpen: boolean) => void;
   roles: { name: string; id: string }[];
-  setOpenStaff?: (openStaff: boolean) => void;
   setRole: (role: { name: string; id: string }) => void;
 };
 
 export default function RolesDropdown({
   role,
   roles,
-  isOpen,
   setRole,
-  setIsOpen,
-  setOpenStaff,
 }: RolesDropdownProps) {
-  function handleSelect(role: { name: string; id: string }) {
-    setRole(role);
-    setIsOpen(false);
-  }
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState(role?.name);
+
   return (
-    <main className="relative w-fit">
-      <div
-        className="group cursor-pointer rounded"
-        onClick={() => {
-          setIsOpen(!isOpen);
-          setOpenStaff && setOpenStaff(false);
-        }}
-      >
-        <Input
-          readOnly
-          type="text"
-          value={role.name}
-          placeholder={"Choose a Role..."}
-          className="text-md group w-full cursor-pointer caret-transparent focus:border-transparent focus:ring-0"
-        />
-      </div>
-      {isOpen && (
-        <div className="animate-slideDown absolute z-10 mt-1 w-full rounded-md bg-primary-foreground shadow-md">
-          <ul
-            className={`${
-              roles.length > 8 && "h-[28.5rem] overflow-y-scroll"
-            } p-1`}
-          >
-            {roles.map((role) => (
-              <li
-                className="flex cursor-pointer items-center rounded-md px-2 py-2 hover:bg-accent"
-                key={role.id}
-                onClick={() => handleSelect(role)}
-              >
-                {role.name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </main>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between"
+        >
+          {role?.name ? role.name : "Select a role..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search roles..." />
+          <CommandEmpty>No employees found.</CommandEmpty>
+          <CommandGroup>
+            {roles
+              ?.sort((a, b) => a.name.localeCompare(b.name))
+              .map((role) => (
+                <CommandItem
+                  key={role?.id}
+                  onSelect={(value) => {
+                    setValue(value);
+                    setRole && setRole(role);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === role.name.toLowerCase()
+                        ? "opacity-100"
+                        : "opacity-0"
+                    )}
+                  />
+                  {role?.name}
+                </CommandItem>
+              ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
   );
 }

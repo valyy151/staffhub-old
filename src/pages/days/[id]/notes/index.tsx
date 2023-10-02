@@ -1,14 +1,14 @@
-import { ClipboardList, Clock, UserCog } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay } from '~/utils/dateFormatting';
+import { ClipboardList, Clock, UserCog } from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
-import AddNote from '@/components/WorkDay/AddNote';
-import Note from '@/components/WorkDay/Note';
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import AddNote from "@/components/WorkDay/AddNote";
+import Note from "@/components/WorkDay/Note";
 
 type WorkDayPageProps = {
   query: { id: string };
@@ -52,7 +52,9 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
             className="flex w-full items-center space-x-2 rounded-lg px-2 py-2 hover:bg-accent"
           >
             <Clock />
-            <span className="text-sm font-medium">Shifts</span>
+            <span className="text-sm font-medium">
+              Shifts {workDay.shifts.length > 0 && `(${workDay.shifts.length})`}
+            </span>
           </Link>
           <button className="flex w-full items-center space-x-2 rounded-lg bg-accent px-2 py-2">
             <ClipboardList />

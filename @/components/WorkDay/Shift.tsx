@@ -128,7 +128,7 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
         <TableCell>
           <span
             onClick={() => setEditMode(true)}
-            className="cursor-pointer p-4"
+            className="cursor-pointer hover:underline"
           >
             {shift.role?.name || "-"}
           </span>

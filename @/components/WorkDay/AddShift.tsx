@@ -27,9 +27,6 @@ type AddShiftProps = {
 };
 
 export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
-  const [, setOpenStaff] = useState<boolean>(false);
-  const [openRoles, setOpenRoles] = useState<boolean>(false);
-
   const [employee, setEmployee] = useState<Employee>({} as Employee);
 
   const [role, setRole] = useState<{ id: string; name: string }>(
@@ -166,6 +163,13 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             employees={employees}
             setEmployee={setEmployee}
           />
+          {employee.roles?.length > 0 && (
+            <RolesDropdown
+              role={role}
+              setRole={setRole}
+              roles={employee.roles}
+            />
+          )}
           <div>
             <Label>Start Time</Label>
             <Input
@@ -182,22 +186,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
               onChange={(e) => handleTimeChange(e.target.value, "end")}
             />
           </div>
-          {employee.roles?.length > 0 && (
-            <div className="mb-auto flex flex-col">
-              <Label className="mb-1" htmlFor="end">
-                Role
-              </Label>
 
-              <RolesDropdown
-                role={role}
-                setRole={setRole}
-                isOpen={openRoles}
-                roles={employee.roles}
-                setIsOpen={setOpenRoles}
-                setOpenStaff={setOpenStaff}
-              />
-            </div>
-          )}
           <Heading size={"xxs"} className="font-normal">
             Total hours:{" "}
             <span className="font-semibold">{formatTotal(start, end)}</span>
