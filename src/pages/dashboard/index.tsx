@@ -209,8 +209,16 @@ export default function DashboardPage() {
                                 className="w-full"
                               >
                                 <p className="text-md flex items-center">
-                                  <User className={`ml-1`} />
-                                  <span className={`text-left`}>
+                                  <User
+                                    className={`ml-1 ${
+                                      shift.absence?.absent && "text-rose-500"
+                                    }`}
+                                  />
+                                  <span
+                                    className={`text-left ${
+                                      shift.absence?.absent && "text-rose-500"
+                                    }`}
+                                  >
                                     {shift.employee.name.split(" ")[0]}
                                   </span>
                                   <span className="ml-auto">

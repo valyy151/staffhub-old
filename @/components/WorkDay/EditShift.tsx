@@ -38,7 +38,7 @@ type ModalProps = {
   shiftModels: { start: number; end: number }[];
 };
 
-export default function EditModal({
+export default function EditShift({
   shift,
   shiftModels,
   setEditMode,
@@ -64,22 +64,6 @@ export default function EditModal({
 
   const { toast } = useToast();
   const queryClient = useQueryClient();
-
-  const updateAbsenceMutation = api.shift.updateAbsence.useMutation({
-    onSuccess: () => {
-      void queryClient.invalidateQueries();
-      toast({
-        title: "Absence updated successfully.",
-      });
-    },
-
-    onError: () => {
-      toast({
-        title: "There was a problem updating the absence.",
-        variant: "destructive",
-      });
-    },
-  });
 
   const updateShiftMutation = api.shift.update.useMutation({
     onSuccess: () => {
@@ -154,20 +138,8 @@ export default function EditModal({
               </Heading>
             </div>
           </div>
-          {shift.employee.roles.length > 0 && (
-            <div>
-              <Label className="ml-2">Role</Label>
-              <RolesDropdown
-                role={role}
-                setRole={setRole}
-                isOpen={openRoles}
-                setIsOpen={setOpenRoles}
-                roles={shift.employee.roles}
-              />
-            </div>
-          )}
         </div>
-        <div className="mt-4">
+        <div>
           <Heading size={"xs"}>Choose a shift:</Heading>
           <div className="mt-1 flex space-x-8">
             {shiftModels
@@ -184,13 +156,25 @@ export default function EditModal({
                       "end"
                     );
                   }}
-                  className="cursor-pointer font-medium underline-offset-8 hover:text-sky-500 hover:underline"
+                  className="cursor-pointer font-medium hover:text-sky-500"
                 >
                   {formatTime(shiftModel.start)} - {formatTime(shiftModel.end)}
                 </Heading>
               ))}
           </div>
         </div>
+        {shift.employee.roles.length > 0 && (
+          <div>
+            <Label className="ml-2">Role</Label>
+            <RolesDropdown
+              role={role}
+              setRole={setRole}
+              isOpen={openRoles}
+              setIsOpen={setOpenRoles}
+              roles={shift.employee.roles}
+            />
+          </div>
+        )}
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => setEditMode(false)}>
             Cancel

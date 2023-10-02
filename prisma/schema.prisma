@@ -184,8 +184,8 @@ model Absence {
     id      String  @id @default(cuid())
     userId  String
     reason  String
+    absent  Boolean @default(true)
     shiftId String  @unique
-    ended   Boolean @default(false)
     shift   Shift   @relation(fields: [shiftId], references: [id])
     user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 

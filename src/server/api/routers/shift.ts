@@ -90,16 +90,39 @@ export const shiftRouter = createTRPCRouter({
       });
     }),
 
-  updateAbsence: protectedProcedure
+  createOrUpdateAbsence: protectedProcedure
     .input(
       z.object({
+        reason: z.string(),
+        absent: z.boolean(),
         shiftId: z.string(),
       })
     )
-    .mutation(async ({ input: { shiftId }, ctx }) => {
+    .mutation(async ({ input: { reason, absent, shiftId }, ctx }) => {
+      const absence = await ctx.prisma.absence.findUnique({
+        where: { shiftId: shiftId, userId: ctx.session.user.id },
+      });
+
+      if (!absence) {
+        return await ctx.prisma.absence.create({
+          data: {
+            absent,
+            reason,
+            shiftId,
+            userId: ctx.session.user.id,
+          },
+        });
+      }
       return await ctx.prisma.shift.update({
         where: { id: shiftId, userId: ctx.session.user.id },
-        data: {},
+        data: {
+          absence: {
+            update: {
+              absent,
+              reason,
+            },
+          },
+        },
       });
     }),
 
