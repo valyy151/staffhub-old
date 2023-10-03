@@ -1,5 +1,5 @@
-import { z } from "zod";
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { z } from 'zod';
+import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
 
 export const employeeNoteRouter = createTRPCRouter({
   create: protectedProcedure

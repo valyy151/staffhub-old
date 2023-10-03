@@ -1,18 +1,14 @@
+import { useState } from 'react';
+import { api, EmployeeProfile } from '~/utils/api';
+
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { useQueryClient } from "@tanstack/react-query";
-import { useToast } from "../ui/use-toast";
-import { useState } from "react";
-import { EmployeeProfile, api } from "~/utils/api";
-import { Input } from "../ui/input";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { Input } from '../ui/input';
+import { useToast } from '../ui/use-toast';
 
 type Props = {
   employee: EmployeeProfile;

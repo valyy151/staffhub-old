@@ -1,15 +1,9 @@
-import { MouseEventHandler } from "react";
+import { MouseEventHandler } from 'react';
 
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
 
 type ModalProps = {
   text: string;

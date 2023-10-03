@@ -1,17 +1,10 @@
-import {
-  CalendarClock,
-  Cog,
-  FileSearch,
-  Forward,
-  Palmtree,
-  Users,
-} from "lucide-react";
-import { signIn, useSession } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
+import { CalendarClock, Cog, FileSearch, Forward, Palmtree, Users } from 'lucide-react';
+import { signIn, useSession } from 'next-auth/react';
+import Head from 'next/head';
+import Link from 'next/link';
 
-import { Button, buttonVariants } from "@/components/ui/button";
-import Spinner from "@/components/ui/spinner";
+import { Button, buttonVariants } from '@/components/ui/button';
+import Spinner from '@/components/ui/spinner';
 
 export default function Home() {
   const { status } = useSession();

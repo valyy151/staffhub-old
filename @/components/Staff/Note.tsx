@@ -44,13 +44,13 @@ export default function Note({ note }: NoteProps) {
   }
 
   return (
-    <div className="my-2 flex flex-col items-start">
-      <div className="flex w-full min-w-[28rem] flex-col rounded-md border  bg-white py-1 shadow dark:bg-gray-800 ">
-        <Paragraph className="px-2 text-justify font-medium">
+    <div className="my-2 flex w-fit flex-col items-start">
+      <div className="flex w-full min-w-[28rem] flex-col rounded-md border bg-white py-1 shadow dark:bg-gray-800 ">
+        <Paragraph size={"sm"} className="px-2 text-justify font-medium">
           {note.content}
         </Paragraph>
 
-        <p className="border-b   px-2 pb-2 text-sm font-light">
+        <p className="border-b px-2 pb-2 text-sm font-light">
           Added{" "}
           {note.createdAt.toLocaleString("en-GB", {
             day: "numeric",

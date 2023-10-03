@@ -10,7 +10,6 @@ import {
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import router from "next/router";
 import { GetServerSideProps } from "next/types";
 import { useEffect, useState } from "react";
 import Calendar from "react-calendar";
@@ -94,6 +93,19 @@ export default function DashboardPage() {
   if (!workDays) {
     return <Spinner />;
   }
+
+  const notesArray: {
+    id: string;
+    date: number;
+    userId: string;
+    content: string;
+    createdAt: Date;
+    workDayId: string;
+  }[] = [];
+
+  workDays?.map((day) =>
+    day.notes.map((note) => notesArray.push({ ...note, date: day.date }))
+  );
 
   return (
     <div className="flex h-screen flex-col">
@@ -179,24 +191,23 @@ export default function DashboardPage() {
             <div className="flex min-h-[24rem] rounded-lg border-b border-t  ">
               {workDays?.map((day, index) => {
                 return (
-                  <Link
+                  <div
                     key={day.id}
-                    href={`/days/${day.id}/shifts`}
-                    className={`group flex w-full cursor-pointer flex-col items-center border-x transition-colors duration-150 ${
+                    className={`flex w-full flex-col items-center border-x  ${
                       index === 0 && "rounded-s-lg"
                     } ${index === 6 && "rounded-e-lg"}`}
                   >
-                    <div className="w-full text-center">
-                      <Heading
-                        size={"xs"}
-                        className="px-3 pt-6 transition-colors duration-75 group-hover:text-sky-500 dark:group-hover:text-sky-400"
-                      >
+                    <Link
+                      href={`/days/${day.id}/shifts`}
+                      className="group w-full text-center"
+                    >
+                      <Heading size={"xs"} className="px-3 pt-6">
                         {formatDay(day.date)}
                       </Heading>
-                      <Paragraph className="w-full cursor-pointer border-b-2   py-2 text-center group-hover:text-sky-500 dark:group-hover:text-sky-400">
+                      <Paragraph className="w-full border-b-2 py-2 text-center duration-150 group-hover:border-primary">
                         {day && formatDate(day.date)}
                       </Paragraph>
-                    </div>
+                    </Link>
                     <div className="mt-4 flex w-full flex-col items-center">
                       {day.shifts.length > 0 ? (
                         day.shifts
@@ -216,16 +227,35 @@ export default function DashboardPage() {
                                   />
                                   <span
                                     className={`text-left ${
-                                      shift.absence?.absent && "text-rose-500"
+                                      shift.absence?.absent &&
+                                      "text-muted-foreground"
                                     }`}
                                   >
                                     {shift.employee.name.split(" ")[0]}
                                   </span>
-                                  <span className="ml-auto">
+
+                                  <span
+                                    className={`ml-auto ${
+                                      shift.absence?.absent &&
+                                      "text-muted-foreground"
+                                    }`}
+                                  >
                                     {formatTime(shift.start)}
                                   </span>
-                                  <span className="mx-0.5">-</span>
-                                  <span className="mr-2">
+                                  <span
+                                    className={`mx-0.5 ${
+                                      shift.absence?.absent &&
+                                      "text-muted-foreground"
+                                    }`}
+                                  >
+                                    -
+                                  </span>
+                                  <span
+                                    className={`mr-2 ${
+                                      shift.absence?.absent &&
+                                      "text-muted-foreground"
+                                    }`}
+                                  >
                                     {formatTime(shift.end)}
                                   </span>
                                 </p>
@@ -240,29 +270,65 @@ export default function DashboardPage() {
                       )}
                     </div>
 
-                    <div
+                    <Link
+                      href={`/days/${day.id}/notes`}
                       title={`${day.notes.length} ${
                         day.notes.length === 1 ? "note" : "notes"
                       }`}
-                      className="mt-auto flex items-center pb-2 text-2xl duration-150 hover:text-sky-400"
+                      className="mt-auto flex items-center border-b border-transparent px-2 pb-2 text-2xl duration-150 hover:border-primary"
                     >
-                      <div
-                        onClick={() => router.push(`/days/${day.id}/notes`)}
-                        className="flex items-center"
-                      >
-                        {day.notes.length}
-                        {day.notes.length > 0 ? (
-                          <ScrollText className="ml-2 h-6 w-6" />
-                        ) : (
-                          <Scroll className="ml-2 h-6 w-6" />
-                        )}
-                      </div>
-                    </div>
-                  </Link>
+                      {day.notes.length}
+                      {day.notes.length > 0 ? (
+                        <ScrollText className="ml-2 h-6 w-6" />
+                      ) : (
+                        <Scroll className="ml-2 h-6 w-6" />
+                      )}
+                    </Link>
+                  </div>
                 );
               })}
             </div>
             {/* <div className="h-96 rounded-lg bg-zinc-100 dark:bg-zinc-800"></div> */}
+            {/* <Heading size={"sm"} className="ml-2">
+              Absences
+            </Heading> */}
+            {notesArray.length > 0 && (
+              <>
+                <Heading size={"sm"} className="ml-2">
+                  Notes
+                </Heading>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {notesArray
+                    .sort(
+                      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+                    )
+                    .map((note) => (
+                      <div
+                        key={note.id}
+                        className="flex min-h-[6rem] w-full flex-col rounded-lg border bg-card py-1"
+                      >
+                        <Link
+                          href={`/days/${note.workDayId}/notes`}
+                          className="w-fit px-2 text-sm font-medium underline-offset-2 hover:underline"
+                        >
+                          {new Date(note.date * 1000).toLocaleString("en-GB", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          })}
+                        </Link>
+
+                        <Paragraph
+                          size={"sm"}
+                          className="px-2 pb-2 text-justify font-light"
+                        >
+                          {note.content}
+                        </Paragraph>
+                      </div>
+                    ))}
+                </div>
+              </>
+            )}
           </div>
         </main>
       </div>

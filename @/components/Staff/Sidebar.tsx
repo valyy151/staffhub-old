@@ -1,15 +1,9 @@
 import {
-  CalendarSearch,
-  ClipboardList,
-  HeartPulse,
-  Palmtree,
-  Sticker,
-  User2,
-  UserCog,
-} from "lucide-react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { EmployeeProfile } from "~/utils/api";
+    CalendarSearch, ClipboardList, HeartPulse, Palmtree, Sticker, User2, UserCog
+} from 'lucide-react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { EmployeeProfile } from '~/utils/api';
 
 type SidebarProps = {
   employee?: EmployeeProfile;

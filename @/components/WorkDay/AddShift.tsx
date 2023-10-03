@@ -1,25 +1,20 @@
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { api, Employee, WorkDay } from "~/utils/api";
-import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { api, Employee, WorkDay } from '~/utils/api';
+import { formatTime, formatTotal } from '~/utils/dateFormatting';
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
-import SelectEmployee from "../Schedule/SelectEmployee";
+import SelectEmployee from '../Schedule/SelectEmployee';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "../ui/alert-dialog";
-import Heading from "../ui/heading";
-import RolesDropdown from "./RolesDropdown";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
+    AlertDialogHeader, AlertDialogTitle
+} from '../ui/alert-dialog';
+import Heading from '../ui/heading';
+import RolesDropdown from './RolesDropdown';
 
 type AddShiftProps = {
   data: WorkDay;

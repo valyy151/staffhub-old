@@ -1,19 +1,9 @@
-import {
-  formatDateLong,
-  formatDay,
-  formatTime,
-  formatTotal,
-} from "~/utils/dateFormatting";
+import { formatDateLong, formatDay, formatTime, formatTotal } from '~/utils/dateFormatting';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
 
 type Data = {
   date: number;

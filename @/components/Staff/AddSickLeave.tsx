@@ -1,23 +1,17 @@
-import "react-calendar/dist/Calendar.css";
+import 'react-calendar/dist/Calendar.css';
 
-import { addDays, differenceInDays } from "date-fns";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
-import { api, EmployeeProfile } from "~/utils/api";
+import { addDays, differenceInDays } from 'date-fns';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { api, EmployeeProfile } from '~/utils/api';
 
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { DatePickerWithRange } from "@/components/ui/date-range-picker";
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { DatePickerWithRange } from '@/components/ui/date-range-picker';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 type AddSickLeaveProps = {
   employee: EmployeeProfile;
