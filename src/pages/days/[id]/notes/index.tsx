@@ -1,14 +1,14 @@
-import { ClipboardList, Clock, UserCog } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay } from '~/utils/dateFormatting';
+import { ClipboardList, Clock, UserCog } from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
-import AddNote from '@/components/WorkDay/AddNote';
-import Note from '@/components/WorkDay/Note';
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import AddNote from "@/components/WorkDay/AddNote";
+import Note from "@/components/WorkDay/Note";
 
 type WorkDayPageProps = {
   query: { id: string };

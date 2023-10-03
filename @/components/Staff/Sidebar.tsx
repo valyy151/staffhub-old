@@ -1,30 +1,39 @@
 import {
-    CalendarSearch, ClipboardList, HeartPulse, Palmtree, Sticker, User2, UserCog
-} from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { EmployeeProfile } from '~/utils/api';
+  BarChart3,
+  CalendarSearch,
+  ClipboardList,
+  HeartPulse,
+  Palmtree,
+  Sticker,
+  User2,
+  UserCog,
+} from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { Employee, EmployeeProfile } from "~/utils/api";
+import SelectEmployee from "../Schedule/SelectEmployee";
 
 type SidebarProps = {
   employee?: EmployeeProfile;
+  employees?: Employee[];
 };
 
-export default function Sidebar({ employee }: SidebarProps) {
+export default function Sidebar({ employee, employees }: SidebarProps) {
   const router = useRouter();
   const path = router.asPath.split("/")[3];
 
   return (
     <aside className="sticky top-0 mr-4 h-screen w-60 border-r p-4">
       <nav className="space-y-2">
-        {/* <Link
+        <Link
           href={`/staff/${employee?.id}`}
           className={`flex w-full items-center space-x-2 rounded-lg px-2 py-2 hover:bg-accent ${
             path === undefined && "bg-secondary"
           }`}
         >
-          <User2 />
+          <BarChart3 />
           <span className="text-sm font-medium">Overview</span>
-        </Link> */}
+        </Link>
         <Link
           href={`/staff/${employee?.id}/personal`}
           className={`flex w-full items-center space-x-2 rounded-lg px-2 py-2 hover:bg-accent ${
@@ -88,6 +97,9 @@ export default function Sidebar({ employee }: SidebarProps) {
           <CalendarSearch />
           <span className="text-sm font-medium">Monthly Schedules</span>
         </Link>
+        <div className="border-t pt-4">
+          <SelectEmployee links name={employee?.name} employees={employees} />
+        </div>
       </nav>
     </aside>
   );

@@ -1,17 +1,26 @@
-import { Check, ChevronsUpDown } from 'lucide-react';
-import router from 'next/router';
-import * as React from 'react';
-import { Employee } from '~/utils/api';
+import { Check, ChevronsUpDown } from "lucide-react";
+import { useRouter } from "next/router";
+import * as React from "react";
+import { Employee } from "~/utils/api";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
-    Command, CommandEmpty, CommandGroup, CommandInput, CommandItem
-} from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 type Props = {
   links?: boolean;
+  name?: string;
   employee?: Employee;
   employees?: Employee[];
   setEmployee?: (employee: Employee) => void;
@@ -19,12 +28,17 @@ type Props = {
 
 export default function SelectEmployee({
   links,
+  name,
   employee,
   employees,
   setEmployee,
 }: Props) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(employee?.name);
+
+  const router = useRouter();
+
+  const employeeId = router.asPath.split("/")[2];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -35,15 +49,17 @@ export default function SelectEmployee({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {employee?.name ? employee.name : "Select an employee..."}
+          {employee?.name || name
+            ? employee?.name || name
+            : "Select an employee..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="h-96 w-[200px] p-0">
         <Command>
           <CommandInput placeholder="Search employees..." />
           <CommandEmpty>No employees found.</CommandEmpty>
-          <CommandGroup>
+          <CommandGroup className="overflow-y-scroll ">
             {employees
               ?.sort((a, b) => a.name.localeCompare(b.name))
               .map((employee) => (
@@ -52,14 +68,20 @@ export default function SelectEmployee({
                   onSelect={(value) => {
                     setValue(value);
                     setEmployee && setEmployee(employee);
-                    links && router.push(`/staff/${employee.id}`);
+                    links &&
+                      router.push(
+                        `/staff/${employee?.id}/${
+                          router.asPath.split("/")[3] ?? ""
+                        }`
+                      );
                     setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === employee.name.toLowerCase()
+                      value === employee.name.toLowerCase() ||
+                        employeeId === employee.id
                         ? "opacity-100"
                         : "opacity-0"
                     )}

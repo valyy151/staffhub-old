@@ -1,19 +1,24 @@
-import { ScrollText } from 'lucide-react';
-import router from 'next/router';
-import { useState } from 'react';
-import { api } from '~/utils/api';
+import { ScrollText } from "lucide-react";
+import router from "next/router";
+import { useState } from "react";
+import { api } from "~/utils/api";
 
-import Note from '@/components/Staff/Note';
-import Sidebar from '@/components/Staff/Sidebar';
+import Note from "@/components/Staff/Note";
+import Sidebar from "@/components/Staff/Sidebar";
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
-    AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type EmployeeNotesPageProps = {
   query: { id: string };
@@ -30,6 +35,8 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
   const { data: employee, failureReason } = api.employee?.findOne.useQuery({
     id: query.id,
   });
+
+  const { data: employees } = api.employee.find.useQuery();
 
   if (failureReason?.data?.httpStatus === 401) {
     router.push("/");
@@ -100,7 +107,7 @@ export default function EmployeeNotesPage({ query }: EmployeeNotesPageProps) {
 
   return (
     <main className="flex">
-      <Sidebar employee={employee} />
+      <Sidebar employee={employee} employees={employees} />
 
       <div className="mt-4 flex w-[36rem] flex-col">
         <Heading size={"sm"}>Notes for {employee?.name}</Heading>

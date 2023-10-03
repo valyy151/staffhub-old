@@ -1,19 +1,31 @@
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
 
-import Sidebar from '@/components/Staff/Sidebar';
+import Sidebar from "@/components/Staff/Sidebar";
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
-    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Table, TableBody, TableCell, TableHead, TableHeader } from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+} from "@/components/ui/table";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type EmployeePersonalProps = {
   query: { id: string };
@@ -27,6 +39,8 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
   const { data: employee, failureReason } = api.employee?.findOne.useQuery({
     id: query.id,
   });
+
+  const { data: employees } = api.employee.find.useQuery();
 
   const queryClient = useQueryClient();
 
@@ -89,7 +103,7 @@ export default function EmployeePersonalPage({ query }: EmployeePersonalProps) {
 
   return (
     <main className="flex">
-      <Sidebar employee={employee} />
+      <Sidebar employee={employee} employees={employees} />
       <div className="mt-4 flex flex-col">
         <Heading size={"sm"}>
           {employee.name.endsWith("s")

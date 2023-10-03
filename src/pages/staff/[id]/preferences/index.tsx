@@ -1,21 +1,27 @@
-import { Sticker } from 'lucide-react';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatTime } from '~/utils/dateFormatting';
+import { Sticker } from "lucide-react";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatTime } from "~/utils/dateFormatting";
 
-import Sidebar from '@/components/Staff/Sidebar';
+import Sidebar from "@/components/Staff/Sidebar";
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
-    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Paragraph from '@/components/ui/paragraph';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type SchedulePreferencesProps = {
   query: { id: string };
@@ -37,6 +43,8 @@ export default function SchedulePreferencesPage({
     id: query.id,
     fetchShiftModels: true,
   });
+
+  const { data: employees } = api.employee.find.useQuery();
 
   if (failureReason?.data?.httpStatus === 401) {
     router.push("/");
@@ -102,7 +110,7 @@ export default function SchedulePreferencesPage({
 
   return (
     <main className="flex">
-      <Sidebar employee={employee} />
+      <Sidebar employee={employee} employees={employees} />
       <div className="mt-4 flex flex-col">
         <Heading size={"sm"}>Schedule preferences for {employee?.name}</Heading>
         <Button

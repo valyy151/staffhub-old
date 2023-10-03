@@ -1,17 +1,17 @@
-import { FileDigit, Palmtree } from 'lucide-react';
-import router from 'next/router';
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { howManyDays } from '~/utils/calculateHours';
-import { checkVacations } from '~/utils/checkVacations';
+import { FileDigit, Palmtree } from "lucide-react";
+import router from "next/router";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import { howManyDays } from "~/utils/calculateHours";
+import { checkVacations } from "~/utils/checkVacations";
 
-import AddVacation from '@/components/Staff/AddVacation';
-import ChangeVacationDays from '@/components/Staff/ChangeVacationDays';
-import Sidebar from '@/components/Staff/Sidebar';
-import Vacation from '@/components/Staff/Vacation';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
+import AddVacation from "@/components/Staff/AddVacation";
+import ChangeVacationDays from "@/components/Staff/ChangeVacationDays";
+import Sidebar from "@/components/Staff/Sidebar";
+import Vacation from "@/components/Staff/Vacation";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
 
 type VacationPageProps = {
   query: { id: string };
@@ -28,6 +28,8 @@ export default function VacationPage({ query }: VacationPageProps) {
   const { data: employee, failureReason } = api.employee.findOne.useQuery({
     id: query.id,
   });
+
+  const { data: employees } = api.employee.find.useQuery();
 
   if (failureReason?.data?.httpStatus === 401) {
     router.push("/");
@@ -125,7 +127,7 @@ export default function VacationPage({ query }: VacationPageProps) {
 
   return (
     <main className="flex">
-      <Sidebar employee={employee} />
+      <Sidebar employee={employee} employees={employees} />
 
       <div>
         <Heading size={"sm"} className="mt-4">

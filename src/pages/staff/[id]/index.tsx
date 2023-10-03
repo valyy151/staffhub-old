@@ -1,26 +1,38 @@
 import {
-    Calendar, HeartPulse, Mail, MapPin, MoreVertical, Palmtree, Phone, Scroll, Sticker, Trash2,
-    User, UserCog
-} from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { checkEmployeeVacation, checkSickLeave } from '~/utils/checkAbsence';
-import { formatTime } from '~/utils/dateFormatting';
+  Calendar,
+  HeartPulse,
+  Mail,
+  MapPin,
+  MoreVertical,
+  Palmtree,
+  Phone,
+  Scroll,
+  Sticker,
+  Trash2,
+  User,
+  UserCog,
+} from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
+import { formatTime } from "~/utils/dateFormatting";
 
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import FormModal from '@/components/ui/form-modal';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
-import Spinner from '@/components/ui/spinner';
-import { useToast } from '@/components/ui/use-toast';
-
-import SelectEmployees from '../../../../@/components/Schedule/SelectEmployee';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import FormModal from "@/components/ui/form-modal";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
+import Sidebar from "@/components/Staff/Sidebar";
 
 type EmployeeProfileProps = {
   query: { id: string };
@@ -59,260 +71,257 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
   }
 
   if (!employee) {
-    return <Spinner />;
+    return <Sidebar />;
   }
 
   return (
-    <main className="flex flex-col px-12 pb-80 pt-24">
-      <div className="relative mb-2 w-fit">
-        <SelectEmployees links employees={employees} />
-      </div>
-      <div className="flex flex-col rounded-md border ">
-        {/* name and button begin */}
-        <div className="flex items-center justify-between border-b   py-4">
-          <Heading size={"sm"} className="pl-4 text-left">
-            {employee.name}
-          </Heading>
-
-          <Link
-            href={`/staff/${employee.id}/schedule`}
-            className={`ml-auto mr-2 ${buttonVariants({
-              size: "lg",
-            })}`}
-          >
-            <Calendar className="mr-4" /> Schedules
-          </Link>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost">
-                <MoreVertical />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>View More</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link
-                  href={`/staff/${employee.id}/schedule`}
-                  className="flex w-full items-center"
-                >
-                  <Calendar className="mr-2 h-4 w-4" />
-                  <span>Monthly Schedules</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link
-                  href={`/staff/${employee.id}/notes`}
-                  className="flex w-full items-center"
-                >
-                  <Scroll className="mr-2 h-4 w-4" />
-                  <span>Notes</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={`/staff/${employee.id}/roles`}
-                  className="flex w-full items-center"
-                >
-                  <UserCog className="mr-2 h-4 w-4" />
-                  <span>Roles</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={`/staff/${employee.id}/preferences`}
-                  className="flex w-full items-center"
-                >
-                  <Sticker className="mr-2 h-4 w-4" />
-                  Schedule Preferences
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link
-                  href={`/staff/${employee.id}/vacation`}
-                  className="flex w-full items-center"
-                >
-                  <Palmtree className="mr-2 h-4 w-4" />
-                  <span>Vacation</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link
-                  href={`/staff/${employee.id}/sick-leave`}
-                  className="flex w-full items-center"
-                >
-                  <HeartPulse className="mr-2 h-4 w-4" />
-                  <span>Sick Leave</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <Link
-                  href={`/staff/${employee.id}/personal`}
-                  className="flex w-full items-center"
-                >
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Personal Info</span>
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => setShowModal(true)}
-                className="cursor-pointer"
-              >
-                <Trash2 className="mr-2 h-4 w-4" />
-                <span>Delete Employee</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-        {/* name and button end */}
-
-        <div className="flex">
-          {/* personal info begin */}
-          <Link
-            href={`/staff/${employee.id}/personal`}
-            className="min-h-[18rem] w-1/5 cursor-pointer border-r  py-4 pl-2 transition-colors duration-150 hover:bg-accent"
-          >
-            <Heading size={"xs"} className="mb-2 flex items-center">
-              Personal Info
-              <User size={26} className="ml-2" />
+    <main className="flex">
+      <Sidebar employee={employee} employees={employees} />
+      <div className="w-full pr-4 pt-4">
+        <div className="flex flex-col rounded-lg border ">
+          {/* name and button begin */}
+          <div className="flex items-center justify-between border-b py-4">
+            <Heading size={"xs"} className="pl-4 text-left">
+              {employee.name}
             </Heading>
 
-            <div className="flex items-center  py-2">
-              <Paragraph className="flex items-center">
-                <Mail className="mr-4" /> {employee.email}
-              </Paragraph>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost">
+                  <MoreVertical />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>View More</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link
+                    href={`/staff/${employee.id}/schedule`}
+                    className="flex w-full items-center"
+                  >
+                    <Calendar className="mr-2 h-4 w-4" />
+                    <span>Monthly Schedules</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link
+                    href={`/staff/${employee.id}/notes`}
+                    className="flex w-full items-center"
+                  >
+                    <Scroll className="mr-2 h-4 w-4" />
+                    <span>Notes</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href={`/staff/${employee.id}/roles`}
+                    className="flex w-full items-center"
+                  >
+                    <UserCog className="mr-2 h-4 w-4" />
+                    <span>Roles</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href={`/staff/${employee.id}/preferences`}
+                    className="flex w-full items-center"
+                  >
+                    <Sticker className="mr-2 h-4 w-4" />
+                    Schedule Preferences
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link
+                    href={`/staff/${employee.id}/vacation`}
+                    className="flex w-full items-center"
+                  >
+                    <Palmtree className="mr-2 h-4 w-4" />
+                    <span>Vacation</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link
+                    href={`/staff/${employee.id}/sick-leave`}
+                    className="flex w-full items-center"
+                  >
+                    <HeartPulse className="mr-2 h-4 w-4" />
+                    <span>Sick Leave</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  <Link
+                    href={`/staff/${employee.id}/personal`}
+                    className="flex w-full items-center"
+                  >
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Personal Info</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={() => setShowModal(true)}
+                  className="cursor-pointer"
+                >
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  <span>Delete Employee</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+          {/* name and button end */}
 
-            <div className="flex items-center  py-1">
-              <Paragraph className="flex items-center">
-                <Phone className="mr-4" />
-                {employee.phoneNumber}
-              </Paragraph>
-            </div>
+          <div className="flex">
+            {/* personal info begin */}
+            <Link
+              href={`/staff/${employee.id}/personal`}
+              className="min-h-[18rem] grow cursor-pointer border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
+            >
+              <Heading size={"xxs"} className="mb-2 flex items-center">
+                Personal Info
+                <User className="ml-2" />
+              </Heading>
 
-            <div className="flex items-center py-1">
-              <Paragraph className="flex items-center">
-                <MapPin className="mr-4" />
-                {employee.address}
-              </Paragraph>
-            </div>
-          </Link>
-          {/* personal info end */}
-
-          {/* roles begin */}
-          <Link
-            href={`/staff/${employee.id}/roles`}
-            className="flex w-1/5 cursor-pointer flex-col border-r   py-4 pl-2 transition-colors duration-150 hover:bg-accent"
-          >
-            <Heading size={"xs"} className="mb-2 flex items-center">
-              Roles
-              <UserCog size={26} className="ml-2" />
-            </Heading>
-
-            <div className="flex flex-col py-2">
-              {employee.roles && employee.roles.length > 0 ? (
-                employee.roles.map((role: { id: string; name: string }) => (
-                  <Paragraph key={role.id} className="text-left">
-                    {role.name}
-                  </Paragraph>
-                ))
-              ) : (
-                <Paragraph className="text-left">No roles</Paragraph>
-              )}
-            </div>
-          </Link>
-          {/* roles end */}
-
-          {/* sick leave begin */}
-          <Link
-            href={`/staff/${employee.id}/sick-leave`}
-            className="flex w-1/5 cursor-pointer flex-col border-r   py-4 pl-2 transition-colors duration-150 hover:bg-accent"
-          >
-            <Heading size={"xs"} className="mb-2 flex items-center">
-              Sick Leave
-              <HeartPulse size={26} className="ml-2" />
-            </Heading>
-            <div className="flex flex-col space-y-2 py-2">
-              <Paragraph className="text-left">
-                {checkSickLeave(employee.sickLeaves!!)}
-              </Paragraph>
-            </div>
-          </Link>
-          {/* sick leave end */}
-
-          {/* vacation begin */}
-          <Link
-            href={`/staff/${employee.id}/vacation`}
-            className="flex w-1/5 cursor-pointer flex-col border-r 
-                  py-4 pl-2 transition-colors duration-150 hover:bg-accent"
-          >
-            <Heading size={"xs"} className="mb-2 flex items-center">
-              Vacation <Palmtree size={26} className="ml-2" />
-            </Heading>
-            <div className="flex flex-col space-y-2 py-2">
-              <Paragraph className="text-left">
-                {checkEmployeeVacation(employee.vacations!!)}
-              </Paragraph>
-            </div>
-          </Link>
-          {/* vacation end */}
-
-          {/* preferences begin */}
-          <Link
-            href={`/staff/${employee.id}/preferences`}
-            className="flex w-1/5 cursor-pointer flex-col py-4 pl-2 transition-colors duration-150 hover:bg-accent"
-          >
-            <Heading size={"xs"} className="mb-2 flex items-center">
-              Schedule Preferences <Sticker size={26} className="ml-2" />
-            </Heading>
-
-            <div className="flex flex-col py-2">
-              {employee.schedulePreference ? (
-                <>
-                  <Paragraph className="text-left font-medium">
-                    {employee.schedulePreference.hoursPerMonth > 0
-                      ? employee.schedulePreference.hoursPerMonth +
-                        " hours per month"
-                      : "No monthly hours set"}
-                  </Paragraph>
-                  {employee.schedulePreference.shiftModels.length > 0 ? (
-                    employee.schedulePreference.shiftModels
-                      .sort((a, b) => a.start - b.start)
-                      .map((item) => (
-                        <Paragraph key={item.id} className="text-left">
-                          [{formatTime(item.start)} - {formatTime(item.end)}]
-                        </Paragraph>
-                      ))
-                  ) : (
-                    <Paragraph className="text-left">
-                      No shift preferences.
-                    </Paragraph>
-                  )}
-                </>
-              ) : (
-                <Paragraph className="text-left">
-                  No schedule preferences.
+              <div className="flex items-center  py-2">
+                <Paragraph size={"sm"} className="flex items-center">
+                  <Mail className="mr-4" /> {employee.email}
                 </Paragraph>
-              )}
-            </div>
-          </Link>
-          {/* preferences end */}
+              </div>
+
+              <div className="flex items-center  py-1">
+                <Paragraph size={"sm"} className="flex items-center">
+                  <Phone className="mr-4" />
+                  {employee.phoneNumber}
+                </Paragraph>
+              </div>
+
+              <div className="flex items-center py-1">
+                <Paragraph size={"sm"} className="flex items-center">
+                  <MapPin className="mr-4" />
+                  {employee.address}
+                </Paragraph>
+              </div>
+            </Link>
+            {/* personal info end */}
+
+            {/* roles begin */}
+            <Link
+              href={`/staff/${employee.id}/roles`}
+              className="flex grow cursor-pointer flex-col border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
+            >
+              <Heading size={"xxs"} className="mb-2 flex items-center">
+                Roles
+                <UserCog className="ml-2" />
+              </Heading>
+
+              <div className="flex flex-col py-2">
+                {employee.roles && employee.roles.length > 0 ? (
+                  employee.roles.map((role: { id: string; name: string }) => (
+                    <Paragraph size={"sm"} key={role.id} className="text-left">
+                      {role.name}
+                    </Paragraph>
+                  ))
+                ) : (
+                  <Paragraph size={"sm"} className="text-left">
+                    No roles
+                  </Paragraph>
+                )}
+              </div>
+            </Link>
+            {/* roles end */}
+
+            {/* sick leave begin */}
+            <Link
+              href={`/staff/${employee.id}/sick-leave`}
+              className="flex grow cursor-pointer flex-col border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
+            >
+              <Heading size={"xxs"} className="mb-2 flex items-center">
+                Sick Leave
+                <HeartPulse className="ml-2" />
+              </Heading>
+              <div className="flex flex-col space-y-2 py-2">
+                <Paragraph size={"sm"} className="text-left">
+                  {checkSickLeave(employee.sickLeaves!!)}
+                </Paragraph>
+              </div>
+            </Link>
+            {/* sick leave end */}
+
+            {/* vacation begin */}
+            <Link
+              href={`/staff/${employee.id}/vacation`}
+              className="flex grow cursor-pointer flex-col 
+                  border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
+            >
+              <Heading size={"xxs"} className="mb-2 flex items-center">
+                Vacation <Palmtree className="ml-2" />
+              </Heading>
+              <div className="flex flex-col space-y-2 py-2">
+                <Paragraph size={"sm"} className="text-left">
+                  {checkEmployeeVacation(employee.vacations!!)}
+                </Paragraph>
+              </div>
+            </Link>
+            {/* vacation end */}
+
+            {/* preferences begin */}
+            <Link
+              href={`/staff/${employee.id}/preferences`}
+              className="flex grow cursor-pointer flex-col border-b border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
+            >
+              <Heading size={"xxs"} className="mb-2 flex items-center">
+                Schedule Preferences <Sticker className="ml-2" />
+              </Heading>
+
+              <div className="flex flex-col py-2">
+                {employee.schedulePreference ? (
+                  <>
+                    <Paragraph size={"sm"} className="text-left font-medium">
+                      {employee.schedulePreference.hoursPerMonth > 0
+                        ? employee.schedulePreference.hoursPerMonth +
+                          " hours per month"
+                        : "No monthly hours set"}
+                    </Paragraph>
+                    {employee.schedulePreference.shiftModels.length > 0 ? (
+                      employee.schedulePreference.shiftModels
+                        .sort((a, b) => a.start - b.start)
+                        .map((item) => (
+                          <Paragraph
+                            size={"sm"}
+                            key={item.id}
+                            className="text-left"
+                          >
+                            [{formatTime(item.start)} - {formatTime(item.end)}]
+                          </Paragraph>
+                        ))
+                    ) : (
+                      <Paragraph size={"sm"} className="text-left">
+                        No shift preferences.
+                      </Paragraph>
+                    )}
+                  </>
+                ) : (
+                  <Paragraph size={"sm"} className="text-left">
+                    No schedule preferences.
+                  </Paragraph>
+                )}
+              </div>
+            </Link>
+            {/* preferences end */}
+          </div>
+          {showModal && (
+            <FormModal
+              showModal={showModal}
+              submit={handleDelete}
+              cancel={() => setShowModal(false)}
+              text={
+                "This action cannot be undone. This will permanently delete this employee and remove all his associated data from our servers."
+              }
+            />
+          )}
         </div>
-        {showModal && (
-          <FormModal
-            showModal={showModal}
-            submit={handleDelete}
-            cancel={() => setShowModal(false)}
-            text={
-              "This action cannot be undone. This will permanently delete this employee and remove all his associated data from our servers."
-            }
-          />
-        )}
       </div>
     </main>
   );

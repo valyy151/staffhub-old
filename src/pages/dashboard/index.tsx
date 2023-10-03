@@ -329,7 +329,7 @@ export default function DashboardPage() {
 
             {absencesArray.length > 0 && (
               <>
-                <Heading size={"sm"} className="ml-2">
+                <Heading size={"xs"} className="ml-2">
                   Absences
                 </Heading>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -376,7 +376,7 @@ export default function DashboardPage() {
 
             {notesArray.length > 0 && (
               <>
-                <Heading size={"sm"} className="ml-2">
+                <Heading size={"xs"} className="ml-2">
                   Notes
                 </Heading>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">

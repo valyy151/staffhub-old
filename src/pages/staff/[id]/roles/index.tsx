@@ -1,22 +1,32 @@
-import { UserCog } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
+import { UserCog } from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
 
-import Sidebar from '@/components/Staff/Sidebar';
+import Sidebar from "@/components/Staff/Sidebar";
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
-    AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
 import {
-    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
-} from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type EmployeeRolesPageProps = {
   query: { id: string };
@@ -31,6 +41,8 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
     id: query.id,
     fetchAllRoles: true,
   });
+
+  const { data: employees } = api.employee.find.useQuery();
 
   if (failureReason?.data?.httpStatus === 401) {
     router.push("/");
@@ -110,7 +122,7 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
 
   return (
     <main className="flex">
-      <Sidebar employee={employee} />
+      <Sidebar employee={employee} employees={employees} />
       <div className="mt-4">
         <Heading size="sm">Assign roles to {employee?.name}</Heading>
         <Button className="mt-2" onClick={() => setShowAddRole(true)}>
