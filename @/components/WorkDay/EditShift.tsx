@@ -1,18 +1,23 @@
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { formatTime, formatTotal } from '~/utils/dateFormatting';
+import { useState } from "react";
+import { api } from "~/utils/api";
+import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
-    AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
-import Heading from '../ui/heading';
-import RolesDropdown from './RolesDropdown';
+import Heading from "../ui/heading";
+import RolesDropdown from "./RolesDropdown";
 
 type Shift = {
   id: string;

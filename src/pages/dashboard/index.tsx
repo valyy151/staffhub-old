@@ -107,8 +107,47 @@ export default function DashboardPage() {
     day.notes.map((note) => notesArray.push({ ...note, date: day.date }))
   );
 
+  const absencesArray:
+    | {
+        reason: string;
+        absent: boolean;
+        approved: boolean;
+        employee: {
+          name: string;
+          id: string;
+        };
+        amount: number;
+      }[]
+    | null = [];
+
+  //calculate amount of absences for each employee then push to absencesArray
+  workDays?.map((day) =>
+    day.shifts.map((shift) => {
+      if (shift.absence?.absent) {
+        const index = absencesArray.findIndex(
+          (absence) => absence.employee.id === shift.employee.id
+        );
+
+        if (index === -1) {
+          absencesArray.push({
+            reason: shift.absence.reason,
+            absent: shift.absence.absent,
+            approved: shift.absence.approved,
+            employee: {
+              name: shift.employee.name,
+              id: shift.employee.id,
+            },
+            amount: 1,
+          });
+        } else {
+          absencesArray[index]!.amount += 1;
+        }
+      }
+    })
+  );
+
   return (
-    <div className="flex h-screen flex-col">
+    <div className="flex min-h-screen flex-col">
       <Head>
         <title>Dashboard | StaffHub</title>
         <meta name="Dashboard" content="Manage your schedules" />
@@ -147,7 +186,7 @@ export default function DashboardPage() {
                   title="Previous Week"
                   disabled={isFetching}
                   onClick={() => setSkip(skip - 1)}
-                  className="rounded-lg border   bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
+                  className="rounded-lg border"
                 >
                   Prev Week
                 </Button>
@@ -157,7 +196,7 @@ export default function DashboardPage() {
                   title="Next Week"
                   disabled={isFetching}
                   onClick={() => setSkip(skip + 1)}
-                  className="rounded-lg border   bg-white hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700"
+                  className="rounded-lg border"
                 >
                   Next Week
                 </Button>
@@ -187,7 +226,6 @@ export default function DashboardPage() {
                   day: "numeric",
                 })}{" "}
             </Heading>
-
             <div className="flex min-h-[24rem] rounded-lg border-b border-t  ">
               {workDays?.map((day, index) => {
                 return (
@@ -288,10 +326,54 @@ export default function DashboardPage() {
                 );
               })}
             </div>
-            {/* <div className="h-96 rounded-lg bg-zinc-100 dark:bg-zinc-800"></div> */}
-            {/* <Heading size={"sm"} className="ml-2">
-              Absences
-            </Heading> */}
+
+            {absencesArray.length > 0 && (
+              <>
+                <Heading size={"sm"} className="ml-2">
+                  Absences
+                </Heading>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {absencesArray.map((absence, index) => (
+                    <div key={index} className="rounded-lg border bg-card py-2">
+                      <Paragraph className="border-b px-2 pb-1">
+                        <Link
+                          className="underline-offset-2 hover:underline"
+                          href={`/staff/${absence.employee.id}`}
+                        >
+                          {absence.employee.name}{" "}
+                        </Link>
+                      </Paragraph>
+
+                      <div className="flex justify-between px-2 pt-4">
+                        <Paragraph size={"sm"}>
+                          <span className="font-light">Reason:</span>{" "}
+                          {absence.reason}
+                        </Paragraph>
+                        <Paragraph size={"sm"}>
+                          <span className="font-light"> Amount: </span>{" "}
+                          {absence.amount}
+                        </Paragraph>
+                        <Paragraph
+                          size={"sm"}
+                          className={`${
+                            absence.approved
+                              ? "text-green-500"
+                              : "text-rose-500"
+                          }`}
+                        >
+                          <span className={"font-light text-foreground"}>
+                            {" "}
+                            Approved:{" "}
+                          </span>{" "}
+                          {absence.approved ? "Yes" : "No"}
+                        </Paragraph>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
             {notesArray.length > 0 && (
               <>
                 <Heading size={"sm"} className="ml-2">

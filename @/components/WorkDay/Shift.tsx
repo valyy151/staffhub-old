@@ -1,25 +1,36 @@
-import { ClipboardEdit, Clock, MoreVertical, Trash2 } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay, formatTime, formatTotal } from '~/utils/dateFormatting';
+import { ClipboardEdit, Clock, MoreVertical, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import {
+  formatDateLong,
+  formatDay,
+  formatTime,
+  formatTotal,
+} from "~/utils/dateFormatting";
 
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
-    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { PopoverContent } from '@/components/ui/popover';
-import { Switch } from '@/components/ui/switch';
-import { TableCell, TableRow } from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
-import { Popover, PopoverTrigger } from '@radix-ui/react-popover';
-import { useQueryClient } from '@tanstack/react-query';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { PopoverContent } from "@/components/ui/popover";
+import { Switch } from "@/components/ui/switch";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { useToast } from "@/components/ui/use-toast";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
+import { useQueryClient } from "@tanstack/react-query";
 
-import FormModal from '../ui/form-modal';
-import EditShift from './EditShift';
+import FormModal from "../ui/form-modal";
+import EditShift from "./EditShift";
 
 type ShiftProps = {
   shift: {
@@ -30,7 +41,12 @@ type ShiftProps = {
     userId: string;
     employeeId: string;
     roleId: string | null;
-    absence: { id: string; reason: string; absent: boolean } | null;
+    absence: {
+      id: string;
+      reason: string;
+      absent: boolean;
+      approved: boolean;
+    } | null;
   } & {
     role: { name: string; id: string } | null;
     employee: { name: string; roles: { name: string; id: string }[] };
@@ -44,6 +60,10 @@ type ShiftProps = {
 
 export default function Shift({ shift, shiftModels }: ShiftProps) {
   const [showModal, setShowModal] = useState(false);
+
+  const [approved, setApproved] = useState<boolean>(
+    shift.absence?.approved || false
+  );
 
   const [absent, setAbsent] = useState<boolean>(shift.absence?.absent || false);
 
@@ -189,15 +209,26 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
               </AlertDialogDescription>
             </AlertDialogHeader>
 
-            <Label htmlFor="ended" className="flex w-fit flex-col">
+            <Label htmlFor="absent" className="flex w-fit flex-col">
               Absent
               <Switch
-                id="ended"
+                id="absent"
                 checked={absent}
                 className="mt-0.5"
                 onClick={() => setAbsent(!absent)}
               />
             </Label>
+            {absent && (
+              <Label htmlFor="approved" className="flex w-fit flex-col">
+                Approved
+                <Switch
+                  id="approved"
+                  checked={approved}
+                  className="mt-0.5"
+                  onClick={() => setApproved(!approved)}
+                />
+              </Label>
+            )}
             <Label htmlFor="reason">
               Reason
               <Input
@@ -217,6 +248,7 @@ export default function Shift({ shift, shiftModels }: ShiftProps) {
                   updateAbsenceMutation.mutate({
                     reason,
                     absent,
+                    approved,
                     shiftId: shift.id,
                   });
                 }}

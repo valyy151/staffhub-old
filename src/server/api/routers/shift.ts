@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const shiftRouter = createTRPCRouter({
   create: protectedProcedure
@@ -96,9 +96,10 @@ export const shiftRouter = createTRPCRouter({
         reason: z.string(),
         absent: z.boolean(),
         shiftId: z.string(),
+        approved: z.boolean(),
       })
     )
-    .mutation(async ({ input: { reason, absent, shiftId }, ctx }) => {
+    .mutation(async ({ input: { reason, approved, absent, shiftId }, ctx }) => {
       const absence = await ctx.prisma.absence.findUnique({
         where: { shiftId: shiftId, userId: ctx.session.user.id },
       });
@@ -120,6 +121,7 @@ export const shiftRouter = createTRPCRouter({
             update: {
               absent,
               reason,
+              approved,
             },
           },
         },

@@ -181,13 +181,14 @@ model Shift {
 }
 
 model Absence {
-    id      String  @id @default(cuid())
-    userId  String
-    reason  String
-    absent  Boolean @default(true)
-    shiftId String  @unique
-    shift   Shift   @relation(fields: [shiftId], references: [id])
-    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id       String  @id @default(cuid())
+    userId   String
+    reason   String
+    absent   Boolean @default(true)
+    approved Boolean @default(false)
+    shiftId  String  @unique
+    shift    Shift   @relation(fields: [shiftId], references: [id])
+    user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])
 }
