@@ -59,7 +59,7 @@
 .react-calendar__navigation__label,
 .react-calendar__tile,
 .react-calendar__tile--now {
-  @apply rounded-md duration-100 hover:bg-secondary focus:bg-inherit focus:hover:bg-secondary !important;
+  @apply rounded-md duration-100 hover:bg-secondary focus:bg-primary focus:text-white focus:hover:bg-primary active:text-white dark:focus:text-black dark:active:text-black !important;
 }
 
 .react-calendar,
@@ -75,5 +75,5 @@
 }
 
 .react-calendar__tile--active {
-  @apply rounded-md bg-blue-500 text-white duration-100 hover:bg-blue-500 hover:text-white dark:text-white dark:hover:bg-blue-500 !important;
+  @apply rounded-md bg-primary text-white duration-100 hover:bg-primary hover:text-white dark:text-black dark:hover:bg-primary !important;
 }

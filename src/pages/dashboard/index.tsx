@@ -185,8 +185,8 @@ export default function DashboardPage() {
                   variant={"ghost"}
                   title="Previous Week"
                   disabled={isFetching}
-                  onClick={() => setSkip(skip - 1)}
                   className="rounded-lg border"
+                  onClick={() => setSkip(skip - 1)}
                 >
                   Prev Week
                 </Button>
@@ -195,8 +195,8 @@ export default function DashboardPage() {
                   variant={"ghost"}
                   title="Next Week"
                   disabled={isFetching}
-                  onClick={() => setSkip(skip + 1)}
                   className="rounded-lg border"
+                  onClick={() => setSkip(skip + 1)}
                 >
                   Next Week
                 </Button>
@@ -263,14 +263,15 @@ export default function DashboardPage() {
                                       shift.absence?.absent && "text-rose-500"
                                     }`}
                                   />
-                                  <span
-                                    className={`text-left ${
+                                  <Link
+                                    href={`/staff/${shift.employee.id}`}
+                                    className={`text-left hover:underline ${
                                       shift.absence?.absent &&
                                       "text-muted-foreground"
                                     }`}
                                   >
                                     {shift.employee.name.split(" ")[0]}
-                                  </span>
+                                  </Link>
 
                                   <span
                                     className={`ml-auto ${

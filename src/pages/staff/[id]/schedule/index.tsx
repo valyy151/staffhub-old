@@ -110,25 +110,32 @@ export default function SchedulePage({ query }: SchedulePageProps) {
             <TableHeader>
               <TableRow>
                 <TableHead className="border-r">Date</TableHead>
-                <TableHead className="border-r">Day</TableHead>
-                <TableHead className="text-right">Shift</TableHead>
+                <TableHead className="border-r">Shift</TableHead>
+                <TableHead className="text-right">Day</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {employee?.workDays.map((day) => (
                 <TableRow key={day.id}>
-                  <TableCell className="border-r">
+                  <TableCell className="flex space-x-4 border-r font-medium">
                     <Link
                       href={`/days/${day.id}/shifts`}
-                      className="cursor-pointer font-medium hover:text-sky-500"
+                      className={`underline-offset-2 hover:underline ${
+                        (new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                          weekday: "short",
+                        }) === "Sat" &&
+                          "font-bold text-rose-500") ||
+                        (new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                          weekday: "short",
+                        }) === "Sun" &&
+                          "font-bold text-rose-500")
+                      }`}
                     >
                       {formatDateLong(day.date)}
                     </Link>
                   </TableCell>
+
                   <TableCell className="border-r">
-                    {formatDay(day.date)}
-                  </TableCell>
-                  <TableCell className="text-right">
                     {!day.shifts[0]?.start && day.vacation && (
                       <span className="italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
                         Vacation
@@ -153,6 +160,22 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                         </span>{" "}
                       </>
                     )}
+                  </TableCell>
+                  <TableCell
+                    className={`text-right ${
+                      (new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                        weekday: "short",
+                      }) === "Sat" &&
+                        "font-bold text-rose-500") ||
+                      (new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                        weekday: "short",
+                      }) === "Sun" &&
+                        "font-bold text-rose-500")
+                    }`}
+                  >
+                    {new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                      weekday: "short",
+                    })}
                   </TableCell>
                 </TableRow>
               ))}

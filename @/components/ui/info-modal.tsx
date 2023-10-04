@@ -1,8 +1,10 @@
-
-
 import {
-    Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle
-} from '@/components/ui/dialog';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 type ModalProps = {
   heading: string;
@@ -13,7 +15,7 @@ type ModalProps = {
 export default function InfoModal({ text, close, heading }: ModalProps) {
   return (
     <Dialog open onOpenChange={close}>
-      <DialogContent>
+      <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle className="text-2xl">{heading}</DialogTitle>
           {text.data.map((paragraph) => (
