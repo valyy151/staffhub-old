@@ -10,7 +10,6 @@ import { calculateTotalHours } from "~/utils/calculateHours";
 import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
 import {
   formatDateLong,
-  formatDay,
   formatTime,
   formatTotal,
   getMonthBoundaryTimestamps,
