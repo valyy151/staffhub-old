@@ -105,40 +105,41 @@ export default function EmployeesListPage() {
           />
         </div>
       </div>
+      <div className="max-h-[76.5vh] overflow-y-scroll border">
+        <Table>
+          <TableHeader className="sticky top-0 bg-background shadow shadow-border dark:shadow-md dark:shadow-border">
+            <TableHead>Name</TableHead>
+            <TableHead>Phone</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead className="text-right">Address</TableHead>
+          </TableHeader>
+          <TableBody>
+            {filteredData.map((employee) => (
+              <TableRow
+                key={employee.id}
+                onClick={() => router.push(`/staff/${employee.id}`)}
+                className="cursor-pointer duration-75 hover:bg-gray-50 dark:hover:bg-gray-800"
+              >
+                <TableCell className="cursor-pointer whitespace-nowrap font-medium">
+                  {employee.name}
+                </TableCell>
 
-      <Table className="mt-2">
-        <TableHeader className="border-b">
-          <TableHead>Name</TableHead>
-          <TableHead>Phone</TableHead>
-          <TableHead>Email</TableHead>
-          <TableHead className="text-right">Address</TableHead>
-        </TableHeader>
-        <TableBody>
-          {filteredData.map((employee) => (
-            <TableRow
-              key={employee.id}
-              onClick={() => router.push(`/staff/${employee.id}`)}
-              className="cursor-pointer duration-75 hover:bg-gray-50 dark:hover:bg-gray-800"
-            >
-              <TableCell className="cursor-pointer whitespace-nowrap font-medium">
-                {employee.name}
-              </TableCell>
+                <TableCell className="cursor-pointer whitespace-nowrap">
+                  {employee.phoneNumber}
+                </TableCell>
 
-              <TableCell className="cursor-pointer whitespace-nowrap">
-                {employee.phoneNumber}
-              </TableCell>
+                <TableCell className="cursor-pointer whitespace-nowrap">
+                  {employee.email}
+                </TableCell>
 
-              <TableCell className="cursor-pointer whitespace-nowrap">
-                {employee.email}
-              </TableCell>
-
-              <TableCell className="cursor-pointer whitespace-nowrap text-right">
-                {employee.address}
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+                <TableCell className="cursor-pointer whitespace-nowrap text-right">
+                  {employee.address}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </main>
   );
 }

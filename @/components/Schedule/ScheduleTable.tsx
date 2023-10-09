@@ -1,9 +1,19 @@
-import { formatDateLong, formatDay, formatTime, formatTotal } from '~/utils/dateFormatting';
-
-import { Input } from '@/components/ui/input';
 import {
-    Table, TableBody, TableCell, TableHead, TableHeader, TableRow
-} from '@/components/ui/table';
+  formatDateLong,
+  formatDay,
+  formatTime,
+  formatTotal,
+} from "~/utils/dateFormatting";
+
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 type Data = {
   date: number;
@@ -89,162 +99,167 @@ export default function ScheduleTable({
     setData(newData);
   }
   return (
-    <Table className="border">
-      <TableHeader className="border">
-        <TableHead>Date</TableHead>
-        <TableHead>Start</TableHead>
-        <TableHead>End</TableHead>
-        <TableHead className="text-right">Total</TableHead>
-      </TableHeader>
-      <TableBody>
-        {data.map((item, index) => (
-          <TableRow key={index} className="hover:bg-inherit">
-            <TableCell className="flex pt-6">
-              <span> {formatDay(item.date)}</span>
-              <span className="ml-auto">{formatDateLong(item.date)}</span>
-            </TableCell>
-            {shift ? (
-              <>
-                <TableCell onClick={() => handleTimeWithClick(index)}>
-                  <Input
-                    type="text"
-                    value={formatTime(item.start!)}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Backspace") {
-                        e.currentTarget.select();
-                        handleTimeChange(index, undefined, "start");
-                      }
-                    }}
-                    placeholder={
-                      vacationDays.includes(item.date)
-                        ? "Vacation"
-                        : undefined || sickDays.includes(item.date)
-                        ? "Sick"
-                        : undefined
-                    }
-                    disabled={
-                      sickDays.includes(item.date) ||
-                      vacationDays.includes(item.date)
-                    }
-                    className={`w-fit ${
-                      shift &&
-                      !vacationDays.includes(item.date) &&
-                      "hover:ring-0.5 w-fit cursor-pointer ring-gray-800 dark:ring-gray-50"
-                    }`}
-                  />
-                </TableCell>
-                <TableCell onClick={() => handleTimeWithClick(index)}>
-                  <Input
-                    value={formatTime(item.end!)}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Backspace") {
-                        e.currentTarget.select();
-                        handleTimeChange(index, undefined, "end");
-                      }
-                    }}
-                    disabled={
-                      sickDays.includes(item.date) ||
-                      vacationDays.includes(item.date)
-                    }
-                    className={`w-fit ${
-                      shift &&
-                      !vacationDays.includes(item.date) &&
-                      "hover:ring-0.5 w-fit cursor-pointer ring-gray-800 dark:ring-gray-50"
-                    }`}
-                    type="text"
-                  />
-                </TableCell>
-              </>
-            ) : (
-              <>
-                <TableCell>
-                  <Input
-                    type="text"
-                    autoFocus={index === 0}
-                    placeholder={
-                      vacationDays.includes(item.date)
-                        ? "Vacation"
-                        : undefined || sickDays.includes(item.date)
-                        ? "Sick"
-                        : undefined
-                    }
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Backspace") {
-                        e.currentTarget.select();
-                        handleTimeChange(index, undefined, "start");
-                      }
-                    }}
-                    disabled={
-                      sickDays.includes(item.date) ||
-                      vacationDays.includes(item.date)
-                    }
-                    value={formatTime(item.start!)}
-                    onChange={(e) =>
-                      handleTimeChange(index, e.target.value, "start")
-                    }
-                    className="w-fit "
-                  />
-                </TableCell>
-
-                <TableCell>
-                  <Input
-                    value={formatTime(item.end!)}
-                    disabled={
-                      sickDays.includes(item.date) ||
-                      vacationDays.includes(item.date)
-                    }
-                    onChange={(e) =>
-                      handleTimeChange(index, e.target.value, "end")
-                    }
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                    }}
-                    onKeyDown={(e) => {
-                      if (e.key === "Backspace") {
-                        e.currentTarget.select();
-                        handleTimeChange(index, undefined, "end");
-                      }
-                    }}
-                    className="w-fit"
-                    type="text"
-                  />
-                </TableCell>
-              </>
-            )}
-
-            {item.start && item.end ? (
-              <TableCell title="Total hours in shift" className="text-right">
-                {formatTotal(item.start, item.end)}
+    <div className="max-h-[81vh] overflow-y-scroll border">
+      <Table className="min-w-[50vw]">
+        <TableHeader className="sticky top-0 bg-background shadow shadow-border dark:shadow-md dark:shadow-border">
+          <TableHead>Date</TableHead>
+          <TableHead>Start</TableHead>
+          <TableHead>End</TableHead>
+          <TableHead className="text-right">Total</TableHead>
+        </TableHeader>
+        <TableBody>
+          {data.map((item, index) => (
+            <TableRow key={index} className="hover:bg-inherit">
+              <TableCell className="flex pt-6">
+                <span> {formatDay(item.date)}</span>
+                <span className="ml-auto">{formatDateLong(item.date)}</span>
               </TableCell>
-            ) : null}
+              {shift ? (
+                <>
+                  <TableCell onClick={() => handleTimeWithClick(index)}>
+                    <Input
+                      type="text"
+                      value={formatTime(item.start!)}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace") {
+                          e.currentTarget.select();
+                          handleTimeChange(index, undefined, "start");
+                        }
+                      }}
+                      placeholder={
+                        vacationDays.includes(item.date)
+                          ? "Vacation"
+                          : undefined || sickDays.includes(item.date)
+                          ? "Sick"
+                          : undefined
+                      }
+                      disabled={
+                        sickDays.includes(item.date) ||
+                        vacationDays.includes(item.date)
+                      }
+                      className={`w-fit ${
+                        shift &&
+                        !vacationDays.includes(item.date) &&
+                        "hover:ring-0.5 w-fit cursor-pointer ring-gray-800 dark:ring-gray-50"
+                      }`}
+                    />
+                  </TableCell>
+                  <TableCell onClick={() => handleTimeWithClick(index)}>
+                    <Input
+                      value={formatTime(item.end!)}
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace") {
+                          e.currentTarget.select();
+                          handleTimeChange(index, undefined, "end");
+                        }
+                      }}
+                      disabled={
+                        sickDays.includes(item.date) ||
+                        vacationDays.includes(item.date)
+                      }
+                      className={`w-fit ${
+                        shift &&
+                        !vacationDays.includes(item.date) &&
+                        "hover:ring-0.5 w-fit cursor-pointer ring-gray-800 dark:ring-gray-50"
+                      }`}
+                      type="text"
+                    />
+                  </TableCell>
+                </>
+              ) : (
+                <>
+                  <TableCell>
+                    <Input
+                      type="text"
+                      autoFocus={index === 0}
+                      placeholder={
+                        vacationDays.includes(item.date)
+                          ? "Vacation"
+                          : undefined || sickDays.includes(item.date)
+                          ? "Sick"
+                          : undefined
+                      }
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace") {
+                          e.currentTarget.select();
+                          handleTimeChange(index, undefined, "start");
+                        }
+                      }}
+                      disabled={
+                        sickDays.includes(item.date) ||
+                        vacationDays.includes(item.date)
+                      }
+                      value={formatTime(item.start!)}
+                      onChange={(e) =>
+                        handleTimeChange(index, e.target.value, "start")
+                      }
+                      className="w-fit "
+                    />
+                  </TableCell>
 
-            {(vacationDays.includes(item.date) ||
-              sickDays.includes(item.date)) && (
-              <TableCell title="Total hours in shift" className="text-right">
-                8h
-              </TableCell>
-            )}
+                  <TableCell>
+                    <Input
+                      value={formatTime(item.end!)}
+                      disabled={
+                        sickDays.includes(item.date) ||
+                        vacationDays.includes(item.date)
+                      }
+                      onChange={(e) =>
+                        handleTimeChange(index, e.target.value, "end")
+                      }
+                      onContextMenu={(e) => {
+                        e.preventDefault();
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Backspace") {
+                          e.currentTarget.select();
+                          handleTimeChange(index, undefined, "end");
+                        }
+                      }}
+                      className="w-fit"
+                      type="text"
+                    />
+                  </TableCell>
+                </>
+              )}
 
-            {!item.end &&
-              !item.start &&
-              !sickDays.includes(item.date) &&
-              !vacationDays.includes(item.date) && (
+              {item.start && item.end ? (
                 <TableCell title="Total hours in shift" className="text-right">
-                  -
+                  {formatTotal(item.start, item.end)}
+                </TableCell>
+              ) : null}
+
+              {(vacationDays.includes(item.date) ||
+                sickDays.includes(item.date)) && (
+                <TableCell title="Total hours in shift" className="text-right">
+                  8h
                 </TableCell>
               )}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+
+              {!item.end &&
+                !item.start &&
+                !sickDays.includes(item.date) &&
+                !vacationDays.includes(item.date) && (
+                  <TableCell
+                    title="Total hours in shift"
+                    className="text-right"
+                  >
+                    -
+                  </TableCell>
+                )}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }

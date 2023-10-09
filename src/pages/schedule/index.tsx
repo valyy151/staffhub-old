@@ -244,8 +244,8 @@ export default function NewSchedulePage() {
             />
           </div>
 
-          <div className="relative ml-12">
-            <div className="fixed">
+          <div className="ml-12">
+            <div>
               <SelectEmployee
                 employees={data}
                 employee={employee}
