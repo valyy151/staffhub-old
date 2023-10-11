@@ -128,6 +128,26 @@ export const shiftRouter = createTRPCRouter({
       });
     }),
 
+  updateAbsences: protectedProcedure
+    .input(
+      z.array(
+        z.object({
+          id: z.string(),
+          approved: z.boolean(),
+        })
+      )
+    )
+    .mutation(async ({ input, ctx }) => {
+      input.map(async (absence) => {
+        await Promise.all([
+          ctx.prisma.absence.update({
+            where: { shiftId: absence.id },
+            data: { approved: absence.approved },
+          }),
+        ]);
+      });
+    }),
+
   delete: protectedProcedure
     .input(
       z.object({

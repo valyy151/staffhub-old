@@ -1,12 +1,10 @@
 import {
-  Calendar,
   HeartPulse,
   Mail,
   MapPin,
   MoreVertical,
   Palmtree,
   Phone,
-  Scroll,
   Sticker,
   Trash2,
   User,
@@ -94,73 +92,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
               <DropdownMenuContent className="w-56">
                 <DropdownMenuLabel>View More</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link
-                    href={`/staff/${employee.id}/schedule`}
-                    className="flex w-full items-center"
-                  >
-                    <Calendar className="mr-2 h-4 w-4" />
-                    <span>Monthly Schedules</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link
-                    href={`/staff/${employee.id}/notes`}
-                    className="flex w-full items-center"
-                  >
-                    <Scroll className="mr-2 h-4 w-4" />
-                    <span>Notes</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link
-                    href={`/staff/${employee.id}/roles`}
-                    className="flex w-full items-center"
-                  >
-                    <UserCog className="mr-2 h-4 w-4" />
-                    <span>Roles</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link
-                    href={`/staff/${employee.id}/preferences`}
-                    className="flex w-full items-center"
-                  >
-                    <Sticker className="mr-2 h-4 w-4" />
-                    Schedule Preferences
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link
-                    href={`/staff/${employee.id}/vacation`}
-                    className="flex w-full items-center"
-                  >
-                    <Palmtree className="mr-2 h-4 w-4" />
-                    <span>Vacation</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Link
-                    href={`/staff/${employee.id}/sick-leave`}
-                    className="flex w-full items-center"
-                  >
-                    <HeartPulse className="mr-2 h-4 w-4" />
-                    <span>Sick Leave</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <Link
-                    href={`/staff/${employee.id}/personal`}
-                    className="flex w-full items-center"
-                  >
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Personal Info</span>
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
+
                 <DropdownMenuItem
                   onClick={() => setShowModal(true)}
                   className="cursor-pointer"

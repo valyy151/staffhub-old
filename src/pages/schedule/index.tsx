@@ -1,10 +1,9 @@
 import "react-calendar/dist/Calendar.css";
 
-import { CalendarPlus, Info, UserPlus } from "lucide-react";
+import { CalendarPlus, Info, UserPlus, XIcon } from "lucide-react";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
-import router from "next/router";
 import { GetServerSideProps } from "next/types";
 import { useState } from "react";
 import Calendar from "react-calendar";
@@ -19,11 +18,11 @@ import ScheduleTable from "@/components/Schedule/ScheduleTable";
 import SelectEmployee from "@/components/Schedule/SelectEmployee";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import Heading from "@/components/ui/heading";
 import InfoModal from "@/components/ui/info-modal";
 import Spinner from "@/components/ui/spinner";
@@ -185,7 +184,7 @@ export default function NewSchedulePage() {
                 <Heading
                   size={"xs"}
                   onClick={() => setShowCalendar(true)}
-                  className="cursor-pointer underline-offset-8 hover:underline"
+                  className="cursor-pointer underline-offset-2 hover:underline"
                 >
                   {value.toLocaleDateString("en-GB", {
                     month: "long",
@@ -196,10 +195,9 @@ export default function NewSchedulePage() {
                 <div className="flex items-baseline justify-end">
                   <Heading
                     size={"xxs"}
-                    onClick={() => router.push(`/staff/${employee.id}`)}
-                    className="mr-2 cursor-pointer underline-offset-8 hover:text-sky-400 hover:underline"
+                    className="mr-2 cursor-pointer underline-offset-2 hover:underline"
                   >
-                    {employee.name}
+                    <Link href={`/staff/${employee.id}`}> {employee.name}</Link>
                   </Heading>
 
                   <Heading size={"xxs"} className="text-left font-normal">
@@ -350,26 +348,30 @@ export default function NewSchedulePage() {
       </section>
 
       {showCalendar && (
-        <Dialog open onOpenChange={() => setShowCalendar(false)}>
-          <DialogContent className="mx-auto flex flex-col">
-            <div className="mx-auto">
-              <DialogHeader>
-                <DialogTitle className="text-xl">Choose a Month</DialogTitle>
-              </DialogHeader>
-
-              <Calendar
-                maxDetail="year"
-                next2Label={null}
-                prev2Label={null}
-                onChange={(value: any) => {
-                  setValue(value);
-                  handleMonthChange(value);
-                  setShowCalendar(false);
-                }}
-              />
-            </div>
-          </DialogContent>
-        </Dialog>
+        <AlertDialog open>
+          <AlertDialogContent className="justify-center">
+            <Button
+              variant={"link"}
+              onClick={() => setShowCalendar(false)}
+              className="absolute right-2 top-0 w-fit p-1"
+            >
+              <XIcon size={16} />
+            </Button>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Choose a Month</AlertDialogTitle>
+            </AlertDialogHeader>
+            <Calendar
+              maxDetail="year"
+              next2Label={null}
+              prev2Label={null}
+              onChange={(value: any) => {
+                setValue(value);
+                handleMonthChange(value);
+                setShowCalendar(false);
+              }}
+            />
+          </AlertDialogContent>
+        </AlertDialog>
       )}
       {showModal && (
         <InfoModal

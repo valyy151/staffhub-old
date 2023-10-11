@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Spinner from "@/components/ui/spinner";
+import Absence from "@/components/Dashboard/Absence";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -109,6 +110,7 @@ export default function DashboardPage() {
 
   const absencesArray:
     | {
+        shifts: { id: string; approved: boolean; date: number }[];
         reason: string;
         absent: boolean;
         approved: boolean;
@@ -130,6 +132,13 @@ export default function DashboardPage() {
 
         if (index === -1) {
           absencesArray.push({
+            shifts: [
+              {
+                id: shift.id,
+                approved: shift.absence.approved,
+                date: shift.date,
+              },
+            ],
             reason: shift.absence.reason,
             absent: shift.absence.absent,
             approved: shift.absence.approved,
@@ -140,6 +149,11 @@ export default function DashboardPage() {
             amount: 1,
           });
         } else {
+          absencesArray[index]!.shifts.push({
+            id: shift.id,
+            date: shift.date,
+            approved: shift.absence.approved,
+          });
           absencesArray[index]!.amount += 1;
         }
       }
@@ -161,8 +175,19 @@ export default function DashboardPage() {
                 open={showCalendar}
                 onOpenChange={() => setShowCalendar(!showCalendar)}
               >
-                <SelectTrigger onClick={() => setShowCalendar(!showCalendar)}>
-                  <SelectValue placeholder="Select a month" />
+                <SelectTrigger
+                  onClick={() => setShowCalendar(!showCalendar)}
+                  className="focus:ring-0 focus:ring-offset-0"
+                >
+                  <SelectValue
+                    placeholder={
+                      value &&
+                      new Date(value).toLocaleDateString("en-GB", {
+                        year: "numeric",
+                        month: "long",
+                      })
+                    }
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <Calendar
@@ -314,7 +339,7 @@ export default function DashboardPage() {
                       title={`${day.notes.length} ${
                         day.notes.length === 1 ? "note" : "notes"
                       }`}
-                      className="mt-auto flex items-center border-b border-transparent px-2 pb-2 text-2xl duration-150 hover:border-primary"
+                      className="mt-auto flex items-center border-b-2 border-transparent px-3 py-2 text-2xl duration-150 hover:border-primary"
                     >
                       {day.notes.length}
                       {day.notes.length > 0 ? (
@@ -335,41 +360,7 @@ export default function DashboardPage() {
                 </Heading>
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
                   {absencesArray.map((absence, index) => (
-                    <div key={index} className="rounded-lg border bg-card py-2">
-                      <Paragraph className="border-b px-2 pb-1">
-                        <Link
-                          className="underline-offset-2 hover:underline"
-                          href={`/staff/${absence.employee.id}`}
-                        >
-                          {absence.employee.name}{" "}
-                        </Link>
-                      </Paragraph>
-
-                      <div className="flex justify-between px-2 pt-4">
-                        <Paragraph size={"sm"}>
-                          <span className="font-light">Reason:</span>{" "}
-                          {absence.reason}
-                        </Paragraph>
-                        <Paragraph size={"sm"}>
-                          <span className="font-light"> Amount: </span>{" "}
-                          {absence.amount}
-                        </Paragraph>
-                        <Paragraph
-                          size={"sm"}
-                          className={`${
-                            absence.approved
-                              ? "text-green-500"
-                              : "text-rose-500"
-                          }`}
-                        >
-                          <span className={"font-light text-foreground"}>
-                            {" "}
-                            Approved:{" "}
-                          </span>{" "}
-                          {absence.approved ? "Yes" : "No"}
-                        </Paragraph>
-                      </div>
-                    </div>
+                    <Absence absence={absence} key={index} />
                   ))}
                 </div>
               </>
