@@ -133,11 +133,9 @@ export default function EmployeeRolesPage({ query }: EmployeeRolesPageProps) {
           {employee?.name} has the following roles:
         </Heading>
         {employee?.roles!.length > 0 ? (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Role</TableHead>
-              </TableRow>
+          <Table className="border">
+            <TableHeader className="border-b">
+              <TableHead>Role</TableHead>
             </TableHeader>
             <TableBody>
               {employee?.roles?.map((role) => (

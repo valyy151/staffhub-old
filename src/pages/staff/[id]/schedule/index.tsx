@@ -101,25 +101,21 @@ export default function SchedulePage({ query }: SchedulePageProps) {
       <Sidebar employee={employee} employees={employees} />
       <div className="mt-4 flex">
         <section>
-          <Heading size={"xs"} className="mb-4 ml-2 ">
+          <Heading size={"xs"} className="mb-4 ml-2">
             {month} - {calculateTotalHours(employee?.workDays)} hours
           </Heading>
-
-          <Table className="min-w-[35vw] grow border">
-            <TableHeader>
-              <TableRow>
+          <div className="max-h-[84.2vh] overflow-y-scroll border">
+            <Table className="min-w-[40vw]">
+              <TableHeader className="sticky top-0 bg-background shadow shadow-border dark:shadow-md dark:shadow-border">
+                <TableHead className="border-r">Day</TableHead>
                 <TableHead className="border-r">Date</TableHead>
-                <TableHead className="border-r">Shift</TableHead>
-                <TableHead className="text-right">Day</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {employee?.workDays.map((day) => (
-                <TableRow key={day.id}>
-                  <TableCell className="flex space-x-4 border-r font-medium">
-                    <Link
-                      href={`/days/${day.id}/shifts`}
-                      className={`underline-offset-2 hover:underline ${
+                <TableHead className="text-right">Shift</TableHead>
+              </TableHeader>
+              <TableBody>
+                {employee?.workDays.map((day) => (
+                  <TableRow key={day.id}>
+                    <TableCell
+                      className={`border-r ${
                         (new Date(day.date * 1000).toLocaleDateString("en-GB", {
                           weekday: "short",
                         }) === "Sat" &&
@@ -130,56 +126,77 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                           "font-bold text-rose-500")
                       }`}
                     >
-                      {formatDateLong(day.date)}
-                    </Link>
-                  </TableCell>
+                      <Link
+                        href={`/days/${day.id}/shifts`}
+                        className={`py-3 pr-2 underline-offset-2 hover:underline`}
+                      >
+                        {new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                          weekday: "short",
+                        })}
+                      </Link>
+                    </TableCell>
+                    <TableCell
+                      className={`border-r font-medium  ${
+                        (new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                          weekday: "short",
+                        }) === "Sat" &&
+                          "font-bold text-rose-500") ||
+                        (new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                          weekday: "short",
+                        }) === "Sun" &&
+                          "font-bold text-rose-500")
+                      }`}
+                    >
+                      <Link
+                        href={`/days/${day.id}/shifts`}
+                        className={`py-3 pr-2 underline-offset-2 hover:underline`}
+                      >
+                        {formatDateLong(day.date)}
+                      </Link>
+                    </TableCell>
 
-                  <TableCell className="border-r">
-                    {!day.shifts[0]?.start && day.vacation && (
-                      <span className="italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
-                        Vacation
-                      </span>
-                    )}
-                    {!day.shifts[0]?.start && day.sickLeave && (
-                      <span className="italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
-                        Sick
-                      </span>
-                    )}
-                    {day.shifts[0]?.start && (
-                      <>
-                        {formatTime(day.shifts[0]?.start)} -{" "}
-                        {formatTime(day.shifts[0]?.end)}{" "}
-                        <span className="font-medium">
-                          [{" "}
-                          {formatTotal(
-                            day.shifts[0]?.start,
-                            day.shifts[0]?.end
-                          )}
-                          ]
-                        </span>{" "}
-                      </>
-                    )}
-                  </TableCell>
-                  <TableCell
-                    className={`text-right ${
-                      (new Date(day.date * 1000).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                      }) === "Sat" &&
-                        "font-bold text-rose-500") ||
-                      (new Date(day.date * 1000).toLocaleDateString("en-GB", {
-                        weekday: "short",
-                      }) === "Sun" &&
-                        "font-bold text-rose-500")
-                    }`}
-                  >
-                    {new Date(day.date * 1000).toLocaleDateString("en-GB", {
-                      weekday: "short",
-                    })}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+                    <TableCell
+                      className={`text-right ${
+                        (new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                          weekday: "short",
+                        }) === "Sat" &&
+                          "font-bold text-rose-500") ||
+                        (new Date(day.date * 1000).toLocaleDateString("en-GB", {
+                          weekday: "short",
+                        }) === "Sun" &&
+                          "font-bold text-rose-500")
+                      }`}
+                    >
+                      {!day.shifts[0]?.start && day.vacation && (
+                        <span className="py-3 pl-2 italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
+                          Vacation
+                        </span>
+                      )}
+                      {!day.shifts[0]?.start && day.sickLeave && (
+                        <span className="py-3 pl-2 italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
+                          Sick
+                        </span>
+                      )}
+                      {day.shifts[0]?.start && (
+                        <>
+                          {formatTime(day.shifts[0]?.start)} -{" "}
+                          {formatTime(day.shifts[0]?.end)}{" "}
+                          <span className="py-3 pl-2 font-medium">
+                            [{" "}
+                            {formatTotal(
+                              day.shifts[0]?.start,
+                              day.shifts[0]?.end
+                            )}
+                            ]
+                          </span>{" "}
+                        </>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </section>
 
         <div className="relative ml-8 mt-12">
