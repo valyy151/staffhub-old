@@ -1,30 +1,33 @@
-type Shift = {
-  start: number;
-  end: number;
-};
-
 type WorkDay = {
-  start?: number;
-  end?: number;
-  total?: number;
+  vacation: boolean;
+  sickLeave: boolean;
+  shift:
+    | {
+        id: string;
+        start: number;
+        end: number;
+        employeeId: string;
+        userId: string;
+        date: number;
+        roleId: string | null;
+        absenceId: string | null;
+      }
+    | undefined;
+  id: string;
   date: number;
-  shifts: Shift[];
 };
 
 export function calculateTotalHours(days: WorkDay[]) {
   const totalHours = days?.reduce((acc: number, day: WorkDay) => {
-    const dayHours = day.shifts.reduce((dayAcc: number, shift: Shift) => {
-      if (shift.start && shift.end) {
-        const start = shift.start;
-        const end = shift.end;
-        const hours = (end - start) / 3600;
-        return dayAcc + hours;
-      } else {
-        return dayAcc; // Skip shifts without start and end properties
-      }
-    }, 0);
-    return acc + dayHours;
+    if (day.shift?.start && day.shift?.end) {
+      const start = day.shift?.start;
+      const end = day.shift?.end;
+      const hours = (end - start) / 3600;
+      return acc + hours;
+    }
+    return acc;
   }, 0);
+
   return totalHours;
 }
 

@@ -10,8 +10,6 @@ import { calculateTotalHours } from "~/utils/calculateHours";
 import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
 import {
   formatDateLong,
-  formatTime,
-  formatTotal,
   getMonthBoundaryTimestamps,
 } from "~/utils/dateFormatting";
 
@@ -25,6 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Shift from "@/components/Staff/Shift";
 
 const PDFButton = dynamic(() => import("@/components/PDFButton"), {
   ssr: false,
@@ -113,7 +112,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
               </TableHeader>
               <TableBody>
                 {employee?.workDays.map((day) => (
-                  <TableRow key={day.id}>
+                  <TableRow key={day.id} className="hover:bg-inherit">
                     <TableCell
                       className={`border-r ${
                         (new Date(day.date * 1000).toLocaleDateString("en-GB", {
@@ -155,43 +154,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                       </Link>
                     </TableCell>
 
-                    <TableCell
-                      className={`text-right ${
-                        (new Date(day.date * 1000).toLocaleDateString("en-GB", {
-                          weekday: "short",
-                        }) === "Sat" &&
-                          "font-bold text-rose-500") ||
-                        (new Date(day.date * 1000).toLocaleDateString("en-GB", {
-                          weekday: "short",
-                        }) === "Sun" &&
-                          "font-bold text-rose-500")
-                      }`}
-                    >
-                      {!day.shifts[0]?.start && day.vacation && (
-                        <span className="py-3 pl-2 italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
-                          Vacation
-                        </span>
-                      )}
-                      {!day.shifts[0]?.start && day.sickLeave && (
-                        <span className="py-3 pl-2 italic group-hover:text-gray-800 dark:group-hover:text-gray-300">
-                          Sick
-                        </span>
-                      )}
-                      {day.shifts[0]?.start && (
-                        <>
-                          {formatTime(day.shifts[0]?.start)} -{" "}
-                          {formatTime(day.shifts[0]?.end)}{" "}
-                          <span className="py-3 pl-2 font-medium">
-                            [{" "}
-                            {formatTotal(
-                              day.shifts[0]?.start,
-                              day.shifts[0]?.end
-                            )}
-                            ]
-                          </span>{" "}
-                        </>
-                      )}
-                    </TableCell>
+                    <Shift day={day} />
                   </TableRow>
                 ))}
               </TableBody>
@@ -200,19 +163,17 @@ export default function SchedulePage({ query }: SchedulePageProps) {
         </section>
 
         <div className="relative ml-8 mt-12">
-          <div className="fixed">
-            <Calendar
-              value={value}
-              view={"month"}
-              maxDetail="year"
-              className="h-fit"
-              next2Label={null}
-              prev2Label={null}
-              activeStartDate={value}
-              onChange={handleMonthChange}
-            />
-            <PDFButton employee={employee} value={value} month={month} />
-          </div>
+          <Calendar
+            value={value}
+            view={"month"}
+            maxDetail="year"
+            className="h-fit"
+            next2Label={null}
+            prev2Label={null}
+            activeStartDate={value}
+            onChange={handleMonthChange}
+          />
+          <PDFButton employee={employee} value={value} month={month} />
         </div>
       </div>
     </main>
