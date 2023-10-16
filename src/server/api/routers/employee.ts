@@ -249,6 +249,7 @@ export const employeeRouter = createTRPCRouter({
               vacation: false,
               sickLeave: false,
               shift: dayShifts[0],
+              shiftModels: allShiftModels,
             };
           });
 

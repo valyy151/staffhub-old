@@ -1,20 +1,18 @@
 type WorkDay = {
-  vacation: boolean;
-  sickLeave: boolean;
-  shift:
-    | {
-        id: string;
-        start: number;
-        end: number;
-        employeeId: string;
-        userId: string;
-        date: number;
-        roleId: string | null;
-        absenceId: string | null;
-      }
-    | undefined;
   id: string;
   date: number;
+  vacation: boolean;
+  sickLeave: boolean;
+  shift?: {
+    id: string;
+    start: number;
+    end: number;
+    employeeId: string;
+    userId: string;
+    date: number;
+    roleId: string | null;
+    absenceId: string | null;
+  };
 };
 
 export function calculateTotalHours(days: WorkDay[]) {

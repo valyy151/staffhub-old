@@ -1,16 +1,24 @@
-import { Check, ChevronsUpDown } from 'lucide-react';
-import React from 'react';
+import { Check, ChevronsUpDown } from "lucide-react";
+import React from "react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
-    Command, CommandEmpty, CommandGroup, CommandInput, CommandItem
-} from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 type RolesDropdownProps = {
   role: { name: string; id: string };
-  roles: { name: string; id: string }[];
+  roles: { name: string; id: string }[] | undefined;
   setRole: (role: { name: string; id: string }) => void;
 };
 

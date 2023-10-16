@@ -1,29 +1,35 @@
 import { TableCell } from "@/components/ui/table";
 import { useState } from "react";
 import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import EditShift from "./EditShift";
+import { EmployeeProfile } from "~/utils/api";
 
 type Props = {
+  employee: EmployeeProfile;
   day: {
     vacation: boolean;
     sickLeave: boolean;
-    shift:
-      | {
-          id: string;
-          start: number;
-          end: number;
-          employeeId: string;
-          userId: string;
-          date: number;
-          roleId: string | null;
-          absenceId: string | null;
-        }
-      | undefined;
+    shift?: {
+      id: string;
+      start: number;
+      end: number;
+      employeeId: string;
+      userId: string;
+      date: number;
+      roleId: string | null;
+      absenceId: string | null;
+    };
+    shiftModels: {
+      id: string;
+      end: number;
+      start: number;
+    }[];
     id: string;
     date: number;
   };
 };
 
-export default function Shift({ day }: Props) {
+export default function Shift({ day, employee }: Props) {
   const isVacation = !day.shift?.start && day.vacation;
   const isSick = !day.shift?.start && day.sickLeave;
 
@@ -50,12 +56,12 @@ export default function Shift({ day }: Props) {
 
     if (hasShift) {
       return (
-        <>
+        <span className="py-3 pl-2">
           {formatTime(day.shift?.start!)} - {formatTime(day.shift?.end!)}{" "}
-          <span className="py-3 pl-2 font-medium">
+          <span className="font-medium">
             [{formatTotal(day.shift?.start!, day.shift?.end!)}]
           </span>
-        </>
+        </span>
       );
     }
   };
@@ -78,6 +84,15 @@ export default function Shift({ day }: Props) {
       >
         {renderShift()}
       </TableCell>
+      {edit && (
+        <EditShift
+          date={day.date}
+          shift={day.shift}
+          setEdit={setEdit}
+          employee={employee}
+          shiftModels={day.shiftModels}
+        />
+      )}
     </>
   );
 }

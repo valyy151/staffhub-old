@@ -52,6 +52,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
     id: query.id,
     endOfMonth,
     startOfMonth,
+    fetchShiftModels: true,
   });
 
   const { data: employees } = api.employee.find.useQuery();
@@ -154,7 +155,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
                       </Link>
                     </TableCell>
 
-                    <Shift day={day} />
+                    <Shift employee={employee} day={day} />
                   </TableRow>
                 ))}
               </TableBody>
