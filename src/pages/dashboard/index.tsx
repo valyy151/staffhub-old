@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import Spinner from "@/components/ui/spinner";
 import Absence from "@/components/Dashboard/Absence";
+import { useRouter } from "next/router";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -51,13 +52,19 @@ export default function DashboardPage() {
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [workDays, setWorkDays] = useState<DashboardWorkDay[] | null>(null);
 
+  const router = useRouter();
+
   const { data, isFetching } = api.dashboard.find.useQuery({
-    skip: skip,
-    date: value,
+    skip: Number(router.query.skip),
+    month: new Date(Number(router.query.month) / 1000),
   });
 
   const { data: firstAndLastDays } =
     api.dashboard.findFirstAndLastDay.useQuery();
+
+  useEffect(() => {
+    router.push(`/dashboard?skip=${skip}&month=${value.getTime() * 1000}`);
+  }, [skip, value]);
 
   useEffect(() => {
     if (data) {

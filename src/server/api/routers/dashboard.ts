@@ -1,15 +1,15 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const dashboardRouter = createTRPCRouter({
   find: protectedProcedure
     .input(
       z.object({
-        date: z.date(),
+        month: z.date(),
         skip: z.number(),
       })
     )
-    .query(async ({ input: { skip, date }, ctx }) => {
+    .query(async ({ input: { skip, month }, ctx }) => {
       const hasEmployees = await ctx.prisma.employee.findFirstOrThrow({
         where: { userId: ctx.session.user.id },
       });
@@ -19,9 +19,9 @@ export const dashboardRouter = createTRPCRouter({
       }
 
       const startOfWeek = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate() - date.getDay() + skip * 7 + 1
+        month.getFullYear(),
+        month.getMonth(),
+        month.getDate() - month.getDay() + skip * 7 + 1
       );
 
       const workDaysPromise = ctx.prisma.workDay.findMany({
