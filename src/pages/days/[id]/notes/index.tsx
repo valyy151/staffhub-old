@@ -76,7 +76,11 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
           {formatDay(workDay.date)}, {formatDateLong(workDay.date)}
         </h1>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-medium">Notes</h2>
+          {workDay.notes.length > 0 ? (
+            <h2 className="text-lg font-medium">Notes</h2>
+          ) : (
+            <h2 className="text-lg font-medium">No Notes</h2>
+          )}
           <Button onClick={() => setShowAddNote(true)}>
             <Clock className="mr-2" size={16} />
             New Note

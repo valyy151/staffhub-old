@@ -1,12 +1,6 @@
 import "react-calendar/dist/Calendar.css";
 
-import {
-  CalendarOff,
-  CalendarPlus,
-  Scroll,
-  ScrollText,
-  User,
-} from "lucide-react";
+import { CalendarOff, Scroll, ScrollText, User } from "lucide-react";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -16,7 +10,7 @@ import Calendar from "react-calendar";
 import { api, DashboardWorkDay } from "~/utils/api";
 import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import Paragraph from "@/components/ui/paragraph";
 import {
@@ -56,19 +50,28 @@ export default function DashboardPage() {
 
   const { data, isFetching } = api.dashboard.find.useQuery({
     skip: Number(router.query.skip),
-    month: new Date(Number(router.query.month) / 1000),
+    month: new Date(
+      `${String(router.query.month).split("/").reverse().join("/")} 00:00:00`
+    ),
   });
 
   const { data: firstAndLastDays } =
     api.dashboard.findFirstAndLastDay.useQuery();
 
   useEffect(() => {
-    router.push(`/dashboard?skip=${skip}&month=${value.getTime() * 1000}`);
+    router.push(
+      `/dashboard?skip=${skip}&month=${value.toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "numeric",
+      })}`,
+      undefined,
+      { shallow: true }
+    );
   }, [skip, value]);
 
   useEffect(() => {
-    if (data) {
-      setWorkDays(data);
+    if (data && data.length > 0) {
+      setWorkDays(data!);
     }
   }, [data]);
 
@@ -76,27 +79,27 @@ export default function DashboardPage() {
     setSkip(0);
   }, [value]);
 
-  if (data?.length === 0) {
-    return (
-      <main className="flex flex-col items-center">
-        <Head>
-          <title>Dashboard | StaffHub</title>
-          <meta name="Dashboard" content="Manage your schedules" />
-        </Head>
-        <Heading className="mt-6" size={"xs"}>
-          You do not currently have any created schedules.
-        </Heading>
+  // if (data?.length === 0) {
+  //   return (
+  //     <main className="flex flex-col items-center">
+  //       <Head>
+  //         <title>Dashboard | StaffHub</title>
+  //         <meta name="Dashboard" content="Manage your schedules" />
+  //       </Head>
+  //       <Heading className="mt-6" size={"xs"}>
+  //         You do not currently have any created schedules.
+  //       </Heading>
 
-        <Heading size={"xxs"} className="mt-2">
-          Click below if you wish to create a schedule.
-        </Heading>
+  //       <Heading size={"xxs"} className="mt-2">
+  //         Click below if you wish to create a schedule.
+  //       </Heading>
 
-        <Link className={`mt-4 ${buttonVariants()}`} href={"/schedule"}>
-          <CalendarPlus className="mr-2" /> New Schedule
-        </Link>
-      </main>
-    );
-  }
+  //       <Link className={`mt-4 ${buttonVariants()}`} href={"/schedule"}>
+  //         <CalendarPlus className="mr-2" /> New Schedule
+  //       </Link>
+  //     </main>
+  //   );
+  // }
 
   if (!workDays) {
     return <Spinner />;

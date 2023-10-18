@@ -1,18 +1,29 @@
-import { getSession } from 'next-auth/react';
-import { GetServerSideProps } from 'next/types';
-import { useState } from 'react';
-import { api } from '~/utils/api';
+import { getSession } from "next-auth/react";
+import { GetServerSideProps } from "next/types";
+import { useState } from "react";
+import { api } from "~/utils/api";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
-    Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
-    Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue
-} from '@/components/ui/select';
-import { useToast } from '@/components/ui/use-toast';
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -83,7 +94,6 @@ export default function NewEmployeePage() {
                 <Input
                   id="first-name"
                   placeholder="John"
-                  required
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                 />
@@ -93,7 +103,6 @@ export default function NewEmployeePage() {
                 <Input
                   id="last-name"
                   placeholder="Doe"
-                  required
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                 />
@@ -104,31 +113,32 @@ export default function NewEmployeePage() {
               <Input
                 id="email"
                 placeholder="johndoe@example.com"
-                required
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="role">Role</Label>
-              <Select onValueChange={(value) => setRole(value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Role</SelectLabel>
-                    {roles?.map((role) => (
-                      <SelectItem key={role.id} value={role.id}>
-                        {role.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
+            {roles?.length! > 0 && (
+              <div className="space-y-2">
+                <Label htmlFor="role">Role</Label>
+                <Select onValueChange={(value) => setRole(value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Role</SelectLabel>
+                      {roles?.map((role) => (
+                        <SelectItem key={role.id} value={role.id}>
+                          {role.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
         </CardContent>
         <CardFooter>

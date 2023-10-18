@@ -1,15 +1,22 @@
-import { ClipboardList, Clock, UserCog } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay } from '~/utils/dateFormatting';
+import { ClipboardList, Clock, UserCog } from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-import { Button } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
-import { Table, TableBody, TableHead, TableHeader } from '@/components/ui/table';
-import AddShift from '@/components/WorkDay/AddShift';
-import Shift from '@/components/WorkDay/Shift';
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+} from "@/components/ui/table";
+import AddShift from "@/components/WorkDay/AddShift";
+import Shift from "@/components/WorkDay/Shift";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 type WorkDayPageProps = {
   query: { id: string };
@@ -21,6 +28,7 @@ WorkDayPage.getInitialProps = ({ query }: WorkDayPageProps) => {
 
 export default function WorkDayPage({ query }: WorkDayPageProps) {
   const [showAddShift, setShowAddShift] = useState(false);
+  const { toast } = useToast();
 
   const { data, failureReason } = api.workDay.findOne.useQuery({
     id: query.id,
@@ -80,6 +88,20 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
   //   return roles;
   // }
 
+  const handleNewShift = () => {
+    if (!data?.hasEmployees) {
+      return toast({
+        title: "You need to add employees before you can add shifts.",
+        action: (
+          <ToastAction altText="Add employees">
+            <Link href={`/staff/new`}>Add employees</Link>
+          </ToastAction>
+        ),
+      });
+    }
+    setShowAddShift(true);
+  };
+
   return (
     <div className="flex">
       <aside className="sticky top-0 h-screen w-56 border-r p-4">
@@ -113,29 +135,35 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
           {formatDay(workDay.date)}, {formatDateLong(workDay.date)}
         </h1>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-medium">Shifts</h2>
-          <Button onClick={() => setShowAddShift(true)}>
+          {workDay.shifts.length > 0 ? (
+            <h2 className="text-lg font-medium">Shifts</h2>
+          ) : (
+            <h2 className="text-lg font-medium">No shifts</h2>
+          )}
+          <Button onClick={handleNewShift}>
             <Clock className="mr-2" size={16} />
             New Shift
           </Button>
         </div>
 
-        <Table>
-          <TableHeader>
-            <TableHead>Employee</TableHead>
-            <TableHead>Time</TableHead>
-            <TableHead>Role</TableHead>
-            <TableHead>Hours</TableHead>
-            <TableHead className="text-right">Absence</TableHead>
-          </TableHeader>
-          <TableBody>
-            {workDay.shifts
-              .sort((a, b) => a.start - b.start)
-              .map((shift) => (
-                <Shift shift={shift} shiftModels={workDay.shiftModels} />
-              ))}
-          </TableBody>
-        </Table>
+        {workDay.shifts.length > 0 && (
+          <Table>
+            <TableHeader>
+              <TableHead>Employee</TableHead>
+              <TableHead>Time</TableHead>
+              <TableHead>Role</TableHead>
+              <TableHead>Hours</TableHead>
+              <TableHead className="text-right">Absence</TableHead>
+            </TableHeader>
+            <TableBody>
+              {workDay.shifts
+                .sort((a, b) => a.start - b.start)
+                .map((shift) => (
+                  <Shift shift={shift} shiftModels={workDay.shiftModels} />
+                ))}
+            </TableBody>
+          </Table>
+        )}
       </main>
       {showAddShift && (
         <AddShift data={workDay} setShowAddShift={setShowAddShift} />

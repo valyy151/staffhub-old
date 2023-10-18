@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const workDayRouter = createTRPCRouter({
   yearExists: protectedProcedure
@@ -40,6 +40,10 @@ export const workDayRouter = createTRPCRouter({
   findOne: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input: { id }, ctx }) => {
+      const hasEmployees = await ctx.prisma.employee.findFirst({
+        where: { userId: ctx.session.user.id },
+      });
+
       const workDayPromise = ctx.prisma.workDay.findUnique({
         where: { id },
       });
@@ -94,6 +98,6 @@ export const workDayRouter = createTRPCRouter({
         shiftModelsPromise,
       ]);
 
-      return { ...workDay, roles, notes, shifts, shiftModels };
+      return { ...workDay, roles, notes, shifts, shiftModels, hasEmployees };
     }),
 });

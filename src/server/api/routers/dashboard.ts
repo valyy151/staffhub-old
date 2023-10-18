@@ -10,14 +10,6 @@ export const dashboardRouter = createTRPCRouter({
       })
     )
     .query(async ({ input: { skip, month }, ctx }) => {
-      const hasEmployees = await ctx.prisma.employee.findFirstOrThrow({
-        where: { userId: ctx.session.user.id },
-      });
-
-      if (!hasEmployees) {
-        return [];
-      }
-
       const startOfWeek = new Date(
         month.getFullYear(),
         month.getMonth(),

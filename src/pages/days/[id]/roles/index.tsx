@@ -1,14 +1,14 @@
-import { ClipboardList, Clock, UserCog } from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useEffect, useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay } from '~/utils/dateFormatting';
+import { ClipboardList, Clock, UserCog } from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useEffect, useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-import { buttonVariants } from '@/components/ui/button';
-import Spinner from '@/components/ui/spinner';
-import { Table, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import AddShift from '@/components/WorkDay/AddShift';
+import { buttonVariants } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
+import { Table, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import AddShift from "@/components/WorkDay/AddShift";
 
 type WorkDayPageProps = {
   query: { id: string };
@@ -111,7 +111,11 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
           {formatDay(workDay.date)}, {formatDateLong(workDay.date)}
         </h1>
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-medium">Roles</h2>
+          {workDay.roles.length > 0 ? (
+            <h2 className="text-lg font-medium">Roles</h2>
+          ) : (
+            <h2 className="text-lg font-medium">No Roles</h2>
+          )}
           <Link href={`/settings/roles`} className={buttonVariants()}>
             <UserCog className="mr-2" size={16} />
             New Role
