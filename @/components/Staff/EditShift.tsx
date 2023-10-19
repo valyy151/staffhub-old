@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import RolesDropdown from "../WorkDay/RolesDropdown";
 import Heading from "../ui/heading";
+import { Button } from "@/components/ui/button";
+import FormModal from "@/components/ui/form-modal";
 
 type Props = {
   date: number;
@@ -48,6 +50,8 @@ export default function EditShift({
 }: Props) {
   const [end, setEnd] = useState<number>(shift?.end ?? 0);
   const [start, setStart] = useState<number>(shift?.start ?? 0);
+
+  const [showDelete, setShowDelete] = useState<boolean>(false);
 
   const [role, setRole] = useState<{ name: string; id: string }>({
     id: "",
@@ -101,6 +105,23 @@ export default function EditShift({
     },
   });
 
+  const deleteShiftMutation = api.shift.delete.useMutation({
+    onSuccess: () => {
+      setEdit(false);
+      void queryClient.invalidateQueries();
+      toast({
+        title: "Shift deleted successfully.",
+      });
+    },
+
+    onError: () => {
+      toast({
+        title: "There was a problem deleting the shift.",
+        variant: "destructive",
+      });
+    },
+  });
+
   function updateShift(shiftId: string | null) {
     if (!shiftId) {
       createShiftMutation.mutate({
@@ -118,94 +139,121 @@ export default function EditShift({
     });
   }
 
-  return (
-    <AlertDialog open>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            {employee.name} -{"  "}
-            {new Date(date * 1000).toLocaleDateString("en-GB", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </AlertDialogTitle>
-        </AlertDialogHeader>
-        <div className="flex w-fit flex-col">
-          {employee?.roles?.length! > 0 && (
-            <RolesDropdown
-              role={role}
-              setRole={setRole}
-              roles={employee.roles}
-            />
-          )}
-          <div className="mt-4 flex space-x-1">
-            <div>
-              <Label className="ml-2">Start</Label>
-              <Input
-                value={formatTime(start)}
-                className="w-36 text-lg"
-                onChange={(e) => {
-                  handleTimeChange(e.target.value, "start");
-                }}
-              />
-            </div>
-            <div>
-              <Label className="ml-2">End</Label>
-              <Input
-                value={formatTime(end)}
-                className="w-36 text-lg"
-                onChange={(e) => {
-                  handleTimeChange(e.target.value, "end");
-                }}
-              />
-            </div>
-            <div>
-              <Label className="ml-4">Total</Label>
-              <Heading
-                size={"xs"}
-                className="h-14 border-none px-4 py-1 text-2xl disabled:cursor-default"
-              >
-                {formatTotal(start, end)}
-              </Heading>
-            </div>
-          </div>
-        </div>
-        <div>
-          <Heading size={"xs"}>Choose a shift:</Heading>
-          <div className="mt-1 flex space-x-8">
-            {shiftModels
-              .sort((a, b) => a.start - b.start)
-              .map((shiftModel) => (
-                <Heading
-                  size={"xxs"}
-                  onClick={() => {
-                    handleTimeChange(formatTime(shiftModel.start)!!, "start");
-                    handleTimeChange(
-                      formatTime(shiftModel.end) === "00:00"
-                        ? "24:00"
-                        : formatTime(shiftModel.end)!!,
-                      "end"
-                    );
-                  }}
-                  className="cursor-pointer font-medium hover:text-sky-500"
-                >
-                  {formatTime(shiftModel.start)} - {formatTime(shiftModel.end)}
-                </Heading>
-              ))}
-          </div>
-        </div>
+  function deleteShift() {
+    deleteShiftMutation.mutate({
+      shiftId: shift?.id!,
+    });
+  }
 
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => setEdit(false)}>
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={() => updateShift(shift?.id ?? null)}>
-            Continue
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+  return (
+    <>
+      <AlertDialog open>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              {employee.name} -{"  "}
+              {new Date(date * 1000).toLocaleDateString("en-GB", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </AlertDialogTitle>
+          </AlertDialogHeader>
+          <div className="flex w-fit flex-col">
+            {employee?.roles?.length! > 0 && (
+              <RolesDropdown
+                role={role}
+                setRole={setRole}
+                roles={employee.roles}
+              />
+            )}
+            <div className="mt-4 flex space-x-1">
+              <div>
+                <Label className="ml-2">Start</Label>
+                <Input
+                  value={formatTime(start)}
+                  className="w-36 text-lg"
+                  onChange={(e) => {
+                    handleTimeChange(e.target.value, "start");
+                  }}
+                />
+              </div>
+              <div>
+                <Label className="ml-2">End</Label>
+                <Input
+                  value={formatTime(end)}
+                  className="w-36 text-lg"
+                  onChange={(e) => {
+                    handleTimeChange(e.target.value, "end");
+                  }}
+                />
+              </div>
+              <div>
+                <Label className="ml-4">Total</Label>
+                <Heading
+                  size={"xs"}
+                  className="h-14 border-none px-4 py-1 text-2xl disabled:cursor-default"
+                >
+                  {formatTotal(start, end)}
+                </Heading>
+              </div>
+            </div>
+          </div>
+          <div>
+            <Heading size={"xs"}>Choose a shift:</Heading>
+            <div className="mt-1 flex space-x-8">
+              {shiftModels
+                .sort((a, b) => a.start - b.start)
+                .map((shiftModel) => (
+                  <Heading
+                    size={"xxs"}
+                    onClick={() => {
+                      handleTimeChange(formatTime(shiftModel.start)!!, "start");
+                      handleTimeChange(
+                        formatTime(shiftModel.end) === "00:00"
+                          ? "24:00"
+                          : formatTime(shiftModel.end)!!,
+                        "end"
+                      );
+                    }}
+                    className="cursor-pointer font-medium hover:text-sky-500"
+                  >
+                    {formatTime(shiftModel.start)} -{" "}
+                    {formatTime(shiftModel.end)}
+                  </Heading>
+                ))}
+            </div>
+          </div>
+
+          <AlertDialogFooter className="mt-2">
+            {shift && (
+              <Button
+                variant={"link"}
+                onClick={() => setShowDelete(true)}
+                className="mr-auto pb-0 pl-0 hover:text-rose-500"
+              >
+                Delete Shift
+              </Button>
+            )}
+            <AlertDialogCancel onClick={() => setEdit(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={() => updateShift(shift?.id ?? null)}>
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      {showDelete && (
+        <FormModal
+          submit={deleteShift}
+          showModal={showDelete}
+          heading="Are you absolutely sure?"
+          cancel={() => setShowDelete(false)}
+          text="Are you sure you want to delete this shift?"
+        />
+      )}
+    </>
   );
 }

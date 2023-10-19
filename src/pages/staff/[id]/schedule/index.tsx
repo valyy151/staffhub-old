@@ -38,7 +38,7 @@ SchedulePage.getInitialProps = ({ query }: SchedulePageProps) => {
 };
 
 export default function SchedulePage({ query }: SchedulePageProps) {
-  const [value, setValue] = useState<Date>(new Date());
+  const [value, setValue] = useState<any>(new Date());
 
   const [startOfMonth, endOfMonth] = getMonthBoundaryTimestamps(value);
   const [month, setMonth] = useState<string>(
@@ -88,10 +88,6 @@ export default function SchedulePage({ query }: SchedulePageProps) {
     }
   }, [data]);
 
-  function handleMonthChange(date: any) {
-    setValue(date);
-  }
-
   if (!employee) {
     return <Sidebar />;
   }
@@ -102,9 +98,10 @@ export default function SchedulePage({ query }: SchedulePageProps) {
       <div className="mt-4 flex">
         <section>
           <Heading size={"xs"} className="mb-4 ml-2">
-            {month} - {calculateTotalHours(employee?.workDays)} hours
+            {employee?.name}, {month} -{" "}
+            {calculateTotalHours(employee?.workDays)} hours
           </Heading>
-          <div className="max-h-[84.2vh] overflow-y-scroll border">
+          <div className="max-h-[82vh] overflow-y-scroll border">
             <Table className="min-w-[40vw]">
               <TableHeader className="sticky top-0 bg-background shadow shadow-border dark:shadow-md dark:shadow-border">
                 <TableHead className="border-r">Day</TableHead>
@@ -172,7 +169,7 @@ export default function SchedulePage({ query }: SchedulePageProps) {
             next2Label={null}
             prev2Label={null}
             activeStartDate={value}
-            onChange={handleMonthChange}
+            onChange={(value) => setValue(value)}
           />
           <PDFButton employee={employee} value={value} month={month} />
         </div>

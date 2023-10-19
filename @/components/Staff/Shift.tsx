@@ -71,7 +71,7 @@ export default function Shift({ day, employee }: Props) {
       <TableCell
         title="Click to edit shift"
         onClick={() => setEdit(!edit)}
-        className={`cursor-pointer text-right hover:bg-muted/50 ${
+        className={`cursor-pointer text-right hover:bg-accent ${
           (new Date(day.date * 1000).toLocaleDateString("en-GB", {
             weekday: "short",
           }) === "Sat" &&
