@@ -6,14 +6,14 @@ export const dashboardRouter = createTRPCRouter({
     .input(
       z.object({
         month: z.date(),
-        skip: z.number(),
+        page: z.number(),
       })
     )
-    .query(async ({ input: { skip, month }, ctx }) => {
+    .query(async ({ input: { page, month }, ctx }) => {
       const startOfWeek = new Date(
         month.getFullYear(),
         month.getMonth(),
-        month.getDate() - month.getDay() + skip * 7 + 1
+        month.getDate() - month.getDay() + page * 7 + 1
       );
 
       const workDaysPromise = ctx.prisma.workDay.findMany({

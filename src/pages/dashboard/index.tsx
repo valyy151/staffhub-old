@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 };
 
 export default function DashboardPage() {
-  const [skip, setSkip] = useState<number>(0);
+  const [page, setPage] = useState<number>(0);
   const [value, setValue] = useState<Date>(new Date());
   const [showCalendar, setShowCalendar] = useState<boolean>(false);
   const [workDays, setWorkDays] = useState<DashboardWorkDay[] | null>(null);
@@ -49,7 +49,7 @@ export default function DashboardPage() {
   const router = useRouter();
 
   const { data, isFetching } = api.dashboard.find.useQuery({
-    skip: Number(router.query.skip),
+    page: Number(router.query.page),
     month: new Date(
       `${String(router.query.month).split("/").reverse().join("/")} 00:00:00`
     ),
@@ -60,14 +60,14 @@ export default function DashboardPage() {
 
   useEffect(() => {
     router.push(
-      `/dashboard?skip=${skip}&month=${value.toLocaleDateString("en-GB", {
+      `/dashboard?page=${page}&month=${value.toLocaleDateString("en-GB", {
         year: "numeric",
         month: "numeric",
       })}`,
       undefined,
       { shallow: true }
     );
-  }, [skip, value]);
+  }, [page, value]);
 
   useEffect(() => {
     if (data && data.length > 0) {
@@ -76,7 +76,7 @@ export default function DashboardPage() {
   }, [data]);
 
   useEffect(() => {
-    setSkip(0);
+    setPage(0);
   }, [value]);
 
   // if (data?.length === 0) {
@@ -221,7 +221,7 @@ export default function DashboardPage() {
                   title="Previous Week"
                   disabled={isFetching}
                   className="rounded-lg border"
-                  onClick={() => setSkip(skip - 1)}
+                  onClick={() => setPage(page - 1)}
                 >
                   Prev Week
                 </Button>
@@ -231,7 +231,7 @@ export default function DashboardPage() {
                   title="Next Week"
                   disabled={isFetching}
                   className="rounded-lg border"
-                  onClick={() => setSkip(skip + 1)}
+                  onClick={() => setPage(page + 1)}
                 >
                   Next Week
                 </Button>
