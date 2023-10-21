@@ -59,7 +59,7 @@ export default function NewSchedulePage() {
     }[]
   >(updateMonthData(currentDate));
 
-  const [shift, setShift] = useState<string>();
+  const [shift, setShift] = useState<string>("");
 
   const [yearArray, setYearArray] = useState(
     generateYearArray(currentDate.getFullYear())
@@ -168,7 +168,14 @@ export default function NewSchedulePage() {
   const vacationDays = findVacationDays(employee.vacations, schedule);
 
   return (
-    <main onClick={() => isOpen && setIsOpen(false)} className="p-4">
+    <main
+      onContextMenu={(e) => {
+        e.preventDefault();
+        setShift("");
+      }}
+      onClick={() => isOpen && setIsOpen(false)}
+      className="p-4"
+    >
       <Head>
         <title>Create Schedule | StaffHub</title>
         <meta

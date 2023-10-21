@@ -118,27 +118,35 @@ export default function EditShift({
               <Label className="ml-2">Start</Label>
               <Input
                 value={formatTime(start)}
-                className="w-36 text-2xl"
-                onChange={(e) => {
-                  handleTimeChange(e.target.value, "start");
+                className="text-md w-36"
+                onKeyDown={(e) => {
+                  if (e.key === "Backspace") {
+                    e.currentTarget.select();
+                    handleTimeChange("", "start");
+                  }
                 }}
+                onChange={(e) => handleTimeChange(e.target.value, "start")}
               />
             </div>
             <div>
               <Label className="ml-2">End</Label>
               <Input
                 value={formatTime(end)}
-                className="w-36 text-2xl"
-                onChange={(e) => {
-                  handleTimeChange(e.target.value, "end");
+                className="text-md w-36"
+                onKeyDown={(e) => {
+                  if (e.key === "Backspace") {
+                    e.currentTarget.select();
+                    handleTimeChange("", "end");
+                  }
                 }}
+                onChange={(e) => handleTimeChange(e.target.value, "end")}
               />
             </div>
             <div>
               <Label className="ml-4">Total</Label>
               <Heading
                 size={"xs"}
-                className="h-14 w-16 border-none px-4 py-1 text-2xl disabled:cursor-default"
+                className="h-14 border-none px-4 py-1 text-2xl disabled:cursor-default"
               >
                 {formatTotal(start, end)}
               </Heading>

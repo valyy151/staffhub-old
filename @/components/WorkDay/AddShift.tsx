@@ -175,6 +175,12 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             <Input
               type="text"
               value={formatTime(start)}
+              onKeyDown={(e) => {
+                if (e.key === "Backspace") {
+                  e.currentTarget.select();
+                  handleTimeChange("", "start");
+                }
+              }}
               onChange={(e) => handleTimeChange(e.target.value, "start")}
             />
           </div>
@@ -183,6 +189,12 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
             <Input
               type="text"
               value={formatTime(end)}
+              onKeyDown={(e) => {
+                if (e.key === "Backspace") {
+                  e.currentTarget.select();
+                  handleTimeChange("", "end");
+                }
+              }}
               onChange={(e) => handleTimeChange(e.target.value, "end")}
             />
           </div>

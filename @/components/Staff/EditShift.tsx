@@ -174,9 +174,13 @@ export default function EditShift({
                 <Input
                   value={formatTime(start)}
                   className="w-36 text-lg"
-                  onChange={(e) => {
-                    handleTimeChange(e.target.value, "start");
+                  onKeyDown={(e) => {
+                    if (e.key === "Backspace") {
+                      e.currentTarget.select();
+                      handleTimeChange("", "start");
+                    }
                   }}
+                  onChange={(e) => handleTimeChange(e.target.value, "start")}
                 />
               </div>
               <div>
@@ -184,9 +188,13 @@ export default function EditShift({
                 <Input
                   value={formatTime(end)}
                   className="w-36 text-lg"
-                  onChange={(e) => {
-                    handleTimeChange(e.target.value, "end");
+                  onKeyDown={(e) => {
+                    if (e.key === "Backspace") {
+                      e.currentTarget.select();
+                      handleTimeChange("", "end");
+                    }
                   }}
+                  onChange={(e) => handleTimeChange(e.target.value, "end")}
                 />
               </div>
               <div>
