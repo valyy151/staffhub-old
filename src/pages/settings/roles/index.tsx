@@ -1,19 +1,28 @@
-import { ArrowLeft, Info, Save, UserCog } from 'lucide-react';
-import { getSession } from 'next-auth/react';
-import { GetServerSideProps } from 'next/types';
-import { useState } from 'react';
-import sentences from '~/data/staffRole.json';
-import { api } from '~/utils/api';
+import { Info, UserCog } from "lucide-react";
+import { getSession } from "next-auth/react";
+import { GetServerSideProps } from "next/types";
+import { useState } from "react";
+import sentences from "~/data/staffRole.json";
+import { api } from "~/utils/api";
 
-import Sidebar from '@/components/Settings/Sidebar';
-import StaffRole from '@/components/Settings/StaffRole';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import InfoModal from '@/components/ui/info-modal';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+import Sidebar from "@/components/Settings/Sidebar";
+import StaffRole from "@/components/Settings/StaffRole";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import InfoModal from "@/components/ui/info-modal";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -64,9 +73,7 @@ export default function StaffRolesPage() {
     },
   });
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
+  function handleSubmit() {
     if (!role) {
       return toast({
         title: "Please enter a role name.",
@@ -127,7 +134,7 @@ export default function StaffRolesPage() {
             <Info className="mr-2" /> What are Staff Roles?
           </Button>
         </div>
-        {!showCreateRole && data.length > 0 && (
+        {data.length > 0 && (
           <div>
             <Heading className="mt-4 border-b   py-1">My Staff Roles</Heading>
             {data
@@ -137,42 +144,41 @@ export default function StaffRolesPage() {
               ))}
           </div>
         )}
+
         {showCreateRole && (
-          <form className="mt-4" onSubmit={handleSubmit}>
-            <Label>Staff Role</Label>
-            <Input
-              value={role}
-              className="mb-4"
-              placeholder="Enter the role name..."
-              onChange={(e) => setRole(e.target.value)}
-            />
-            <Label>
-              How many staff members with this role do you need in one work day?
-              <br />
-              (Leave blank if not sure)
-            </Label>
-            <Input
-              type="number"
-              value={number}
-              placeholder="Enter the number..."
-              onChange={(e) => setNumber(parseInt(e.target.value).toString())}
-              className="[appearance:textfield]  [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-            />
-            <div className="mt-4 space-x-2">
-              <Button size={"lg"}>
-                <Save className="mr-2" />
-                Submit
-              </Button>
-              <Button
-                size={"lg"}
-                type="button"
-                variant={"subtle"}
-                onClick={() => setShowCreateRole(false)}
-              >
-                <ArrowLeft className="mr-2" /> Back
-              </Button>
-            </div>
-          </form>
+          <AlertDialog open>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle> New Staff Role</AlertDialogTitle>
+              </AlertDialogHeader>
+              <Label>Staff Role</Label>
+              <Input
+                value={role}
+                className="mb-4"
+                placeholder="Enter the role name..."
+                onChange={(e) => setRole(e.target.value)}
+              />
+              <Label className="leading-5">
+                How many staff members with this role do you need in one work
+                day? (Leave blank if not sure)
+              </Label>
+              <Input
+                type="number"
+                value={number}
+                placeholder="Enter the number..."
+                onChange={(e) => setNumber(parseInt(e.target.value).toString())}
+                className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              />
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setShowCreateRole(false)}>
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={handleSubmit}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
       </section>
 

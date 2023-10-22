@@ -1,20 +1,29 @@
-import { ArrowLeft, Info, Save, UserCog } from 'lucide-react';
-import { getSession } from 'next-auth/react';
-import { GetServerSideProps } from 'next/types';
-import { useState } from 'react';
-import sentences from '~/data/shiftModel.json';
-import { api } from '~/utils/api';
-import { formatTime, formatTotal } from '~/utils/dateFormatting';
+import { Info, UserCog } from "lucide-react";
+import { getSession } from "next-auth/react";
+import { GetServerSideProps } from "next/types";
+import { useState } from "react";
+import sentences from "~/data/shiftModel.json";
+import { api } from "~/utils/api";
+import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
-import ShiftModel from '@/components/Settings/ShiftModel';
-import Sidebar from '@/components/Settings/Sidebar';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import InfoModal from '@/components/ui/info-modal';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+import ShiftModel from "@/components/Settings/ShiftModel";
+import Sidebar from "@/components/Settings/Sidebar";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import InfoModal from "@/components/ui/info-modal";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -46,11 +55,6 @@ export default function ShiftModelsPage() {
   const [end, setEnd] = useState<number>(0);
   const [start, setStart] = useState<number>(0);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    createShiftModel.mutate({ start, end });
-  }
-
   const createShiftModel = api.shiftModel.create.useMutation({
     onSuccess: () => {
       setEnd(0);
@@ -76,6 +80,16 @@ export default function ShiftModelsPage() {
     const newUnixTime = Math.floor(newDate.getTime() / 1000);
 
     field === "start" ? setStart(newUnixTime) : setEnd(newUnixTime);
+  }
+
+  function handleSubmit() {
+    if (!start || !end) {
+      return toast({
+        title: "Please enter a start and end time.",
+      });
+    }
+
+    createShiftModel.mutate({ start, end });
   }
 
   if (!data) {
@@ -124,7 +138,7 @@ export default function ShiftModelsPage() {
             <Info className="mr-2" /> What are Shift Models?
           </Button>
         </div>
-        {!showCreateModel && data.length > 0 && (
+        {data.length > 0 && (
           <div>
             <Heading className="mt-4 border-b   py-1">My Shift Models</Heading>
             {data
@@ -135,59 +149,69 @@ export default function ShiftModelsPage() {
           </div>
         )}
         {showCreateModel && (
-          <form onSubmit={handleSubmit}>
-            <Heading size={"sm"} className="mb-2 mt-5">
-              New Shift Model
-            </Heading>
-            <div className="flex space-x-2">
-              <div>
-                <Label htmlFor="start">Start</Label>
+          <AlertDialog open>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle> New Shift Model</AlertDialogTitle>
+              </AlertDialogHeader>
+              <div className="flex space-x-2">
+                <div>
+                  <Label htmlFor="start">Start</Label>
 
-                <Input
-                  type="text"
-                  name="start"
-                  placeholder="Start time"
-                  value={formatTime(start)}
-                  onChange={(e) => handleTimeChange(e.target.value, "start")}
-                />
+                  <Input
+                    type="text"
+                    name="start"
+                    className="w-44"
+                    placeholder="Start time"
+                    value={formatTime(start)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Backspace") {
+                        e.currentTarget.select();
+                        handleTimeChange("", "start");
+                      }
+                    }}
+                    onChange={(e) => handleTimeChange(e.target.value, "start")}
+                  />
+                </div>
+
+                <div>
+                  <Label htmlFor="end">End</Label>
+
+                  <Input
+                    name="end"
+                    type="text"
+                    className="w-44"
+                    placeholder="End time"
+                    value={formatTime(end)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Backspace") {
+                        e.currentTarget.select();
+                        handleTimeChange("", "end");
+                      }
+                    }}
+                    onChange={(e) => handleTimeChange(e.target.value, "end")}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="end" className="ml-2">
+                    Total
+                  </Label>
+
+                  <Heading size={"xxs"} className="ml-2 mt-2">
+                    {formatTotal(start, end)}
+                  </Heading>
+                </div>
               </div>
-
-              <div>
-                <Label htmlFor="end">End</Label>
-
-                <Input
-                  name="end"
-                  type="text"
-                  placeholder="End time"
-                  value={formatTime(end)}
-                  onChange={(e) => handleTimeChange(e.target.value, "end")}
-                />
-              </div>
-              <div>
-                <Label htmlFor="end" className="ml-2">
-                  Total
-                </Label>
-
-                <Heading size={"xxs"} className="ml-2 mt-2">
-                  {formatTotal(start, end)}
-                </Heading>
-              </div>
-            </div>
-            <div className="mt-4 space-x-2">
-              <Button size={"lg"}>
-                <Save className="mr-2" />
-                Submit
-              </Button>
-              <Button
-                size={"lg"}
-                type="button"
-                variant={"subtle"}
-                onClick={() => setShowCreateModel(false)}
-              >
-                <ArrowLeft className="mr-2" /> Back
-              </Button>
-            </div>
-          </form>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setShowCreateModel(false)}>
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={handleSubmit}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         )}
       </section>
 
