@@ -31,13 +31,103 @@ const styles = StyleSheet.create({
   },
 });
 
-export function MonthlyRoster({
+type WorkDay = {
+  vacation: boolean;
+  sickLeave: boolean;
+  shift:
+    | {
+        id: string;
+        start: number;
+        end: number;
+        employeeId: string;
+        userId: string;
+        date: number;
+        roleId: string | null;
+        absenceId: string | null;
+      }
+    | undefined;
+  shiftModels:
+    | never[]
+    | {
+        id: string;
+        start: number;
+        end: number;
+      }[];
+  id: string;
+  date: number;
+};
+
+export function SchedulePDF({
   month,
   employee,
 }: {
   month: string;
   employee: EmployeeProfile;
 }) {
+  const renderDay = (workDay: WorkDay) => {
+    if (workDay.shift) {
+      return (
+        <>
+          <Text
+            style={tw(
+              "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+            )}
+          >
+            {formatTime(workDay.shift.start)} - {formatTime(workDay.shift.end)}
+          </Text>
+
+          <Text
+            style={tw(
+              "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+            )}
+          >
+            {formatTotal(workDay.shift.start, workDay.shift.end)}
+          </Text>
+          <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
+            {workDay.sickLeave && "Sick"} {workDay.vacation && "Vacation"}
+          </Text>
+        </>
+      );
+    }
+
+    if (workDay.vacation) {
+      return (
+        <>
+          <Text
+            style={tw(
+              "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+            )}
+          ></Text>
+
+          <Text
+            style={tw(
+              "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+            )}
+          ></Text>
+          <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
+            Vacation
+          </Text>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <Text
+          style={tw(
+            "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+          )}
+        ></Text>
+        <Text
+          style={tw(
+            "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
+          )}
+        ></Text>
+        <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}></Text>
+      </>
+    );
+  };
+
   return (
     <Document pageLayout="singlePage">
       <Page size="B4" orientation="portrait" style={tw("bg-white")}>
@@ -83,93 +173,7 @@ export function MonthlyRoster({
             <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
               {formatDate(workDay.date)}
             </Text>
-
-            {workDay.vacation && (
-              <>
-                <Text
-                  style={tw(
-                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
-                  )}
-                >
-                  -
-                </Text>
-
-                <Text
-                  style={tw(
-                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
-                  )}
-                >
-                  -
-                </Text>
-                <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
-                  {" "}
-                  Vacation
-                </Text>
-              </>
-            )}
-            {workDay.sickLeave && (
-              <>
-                <Text
-                  style={tw(
-                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
-                  )}
-                >
-                  -
-                </Text>
-
-                <Text
-                  style={tw(
-                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
-                  )}
-                >
-                  -
-                </Text>
-                <Text style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}>
-                  {" "}
-                  Sick
-                </Text>
-              </>
-            )}
-            {workDay.shift && (
-              <>
-                <Text
-                  style={tw(
-                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
-                  )}
-                >
-                  {formatTime(workDay.shift.start)} -{" "}
-                  {formatTime(workDay.shift.end)}
-                </Text>
-
-                <Text
-                  style={tw(
-                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
-                  )}
-                >
-                  {formatTotal(workDay.shift.start, workDay.shift.end)}
-                </Text>
-                <Text
-                  style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
-                ></Text>
-              </>
-            )}
-            {!workDay.shift && !workDay.vacation && !workDay.sickLeave && (
-              <>
-                <Text
-                  style={tw(
-                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
-                  )}
-                ></Text>
-                <Text
-                  style={tw(
-                    "px-4 py-[0.3572rem] flex flex-row border-b border-r w-1/4"
-                  )}
-                ></Text>
-                <Text
-                  style={tw("px-4 py-[0.3572rem] border-b border-r w-1/4")}
-                ></Text>
-              </>
-            )}
+            {renderDay(workDay)}
           </View>
         ))}
       </Page>

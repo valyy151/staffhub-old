@@ -5,7 +5,7 @@ import { formatMonth } from "~/utils/dateFormatting";
 import { Button } from "@/components/ui/button";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 
-import { MonthlyRoster } from "./SchedulePDF";
+import { SchedulePDF } from "./SchedulePDF";
 
 type PDFButtonProps = {
   value: Date;
@@ -18,7 +18,7 @@ export default function PDFButton({ employee, value, month }: PDFButtonProps) {
     <Button className="mt-2">
       <Download className="mr-2" />
       <PDFDownloadLink
-        document={<MonthlyRoster employee={employee} month={month} />}
+        document={<SchedulePDF employee={employee} month={month} />}
         fileName={`${employee?.name} - ${formatMonth(value.getTime() / 1000)}`}
       >
         Save as PDF
