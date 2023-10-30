@@ -1,21 +1,21 @@
-import '~/styles/globals.css';
+import "~/styles/globals.css";
 
-import { Session } from 'next-auth';
-import { SessionProvider } from 'next-auth/react';
-import { AppType } from 'next/app';
-import NextNProgress from 'nextjs-progressbar';
-import Providers from '~/providers';
-import { api } from '~/utils/api';
+import { Session } from "next-auth";
+import { SessionProvider } from "next-auth/react";
+import { AppType } from "next/app";
+import NextNProgress from "nextjs-progressbar";
+import ThemeProviders from "~/theme-provider";
+import { api } from "~/utils/api";
 
-import Navbar from '@/components/Navbar';
-import { Toaster } from '@/components/ui/toaster';
+import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 const StaffHub: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <Providers>
+    <ThemeProviders attribute="class" defaultTheme="system">
       <SessionProvider session={session}>
         <Navbar />
         <NextNProgress
@@ -28,7 +28,7 @@ const StaffHub: AppType<{ session: Session | null }> = ({
         <Component {...pageProps} />
         <Toaster />
       </SessionProvider>
-    </Providers>
+    </ThemeProviders>
   );
 };
 
