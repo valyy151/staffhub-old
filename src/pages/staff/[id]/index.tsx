@@ -1,36 +1,23 @@
 import {
-  HeartPulse,
-  Mail,
-  MapPin,
-  MoreVertical,
-  Palmtree,
-  Phone,
-  Sticker,
-  Trash2,
-  User,
-  UserCog,
-} from "lucide-react";
-import Link from "next/link";
-import router from "next/router";
-import { useState } from "react";
-import { api } from "~/utils/api";
-import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
-import { formatTime } from "~/utils/dateFormatting";
+    HeartPulse, Mail, MapPin, MoreVertical, Palmtree, Phone, Sticker, Trash2, User, UserCog
+} from 'lucide-react';
+import Link from 'next/link';
+import router from 'next/router';
+import { useState } from 'react';
+import { api } from '~/utils/api';
+import { checkEmployeeVacation, checkSickLeave } from '~/utils/checkAbsence';
+import { formatTime } from '~/utils/dateFormatting';
 
-import { Button } from "@/components/ui/button";
+import Sidebar from '@/components/Staff/Sidebar';
+import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import FormModal from "@/components/ui/form-modal";
-import Heading from "@/components/ui/heading";
-import Paragraph from "@/components/ui/paragraph";
-import { useToast } from "@/components/ui/use-toast";
-import Sidebar from "@/components/Staff/Sidebar";
+    DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu';
+import FormModal from '@/components/ui/form-modal';
+import Heading from '@/components/ui/heading';
+import Paragraph from '@/components/ui/paragraph';
+import { useToast } from '@/components/ui/use-toast';
 
 type EmployeeProfileProps = {
   query: { id: string };

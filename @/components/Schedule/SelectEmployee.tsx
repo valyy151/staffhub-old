@@ -1,22 +1,14 @@
-import { Check, ChevronsUpDown } from "lucide-react";
-import { useRouter } from "next/router";
-import * as React from "react";
-import { Employee } from "~/utils/api";
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { useRouter } from 'next/router';
+import * as React from 'react';
+import { Employee } from '~/utils/api';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+    Command, CommandEmpty, CommandGroup, CommandInput, CommandItem
+} from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
 
 type Props = {
   links?: boolean;

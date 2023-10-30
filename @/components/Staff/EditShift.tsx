@@ -1,24 +1,20 @@
-import { useState } from "react";
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
-import { EmployeeProfile, api } from "~/utils/api";
-import { formatTime, formatTotal } from "~/utils/dateFormatting";
+import { useState } from 'react';
+import { api, EmployeeProfile } from '~/utils/api';
+import { formatTime, formatTotal } from '~/utils/dateFormatting';
 
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import RolesDropdown from "../WorkDay/RolesDropdown";
-import Heading from "../ui/heading";
-import { Button } from "@/components/ui/button";
-import FormModal from "@/components/ui/form-modal";
+    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
+    AlertDialogHeader, AlertDialogTitle
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import FormModal from '@/components/ui/form-modal';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
+
+import Heading from '../ui/heading';
+import RolesDropdown from '../WorkDay/RolesDropdown';
 
 type Props = {
   date: number;

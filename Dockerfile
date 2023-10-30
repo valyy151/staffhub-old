@@ -22,12 +22,10 @@ RUN \
 ##### BUILDER
 
 FROM --platform=linux/amd64 node:18-alpine AS builder
-ARG DATABASE_URL
-ARG NEXTAUTH_URL    
+ARG DATABASE_URL 
 ARG NEXTAUTH_SECRET
 ARG GOOGLE_CLIENT_ID
 ARG GOOGLE_CLIENT_SECRET
-ARG NEXT_PUBLIC_CLIENTVAR
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -48,7 +46,7 @@ WORKDIR /app
 
 ENV NODE_ENV production
 
-# ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

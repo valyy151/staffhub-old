@@ -1,12 +1,8 @@
-import { expect, it, describe } from "vitest";
+import { describe, expect, it } from 'vitest';
 
 import {
-  formatDay,
-  formatMonth,
-  formatTime,
-  formatTotal,
-  getMonthBoundaryTimestamps,
-} from "../dateFormatting";
+    formatDay, formatMonth, formatTime, formatTotal, getMonthBoundaryTimestamps
+} from '../dateFormatting';
 
 describe("dateFormatting", () => {
   it("should return start and end of month", () => {

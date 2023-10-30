@@ -1,8 +1,10 @@
-import { TableCell } from "@/components/ui/table";
-import { useState } from "react";
-import { formatTime, formatTotal } from "~/utils/dateFormatting";
-import EditShift from "./EditShift";
-import { EmployeeProfile } from "~/utils/api";
+import { useState } from 'react';
+import { EmployeeProfile } from '~/utils/api';
+import { formatTime, formatTotal } from '~/utils/dateFormatting';
+
+import { TableCell } from '@/components/ui/table';
+
+import EditShift from './EditShift';
 
 type Props = {
   employee: EmployeeProfile;
