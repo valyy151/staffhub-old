@@ -7,7 +7,7 @@ import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner";
-import AddNote from "@/components/WorkDay/AddNote";
+import AddNote from "@/components/AddNote";
 import Note from "@/components/Note";
 
 type WorkDayPageProps = {
@@ -91,8 +91,13 @@ export default function WorkDayPage({ query }: WorkDayPageProps) {
           <Note note={note} key={note.id} type="workDay" />
         ))}
       </main>
+
       {showAddNote && (
-        <AddNote data={workDay} setShowAddNote={setShowAddNote} />
+        <AddNote
+          type="workDay"
+          typeId={workDay.id!}
+          setShowAddNote={setShowAddNote}
+        />
       )}
     </div>
   );
