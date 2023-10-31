@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure } from '~/server/api/trpc';
+import { z } from "zod";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const workDayRouter = createTRPCRouter({
   yearExists: protectedProcedure
@@ -75,6 +75,8 @@ export const workDayRouter = createTRPCRouter({
 
       const notesPromise = ctx.prisma.workDayNote.findMany({
         where: { workDayId: id, userId: ctx.session.user.id },
+        select: { id: true, content: true, createdAt: true },
+        orderBy: { createdAt: "desc" },
       });
 
       const rolesPromise = ctx.prisma.staffRole.findMany({

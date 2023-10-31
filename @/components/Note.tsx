@@ -1,26 +1,26 @@
-import { Trash2 } from 'lucide-react';
-import { useState } from 'react';
-import { api } from '~/utils/api';
+import { Trash2 } from "lucide-react";
+import { useState } from "react";
+import { api } from "~/utils/api";
 
-import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
-import { WorkDayNote } from '@prisma/client';
-import { useQueryClient } from '@tanstack/react-query';
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
-import FormModal from '../ui/form-modal';
-import Paragraph from '../ui/paragraph';
+import FormModal from "@/components/ui/form-modal";
+import Paragraph from "@/components/ui/paragraph";
 
 type NoteProps = {
-  note: WorkDayNote;
+  note: { id: string; content: string; createdAt: Date };
+  type: "workDay" | "employee";
 };
 
-export default function Note({ note }: NoteProps) {
+export default function Note({ note, type }: NoteProps) {
   const { toast } = useToast();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
-  const deleteNoteMutation = api.workDayNote.delete.useMutation({
+  const deleteWorkDayNote = api.workDayNote.delete.useMutation({
     onSuccess: () => {
       setShowModal(false);
       void queryClient.invalidateQueries();
@@ -37,8 +37,29 @@ export default function Note({ note }: NoteProps) {
     },
   });
 
-  function deleteNote() {
-    deleteNoteMutation.mutate({ noteId: note.id });
+  const deleteEmployeeNote = api.employeeNote.delete.useMutation({
+    onSuccess: () => {
+      setShowModal(false);
+      void queryClient.invalidateQueries();
+      toast({
+        title: "Note deleted successfully.",
+      });
+    },
+
+    onError: () => {
+      toast({
+        title: "There was a problem deleting the note.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  function deleteNote(type: "workDay" | "employee") {
+    if (type === "workDay") {
+      deleteWorkDayNote.mutate({ noteId: note.id });
+    } else {
+      deleteEmployeeNote.mutate({ noteId: note.id });
+    }
   }
 
   return (
@@ -71,9 +92,9 @@ export default function Note({ note }: NoteProps) {
       </div>
       {showModal && (
         <FormModal
-          submit={deleteNote}
           showModal={showModal}
           heading={"Delete note?"}
+          submit={() => deleteNote(type)}
           cancel={() => setShowModal(false)}
           text={"Are you sure you want to delete this note?"}
         />
