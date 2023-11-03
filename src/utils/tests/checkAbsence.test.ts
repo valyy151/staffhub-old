@@ -1,8 +1,8 @@
-import { expect, it } from 'vitest';
+import { expect, it } from "vitest";
 
-import { findSickLeaveDays, findVacationDays } from '../checkAbsence';
-import { checkSickLeaves } from '../checkSickLeaves';
-import { checkVacations } from '../checkVacations';
+import { findSickLeaveDays, findVacationDays } from "../checkAbsence";
+import { checkSickLeaves } from "../checkSickLeaves";
+import { checkVacations } from "../checkVacations";
 
 it("should return past sick leaves and current sick leave", () => {
   const today = BigInt(new Date().getTime());

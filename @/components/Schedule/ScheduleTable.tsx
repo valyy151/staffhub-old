@@ -1,6 +1,6 @@
-import { Table, TableBody, TableHead, TableHeader } from '@/components/ui/table';
+import { Table, TableBody, TableHead, TableHeader } from "@/components/ui/table";
 
-import ShiftRow from './ShiftRow';
+import ShiftRow from "./ShiftRow";
 
 type Data = {
   date: number;

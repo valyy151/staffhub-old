@@ -1,20 +1,25 @@
-import { UserCog } from 'lucide-react';
-import { useState } from 'react';
-import { api, StaffRole } from '~/utils/api';
+import { UserCog } from "lucide-react";
+import { useState } from "react";
+import { api, StaffRole } from "~/utils/api";
 
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import Paragraph from '@/components/ui/paragraph';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
-    AlertDialogHeader, AlertDialogTitle
-} from '../ui/alert-dialog';
-import FormModal from '../ui/form-modal';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "../ui/alert-dialog";
+import FormModal from "../ui/form-modal";
 
 type StaffRoleProps = {
   role: StaffRole;

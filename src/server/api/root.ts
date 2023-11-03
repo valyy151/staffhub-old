@@ -1,17 +1,17 @@
-import { createTRPCRouter } from '~/server/api/trpc';
+import { createTRPCRouter } from "~/server/api/trpc";
 
-import { dashboardRouter } from './routers/dashboard';
-import { employeeRouter } from './routers/employee';
-import { employeeNoteRouter } from './routers/employeeNote';
-import { schedulePreferenceRouter } from './routers/schedulePreference';
-import { shiftRouter } from './routers/shift';
-import { shiftModelRouter } from './routers/shiftModel';
-import { sickLeaveRouter } from './routers/sickLeave';
-import { staffRoleRouter } from './routers/staffRole';
-import { userRouter } from './routers/user';
-import { vacationRouter } from './routers/vacation';
-import { workDayRouter } from './routers/workDay';
-import { workDayNoteRouter } from './routers/workDayNote';
+import { dashboardRouter } from "./routers/dashboard";
+import { employeeRouter } from "./routers/employee";
+import { employeeNoteRouter } from "./routers/employeeNote";
+import { schedulePreferenceRouter } from "./routers/schedulePreference";
+import { shiftRouter } from "./routers/shift";
+import { shiftModelRouter } from "./routers/shiftModel";
+import { sickLeaveRouter } from "./routers/sickLeave";
+import { staffRoleRouter } from "./routers/staffRole";
+import { userRouter } from "./routers/user";
+import { vacationRouter } from "./routers/vacation";
+import { workDayRouter } from "./routers/workDay";
+import { workDayNoteRouter } from "./routers/workDayNote";
 
 /**
  * This is the primary router for your server.

@@ -1,23 +1,36 @@
 import {
-    HeartPulse, Mail, MapPin, MoreVertical, Palmtree, Phone, Sticker, Trash2, User, UserCog
-} from 'lucide-react';
-import Link from 'next/link';
-import router from 'next/router';
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { checkEmployeeVacation, checkSickLeave } from '~/utils/checkAbsence';
-import { formatTime } from '~/utils/dateFormatting';
+    HeartPulse,
+    Mail,
+    MapPin,
+    MoreVertical,
+    Palmtree,
+    Phone,
+    Sticker,
+    Trash2,
+    User,
+    UserCog
+} from "lucide-react";
+import Link from "next/link";
+import router from "next/router";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import { checkEmployeeVacation, checkSickLeave } from "~/utils/checkAbsence";
+import { formatTime } from "~/utils/dateFormatting";
 
-import Sidebar from '@/components/Staff/Sidebar';
-import { Button } from '@/components/ui/button';
+import Sidebar from "@/components/Staff/Sidebar";
+import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator,
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
     DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import FormModal from '@/components/ui/form-modal';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
-import { useToast } from '@/components/ui/use-toast';
+} from "@/components/ui/dropdown-menu";
+import FormModal from "@/components/ui/form-modal";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
 
 type EmployeeProfileProps = {
   query: { id: string };
@@ -80,10 +93,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                 <DropdownMenuLabel>View More</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem
-                  onClick={() => setShowModal(true)}
-                  className="cursor-pointer"
-                >
+                <DropdownMenuItem onClick={() => setShowModal(true)} className="cursor-pointer">
                   <Trash2 className="mr-2 h-4 w-4" />
                   <span>Delete Employee</span>
                 </DropdownMenuItem>
@@ -94,10 +104,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
 
           <div className="flex">
             {/* personal info begin */}
-            <Link
-              href={`/staff/${employee.id}/personal`}
-              className="min-h-[18rem] grow cursor-pointer border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
-            >
+            <Link href={`/staff/${employee.id}/personal`} className="min-h-[18rem] grow cursor-pointer border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary">
               <Heading size={"xxs"} className="mb-2 flex items-center">
                 Personal Info
                 <User className="ml-2" />
@@ -126,10 +133,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             {/* personal info end */}
 
             {/* roles begin */}
-            <Link
-              href={`/staff/${employee.id}/roles`}
-              className="flex grow cursor-pointer flex-col border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
-            >
+            <Link href={`/staff/${employee.id}/roles`} className="flex grow cursor-pointer flex-col border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary">
               <Heading size={"xxs"} className="mb-2 flex items-center">
                 Roles
                 <UserCog className="ml-2" />
@@ -152,10 +156,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             {/* roles end */}
 
             {/* sick leave begin */}
-            <Link
-              href={`/staff/${employee.id}/sick-leave`}
-              className="flex grow cursor-pointer flex-col border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
-            >
+            <Link href={`/staff/${employee.id}/sick-leave`} className="flex grow cursor-pointer flex-col border-b border-r border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary">
               <Heading size={"xxs"} className="mb-2 flex items-center">
                 Sick Leave
                 <HeartPulse className="ml-2" />
@@ -186,10 +187,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             {/* vacation end */}
 
             {/* preferences begin */}
-            <Link
-              href={`/staff/${employee.id}/preferences`}
-              className="flex grow cursor-pointer flex-col border-b border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary"
-            >
+            <Link href={`/staff/${employee.id}/preferences`} className="flex grow cursor-pointer flex-col border-b border-b-transparent py-4 pl-2 transition-colors duration-150 hover:border-b hover:border-b-primary">
               <Heading size={"xxs"} className="mb-2 flex items-center">
                 Schedule Preferences <Sticker className="ml-2" />
               </Heading>
@@ -198,20 +196,13 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
                 {employee.schedulePreference ? (
                   <>
                     <Paragraph size={"sm"} className="text-left font-medium">
-                      {employee.schedulePreference.hoursPerMonth > 0
-                        ? employee.schedulePreference.hoursPerMonth +
-                          " hours per month"
-                        : "No monthly hours set"}
+                      {employee.schedulePreference.hoursPerMonth > 0 ? employee.schedulePreference.hoursPerMonth + " hours per month" : "No monthly hours set"}
                     </Paragraph>
                     {employee.schedulePreference.shiftModels.length > 0 ? (
                       employee.schedulePreference.shiftModels
                         .sort((a, b) => a.start - b.start)
                         .map((item) => (
-                          <Paragraph
-                            size={"sm"}
-                            key={item.id}
-                            className="text-left"
-                          >
+                          <Paragraph size={"sm"} key={item.id} className="text-left">
                             [{formatTime(item.start)} - {formatTime(item.end)}]
                           </Paragraph>
                         ))
@@ -231,14 +222,7 @@ export default function EmployeeProfilePage({ query }: EmployeeProfileProps) {
             {/* preferences end */}
           </div>
           {showModal && (
-            <FormModal
-              showModal={showModal}
-              submit={handleDelete}
-              cancel={() => setShowModal(false)}
-              text={
-                "This action cannot be undone. This will permanently delete this employee and remove all his associated data from our servers."
-              }
-            />
+            <FormModal showModal={showModal} submit={handleDelete} cancel={() => setShowModal(false)} text={"This action cannot be undone. This will permanently delete this employee and remove all his associated data from our servers."} />
           )}
         </div>
       </div>

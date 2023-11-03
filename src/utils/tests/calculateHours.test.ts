@@ -1,8 +1,11 @@
-import { expect, it } from 'vitest';
+import { expect, it } from "vitest";
 
 import {
-    calculateTotalHours, calculateTotalMonthlyHours, howManyDays, isTimeGreaterThanTotalHours
-} from '../calculateHours';
+    calculateTotalHours,
+    calculateTotalMonthlyHours,
+    howManyDays,
+    isTimeGreaterThanTotalHours
+} from "../calculateHours";
 
 it("should calculate total hours", () => {
   const days = [

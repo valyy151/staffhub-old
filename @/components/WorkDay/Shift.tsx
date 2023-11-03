@@ -1,25 +1,31 @@
-import { ClipboardEdit, Clock, MoreVertical, Trash2 } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { api } from '~/utils/api';
-import { formatDateLong, formatDay, formatTime, formatTotal } from '~/utils/dateFormatting';
+import { ClipboardEdit, Clock, MoreVertical, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { api } from "~/utils/api";
+import { formatDateLong, formatDay, formatTime, formatTotal } from "~/utils/dateFormatting";
 
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
-    AlertDialogFooter, AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { PopoverContent } from '@/components/ui/popover';
-import { Switch } from '@/components/ui/switch';
-import { TableCell, TableRow } from '@/components/ui/table';
-import { useToast } from '@/components/ui/use-toast';
-import { Popover, PopoverTrigger } from '@radix-ui/react-popover';
-import { useQueryClient } from '@tanstack/react-query';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { PopoverContent } from "@/components/ui/popover";
+import { Switch } from "@/components/ui/switch";
+import { TableCell, TableRow } from "@/components/ui/table";
+import { useToast } from "@/components/ui/use-toast";
+import { Popover, PopoverTrigger } from "@radix-ui/react-popover";
+import { useQueryClient } from "@tanstack/react-query";
 
-import FormModal from '../ui/form-modal';
-import EditShift from './EditShift';
+import FormModal from "../ui/form-modal";
+import EditShift from "./EditShift";
 
 type ShiftProps = {
   shift: {

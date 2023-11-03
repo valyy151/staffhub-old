@@ -1,20 +1,25 @@
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { api, Employee, WorkDay } from '~/utils/api';
-import { formatTime, formatTotal } from '~/utils/dateFormatting';
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { api, Employee, WorkDay } from "~/utils/api";
+import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
-import SelectEmployee from '../Schedule/SelectEmployee';
+import SelectEmployee from "../Schedule/SelectEmployee";
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
-    AlertDialogHeader, AlertDialogTitle
-} from '../ui/alert-dialog';
-import Heading from '../ui/heading';
-import RolesDropdown from './RolesDropdown';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "../ui/alert-dialog";
+import Heading from "../ui/heading";
+import RolesDropdown from "./RolesDropdown";
 
 type AddShiftProps = {
   data: WorkDay;
@@ -147,7 +152,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>
             Add a new shift {employee.name && "for"}{" "}
-            <Link href={`/staff/${employee.id}`} className="hover:text-sky-500">
+            <Link href={`/staff/${employee.id}`} className="hover:text-primary">
               {employee.name}
             </Link>
           </AlertDialogTitle>
@@ -216,7 +221,7 @@ export default function AddShift({ data, setShowAddShift }: AddShiftProps) {
                           "end"
                         );
                       }}
-                      className="mt-2 cursor-pointer font-normal underline-offset-8 hover:text-sky-500"
+                      className="mt-2 cursor-pointer font-normal hover:text-primary"
                     >
                       {formatTime(shift.start)} - {formatTime(shift.end)}
                     </Heading>

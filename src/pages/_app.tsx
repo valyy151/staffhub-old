@@ -7,15 +7,15 @@ import ThemeProviders from "~/theme-provider";
 import { api } from "~/utils/api";
 
 import Navbar from "@/components/Navbar";
-import { Toaster } from "@/components/ui/toaster";
 import ProgressBar from "@/components/ProgressBar";
+import { Toaster } from "@/components/ui/toaster";
 
 const StaffHub: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <ThemeProviders attribute="data-theme" defaultTheme="system">
+    <ThemeProviders attribute="class" defaultTheme="system">
       <SessionProvider session={session}>
         <Navbar />
         <ProgressBar />

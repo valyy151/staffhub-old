@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
-import { Button } from "@/components/ui/button";
-import Spinner from "@/components/ui/spinner";
 import AddNote from "@/components/AddNote";
 import Note from "@/components/Note";
+import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
 
 type WorkDayPageProps = {
   query: { id: string };

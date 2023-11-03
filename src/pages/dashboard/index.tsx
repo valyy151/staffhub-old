@@ -1,22 +1,22 @@
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 
-import { CalendarOff, Scroll, ScrollText, User } from 'lucide-react';
-import { getSession } from 'next-auth/react';
-import Head from 'next/head';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next/types';
-import { useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
-import { api, DashboardWorkDay } from '~/utils/api';
-import { formatDate, formatDay, formatTime } from '~/utils/dateFormatting';
+import { CalendarOff, Scroll, ScrollText, User } from "lucide-react";
+import { getSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { GetServerSideProps } from "next/types";
+import { useEffect, useState } from "react";
+import Calendar from "react-calendar";
+import { api, DashboardWorkDay } from "~/utils/api";
+import { formatDate, formatDay, formatTime } from "~/utils/dateFormatting";
 
-import Absence from '@/components/Dashboard/Absence';
-import { Button } from '@/components/ui/button';
-import Heading from '@/components/ui/heading';
-import Paragraph from '@/components/ui/paragraph';
-import { Select, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Spinner from '@/components/ui/spinner';
+import Absence from "@/components/Dashboard/Absence";
+import { Button } from "@/components/ui/button";
+import Heading from "@/components/ui/heading";
+import Paragraph from "@/components/ui/paragraph";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
+import Spinner from "@/components/ui/spinner";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -200,7 +200,7 @@ export default function DashboardPage() {
                     maxDetail="year"
                     next2Label={null}
                     prev2Label={null}
-                    activeStartDate={value!}
+                    activeStartDate={value!!}
                     onChange={(value: any) => {
                       setValue(value);
                       setShowCalendar(false);

@@ -1,6 +1,6 @@
-import { Employee } from '~/utils/api';
+import { Employee } from "~/utils/api";
 
-import { Input } from '@/components/ui/input';
+import { Input } from "@/components/ui/input";
 
 type SearchEmployeesProps = {
   isOpen: boolean;

@@ -1,6 +1,6 @@
-import { expect, it } from 'vitest';
+import { expect, it } from "vitest";
 
-import { generateYearArray } from '../yearArray';
+import { generateYearArray } from "../yearArray";
 
 it("should generate year array", () => {
   const yearArray = generateYearArray(2021);

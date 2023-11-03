@@ -3,11 +3,10 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
-
 import FormModal from "@/components/ui/form-modal";
 import Paragraph from "@/components/ui/paragraph";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type NoteProps = {
   note: { id: string; content: string; createdAt: Date };
@@ -64,7 +63,7 @@ export default function Note({ note, type }: NoteProps) {
 
   return (
     <div className="my-2 flex w-fit flex-col items-start">
-      <div className="flex w-full min-w-[28rem] flex-col rounded-md border bg-white py-1 shadow dark:bg-gray-800 ">
+      <div className="flex w-full min-w-[28rem] flex-col rounded-md border bg-card py-1 shadow">
         <Paragraph size={"sm"} className="px-2 text-justify font-medium">
           {note.content}
         </Paragraph>

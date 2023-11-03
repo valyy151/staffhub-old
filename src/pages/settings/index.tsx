@@ -1,13 +1,13 @@
-import { getSession, useSession } from 'next-auth/react';
-import Head from 'next/head';
-import { GetServerSideProps } from 'next/types';
-import { useState } from 'react';
-import { api } from '~/utils/api';
+import { getSession, useSession } from "next-auth/react";
+import Head from "next/head";
+import { GetServerSideProps } from "next/types";
+import { useState } from "react";
+import { api } from "~/utils/api";
 
-import { Button } from '@/components/ui/button';
-import FormModal from '@/components/ui/form-modal';
-import Heading from '@/components/ui/heading';
-import { useToast } from '@/components/ui/use-toast';
+import { Button } from "@/components/ui/button";
+import FormModal from "@/components/ui/form-modal";
+import Heading from "@/components/ui/heading";
+import { useToast } from "@/components/ui/use-toast";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const session = await getSession(ctx);
@@ -69,11 +69,7 @@ export default function SettingsPage() {
         <Palette className="mr-2" /> Theme
       </Button> */}
 
-      <Button
-        variant={"danger"}
-        onClick={() => setShowModal(true)}
-        className="mt-2 w-full"
-      >
+      <Button variant={"danger"} onClick={() => setShowModal(true)} className="mt-2 w-full">
         Delete My Account
       </Button>
 

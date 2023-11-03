@@ -1,8 +1,8 @@
-import { useRef } from 'react';
-import { formatDateLong, formatDay, formatTime, formatTotal } from '~/utils/dateFormatting';
+import { useRef } from "react";
+import { formatDateLong, formatDay, formatTime, formatTotal } from "~/utils/dateFormatting";
 
-import { Input } from '@/components/ui/input';
-import { TableCell, TableRow } from '@/components/ui/table';
+import { Input } from "@/components/ui/input";
+import { TableCell, TableRow } from "@/components/ui/table";
 
 type Props = {
   data: Data;

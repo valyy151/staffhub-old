@@ -1,20 +1,25 @@
-import { useState } from 'react';
-import { api, EmployeeProfile } from '~/utils/api';
-import { formatTime, formatTotal } from '~/utils/dateFormatting';
+import { useState } from "react";
+import { api, EmployeeProfile } from "~/utils/api";
+import { formatTime, formatTotal } from "~/utils/dateFormatting";
 
 import {
-    AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter,
-    AlertDialogHeader, AlertDialogTitle
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
-import FormModal from '@/components/ui/form-modal';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import { useQueryClient } from '@tanstack/react-query';
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import FormModal from "@/components/ui/form-modal";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
-import Heading from '../ui/heading';
-import RolesDropdown from '../WorkDay/RolesDropdown';
+import Heading from "../ui/heading";
+import RolesDropdown from "../WorkDay/RolesDropdown";
 
 type Props = {
   date: number;
@@ -206,7 +211,7 @@ export default function EditShift({
           </div>
           <div>
             <Heading size={"xs"}>Choose a shift:</Heading>
-            <div className="mt-1 flex space-x-8">
+            <div className="mt-1 flex flex-col">
               {shiftModels
                 .sort((a, b) => a.start - b.start)
                 .map((shiftModel) => (
@@ -221,7 +226,7 @@ export default function EditShift({
                         "end"
                       );
                     }}
-                    className="cursor-pointer font-medium hover:text-sky-500"
+                    className="w-fit cursor-pointer font-medium hover:text-primary"
                   >
                     {formatTime(shiftModel.start)} -{" "}
                     {formatTime(shiftModel.end)}

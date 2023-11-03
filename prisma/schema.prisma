@@ -187,7 +187,7 @@ model Absence {
     absent   Boolean @default(true)
     approved Boolean @default(false)
     shiftId  String  @unique
-    shift    Shift   @relation(fields: [shiftId], references: [id])
+    shift    Shift   @relation(fields: [shiftId], references: [id], onDelete: Cascade)
     user     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([userId])

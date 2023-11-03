@@ -3,13 +3,12 @@ import router from "next/router";
 import { useState } from "react";
 import { api } from "~/utils/api";
 
+import AddNote from "@/components/AddNote";
 import Note from "@/components/Note";
 import Sidebar from "@/components/Staff/Sidebar";
-
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import Paragraph from "@/components/ui/paragraph";
-import AddNote from "@/components/AddNote";
 
 type EmployeeNotesPageProps = {
   query: { id: string };
