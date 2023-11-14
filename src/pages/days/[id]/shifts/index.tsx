@@ -7,7 +7,12 @@ import { formatDateLong, formatDay } from "~/utils/dateFormatting";
 
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/ui/spinner";
-import { Table, TableBody, TableHead, TableHeader } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableHeader,
+} from "@/components/ui/table";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/components/ui/use-toast";
 import AddShift from "@/components/WorkDay/AddShift";

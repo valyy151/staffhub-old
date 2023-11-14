@@ -8,18 +8,21 @@ import { Calendar } from "react-calendar";
 import { api, EmployeeProfile } from "~/utils/api";
 import { calculateTotalHours } from "~/utils/calculateHours";
 import { findSickLeaveDays, findVacationDays } from "~/utils/checkAbsence";
-import { formatDateLong, getMonthBoundaryTimestamps } from "~/utils/dateFormatting";
+import {
+  formatDateLong,
+  getMonthBoundaryTimestamps,
+} from "~/utils/dateFormatting";
 
 import Shift from "@/components/Staff/Shift";
 import Sidebar from "@/components/Staff/Sidebar";
 import Heading from "@/components/ui/heading";
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 
 const PDFButton = dynamic(() => import("@/components/PDFButton"), {

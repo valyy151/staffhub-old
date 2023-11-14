@@ -15,7 +15,12 @@ import Absence from "@/components/Dashboard/Absence";
 import { Button } from "@/components/ui/button";
 import Heading from "@/components/ui/heading";
 import Paragraph from "@/components/ui/paragraph";
-import { Select, SelectContent, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Spinner from "@/components/ui/spinner";
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
