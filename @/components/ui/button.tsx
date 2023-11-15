@@ -12,8 +12,7 @@ const buttonVariants = cva(
         danger: "bg-red-500 text-white",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        default:
-          "bg-primary text-secondary dark:text-white hover:bg-primary/90",
+        default: "bg-primary text-secondary hover:bg-primary/90",
         destructive: "hover:bg-red-600 dark:hover:bg-red-600 hover:text-white",
         subtle: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         outline:
